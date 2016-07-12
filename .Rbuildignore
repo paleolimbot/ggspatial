@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^data-raw$
 ^rosm\.cache$
+^README_files$

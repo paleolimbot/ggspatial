@@ -24,7 +24,7 @@ devtools::install_github("paleolimbot/ggspatial")
 
 Many (but not all) objects of type `Spatial*` can be used with `ggplot`, but syntax is inconsistent and results vary. This package introduces a single `geom_` for use with `Spatial*` objects (e.g. `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, `SpatialPolygonsDataFrame`...essentially what you get when you use `rgdal::readOGR()` to read any kind of spatial data). A few datasets are included in the package as examples.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(ggspatial)
 data(longlake_waterdf)
 ggplot() + geom_spatial(longlake_waterdf) + coord_fixed()
@@ -53,7 +53,7 @@ You'll notice some bits are still a work in progress, mostly that polygons with 
 
 In our previous example the data were all in UTM zone 20 (epsg 26920), so we didn't have to worry about the data looking distorted because it's in lat/lon. For this example we're going to use the `wrld_simpl` dataset in the `maptools` package.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(maptools)
 data(wrld_simpl)
 no_antarctica <- wrld_simpl[wrld_simpl$REGION != 0,] # antarctica complicates this example so...
