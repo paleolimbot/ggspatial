@@ -14,8 +14,8 @@ Depends:
     sp
 Imports:
     methods,
-    rgdal,
-    reshape2
+    stats,
+    rgdal
 Suggests:
     raster,
     prettymapr,

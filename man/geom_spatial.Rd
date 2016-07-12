@@ -58,6 +58,11 @@ ggplot() +
   geom_spatial(longlake_depthdf, aes(col=DEPTH.M)) +
   facet_wrap(~NOTES)+
   coord_fixed()
+
+
+library(maptools)
+data(wrld_simpl)
+ggplot() + geom_spatial(wrld_simpl)
 }
 
 }

@@ -109,6 +109,11 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
 #'   geom_spatial(longlake_depthdf, aes(col=DEPTH.M)) +
 #'   facet_wrap(~NOTES)+
 #'   coord_fixed()
+#'
+#'
+#' library(maptools)
+#' data(wrld_simpl)
+#' ggplot() + geom_spatial(wrld_simpl)
 #' }
 #'
 geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.aes=TRUE,

@@ -2,6 +2,6 @@
 
 export(geom_osm)
 export(geom_spatial)
-export(osm.ggplot)
+export(geom_spraster)
 importFrom(ggplot2,layer)
 importFrom(sp,CRS)
