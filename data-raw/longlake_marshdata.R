@@ -5,12 +5,12 @@ library(rosm)
 files <- list.files("data_raw", full.names=TRUE)
 file.rename(files, gsub(files, pattern = " ", replacement = "", fixed=TRUE))
 
-longlake_depthdf <- readOGR("data_raw", "LongLakeDepthSurvey")
-longlake_waterdf <- readOGR("data_raw", "LongLakeMarshWater Poly")
-longlake_roadsdf <- readOGR("data_raw", "LongLakeMarshRoads")
-longlake_marshdf <- readOGR("data_raw", "LongLakeMarshWetlands")
-longlake_streamsdf <- readOGR("data_raw", "LongLakeMarshStreams")
-longlake_buildingsdf <- readOGR("data_raw", "LongLakeMarshBuildings")
+longlake_depthdf <- readOGR("data-raw", "LongLakeDepthSurvey")
+longlake_waterdf <- readOGR("data-raw", "LongLakeMarshWaterPoly")
+longlake_roadsdf <- readOGR("data-raw", "LongLakeMarshRoads")
+longlake_marshdf <- readOGR("data-raw", "LongLakeMarshWetlands")
+longlake_streamsdf <- readOGR("data-raw", "LongLakeMarshStreams")
+longlake_buildingsdf <- readOGR("data-raw", "LongLakeMarshBuildings")
 
 longlake_osm<-osm.raster(longlake_depthdf, zoomin=-1,
                          filename="data-raw/longlake.tif", crop=TRUE, overwrite=TRUE)
