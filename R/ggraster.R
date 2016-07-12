@@ -71,7 +71,10 @@ raster2dataframe <- function(obj, crsfrom=NULL, crsto=NULL, rm.na=TRUE, rgb=NULL
 #' ggplot() + geom_spraster(longlake_osm, band=2, aesthetic="alpha")
 #'
 geom_spraster <- function(rastobj, scale=1, rgb=NULL, band=NULL,
-                          aesthetic="fill", show.legend=FALSE, ...) {
+                          aesthetic="fill", show.legend=TRUE, ...) {
+  if(!("raster" %in% rownames(utils::installed.packages()))) {
+    stop("package 'raster' must be installed for call to geom_spraster()")
+  }
   df <- raster2dataframe(rastobj, rgb=FALSE, scale=scale)
   bands <- names(df)[!(names(df) %in% c("x", "y"))]
   message("Loaded ", class(rastobj), " with ", length(bands), " bands")
@@ -83,6 +86,7 @@ geom_spraster <- function(rastobj, scale=1, rgb=NULL, band=NULL,
     }
     mapping <- aes_string(x="x", y="y", r=bands[rgb[1]], g=bands[rgb[2]], b=bands[rgb[3]])
     stat=StatRGB
+    show.legend <- FALSE
   } else {
     if(is.null(band)) {
       band <- 1
