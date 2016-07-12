@@ -9,7 +9,7 @@ geom_osm(obj = NULL, zoomin = 0, zoom = NULL, type = "osm",
   projection = NULL, ...)
 }
 \arguments{
-\item{obj}{An object like in \link{osm.raster}: a bounding box or Spatial* object. Note that
+\item{obj}{An object like in \code{osm.raster}: a bounding box or Spatial* object. Note that
 bounding boxes are always specified in lat/lon coordinates.}
 
 \item{zoomin}{The amount by which to adjust the automatically calculated zoom (or
@@ -17,7 +17,7 @@ manually specified if the \code{zoom} parameter is passed). Use +1 to zoom in, o
 
 \item{zoom}{Manually specify the zoom level (not recommended; adjust \code{zoomin} instead.}
 
-\item{type}{A map type; one of that returned by \link{osm.types}. User defined types are possible
+\item{type}{A map type; one of that returned by \code{osm.types}. User defined types are possible
 by defining \code{tile.url.TYPENAME <- function(xtile, ytile, zoom){}} and passing TYPENAME
 as the \code{type} argument.}
 
@@ -43,7 +43,7 @@ An experimental function returning a geom_raster representing the tile data such
 can be plotted as a \code{ggplot2} layer. Should probably be used with \code{coord_fixed}.
 Note that this does not scale the aspect like the \code{sp} package and will only work with
 other datasets if they are provided in lat/lon (they can be projected using \link{geom_spatial}
-without problems).
+without problems). This requires that the \code{rosm} package is installed.
 }
 \examples{
 \donttest{
@@ -54,20 +54,10 @@ cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
 ggplot(cities, aes(x=lon, y=lat, col=id)) +
     geom_osm(epsg=3857) + geom_spatial(toepsg=3857) +
     coord_fixed()
-library(maptools)
-data(wrld_simpl)
-ep <- wrld_simpl[wrld_simpl$ISO2 \%in\% c("GB", "IE", "FR", "DE",
-   "IT", "CH", "SE", "NO", "FI"),]
-ggplot() + geom_osm() +
-   geom_spatial(ep, toepsg=3857, fill=NA, col="black") +
-   coord_fixed()
-ggplot() + geom_osm(zoomin=-3) +
-   geom_spatial(ep, toepsg=3857, fill=NA, col="black") +
-   coord_fixed() + facet_wrap(~NAME, scales="free")
 ggplot() + geom_osm(ns) + coord_fixed()
 
 ggplot(data.frame(t(ns)), aes(x=x, y=y)) +
-  geom_osm(type="osm", zoomin=-1) +
+  geom_osm(type="stamenbw", zoomin=-1) +
   geom_point() + coord_fixed()
 }
 

@@ -19,7 +19,8 @@ Imports:
 Suggests:
     raster,
     prettymapr,
-    rosm
+    rosm,
+    maptools
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE

@@ -57,6 +57,7 @@ raster2dataframe <- function(obj, crsfrom=NULL, crsto=NULL, rm.na=TRUE, rgb=NULL
 #'   FALSE if rgb should not be converted.
 #' @param band The band to be used for aesthetic should more than one be available.
 #' @param aesthetic Should probably always be "fill" but could be "alpha"
+#' @param show.legend Whether or not to show the legend (overridden if rgb is used)
 #' @param ... Agruments passed on to geom_raster.
 #'
 #' @return A geom_raster().
@@ -84,7 +85,8 @@ geom_spraster <- function(rastobj, scale=1, rgb=NULL, band=NULL,
     } else if(length(rgb) != 3) {
       stop("rgb must be a vector of length 3")
     }
-    mapping <- aes_string(x="x", y="y", r=bands[rgb[1]], g=bands[rgb[2]], b=bands[rgb[3]])
+    mapping <- ggplot2::aes_string(x="x", y="y",
+                                   r=bands[rgb[1]], g=bands[rgb[2]], b=bands[rgb[3]])
     stat=StatRGB
     show.legend <- FALSE
   } else {

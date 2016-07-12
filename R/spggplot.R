@@ -171,7 +171,7 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     geom <- "polygon"
   } else if(methods::is(data, "SpatialLines")) {
     # bit of a hack, but fortify() won't take a SpatialLines
-    data <- SpatialLinesDataFrame(data, data.frame(.dummy=1:length(data), row.names=row.names(data)))
+    data <- sp::SpatialLinesDataFrame(data, data.frame(.dummy=1:length(data), row.names=row.names(data)))
     data@data$.id <- rownames(data@data)
     data.fort <- suppressMessages(ggplot2::fortify(data, data@data))
     data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))

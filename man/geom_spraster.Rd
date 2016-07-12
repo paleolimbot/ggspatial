@@ -5,7 +5,7 @@
 \title{Get a spatial raster as a geom_raster for ggplot2}
 \usage{
 geom_spraster(rastobj, scale = 1, rgb = NULL, band = NULL,
-  aesthetic = "fill", show.legend = FALSE, ...)
+  aesthetic = "fill", show.legend = TRUE, ...)
 }
 \arguments{
 \item{rastobj}{A Raster, RasterStack, or RasterBrick}
@@ -19,6 +19,8 @@ FALSE if rgb should not be converted.}
 \item{band}{The band to be used for aesthetic should more than one be available.}
 
 \item{aesthetic}{Should probably always be "fill" but could be "alpha"}
+
+\item{show.legend}{Whether or not to show the legend (overridden if rgb is used)}
 
 \item{...}{Agruments passed on to geom_raster.}
 }
