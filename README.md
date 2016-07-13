@@ -61,7 +61,7 @@ ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue") +
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
-You'll notice some bits are still a work in progress, mostly that polygons with internal rings are not rendered properly. This is on the to do list!.
+You'll notice some bits are still a work in progress, but at least polygons with internal rings are rendered properly!
 
 Projections
 -----------
@@ -150,8 +150,8 @@ Bugs
 
 The main bugs that need to be addressed in this package are:
 
--   Polygons with inner rings do not display (need to lookup if this is possible in ggplot at all)
 -   Raster RGBA support (important for hillshading)
 -   Facetting with `coord_fixed()` and `scales="free"` would be a major asset, althoug this bug needs to be fixed in `ggplot` and not this package.
+-   Better integrate `coord_map()`, which is internal to `ggplot`
 
 That's it! Enjoy!
