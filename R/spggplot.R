@@ -1,5 +1,6 @@
 # sp plotting in ggplot
 
+
 .guess_epsg <- function(bbox) {
   # copied from prettymapr scalebar function
   extents <- c(bbox[1,1], bbox[1, 2], bbox[2,1], bbox[2,2])
@@ -135,14 +136,36 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     toprojection <- fromprojection
   }
 
+  params <- list(crsfrom=fromprojection, crsto=toprojection, ...) # needed later
+  outlinegeom <- NULL
   # check type of input and return appropriate data, mapping, and geom
   if(methods::is(data, "SpatialPolygonsDataFrame")) {
     data@data$.id <- rownames(data@data)
-    data.fort <- suppressMessages(ggplot2::fortify(data))
+    data.fort <- suppressMessages(fortify_SpatialPolygons(data))
     data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))
-    mapping <- c(ggplot2::aes(x=long, y=lat, group=group), mapping)
+    if(is.null(mapping)) {
+      mapping <- aes()
+    }
+    pathmapping <- c(ggplot2::aes(x=long, y=lat, group=group), mapping)
+    mapping <- c(ggplot2::aes(x=long, y=lat, group=id),
+                 mapping[!(names(mapping) %in% c("colour", "col", "color"))])
     class(mapping) <- "uneval"
-    geom = "polygon"
+    geom <- "polygon"
+    pathparams <- params[names(params)!="fill"]
+    params <- params[!(names(params) %in% c("colour", "col", "color"))]
+    class(pathmapping) <- "uneval"
+    if(any(names(pathparams) %in% c("col", "color", "colour", "lty", "linetype", "size")) ||
+       any(names(pathmapping) %in% c("col", "color", "colour", "lty", "linetype", "size"))) {
+      if(!any(names(pathparams) %in% c("col", "color", "colour")) &
+         !any(names(pathmapping) %in% c("col", "color", "colour"))) {
+             pathparams$colour <- "black"
+           }
+      outlinegeom <- layer(
+        stat = StatProject, data = data, mapping = pathmapping, geom = "path",
+        show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
+        params=pathparams
+      )
+    }
   } else if(methods::is(data, "SpatialLinesDataFrame")) {
     data@data$.id <- rownames(data@data)
     data.fort <- suppressMessages(ggplot2::fortify(data, data@data))
@@ -165,10 +188,27 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     mapping <- ggplot2::aes(x=x, y=y)
     geom <- "point"
   } else if(methods::is(data, "SpatialPolygons")) {
-    data <- ggplot2::fortify(data)
+    data <- fortify_SpatialPolygons(data)
     if(!is.null(mapping)) warning("Overriding default mapping for SpatialPolygons input")
-    mapping <- ggplot2::aes(x=long, y=lat, group=group)
+    mapping <- ggplot2::aes(x=long, y=lat, group=id)
     geom <- "polygon"
+    mapping_path <- mapping
+    pathparams <- params[names(params)!="fill"]
+    params <- params[!(names(params) %in% c("colour", "col", "color"))]
+    pathmapping <- c(aes(group=group), mapping)
+    class(pathmapping) <- "uneval"
+    if(any(names(pathparams) %in% c("col", "color", "colour", "lty", "linetype", "size")) ||
+       any(names(pathmapping) %in% c("col", "color", "colour", "lty", "linetype", "size"))) {
+      if(!any(names(pathparams) %in% c("col", "color", "colour")) &
+         !any(names(pathmapping) %in% c("col", "color", "colour"))) {
+        pathparams$colour <- "black"
+      }
+      outlinegeom <- layer(
+        stat = StatProject, data = data, mapping = pathmapping, geom = "path",
+        show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
+        params=pathparams
+      )
+    }
   } else if(methods::is(data, "SpatialLines")) {
     # bit of a hack, but fortify() won't take a SpatialLines
     data <- sp::SpatialLinesDataFrame(data, data.frame(.dummy=1:length(data), row.names=row.names(data)))
@@ -185,9 +225,17 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     stop("Cannot create spatial layer from object of class ", class(data))
   }
 
-  layer(
-    stat = StatProject, data = data, mapping = mapping, geom = geom,
-    show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
-    params=list(crsfrom=fromprojection, crsto=toprojection, ...)
-  )
+  if(is.null(outlinegeom)) {
+    layer(
+      stat = StatProject, data = data, mapping = mapping, geom = geom,
+      show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
+      params=params
+    )
+  } else {
+    list(layer(
+      stat = StatProject, data = data, mapping = mapping, geom = geom,
+      show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
+      params=params
+    ), outlinegeom)
+  }
 }
