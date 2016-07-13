@@ -4,7 +4,7 @@
 # adapted from
 
 fortify_pg_fixfeature <- function(df) {
-  ringstarts <- which(!duplicated(df$group) & df$hole)
+  ringstarts <- which(!duplicated(df$group))
   if(length(ringstarts) < 2) {
     return(df)
   } else {
