@@ -80,7 +80,7 @@ ggplot() <span class="pl-k">+</span> geom_spatial(<span class="pl-smi">longlake_
 
 <p><img src="README_files/figure-markdown_github/unnamed-chunk-4-1.png" alt=""></p>
 
-<p>You'll notice some bits are still a work in progress, mostly that polygons with internal rings are not rendered properly. This is on the to do list!.</p>
+<p>You'll notice some bits are still a work in progress, but at least polygons with internal rings are rendered properly!</p>
 
 <h2>
 <a id="projections" class="anchor" href="#projections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projections</h2>
@@ -156,9 +156,10 @@ ggplot() <span class="pl-k">+</span> geom_spraster(<span class="pl-smi">longlake
 <p>The main bugs that need to be addressed in this package are:</p>
 
 <ul>
-<li>  Polygons with inner rings do not display (need to lookup if this is possible in ggplot at all)</li>
 <li>  Raster RGBA support (important for hillshading)</li>
 <li>  Facetting with <code>coord_fixed()</code> and <code>scales="free"</code> would be a major asset, althoug this bug needs to be fixed in <code>ggplot</code> and not this package.</li>
+<li>  Better integrate <code>coord_map()</code>, which is internal to <code>ggplot</code>
+</li>
 </ul>
 
 <p>That's it! Enjoy!</p>
