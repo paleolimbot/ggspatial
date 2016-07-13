@@ -15,7 +15,8 @@ Depends:
 Imports:
     methods,
     stats,
-    rgdal
+    rgdal,
+    dplyr
 Suggests:
     raster,
     prettymapr,
