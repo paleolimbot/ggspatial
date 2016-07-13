@@ -18,6 +18,7 @@ fortify_pg_fixfeature <- function(df) {
 
 
 fortify_SpatialPolygons <- function(x, ...) {
+  id <- NULL; rm(id); . <- NULL; rm(.)
   df <- ggplot2::fortify(x, ...)
   dplyr::do(dplyr::group_by(df, id), fortify_pg_fixfeature(.))
 }

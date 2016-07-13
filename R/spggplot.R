@@ -122,7 +122,7 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
                      fromprojection=NULL, toprojection=NULL, ...) {
   rgdal::CRSargs(CRS("+init=epsg:3857")) #hack to load rgdal namespace
   long <- NULL; rm(long); lat <- NULL; rm(lat) # hack for use of aes()
-  group <- NULL; rm(group); x <-NULL; rm(x); y <-NULL; rm(y) # hack for use of aes()
+  group <- NULL; rm(group); x <-NULL; rm(x); y <-NULL; rm(y); id <- NULL; rm(id) # hack for use of aes()
 
   if(is.null(fromprojection) && !is.null(fromepsg)) {
     fromprojection <- sp::CRS(paste0("+init=epsg:", fromepsg))
@@ -144,7 +144,7 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     data.fort <- suppressMessages(fortify_SpatialPolygons(data))
     data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))
     if(is.null(mapping)) {
-      mapping <- aes()
+      mapping <- ggplot2::aes()
     }
     pathmapping <- c(ggplot2::aes(x=long, y=lat, group=group), mapping)
     mapping <- c(ggplot2::aes(x=long, y=lat, group=id),
@@ -195,7 +195,7 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     mapping_path <- mapping
     pathparams <- params[names(params)!="fill"]
     params <- params[!(names(params) %in% c("colour", "col", "color"))]
-    pathmapping <- c(aes(group=group), mapping)
+    pathmapping <- c(ggplot2::aes(group=group), mapping)
     class(pathmapping) <- "uneval"
     if(any(names(pathparams) %in% c("col", "color", "colour", "lty", "linetype", "size")) ||
        any(names(pathmapping) %in% c("col", "color", "colour", "lty", "linetype", "size"))) {

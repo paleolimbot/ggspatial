@@ -3,3 +3,4 @@
 ^data-raw$
 ^rosm\.cache$
 ^README_files$
+^README\.rmd$
