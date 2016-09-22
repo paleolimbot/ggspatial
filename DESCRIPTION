@@ -16,7 +16,8 @@ Imports:
     methods,
     stats,
     rgdal,
-    dplyr
+    dplyr,
+    ggpolypath
 Suggests:
     raster,
     prettymapr,

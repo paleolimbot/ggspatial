@@ -6,7 +6,8 @@
 \usage{
 geom_spatial(data = NULL, mapping = NULL, show.legend = TRUE,
   inherit.aes = TRUE, position = "identity", fromepsg = NULL,
-  toepsg = NULL, fromprojection = NULL, toprojection = NULL, ...)
+  toepsg = NULL, fromprojection = NULL, toprojection = NULL,
+  fillrule = "winding", ...)
 }
 \arguments{
 \item{data}{A \code{Spatial*} object or \code{data.frame}.}
@@ -28,6 +29,8 @@ or 3857 if \code{fromepsg} is not specified)}
 \item{fromprojection}{Long form of \code{fromepsg}, a CRS object created by \code{sp::CRS()}}
 
 \item{toprojection}{Long form of \code{toepsg}, a CRS object created by \code{sp::CRS()}}
+
+\item{fillrule}{One of 'evenodd' or 'winding', if Spatial object is a polygon layer.}
 
 \item{...}{Agruments passed on to the \code{geom_*} (e.g. \code{lwd}, \code{fill}, etc.)}
 }

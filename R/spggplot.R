@@ -83,6 +83,7 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
 #'   or 3857 if \code{fromepsg} is not specified)
 #' @param fromprojection Long form of \code{fromepsg}, a CRS object created by \code{sp::CRS()}
 #' @param toprojection Long form of \code{toepsg}, a CRS object created by \code{sp::CRS()}
+#' @param fillrule One of 'evenodd' or 'winding', if Spatial object is a polygon layer.
 #' @param ... Agruments passed on to the \code{geom_*} (e.g. \code{lwd}, \code{fill}, etc.)
 #'
 #' @importFrom ggplot2 layer
@@ -119,7 +120,7 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
 #'
 geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.aes=TRUE,
                      position = "identity", fromepsg=NULL, toepsg=NULL,
-                     fromprojection=NULL, toprojection=NULL, ...) {
+                     fromprojection=NULL, toprojection=NULL, fillrule='winding', ...) {
   rgdal::CRSargs(CRS("+init=epsg:3857")) #hack to load rgdal namespace
   long <- NULL; rm(long); lat <- NULL; rm(lat) # hack for use of aes()
   group <- NULL; rm(group); x <-NULL; rm(x); y <-NULL; rm(y); id <- NULL; rm(id) # hack for use of aes()
@@ -141,18 +142,19 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
   # check type of input and return appropriate data, mapping, and geom
   if(methods::is(data, "SpatialPolygonsDataFrame")) {
     data@data$.id <- rownames(data@data)
-    data.fort <- suppressMessages(fortify_SpatialPolygons(data))
+    data.fort <- suppressMessages(ggplot2::fortify(data))
     data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))
     if(is.null(mapping)) {
       mapping <- ggplot2::aes()
     }
     pathmapping <- c(ggplot2::aes(x=long, y=lat, group=group), mapping)
-    mapping <- c(ggplot2::aes(x=long, y=lat, group=id),
+    mapping <- c(ggplot2::aes(x=long, y=lat, group=group),
                  mapping[!(names(mapping) %in% c("colour", "col", "color"))])
     class(mapping) <- "uneval"
-    geom <- "polygon"
+    geom <- ggpolypath::GeomPolypath
     pathparams <- params[names(params)!="fill"]
     params <- params[!(names(params) %in% c("colour", "col", "color"))]
+    params$rule <- fillrule
     class(pathmapping) <- "uneval"
     if(any(names(pathparams) %in% c("col", "color", "colour", "lty", "linetype", "size")) ||
        any(names(pathmapping) %in% c("col", "color", "colour", "lty", "linetype", "size"))) {
@@ -188,13 +190,14 @@ geom_spatial <- function(data=NULL, mapping = NULL, show.legend = TRUE, inherit.
     mapping <- ggplot2::aes(x=x, y=y)
     geom <- "point"
   } else if(methods::is(data, "SpatialPolygons")) {
-    data <- fortify_SpatialPolygons(data)
+    data <- fortify(data)
     if(!is.null(mapping)) warning("Overriding default mapping for SpatialPolygons input")
-    mapping <- ggplot2::aes(x=long, y=lat, group=id)
-    geom <- "polygon"
+    mapping <- ggplot2::aes(x=long, y=lat, group=group)
+    geom <- ggpolypath::GeomPolypath
     mapping_path <- mapping
     pathparams <- params[names(params)!="fill"]
     params <- params[!(names(params) %in% c("colour", "col", "color"))]
+    params$rule <- fillrule
     pathmapping <- c(ggplot2::aes(group=group), mapping)
     class(pathmapping) <- "uneval"
     if(any(names(pathparams) %in% c("col", "color", "colour", "lty", "linetype", "size")) ||
