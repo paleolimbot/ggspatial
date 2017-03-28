@@ -79,7 +79,9 @@
 # this stat takes the params passed to it and makes it into a dataframe with x, y, and colour vals
 StatOSM <- ggplot2::ggproto("StatOSM", ggplot2::Stat,
 
-   compute_group = function(data, scales, obj=NULL, zoomin=0, zoom=NULL,
+   retransform = FALSE,
+
+   compute_panel = function(self, data, scales, obj=NULL, zoomin=0, zoom=NULL,
                             type="osm", forcedownload=FALSE, cachedir=NULL,
                             projection=NULL) {
      # create bbox from xrange, yrange
@@ -130,7 +132,7 @@ StatOSM <- ggplot2::ggproto("StatOSM", ggplot2::Stat,
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(prettymapr)
 #' library(ggplot2)
 #' ns <- searchbbox("Nova Scotia")

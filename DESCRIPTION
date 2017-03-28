@@ -1,10 +1,9 @@
 Package: ggspatial
 Type: Package
 Title: Spatial data framework for ggplot2
-Version: 0.1
+Version: 0.2.9000
 Date: 2016-07-11
-Author: Authors@R: c(person("Dewey", "Dunnington", role = c("aut", "cre"),
-    email = "dewey@fishandwhistle.net"))
+Author: Dewey Dunnington <dewey@fishandwhistle.net>
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: To be determined.
 License: GPL-3
@@ -16,13 +15,13 @@ Imports:
     methods,
     stats,
     rgdal,
-    dplyr,
-    ggpolypath
+    maptools,
+    plyr,
+    ggpolypath,
+    raster
 Suggests:
-    raster,
     prettymapr,
-    rosm,
-    maptools
+    rosm
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE

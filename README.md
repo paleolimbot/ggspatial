@@ -1,3 +1,8 @@
+ggspatial README
+================
+Dewey Dunnington
+March 28, 2017
+
 ggspatial: Spatial data framework for ggplot2
 =============================================
 
@@ -6,7 +11,7 @@ Spatial data plus the power of the `ggplot2` framework means easier mapping for 
 Installation
 ------------
 
-There are no plans to release `ggspatial` to CRAN until the facetting/`coord_fixed` bug is fixed in ggplot, but you can install using `devtools::install_github()`.
+The package isn't available on CRAN (yet!), but you can install it using `devtools::install_github()`.
 
 ``` r
 install.packages("devtools") # if devtools isn't installed
@@ -21,7 +26,7 @@ Many (but not all) objects of type `Spatial*` can be used with `ggplot`, but syn
 ``` r
 library(ggspatial)
 data(longlake_waterdf)
-ggplot() + geom_spatial(longlake_waterdf) + coord_fixed()
+ggplot() + geom_spatial(longlake_waterdf, fill="lightblue") + coord_map()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
@@ -29,26 +34,11 @@ ggplot() + geom_spatial(longlake_waterdf) + coord_fixed()
 If we examine `longlake_waterdf`, we can use the columns as aesthetics just as we would for a normal `data.frame`.
 
 ``` r
-names(longlake_waterdf)
-```
-
-    ##  [1] "OBJECTID_1" "OBJECTID"   "FEAT_CODE"  "HID"        "PROVKEY"   
-    ##  [6] "ZVALUE"     "STARTDATE"  "ENDDATE"    "PRODUCT"    "SCALE"     
-    ## [11] "COLLECTOR"  "CAPTURE"    "PRODYEAR"   "PRODMONTH"  "X_Y_ACC"   
-    ## [16] "Z_ACC"      "MINZ"       "MAXZ"       "POLY_CLASS" "SHAPE_LENG"
-    ## [21] "SHAPE_LE_1" "label"      "area"
-
-``` r
-ggplot() + geom_spatial(longlake_waterdf, aes(fill=label)) + coord_fixed()
+ggplot() + geom_spatial(longlake_waterdf, aes(fill=label)) + 
+  coord_map()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
-
-``` r
-ggplot() + geom_spatial(longlake_waterdf, aes(fill=label, col=area)) + coord_fixed()
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-3-2.png)
 
 A more useful use of this may be to examine a depth survey from Long Lake I took on for my honours thesis.
 
@@ -56,102 +46,47 @@ A more useful use of this may be to examine a depth survey from Long Lake I took
 data(longlake_depthdf)
 ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue") +
   geom_spatial(longlake_depthdf, aes(col=DEPTH.M), size=2) + 
-  scale_color_gradient(high="black", low="#56B1F7") + coord_fixed()
+  coord_map()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
-You'll notice some bits are still a work in progress, but at least polygons with internal rings are rendered properly!
-
 Projections
 -----------
 
-In our previous example the data were all in UTM zone 20 (epsg 26920), so we didn't have to worry about the data looking distorted because it's in lat/lon. For this example we're going to use the `wrld_simpl` dataset in the `maptools` package.
+If you've been trying this at home, you may have noticed that you get a little message for every non-lat/lon dataset you try to plot. `geom_spatial()` is spatially aware, and if you don't tell it otherwise, it will convert all of your input data to lat/lon. I made this the default because `ggplot` has the nice `coord_map()` function that helpfully projects things that happen to be in lat/lon format (and communicates your intent more clearly). If you're working in the polar regions or near the international date line, it's unlikely that this what you want. To get around the default projection, you can specify your own using `toepsg` or `toprojection`. For example, the previous plot could be rendered to the Google Mercator projection by passing `toepsg=3857` (note that you'll have to do this for all the layers).
 
 ``` r
-library(maptools)
-data(wrld_simpl)
-no_antarctica <- wrld_simpl[wrld_simpl$REGION != 0,] # antarctica complicates this example so...
-ggplot() + geom_spatial(no_antarctica) + coord_fixed()
+data(longlake_depthdf)
+ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue", 
+                        toepsg=3857) +
+  geom_spatial(longlake_depthdf, aes(col=DEPTH.M), size=2,
+               toepsg=3857)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
-See? It's squished. Canada in particular looks all wrong, because our plot units are lat/lon which aren't distances. The number one way to look bad at a conference is to display an improperly projected map (depending who's looking...). We can fix this by passing a `toepsg` parameter (you can also pass a `CRS` object but that's more complicated).
+Rasters
+-------
+
+Rasters are still a work in progress, but the idea is that you use a similar function to plot a raster layer.
 
 ``` r
-# epsg:3857 is the google maps projection (spherical mercator)
-ggplot() + geom_spatial(no_antarctica, toepsg=3857) + coord_fixed()
+ggplot() + geom_spraster(longlake_osm)
 ```
+
+    ## Warning: no function found corresponding to methods exports from 'raster'
+    ## for: 'overlay'
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-You can also project a regular old `data.frame` by using `geom_spatial()`. You have to specify for each one that you want it projected to epsg 3857 or it won't know.
+Ongoing development
+-------------------
 
-``` r
-library(prettymapr)
-cities <- geocode(c("Halifax, NS", "Los Angeles, CA", "Auckland, NZ", "Moscow, RU"))
-ggplot() + geom_spatial(no_antarctica, toepsg=3857) + 
-  geom_spatial(cities, aes(x=lon, y=lat, col=query), toepsg=3857) + coord_fixed()
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
-
-Unfortunately I haven't gotten around to the labeling bit, but it isn't too much of a stretch to make happen should somebody need it in the future.
-
-OSM Basemaps
-------------
-
-Thanks to the brilliant creator of the `rosm` package, we can make a wrapper around the `osm.raster` function that lets us display a basemap behind whatever is on the screen. Note that this won't work if you mess with the projections too much, but if your data is in lat/lon and you're looking for a backdrop OR you just want an OSM map in a given projection, you can make it happen.
-
-``` r
-ns <- searchbbox("Nova Scotia")
-ggplot() + geom_osm(ns) + coord_fixed()
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
-
-Note that it's not very pretty (you'll get much better results with `osm.plot()`), but it's at the very least a native solution to the raster problem. It's also no problem to project to any projection (provided all your original data is in lat/lon, which is the most common anyway)
-
-``` r
-ggplot() + geom_osm(ns, epsg=26920) + coord_fixed() # plot in UTM
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
-
-You can also use `geom_osm()` with no arguments to provide a backdrop for your other data (again, can't stress enough that your un `geom_spatial`ed data should be in lat/lons if you're going to do this).
-
-``` r
-cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS", "Lunenburg, NS"))
-ggplot(cities, aes(x=lon, y=lat, col=query)) + 
-  geom_osm() + geom_spatial() + coord_fixed()
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
-
-The way ggplot works is pretty automatic, so there's not a whole lot I think that is possible on the zooming out front. If you're really worried about your OSM background, you should just use `osm.raster()` to get yourself a `RasterBrick` object (or write it to a file) and then use a `geom_spraster()` to plot it. Which brings me to...
-
-Raster objects
---------------
-
-The other game in town for spatial data in R is the `raster` package. You can read in raster datasets using the `raster::brick()` function with the filename as the argument.
-
-``` r
-data(longlake_osm)
-ggplot() + geom_spraster(longlake_osm) + coord_fixed()
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
-
-There's probably some nuances with raster datasets that I haven't thought about, but you can display specific bands and change the aesthetic (default is "fill", but "alpha" might also be appropriate). RGB datasets should work automatically (plus you can change which band is which using the `rgb` argument) but RGB with alpha probably won't work without some modification of the code.
-
-Bugs
-----
-
-The main bugs that need to be addressed in this package are:
+This package is currently undergoing a major overhaul in preparation for release in April 2017, so keep an eye on the version number before you go crazy using it! In the works are:
 
 -   Raster RGBA support (important for hillshading)
--   Facetting with `coord_fixed()` and `scales="free"` would be a major asset, althoug this bug needs to be fixed in `ggplot` and not this package.
--   Better integrate `coord_map()`, which is internal to `ggplot`
+-   Smarter use of `Stat` and `Geom` and `Coord` to avoid extra work
+-   A unifying `ggspatial()` function to create a map quickly.
 
 That's it! Enjoy!

@@ -103,4 +103,3 @@ geom_spraster <- function(rastobj, scale=1, rgb=NULL, band=NULL,
     stat = stat, data = df, mapping = mapping, geom = "raster",
     show.legend = FALSE, inherit.aes = FALSE, position = "identity", ...)
 }
-
