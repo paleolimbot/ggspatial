@@ -59,6 +59,13 @@
 #'
 geom_spatial <- function(data, ...) UseMethod("geom_spatial")
 
+
+#' @rdname geom_spatial
+#' @export
+ggspatial <- function(data, mapping = NULL, ...) {
+  ggplot2::ggplot(mapping) + geom_spatial(data, ...)
+}
+
 #' @rdname geom_spatial
 #' @export
 geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,

@@ -50,9 +50,12 @@ ggplot() + geom_spatial(spoly)
 # check SpatialPolygonsDataFrame
 ggplot() + geom_spatial(longlake_waterdf)
 
+# check shortcut ggspatial()
+ggspatial(longlake_waterdf)
 
- ggplot() +
-   geom_spatial(longlake_waterdf, fill="lightblue") +
+
+
+ggspatial(longlake_waterdf, fill="lightblue") +
    geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
    geom_spatial(longlake_streamsdf, col="lightblue") +
    geom_spatial(longlake_roadsdf, col="black") +

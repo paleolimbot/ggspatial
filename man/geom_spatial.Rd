@@ -9,9 +9,12 @@
 \alias{geom_spatial.SpatialPolygons}
 \alias{geom_spatial.SpatialPolygonsDataFrame}
 \alias{geom_spatial.default}
+\alias{ggspatial}
 \title{A ggplot2 geom for Spatial* objects}
 \usage{
 geom_spatial(data, ...)
+
+ggspatial(data, mapping = NULL, ...)
 
 \method{geom_spatial}{default}(data, mapping = NULL, show.legend = TRUE,
   inherit.aes = NULL, position = "identity", fromepsg = NULL,

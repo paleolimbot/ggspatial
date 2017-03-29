@@ -64,6 +64,17 @@ Rasters are still a work in progress, but the idea is that you use a similar fun
 ggplot() + geom_spraster(longlake_osm)
 ```
 
+## The shortcut
+
+As a convenience, there's a `ggspatial()` function, that currently just calls `ggplot()` for you and adds a `geom_spatial()` using its arguments. Eventually, I'd like this to set some parameters for all subsequent layers, but that will have to wait until another thesis break...
+
+```{r, message = FALSE}
+ggspatial(longlake_waterdf, fill="lightblue") +
+   geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
+   geom_spatial(longlake_streamsdf, col="lightblue") +
+  coord_map()
+```
+
 ## Ongoing development
 
 This package is currently undergoing a major overhaul in preparation for release in April 2017, so keep an eye on the version number before you go crazy using it! In the works are:

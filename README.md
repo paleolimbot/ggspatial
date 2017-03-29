@@ -80,6 +80,20 @@ ggplot() + geom_spraster(longlake_osm)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
+The shortcut
+------------
+
+As a convenience, there's a `ggspatial()` function, that currently just calls `ggplot()` for you and adds a `geom_spatial()` using its arguments. Eventually, I'd like this to set some parameters for all subsequent layers, but that will have to wait until another thesis break...
+
+``` r
+ggspatial(longlake_waterdf, fill="lightblue") +
+   geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
+   geom_spatial(longlake_streamsdf, col="lightblue") +
+  coord_map()
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+
 Ongoing development
 -------------------
 
