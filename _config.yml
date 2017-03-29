@@ -1,0 +1,8 @@
+title: ggspatial
+description: A spatial data framework for ggplot2
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
