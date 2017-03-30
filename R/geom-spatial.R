@@ -63,7 +63,7 @@ geom_spatial <- function(data, ...) UseMethod("geom_spatial")
 #' @rdname geom_spatial
 #' @export
 ggspatial <- function(data, mapping = NULL, ...) {
-  ggplot2::ggplot(mapping) + geom_spatial(data, ...)
+  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map()
 }
 
 #' @rdname geom_spatial
@@ -291,6 +291,8 @@ get_projections <- function(data, fromepsg=NULL, toepsg=NULL,
     }
   } else if(is.null(fromprojection) && methods::is(data, "Spatial")) {
     fromprojection <- data@proj4string
+  } else if(is.null(fromprojection) && methods::is(data, "Raster")) {
+    fromprojection <- data@crs
   }
 
   if(!is.null(toepsg)) {

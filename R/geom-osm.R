@@ -1,14 +1,18 @@
 
-#' An Open Street Map tile geometry for ggplot2
+#' An Open Street Map Tile Geometry for ggplot2
 #'
-#' This geometry is a lazy version of its conterparts in the ggmap and rosm packages.
-#' All tile downloading/loading/drawing is done at plot draw, such that a complete backdrop
-#' of tiles can be calculated. The arguments are essentially a wrapper around
-#' \link[rosm]{osm.image} and \link[ggplot2]{annotation_raster} that can plot a specific
-#' bounding box or default to the extents of the plot.
+#' This geometry is a lazy version of its conterparts in the ggmap and rosm
+#' packages. All tile downloading/loading/drawing is done at plot draw, such
+#' that a complete backdrop of tiles can be calculated. The arguments are
+#' essentially a wrapper around \link[rosm]{osm.image} and
+#' \link[ggplot2]{annotation_raster} that can plot a specific bounding box or
+#' default to the extents of the plot. The \code{ggosm()}  function is a
+#' shorthand for the common case of \code{ggplot() + geom_osm(...) +
+#' coord_map()}.
 #'
-#' @param x An object that can be coerced to a bounding box using \link[rosm]{extract_bbox},
-#'   or NULL to use the plot extents to fetch tiles (probably what you want).
+#' @param x An object that can be coerced to a bounding box using
+#'   \link[rosm]{extract_bbox}, or NULL to use the plot extents to fetch tiles
+#'   (probably what you want).
 #' @param zoomin The amount by which to adjust the automatically calculated zoom
 #'   (or manually specified if the \code{zoom} parameter is passed). Use +1 to
 #'   zoom in, or -1 to zoom out.
@@ -86,7 +90,8 @@ ggosm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE,
   # return ggplot() + geom_osm()
   ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
                       forcedownload = forcedownload, cachedir = cachedir,
-                      progress = progress, quiet = quiet)
+                      progress = progress, quiet = quiet) +
+    coord_map(projection = "mercator")
 }
 
 # the ggproto version
