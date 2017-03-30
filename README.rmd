@@ -7,7 +7,7 @@ output: github_document
 
 # ggspatial: Spatial data framework for ggplot2
 
-Spatial data plus the power of the `ggplot2` framework means easier mapping for all! Unfortunately facetting with `scales="free"` doesn't work properly with `coord_fixed()`, so facetting is out if you want different extents in each facet window. But easy use of `ggplot2` with `sp`, `raster`, and basemaps through the `rosm` package is a go!
+Spatial data plus the power of the `ggplot2` framework means easier mapping when input data are already in the form of `Spatial*` objects (most spatial data in R).
 
 ## Installation
 
@@ -62,6 +62,15 @@ Rasters are still a work in progress, but the idea is that you use a similar fun
 
 ```{r, message=FALSE}
 ggplot() + geom_spraster(longlake_osm)
+```
+
+## Open Street Map Basemaps
+
+```{r}
+ggosm() + 
+  geom_spatial(longlake_waterdf) +
+  geom_spatial(longlake_roadsdf) +
+  coord_map()
 ```
 
 ## The shortcut

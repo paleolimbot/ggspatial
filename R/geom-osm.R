@@ -1,8 +1,156 @@
 
+#' An Open Street Map tile geometry for ggplot2
+#'
+#' This geometry is a lazy version of its conterparts in the ggmap and rosm packages.
+#' All tile downloading/loading/drawing is done at plot draw, such that a complete backdrop
+#' of tiles can be calculated. The arguments are essentially a wrapper around
+#' \link[rosm]{osm.image} and \link[ggplot2]{annotation_raster} that can plot a specific
+#' bounding box or default to the extents of the plot.
+#'
+#' @param x An object that can be coerced to a bounding box using \link[rosm]{extract_bbox},
+#'   or NULL to use the plot extents to fetch tiles (probably what you want).
+#' @param zoomin The amount by which to adjust the automatically calculated zoom
+#'   (or manually specified if the \code{zoom} parameter is passed). Use +1 to
+#'   zoom in, or -1 to zoom out.
+#' @param zoom Manually specify the zoom level (not recommended; adjust
+#'   \code{zoomin} instead.
+#' @param type A map type; one of that returned by \link{osm.types}. User
+#'   defined types are possible by passing any object coercible to type
+#'   tile_source (see \link[rosm]{as.tile_source}).
+#' @param forcedownload \code{TRUE} if cached tiles should be re-downloaded.
+#'   Useful if some tiles are corrupted.
+#' @param cachedir The directory in which tiles should be cached. Defaults to
+#'   \code{getwd()/rosm.cache}.
+#' @param progress A progress bar to use, or "none" to suppress progress updates
+#' @param quiet Pass \code{FALSE} to see more error messages, particularly if
+#'   your tiles do not download/load properly.
+#'
+#' @return A ggplot2 layer object
+#' @export
+#'
+#' @examples
+#'
+#' \donttest{
+#' library(prettymapr)
+#' # use as a backdrop for geographical data
+#' cities <- geocode(c("Halifax, NS", "Moncton, NB", "Montreal QC"))
+#' ggplot(cities, aes(lon, lat)) + geom_osm() +
+#'   geom_point() + coord_map()
+#'
+#' # use ggosm() shorthand
+#' ggosm() + geom_point(aes(lon, lat), cities)
+#'
+#' # use on its own with a bounding box
+#' ggosm(searchbbox("vermont, USA"))
+#'
+#' # use alternative map types (see rosm::osm.types())
+#' ggosm(type = "stamenwatercolor") + geom_point(aes(lon, lat), cities)
+#' }
+#'
+#'
+geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                     progress = c("text", "none"), quiet = TRUE) {
+  # sanitze progress arg
+  progress <- match.arg(progress)
+
+  # sanitize type here to avoid errors that don't show up until later
+  if(is.null(type)) {
+    type <- rosm::get_default_tile_source()
+  } else {
+    type <- rosm::as.tile_source(type)
+  }
+
+  # if x in NULL, this geom shouldn't have any influence on scale training
+  if(is.null(x)) {
+    data <- data.frame(x=NA_real_, y=NA_real_)
+  } else {
+    # use the bounding box as the data
+    bbox <- rosm::extract_bbox(x)
+    data <- data.frame(t(bbox))
+  }
+
+  # return GeomTileSource layer
+  layer(data = data, mapping = ggplot2::aes_string("x", "y"),
+        position = "identity", geom = GeomTileSource, stat = StatIdentity,
+        params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,
+                      forcedownload = forcedownload,
+                      cachedir = cachedir, progress = progress, quiet = quiet))
+}
+
+#' @rdname geom_osm
+#' @export
+ggosm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                  progress = c("text", "none"), quiet = TRUE) {
+  progress <- match.arg(progress)
+
+  # return ggplot() + geom_osm()
+  ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
+                      forcedownload = forcedownload, cachedir = cachedir,
+                      progress = progress, quiet = quiet)
+}
+
+# the ggproto version
+GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
+
+  required_aes = c("x", "y"),
+
+  handle_na = function(data, params) {
+    data
+  },
+
+  draw_panel = function(data, scales, coordinates,
+                       zoomin=-1, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                       progress = c("text", "none"), quiet = TRUE, crsto = NULL,
+                       interpolate = TRUE) {
+
+   if(!is.null(coordinates$projection)) {
+     # check that projection is a play-by-the-rules, cyllindrical projection
+     if(coordinates$projection != "mercator") {
+       stop("geom_osm requires a 'mercator' projection")
+     }
+
+     # check that there is no change in orientation
+     if(!is.null(coordinates$orientation) && (coordinates$orientation != 0)) {
+       stop("geom_osm requires an orientation of 0")
+     }
+
+     # original coordinates are lat/lon,
+     bbox <- rbind(x = scales$x.range, y = scales$y.range)
+
+     # get OSM image
+     img <- rosm::osm.image(bbox, zoomin = zoomin, zoom = zoom, type = type,
+                            forcedownload = forcedownload, cachedir = cachedir,
+                            progress = progress, quiet = quiet)
+
+     # convert bounding box back to lat/lon
+     bbox_img <- .revprojectbbox(attr(img, "bbox"), fromepsg = 3857)
+
+     # mimic GeomRasterAnn in ggplot2
+     # https://github.com/tidyverse/ggplot2/blob/master/R/annotation-raster.r
+
+     # find bbox extents in the coordinate system
+     data <- coordinates$transform(data.frame(t(bbox_img)), scales)
+
+     # get coordinate ranges
+     x_rng <- range(data$x, na.rm = TRUE)
+     y_rng <- range(data$y, na.rm = TRUE)
+
+     # return the grid::rasterGrob object
+     grid::rasterGrob(img, x_rng[1], y_rng[1],
+                      diff(x_rng), diff(y_rng), default.units = "native",
+                      just = c("left","bottom"), interpolate = interpolate)
+
+   } else {
+     stop("Use geom_osm() with data coordaintes in lat/lon and coord_map()")
+   }
+  }
+)
+
+
 # bbox funcs
 
 .tolatlon <- function(x, y, epsg=NULL, projection=NULL) {
-  rgdal::CRSargs(sp::CRS("+init=epsg:3857")) #hack to load rgdal namespace
+  requireNamespace("rgdal", quietly = TRUE)
   if(is.null(epsg) && is.null(projection)) {
     stop("epsg and projection both null...nothing to project")
   } else if(!is.null(epsg) && !is.null(projection)) {
@@ -20,7 +168,7 @@
 }
 
 .fromlatlon <- function(lon, lat, epsg=NULL, projection=NULL) {
-  rgdal::CRSargs(sp::CRS("+init=epsg:3857")) #hack to load rgdal namespace
+  requireNamespace("rgdal", quietly = TRUE)
   if(is.null(epsg) && is.null(projection)) {
     stop("epsg and projection both null...nothing to project")
   } else if(!is.null(epsg) && !is.null(projection)) {
@@ -38,7 +186,7 @@
 }
 
 .projectbbox <- function(bbox, toepsg=NULL, projection=NULL) {
-  rgdal::CRSargs(sp::CRS("+init=epsg:3857")) #hack to load rgdal namespace
+  requireNamespace("rgdal", quietly = TRUE)
   if(is.null(toepsg) && is.null(projection)) {
     stop("toepsg and projection both null...nothing to project")
   } else if(!is.null(toepsg) && !is.null(projection)) {
@@ -61,7 +209,7 @@
 }
 
 .revprojectbbox <- function(bbox, fromepsg=NULL, projection=NULL) {
-  rgdal::CRSargs(sp::CRS("+init=epsg:3857")) #hack to load rgdal namespace
+  requireNamespace("rgdal", quietly = TRUE)
   if(is.null(fromepsg) && is.null(projection)) {
     stop("fromepsg and projection both null...nothing to project")
   } else if(!is.null(fromepsg) && !is.null(projection)) {
@@ -76,95 +224,4 @@
   t(sp::coordinates(newpoints))
 }
 
-# this stat takes the params passed to it and makes it into a dataframe with x, y, and colour vals
-StatOSM <- ggplot2::ggproto("StatOSM", ggplot2::Stat,
 
-   retransform = FALSE,
-
-   compute_panel = function(self, data, scales, obj=NULL, zoomin=0, zoom=NULL,
-                            type="osm", forcedownload=FALSE, cachedir=NULL,
-                            projection=NULL) {
-     # create bbox from xrange, yrange
-     if(is.null(obj)) {
-       obj <- rbind(scales$x$range$range, scales$y$range$range)
-       box <- obj
-     } else if(methods::is(obj, "Spatial")) {
-       box <- sp::bbox(obj)
-     } else {
-       box <- obj
-     }
-     fused <- rosm::osm.raster(x=obj, zoomin=zoomin, zoom=zoom, type=type, forcedownload=forcedownload,
-                         cachedir=cachedir, projection=projection)
-     fused <- raster2dataframe(fused, crop=.projectbbox(box, projection=projection))
-     return(fused[c("x", "y", "fill")])
-   },
-
-   required_aes = c()
-)
-
-#' A ggplot geometry for OSM imagery
-#'
-#' An experimental function returning a geom_raster representing the tile data such that it
-#' can be plotted as a \code{ggplot2} layer. Should probably be used with \code{coord_fixed}.
-#' Note that this does not scale the aspect like the \code{sp} package and will only work with
-#' other datasets if they are provided in lat/lon (they can be projected using \link{geom_spatial}
-#' without problems). This requires that the \code{rosm} package is installed.
-#'
-#' @param obj An object like in \code{osm.raster}: a bounding box or Spatial* object. Note that
-#'   bounding boxes are always specified in lat/lon coordinates.
-#' @param epsg The epsg code of the projection of the coordinates being plotted by other geoms.
-#'   This defaults to spherical mercator or EPSG:3857.
-#' @param zoomin The amount by which to adjust the automatically calculated zoom (or
-#' manually specified if the \code{zoom} parameter is passed). Use +1 to zoom in, or -1 to zoom out.
-#' @param zoom Manually specify the zoom level (not recommended; adjust \code{zoomin} instead.
-#' @param type A map type; one of that returned by \code{osm.types}. User defined types are possible
-#' by defining \code{tile.url.TYPENAME <- function(xtile, ytile, zoom){}} and passing TYPENAME
-#' as the \code{type} argument.
-#' @param forcedownload \code{TRUE} if cached tiles should be re-downloaded. Useful if
-#' some tiles are corrupted.
-#' @param cachedir The directory in which tiles should be cached. Defaults to \code{getwd()/rosm.cache}.
-#' @param projection A map projection in which to reproject the RasterStack as generated by \code{CRS()} or
-#'                  \code{Spatial*@@proj4string}. If a \code{Spatial*} object is passed as the first argument,
-#'                  this argument will be ignored. Use \code{epsg} as a short form.
-#' @param ... Agruments passed on to \code{geom_raster()}
-#'
-#' @return A \code{geom_raster} with colour data from the tiles.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' library(prettymapr)
-#' library(ggplot2)
-#' ns <- searchbbox("Nova Scotia")
-#' cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
-#' ggplot(cities, aes(x=lon, y=lat, col=id)) +
-#'     geom_osm(epsg=3857) + geom_spatial(toepsg=3857) +
-#'     coord_fixed()
-#' ggplot() + geom_osm(ns) + coord_fixed()
-#'
-#' ggplot(data.frame(t(ns)), aes(x=x, y=y)) +
-#'   geom_osm(type="stamenbw", zoomin=-1) +
-#'   geom_point() + coord_fixed()
-#' }
-#'
-geom_osm <- function(obj=NULL, zoomin=0, zoom=NULL, type="osm", forcedownload=FALSE, cachedir=NULL,
-                     epsg=NULL, projection=NULL,...) {
-  if(!("rosm" %in% rownames(utils::installed.packages()))) {
-    stop("package 'rosm' must be installed for call to geom_osm()")
-  }
-  rgdal::CRSargs(sp::CRS("+init=epsg:3857")) #hack to load rgdal namespace
-  if(is.null(projection) && is.null(epsg)) {
-    projection <- sp::CRS("+init=epsg:3857")
-  } else if(!is.null(projection) && !is.null(epsg)) {
-    stop("Ambiguous call: do not specify epsg and projection")
-  } else if(is.null(projection) && !is.null(epsg)) {
-    projection <- sp::CRS(paste0("+init=epsg:", epsg))
-  }
-  ggplot2::layer(
-    stat = StatOSM, data = data.frame(x=1), mapping = NULL, geom = "raster",
-    show.legend = FALSE, inherit.aes = FALSE, position = "identity",
-    params=list(obj=obj, zoomin=zoomin, zoom=zoom, type=type,
-                forcedownload=forcedownload, cachedir=cachedir,
-                projection=projection, ...)
-  )
-}
