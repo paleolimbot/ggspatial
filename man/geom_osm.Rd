@@ -3,7 +3,7 @@
 \name{geom_osm}
 \alias{geom_osm}
 \alias{ggosm}
-\title{An Open Street Map tile geometry for ggplot2}
+\title{An Open Street Map Tile Geometry for ggplot2}
 \usage{
 geom_osm(x = NULL, zoomin = 0, zoom = NULL, type = NULL,
   forcedownload = FALSE, cachedir = NULL, progress = c("text", "none"),
@@ -14,8 +14,9 @@ ggosm(x = NULL, zoomin = 0, zoom = NULL, type = NULL,
   quiet = TRUE)
 }
 \arguments{
-\item{x}{An object that can be coerced to a bounding box using \link[rosm]{extract_bbox},
-or NULL to use the plot extents to fetch tiles (probably what you want).}
+\item{x}{An object that can be coerced to a bounding box using
+\link[rosm]{extract_bbox}, or NULL to use the plot extents to fetch tiles
+(probably what you want).}
 
 \item{zoomin}{The amount by which to adjust the automatically calculated zoom
 (or manually specified if the \code{zoom} parameter is passed). Use +1 to
@@ -43,11 +44,14 @@ your tiles do not download/load properly.}
 A ggplot2 layer object
 }
 \description{
-This geometry is a lazy version of its conterparts in the ggmap and rosm packages.
-All tile downloading/loading/drawing is done at plot draw, such that a complete backdrop
-of tiles can be calculated. The arguments are essentially a wrapper around
-\link[rosm]{osm.image} and \link[ggplot2]{annotation_raster} that can plot a specific
-bounding box or default to the extents of the plot.
+This geometry is a lazy version of its conterparts in the ggmap and rosm
+packages. All tile downloading/loading/drawing is done at plot draw, such
+that a complete backdrop of tiles can be calculated. The arguments are
+essentially a wrapper around \link[rosm]{osm.image} and
+\link[ggplot2]{annotation_raster} that can plot a specific bounding box or
+default to the extents of the plot. The \code{ggosm()}  function is a
+shorthand for the common case of \code{ggplot() + geom_osm(...) +
+coord_map()}.
 }
 \examples{
 
