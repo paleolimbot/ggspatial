@@ -205,4 +205,4 @@ ggplot() + geom_spraster_rgb(longlake_osm, interpolate = TRUE) +
 Ongoing development
 -------------------
 
-This package is currently undergoing a major overhaul in preparation for release in April 2017, so keep an eye on the version number and best of luck.
+There is a good chance I am missing a lot of common spatial ggplot use cases. Not being somebody who makes maps in R often, there's a good chance the community has better solutions, which I'm happy to incorporate (especially if you write the code for me...). Keep updated at the [github page](https://github.com/paleolimbot/ggspatial) or at [my website](http://www.fishandwhistle.net/).
