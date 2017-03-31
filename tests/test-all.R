@@ -53,8 +53,44 @@ ggplot() + geom_spatial(longlake_waterdf)
 # check shortcut ggspatial()
 ggspatial(longlake_waterdf)
 
+# check set/mapped aesthetic combinations
+
+# points
+ggspatial(longlake_depthdf, aes(col = DEPTH))
+ggspatial(longlake_depthdf, aes(alpha = DEPTH))
+ggspatial(longlake_depthdf, aes(col = DEPTH), alpha = 0.5)
+ggspatial(longlake_depthdf, aes(alpha = DEPTH), col = "red")
+
+# lines
+ggspatial(longlake_streamsdf, aes(col = factor(OBJECTID)))
+ggspatial(longlake_streamsdf, aes(alpha = OBJECTID))
+ggspatial(longlake_streamsdf, aes(col = factor(OBJECTID)), lty = 2)
+ggspatial(longlake_streamsdf, aes(alpha = OBJECTID), col = "red")
+
+# polygons
+ggspatial(longlake_waterdf, aes(col = label)) # outline
+ggspatial(longlake_waterdf, aes(lty = label), col = "black", fill = "red") # outline
+ggspatial(longlake_waterdf, aes(fill = label)) # fill
+ggspatial(longlake_waterdf, aes(fill = label), col = "red") # fill with different outline color
+
+# check mapped outlines
+ggspatial(longlake_waterdf, aes(col = id), fill = "white") # outline with different fill color
+ggspatial(longlake_waterdf, aes(lty = label), fill = "white") # outline with different fill color
+ggspatial(longlake_waterdf, aes(lwd = as.numeric(id)), fill = "white", col = "black")
+
+# check mapped alpha
+ggspatial(longlake_waterdf, aes(alpha = id), fill = "white") # outline with different fill color
+
+# check fill = NA
+ggspatial(longlake_waterdf, fill = NA, col = "black")
+
+# check fill = NA with mapped outlines
+ggspatial(longlake_waterdf, aes(col = label), fill = NA)
+ggspatial(longlake_waterdf, aes(lty = label), fill = NA, col = "black")
+ggspatial(longlake_waterdf, aes(lwd = as.numeric(id)), fill = NA, col = "black")
 
 
+# check final plot
 ggspatial(longlake_waterdf, fill="lightblue") +
    geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
    geom_spatial(longlake_streamsdf, col="lightblue") +

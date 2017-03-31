@@ -12,14 +12,13 @@ Depends:
     ggplot2 (>= 2.0),
     sp
 Imports:
-    rosm,
+    rosm (>= 0.2),
     abind,
     reshape2,
     methods,
     rgdal,
     maptools,
     plyr,
-    ggpolypath,
     raster,
     scales
 Suggests:

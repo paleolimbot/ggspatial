@@ -249,7 +249,7 @@ geom_spatial.SpatialPolygonsDataFrame <- function(data, mapping = NULL, show.leg
 
   # return layer
   layer(
-    stat = StatProject, data = data, mapping = mapping, geom = ggpolypath::GeomPolypath,
+    stat = StatProject, data = data, mapping = mapping, geom = GeomPolypath2,
     show.legend = show.legend, inherit.aes = FALSE, position = position,
     params=c(projections, list(na.rm = FALSE, rule=rule, ...))
   )
