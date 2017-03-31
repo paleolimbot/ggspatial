@@ -12,6 +12,7 @@ Depends:
     ggplot2 (>= 2.0),
     sp
 Imports:
+    rosm,
     abind,
     reshape2,
     methods,
@@ -22,8 +23,7 @@ Imports:
     raster,
     scales
 Suggests:
-    prettymapr,
-    rosm
+    prettymapr
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
