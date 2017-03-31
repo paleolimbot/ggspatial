@@ -22,7 +22,8 @@ Imports:
     raster,
     scales
 Suggests:
-    prettymapr
+    prettymapr,
+    mapproj
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE

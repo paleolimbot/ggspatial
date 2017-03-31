@@ -9,6 +9,8 @@ data("longlake_roadsdf")
 data("longlake_streamsdf")
 data("longlake_osm")
 
+library(mapproj) # library this to keep R CMD check from yelling at me
+
 # test a data.frame
 depthsdf <- data.frame(longlake_depthdf)
 
@@ -75,7 +77,7 @@ ggspatial(longlake_waterdf, aes(fill = label), col = "red") # fill with differen
 
 # check mapped outlines
 ggspatial(longlake_waterdf, aes(col = id), fill = "white") # outline with different fill color
-ggspatial(longlake_waterdf, aes(lty = label), fill = "white") # outline with different fill color
+ggspatial(longlake_waterdf, aes(lty = label), fill = "white", col = "black") # outline with different fill color
 ggspatial(longlake_waterdf, aes(lwd = as.numeric(id)), fill = "white", col = "black")
 
 # check mapped alpha

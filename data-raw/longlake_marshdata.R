@@ -12,8 +12,9 @@ longlake_marshdf <- readOGR("data-raw", "LongLakeMarshWetlands")
 longlake_streamsdf <- readOGR("data-raw", "LongLakeMarshStreams")
 longlake_buildingsdf <- readOGR("data-raw", "LongLakeMarshBuildings")
 
-longlake_osm<-osm.raster(longlake_depthdf, zoomin=-1,
-                         filename="data-raw/longlake.tif", crop=TRUE, overwrite=TRUE)
+# don't save raster to disk! this causes errors
+longlake_osm <- osm.raster(longlake_depthdf, type = "hikebike",
+                           zoomin=-1, crop=TRUE, overwrite=TRUE)
 devtools::use_data(longlake_osm, overwrite=TRUE)
 
 devtools::use_data(longlake_marshdf, longlake_roadsdf, longlake_waterdf, longlake_depthdf,
