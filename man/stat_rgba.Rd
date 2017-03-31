@@ -22,10 +22,6 @@ perform no transformation, or NA to use the data value without transformation.}
 \item{limits_blue}{Data limits from which to scale blue values}
 
 \item{limits_alpha}{Data limits from which to scale alpha values}
-
-\item{geom}{The geometry to use}
-
-\item{position}{The position adjustment to use}
 }
 \value{
 A ggplot2 layer object

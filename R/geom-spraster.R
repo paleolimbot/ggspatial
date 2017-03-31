@@ -11,6 +11,8 @@
 #'
 #' @param model A \code{Raster} object
 #' @param data Unused
+#' @param format Use 'long' to get values in a single column; otherwise
+#'   values are in one column per band.
 #' @param ... Not used by this method
 #'
 #' @return A data.frame with columns, x and y as coordinates in the projection
@@ -157,8 +159,8 @@ geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
 
   # returns a list with both layers
   list(
-    geom_point(ggplot2::aes_string("x", "y"), data = data, alpha = 0, inherit.aes = FALSE,
-               show.legend = FALSE),
+    ggplot2::geom_point(ggplot2::aes_string("x", "y"), data = data, alpha = 0, inherit.aes = FALSE,
+                        show.legend = FALSE),
     annotation_spraster(raster, interpolate = interpolate, na.value = na.value)
   )
 }
@@ -232,7 +234,7 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
   # if stat is rgba, we need to return a list, since this stat
   # makes no sense without scale_alpha_identity and scale_fill_identity
   if(stat == "rgba") {
-    list(gglayer, scale_alpha_identity(), scale_fill_identity())
+    list(gglayer, ggplot2::scale_alpha_identity(), ggplot2::scale_fill_identity())
   } else {
     # return layer
     gglayer
@@ -243,7 +245,7 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
 #' @export
 ggraster <- function(data, mapping = NULL, ...) {
   if(!methods::is(data, "Raster")) stop("ggraster is not applicable for class of type ", class(data))
-  ggplot() + geom_spatial(data, mapping = mapping, ...)
+  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...)
 }
 
 #' Statistic to create RGB fill values
@@ -254,8 +256,6 @@ ggraster <- function(data, mapping = NULL, ...) {
 #'
 #' @param mapping A mapping created with \link[ggplot2]{aes}
 #' @param data A data.frame
-#' @param geom The geometry to use
-#' @param position The position adjustment to use
 #' @param ... Passed to \link[ggplot2]{geom_raster}
 #' @param limits_red Data limits from which to scale red values. Use NULL to
 #'   perform no transformation, or NA to use the data value without transformation.
@@ -284,12 +284,12 @@ stat_rgba <- function(mapping = NULL, data = NULL, ..., limits_red = NA, limits_
   # for fill and alpha
 
   list(
-    geom_raster(mapping = mapping, data = data, stat = StatRgba,
-                limits_red = limits_red,
-                limits_green = limits_green, limits_blue = limits_blue,
-                limits_alpha = limits_alpha, ...),
-    scale_alpha_identity(),
-    scale_fill_identity()
+    ggplot2::geom_raster(mapping = mapping, data = data, stat = StatRgba,
+                         limits_red = limits_red,
+                         limits_green = limits_green, limits_blue = limits_blue,
+                         limits_alpha = limits_alpha, ...),
+    ggplot2::scale_alpha_identity(),
+    ggplot2::scale_fill_identity()
   )
 }
 

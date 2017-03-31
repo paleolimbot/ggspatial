@@ -12,6 +12,8 @@ Depends:
     ggplot2 (>= 2.0),
     sp
 Imports:
+    abind,
+    reshape2,
     methods,
     rgdal,
     maptools,

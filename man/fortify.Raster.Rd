@@ -12,6 +12,9 @@
 
 \item{data}{Unused}
 
+\item{format}{Use 'long' to get values in a single column; otherwise
+values are in one column per band.}
+
 \item{...}{Not used by this method}
 }
 \value{
