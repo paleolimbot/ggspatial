@@ -13,12 +13,12 @@ Depends:
     sp
 Imports:
     methods,
-    stats,
     rgdal,
     maptools,
     plyr,
     ggpolypath,
-    raster
+    raster,
+    scales
 Suggests:
     prettymapr,
     rosm

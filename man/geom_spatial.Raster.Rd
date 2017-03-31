@@ -14,7 +14,19 @@
 
 \item{mapping}{A mapping}
 
+\item{show.legend}{Should the legend be shown for this layer?}
+
+\item{inherit.aes}{Should aesthetics be inherited from the base plot?}
+
 \item{position}{The position to apply (should probably always be 'identity')}
+
+\item{fromepsg}{Override the source projection}
+
+\item{toepsg}{Project cell coordinates to new projection}
+
+\item{fromprojection}{Override the source projection}
+
+\item{toprojection}{Project cell coordinates to new projection}
 
 \item{geom}{The geometry to use. Defaults to raster (obviously), but could also
 be another value if used with a different stat (e.g. contour)}

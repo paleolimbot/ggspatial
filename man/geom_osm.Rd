@@ -25,7 +25,7 @@ zoom in, or -1 to zoom out.}
 \item{zoom}{Manually specify the zoom level (not recommended; adjust
 \code{zoomin} instead.}
 
-\item{type}{A map type; one of that returned by \link{osm.types}. User
+\item{type}{A map type; one of that returned by \link[rosm]{osm.types}. User
 defined types are possible by passing any object coercible to type
 tile_source (see \link[rosm]{as.tile_source}).}
 

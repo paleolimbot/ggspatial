@@ -18,7 +18,7 @@
 #'   zoom in, or -1 to zoom out.
 #' @param zoom Manually specify the zoom level (not recommended; adjust
 #'   \code{zoomin} instead.
-#' @param type A map type; one of that returned by \link{osm.types}. User
+#' @param type A map type; one of that returned by \link[rosm]{osm.types}. User
 #'   defined types are possible by passing any object coercible to type
 #'   tile_source (see \link[rosm]{as.tile_source}).
 #' @param forcedownload \code{TRUE} if cached tiles should be re-downloaded.
@@ -75,7 +75,7 @@ geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FAL
 
   # return GeomTileSource layer
   layer(data = data, mapping = ggplot2::aes_string("x", "y"),
-        position = "identity", geom = GeomTileSource, stat = StatIdentity,
+        position = "identity", geom = GeomTileSource, stat = "identity",
         params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,
                       forcedownload = forcedownload,
                       cachedir = cachedir, progress = progress, quiet = quiet))
@@ -88,10 +88,10 @@ ggosm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE,
   progress <- match.arg(progress)
 
   # return ggplot() + geom_osm()
-  ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
-                      forcedownload = forcedownload, cachedir = cachedir,
-                      progress = progress, quiet = quiet) +
-    coord_map(projection = "mercator")
+  ggplot2::ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
+                               forcedownload = forcedownload, cachedir = cachedir,
+                               progress = progress, quiet = quiet) +
+    ggplot2::coord_map(projection = "mercator")
 }
 
 # the ggproto version

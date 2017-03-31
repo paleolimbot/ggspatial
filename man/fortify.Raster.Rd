@@ -4,10 +4,12 @@
 \alias{fortify.Raster}
 \title{Turn a Raster into a data.frame}
 \usage{
-\method{fortify}{Raster}(x, ...)
+\method{fortify}{Raster}(model, data = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{Raster} object}
+\item{model}{A \code{Raster} object}
+
+\item{data}{Unused}
 
 \item{...}{Not used by this method}
 }

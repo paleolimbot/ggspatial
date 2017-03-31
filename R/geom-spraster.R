@@ -9,7 +9,8 @@
 #' to geom_raster without a conversion function. Band columns are named band1, band2, band3,
 #' etc., for use in creating a mapping.
 #'
-#' @param x A \code{Raster} object
+#' @param model A \code{Raster} object
+#' @param data Unused
 #' @param ... Not used by this method
 #'
 #' @return A data.frame with columns, x and y as coordinates in the projection
@@ -17,7 +18,11 @@
 #'
 #' @export
 #'
-fortify.Raster <- function(x, ...) {
+#' @importFrom ggplot2 fortify
+#'
+fortify.Raster <- function(model, data = NULL, ...) {
+  # I used 'x', ggplot2 used 'model'...
+  x <- model
 
   # get values in a data frame
   fused <- cbind(expand.grid(x=1:x@ncols, y=1:x@nrows),
@@ -50,6 +55,12 @@ fortify.Raster <- function(x, ...) {
 #' @param stat The stat to apply. Defaults to 'identity', but could be something else
 #'   like 'contour' or \link{stat_rgba}.
 #' @param position The position to apply (should probably always be 'identity')
+#' @param show.legend Should the legend be shown for this layer?
+#' @param inherit.aes Should aesthetics be inherited from the base plot?
+#' @param fromepsg Override the source projection
+#' @param fromprojection Override the source projection
+#' @param toepsg Project cell coordinates to new projection
+#' @param toprojection Project cell coordinates to new projection
 #' @param ... Further arguments passed to the stat/geom
 #'
 #' @return A ggplot2 layer
@@ -115,9 +126,20 @@ rescale_item <- function(values, limits, to, identity = 0) {
 }
 
 
-stat_rgba <- function(mapping = NULL, data = NULL, alpha = 1, red = 0, green = 0,
-                      blue = 0, geom = "point", position = "identity", ...) {
+#' Statistic to map rgb values
+#'
+#' @param mapping A mapping created with \link[ggplot2]{aes}
+#' @param data A data.frame
+#' @param geom The geometry to use
+#' @param position The position adjustment to use
+#' @param ... Aesthetics or parameters to set
+#'
+#' @return A ggplot2 layer object
+#' @export
+#'
+stat_rgba <- function(mapping = NULL, data = NULL, geom = "point", position = "identity", ...) {
   # TODO working on this
+  stop("not implemented")
 }
 
 StatRgba <- ggplot2::ggproto("StatRgba", ggplot2::Stat,

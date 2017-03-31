@@ -63,7 +63,7 @@ geom_spatial <- function(data, ...) UseMethod("geom_spatial")
 #' @rdname geom_spatial
 #' @export
 ggspatial <- function(data, mapping = NULL, ...) {
-  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map()
+  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + ggplot2::coord_map()
 }
 
 #' @rdname geom_spatial
