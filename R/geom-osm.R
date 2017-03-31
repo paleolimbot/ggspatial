@@ -70,7 +70,7 @@ geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FAL
   } else {
     # use the bounding box as the data
     bbox <- rosm::extract_bbox(x)
-    data <- data.frame(t(bbox))
+    data <- data.frame(x = bbox[1, ], y = bbox[2, ])
   }
 
   # return GeomTileSource layer
@@ -108,6 +108,9 @@ GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
                        progress = c("text", "none"), quiet = TRUE, crsto = NULL,
                        interpolate = TRUE) {
 
+   # original coordinate bounding box
+   bbox <- rbind(x = scales$x.range, y = scales$y.range)
+
    if(!is.null(coordinates$projection)) {
      # check that projection is a play-by-the-rules, cyllindrical projection
      if(coordinates$projection != "mercator") {
@@ -119,40 +122,46 @@ GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
        stop("geom_osm requires an orientation of 0")
      }
 
-     # original coordinates are lat/lon,
-     bbox <- rbind(x = scales$x.range, y = scales$y.range)
-
-     # get OSM image
-     img <- rosm::osm.image(bbox, zoomin = zoomin, zoom = zoom, type = type,
-                            forcedownload = forcedownload, cachedir = cachedir,
-                            progress = progress, quiet = quiet)
-
-     # convert bounding box back to lat/lon
-     bbox_img <- .revprojectbbox(attr(img, "bbox"), fromepsg = 3857)
-
-     # mimic GeomRasterAnn in ggplot2
-     # https://github.com/tidyverse/ggplot2/blob/master/R/annotation-raster.r
-
-     # find bbox extents in the coordinate system
-     data <- coordinates$transform(data.frame(t(bbox_img)), scales)
-
-     # get coordinate ranges
-     x_rng <- range(data$x, na.rm = TRUE)
-     y_rng <- range(data$y, na.rm = TRUE)
-
-     # return the grid::rasterGrob object
-     grid::rasterGrob(img, x_rng[1], y_rng[1],
-                      diff(x_rng), diff(y_rng), default.units = "native",
-                      just = c("left","bottom"), interpolate = interpolate)
+     # source is lat/lon
+     epsg <- 4326
 
    } else {
-     stop("Use geom_osm() with data coordaintes in lat/lon and coord_map()")
+     # guess source coordinate system
+     epsg <- .guessepsg(bbox)
+     bbox <- .revprojectbbox(bbox, fromepsg = epsg)
    }
+
+   # get OSM image
+   img <- rosm::osm.image(bbox, zoomin = zoomin, zoom = zoom, type = type,
+                          forcedownload = forcedownload, cachedir = cachedir,
+                          progress = progress, quiet = quiet)
+
+   # convert bounding box back to lat/lon, if not epsg 3857
+   if(epsg == 4326) {
+     bbox_img <- .revprojectbbox(attr(img, "bbox"), fromepsg = 3857)
+   } else {
+     bbox_img <- attr(img, "bbox")
+   }
+
+   # mimic GeomRasterAnn in ggplot2
+   # https://github.com/tidyverse/ggplot2/blob/master/R/annotation-raster.r
+
+   # find bbox extents in the coordinate system
+   data <- coordinates$transform(data.frame(t(bbox_img)), scales)
+
+   # get coordinate ranges
+   x_rng <- range(data$x, na.rm = TRUE)
+   y_rng <- range(data$y, na.rm = TRUE)
+
+   # return the grid::rasterGrob object
+   grid::rasterGrob(img, x_rng[1], y_rng[1],
+                    diff(x_rng), diff(y_rng), default.units = "native",
+                    just = c("left","bottom"), interpolate = interpolate)
+
   }
 )
 
-
-# bbox funcs
+# bbox funcs (could definitely be simplified)
 
 .tolatlon <- function(x, y, epsg=NULL, projection=NULL) {
   requireNamespace("rgdal", quietly = TRUE)
@@ -227,6 +236,34 @@ GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
   spoints = sp::SpatialPoints(coords, proj4string = projection)
   newpoints <- sp::spTransform(spoints, sp::CRS("+init=epsg:4326"))
   t(sp::coordinates(newpoints))
+}
+
+.guessepsg <- function(extents, plotunit = NULL, plotepsg = NULL) {
+
+  if(is.null(plotepsg) && is.null(plotunit)) {
+    # check for valid lat/lon in extents
+    if(extents[1, 1] >= -180 &&
+       extents[1, 1] <= 180 &&
+       extents[1, 2] >= -180 &&
+       extents[1, 2] <= 180 &&
+       extents[2, 1] >= -90 &&
+       extents[2, 1] <= 90 &&
+       extents[2, 2] >= -90 &&
+       extents[2, 2] <= 90) {
+      message("Autodetect projection: assuming lat/lon (epsg 4326)")
+      plotepsg <- 4326
+    } else {
+      # else assume google mercator used by {OpenStreetMap} (epsg 3857)
+      message("Audotdetect projection: assuming Google Mercator (epsg 3857)")
+      plotepsg <- 3857
+    }
+  } else if(!is.null(plotunit)) {
+    if(plotunit=="latlon") {
+      plotepsg <- 4326
+    }
+  }
+
+  plotepsg
 }
 
 
