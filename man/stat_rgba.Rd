@@ -2,26 +2,50 @@
 % Please edit documentation in R/geom-spraster.R
 \name{stat_rgba}
 \alias{stat_rgba}
-\title{Statistic to map rgb values}
+\title{Statistic to create RGB fill values}
 \usage{
-stat_rgba(mapping = NULL, data = NULL, geom = "point",
-  position = "identity", ...)
+stat_rgba(mapping = NULL, data = NULL, ..., limits_red = NA,
+  limits_green = NA, limits_blue = NA, limits_alpha = NA)
 }
 \arguments{
 \item{mapping}{A mapping created with \link[ggplot2]{aes}}
 
 \item{data}{A data.frame}
 
+\item{...}{Passed to \link[ggplot2]{geom_raster}}
+
+\item{limits_red}{Data limits from which to scale red values. Use NULL to
+perform no transformation, or NA to use the data value without transformation.}
+
+\item{limits_green}{Data limits from which to scale green values}
+
+\item{limits_blue}{Data limits from which to scale blue values}
+
+\item{limits_alpha}{Data limits from which to scale alpha values}
+
 \item{geom}{The geometry to use}
 
 \item{position}{The position adjustment to use}
-
-\item{...}{Aesthetics or parameters to set}
 }
 \value{
 A ggplot2 layer object
 }
 \description{
-Statistic to map rgb values
+Usually used on conjunction with \link[ggplot2]{geom_raster} or
+\link{geom_spatial.Raster}. This function appears to work, however
+it is slow, and in general, only good for very small datasets.
+}
+\examples{
+# using stat_rgba()
+ggplot(longlake_osm, aes(x, y)) +
+  stat_rgba(aes(red = band1, green = band2, blue = band3, alpha = 1),
+            limits_red = NULL, limits_green = NULL, limits_blue = NULL,
+            limits_alpha = NULL, interpolate = TRUE) +
+  coord_fixed()
+
+# using ggraster() with stat = 'rgba'
+ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
+         stat = "rgba")
+
 }
 

@@ -2,12 +2,15 @@
 % Please edit documentation in R/geom-spraster.R
 \name{geom_spatial.Raster}
 \alias{geom_spatial.Raster}
+\alias{ggraster}
 \title{Spatial Geometry for Raster* Objects}
 \usage{
 \method{geom_spatial}{Raster}(data, mapping = NULL, show.legend = TRUE,
   inherit.aes = FALSE, position = "identity", fromepsg = NULL,
   toepsg = NULL, fromprojection = NULL, toprojection = NULL,
   geom = "raster", stat = "identity", ...)
+
+ggraster(data, mapping = NULL, ...)
 }
 \arguments{
 \item{data}{A Raster* object}
@@ -43,10 +46,16 @@ A ggplot2 layer
 Similar to the \link{geom_spatial} family for Spatial* objects, this method
 plots a spatial raster as a spatial raster. Note that projecting (or un-projecting)
 this layer will likely result in odd results (namely that geom_raster will not
-function properly or at all).
+function properly or at all). As a convenience, \code{ggraster()} is provided,
+which replaces the call to \code{coord_map()} from \link{ggspatial} with a call
+to \code{coord_fixed()}.
 }
 \examples{
-ggplot() + geom_spatial(longlake_osm)
+# standard ggplot syntax
+ggplot() + geom_spatial(longlake_osm, aes(fill = band1)) + coord_fixed()
+
+# or use ggraster()
+ggraster(longlake_osm, aes(fill = band1))
 
 }
 

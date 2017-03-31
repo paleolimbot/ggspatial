@@ -4,7 +4,8 @@
 \alias{fortify.Raster}
 \title{Turn a Raster into a data.frame}
 \usage{
-\method{fortify}{Raster}(model, data = NULL, ...)
+\method{fortify}{Raster}(model, data = NULL, format = c("wide", "long"),
+  ...)
 }
 \arguments{
 \item{model}{A \code{Raster} object}
@@ -24,5 +25,30 @@ alongside x and y coordinate columns. This is the format required for input to
 \link[ggplot2]{geom_raster}, such that a \code{Raster} object can be passed directly
 to geom_raster without a conversion function. Band columns are named band1, band2, band3,
 etc., for use in creating a mapping.
+}
+\examples{
+# use with ggplot()
+df <- fortify(longlake_osm)
+ggplot(df, aes(x, y, fill = band1)) + geom_raster() +
+  coord_fixed()
+# identical usage with ggraster()
+ggraster(longlake_osm, aes(fill = band1))
+
+# use long format to facet by band
+dflong <- fortify(longlake_osm, format = "long")
+ggplot(dflong, aes(x, y, fill = value)) +
+  geom_raster() + facet_wrap(~band) +
+  coord_fixed()
+
+\donttest{
+# can use on other raster types as well
+x <- rosm::osm.raster("gatineau qc")
+ggraster(x, aes(fill = band1))
+df <- fortify(x, format = "long")
+ggplot(df, aes(x, y, fill = value)) +
+  geom_raster() + facet_wrap(~band) +
+  coord_fixed()
+}
+
 }
 

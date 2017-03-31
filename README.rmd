@@ -18,7 +18,7 @@ devtools::install_github("paleolimbot/ggspatial")
 
 ## Introduction
 
-The `ggspatial` package provides several functions to convert spatial objects to `ggplot2` layers. There are three cases: vector data (`geom_spatial()` or `ggspatial()`), raster data (`geom_spraster()`), and tiled basemap (`geom_osm()` or `ggosm()`). Their usage is *almost* identical to normal ggplot `geom_*` functions, except that the mapping and the data arguments are switched (usually `mapping` comes before `data`, but in this context, where the type of the object determines the method that gets called, it makes more sense for `data` to come first). Almost every call you make within this package will be:
+The `ggspatial` package provides several functions to convert spatial objects to `ggplot2` layers. There are three cases: vector data (`geom_spatial()` or `ggspatial()`), raster data (`geom_spraster()` or `ggraster()`), and tiled basemap (`geom_osm()` or `ggosm()`). Their usage is *almost* identical to normal ggplot `geom_*` functions, except that the mapping and the data arguments are switched (usually `mapping` comes before `data`, but in this context, where the type of the object determines the method that gets called, it makes more sense for `data` to come first). Almost every call you make within this package will be:
 
 ```{r, eval=FALSE}
 library(ggspatial)
@@ -35,18 +35,18 @@ library(ggspatial)
 ggspatial(longlake_waterdf, fill = "lightblue")
 ```
 
-The second is where a `geom_osm()` is your first layer. For this, you can use `ggosm()`, which is short for `ggplot() + geom_osm() + coord_map()`. In fact, `geom_osm()` *only* works using `coord_map()`, since tiles are projected and not in lat/lon coordinates.
+Generally, a `geom_osm()` is your first layer. For this, you can use `ggosm()`, which is short for `ggplot() + geom_osm() + coord_map()`. In fact, `geom_osm()` *only* works using `coord_map()`, since tiles are projected and not in lat/lon coordinates.
 
 ```{r, message = FALSE}
 ggosm() + 
   geom_spatial(longlake_waterdf, fill = "red", alpha = 0.25)
 ```
 
-Notice that `geom_osm()` doesn't need any arguments! Cool, right!? For more information, see `?geom_spatial` and `?geom_osm`. Now on to more mundane details...
+Notice that `geom_osm()` doesn't need any arguments. Cool, right!? For more information, see `?geom_spatial` and `?geom_osm`. Now on to more mundane details...
 
 ## Spatial objects
 
-Many (but not all) objects of type `Spatial*` can be used with `ggplot`, but syntax is inconsistent and results vary. This package introduces a single `geom_` for use with `Spatial*` objects (e.g. `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, `SpatialPolygonsDataFrame`...essentially what you get when you use `rgdal::readOGR()` or `maptools::readShapeSpatial()` to read any kind of spatial data). A few spatial objects are included in the package as examples, namely the `longlake_*` series of layers that I used to create my honours thesis figures (a distressingly long time ago, I may add).
+Many (but not all) objects of type `Spatial*` can be used with `ggplot` using the `fortify()` family, but syntax is inconsistent and results vary. This package introduces a single `geom_` for use with `Spatial*` objects (e.g. `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, `SpatialPolygonsDataFrame`...essentially what you get when you use `rgdal::readOGR()` or `maptools::readShapeSpatial()` to read any kind of spatial data). A few spatial objects are included in the package as examples, namely the `longlake_*` series of layers that I used to create my honours thesis figures (a distressingly long time ago, I may add).
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggspatial)
@@ -108,16 +108,49 @@ ggosm("nova scotia")
 
 ## Rasters
 
-Rasters are still a work in progress, but the idea is that you use a similar function to plot a raster layer.
+A number of packages exist ('raster' being one of them) to efficiently deal with raster data, but if you are really keen on using ggplot, there are a couple of tools in `ggspatial` to help yout out. The first is a `fortify()` implementation of the `Raster` class, so that you can pass a `Raster` wherever you would pass a data.frame in ggplot and expect a data.frame with columns x, y, band1, band2, and so on. You can call `fortify()` with `format = "long"` to return a melted form of the Raster, which as far as I can tell is only useful for facetting.
 
-```{r, message=FALSE}
-ggplot() + geom_spatial(longlake_osm, aes(fill = band1, alpha = band3))
+```{r}
+raster_df <- fortify(longlake_osm)
+head(raster_df)
+```
+
+```{r}
+ggplot(longlake_osm, aes(x, y, fill = band1)) + 
+  geom_raster() + 
+  coord_fixed()
+```
+
+```{r}
+raster_df_long <- fortify(longlake_osm, format = "long")
+ggplot(raster_df_long, aes(x, y, fill = value)) + 
+  geom_raster() + facet_wrap(~band) +
+  coord_fixed()
+```
+
+There is also an implementation of `geom_spatial()` for rasters, which essentially fills in `aes(x, y)` for you, and if you're looking for an adventure, it will project and unproject the x and y coordinates. The only reason I can see that this might be useful is when using something like `stat = "contour"`, which I haven't tried yet. Unlike other implementations of `geom_spatial()`, the raster version leaves coordinates as is by default. This is largely because `geom_raster()` will not work in non-cartesian coordinate systems. It may be possible in the future to work in on-the-fly projection, but this is unlikely to be fast or useful.
+
+```{r, eval=FALSE}
+ggplot() + 
+  geom_spatial(longlake_osm, aes(fill = band1)) +
+  coord_fixed()
+```
+
+Is the same as...
+
+```{r}
+ggraster(longlake_osm, aes(fill = band1))
+```
+
+## Native Rasters
+
+Much faster is skipping the data frame and punching the raster image straight into the grob, as it were. Basically, if you already have an RGB raster (`longlake_osm` is one, or you could read one using `raster::brick("my_file.tif")`), you can use `annotation_spraster()` or `geom_spraster_rgb()` to plot it much more efficiently. Similar to ggplot's `annotation_raster()`, `annotation_spraster()` does not modify the plot bounds, whereas `geom_spraster_rgb()` will display the entire raster.
+
+```{r}
+ggplot() + geom_spraster_rgb(longlake_osm, interpolate = TRUE) +
+  coord_fixed()
 ```
 
 ## Ongoing development
 
-This package is currently undergoing a major overhaul in preparation for release in April 2017, so keep an eye on the version number before you go crazy using it! In the works are:
-
-- Better raster plotting
-
-That's it! Enjoy!
+This package is currently undergoing a major overhaul in preparation for release in April 2017, so keep an eye on the version number and best of luck.
