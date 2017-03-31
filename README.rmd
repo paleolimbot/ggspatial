@@ -18,7 +18,7 @@ devtools::install_github("paleolimbot/ggspatial")
 
 ## Introduction
 
-The `ggspatial` package provides several functions to convert spatial objects to `ggplot2` layers. There are three cases: vector data (`geom_spatial()` or `ggspatial()`), raster data (`geom_spraster()` or `ggraster()`), and tiled basemap (`geom_osm()` or `ggosm()`). Their usage is *almost* identical to normal ggplot `geom_*` functions, except that the mapping and the data arguments are switched (usually `mapping` comes before `data`, but in this context, where the type of the object determines the method that gets called, it makes more sense for `data` to come first). Almost every call you make within this package will be:
+The `ggspatial` package provides several functions to convert spatial objects to `ggplot2` layers. There are three cases: vector data (`geom_spatial()` or `ggspatial()`), raster data (`geom_spatial()` or `ggraster()`), and tiled basemap (`geom_osm()` or `ggosm()`). Their usage is *almost* identical to normal ggplot `geom_*` functions, except that the mapping and the data arguments are switched (usually `mapping` comes before `data`, but in this context, where the type of the object determines the method that gets called, it makes more sense for `data` to come first). Almost every call you make within this package will be:
 
 ```{r, eval=FALSE}
 library(ggspatial)
