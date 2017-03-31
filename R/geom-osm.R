@@ -126,6 +126,9 @@ GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
      epsg <- 4326
 
    } else {
+     # warn user
+     message("Attemping to use geom_osm without coord_map()")
+
      # guess source coordinate system
      epsg <- .guessepsg(bbox)
      bbox <- .revprojectbbox(bbox, fromepsg = epsg)
