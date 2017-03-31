@@ -263,7 +263,7 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
   crsfrom <- as.CRS(crsfrom)
   crsto <- as.CRS(crsto)
 
-  if(is.na(crsfrom)) {
+  if(identical(crsfrom, NA)) {
     crsfrom <- as.CRS(data)
   }
 

@@ -45,13 +45,13 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
     compute_panel = function(data, scales, crsfrom=NA, crsto=NA) {
 
       # guess missing coordinate systems
-      if(is.na(crsfrom) || is.na(rgdal::CRSargs(crsfrom))) {
+      if(identical(crsfrom, NA) || is.na(rgdal::CRSargs(crsfrom))) {
         epsg <- guess.epsg(sp::bbox(cbind(data$x, data$y)))
         crsfrom <- as.CRS(epsg)
       }
 
       # default is actually to "unproject", for use with ggmap/coord_map
-      if(is.na(crsto) || is.na(rgdal::CRSargs(crsto))) {
+      if(identical(crsto, NA) || is.na(rgdal::CRSargs(crsto))) {
         crsto <- as.CRS(4326)
         if(crsfrom@projargs != crsto@projargs) {
           message("Converting coordinates to lat/lon (epsg:4326)")

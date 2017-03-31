@@ -76,15 +76,15 @@ ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue") +
 
 ## Projections
 
-If you've been trying this at home, you may have noticed that you get a little message for every non-lat/lon dataset you try to plot. `geom_spatial()` is spatially aware, and if you don't tell it otherwise, it will convert all of your input data to lat/lon. I made this the default because `ggplot` has the nice `coord_map()` function that helpfully projects things that happen to be in lat/lon format (and communicates your intent clearly). If you're working in the polar regions or near the international date line, it's unlikely that this what you want. To get around the default projection, you can specify your own using `toepsg` or `toprojection`. For example, the previous plot could be rendered to the Google Mercator projection by passing `toepsg=3857` (note that you'll have to do this for all the layers).
+If you've been trying this at home, you may have noticed that you get a little message for every non-lat/lon dataset you try to plot. `geom_spatial()` is spatially aware, and if you don't tell it otherwise, it will convert all of your input data to lat/lon. I made this the default because `ggplot` has the nice `coord_map()` function that helpfully projects things that happen to be in lat/lon format (and communicates your intent clearly). If you're working in the polar regions or near the international date line, it's unlikely that this what you want. To get around the default projection, you can specify your own using `crsto` (see also `?as.CRS`). For example, the previous plot could be rendered to the Google Mercator projection by passing `crsto=3857` (note that you'll have to do this for all the layers).
 
 ```{r, message=FALSE}
 data(longlake_depthdf)
 ggplot() + 
   geom_spatial(longlake_waterdf[2,], fill="lightblue", 
-               toepsg=3857) +
+               crsto=3857) +
   geom_spatial(longlake_depthdf, aes(col=DEPTH.M), size=2,
-               toepsg=3857) +
+               crsto=3857) +
   scale_color_gradient(low = "red", high = "blue")
   
 ```
