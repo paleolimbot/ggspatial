@@ -31,7 +31,7 @@ stat_project <- function(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
                          position = "identity", show.legend = TRUE, inherit.aes = TRUE,
                          geom = "point", ...) {
   layer(
-    stat = StatProject, data = data, mapping = mapping, geom = "point",
+    stat = StatProject, data = data, mapping = mapping, geom = geom,
     show.legend = show.legend, inherit.aes = inherit.aes, position = position,
     params=list(crsfrom = as.CRS(crsfrom), crsto = as.CRS(crsto), ...)
   )
@@ -47,7 +47,6 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
       # guess missing coordinate systems
       if(is.na(crsfrom) || is.na(rgdal::CRSargs(crsfrom))) {
         epsg <- guess.epsg(sp::bbox(cbind(data$x, data$y)))
-        message("Assuming input coordinate CRS as epsg:", epsg)
         crsfrom <- as.CRS(epsg)
       }
 

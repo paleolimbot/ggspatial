@@ -11,12 +11,10 @@
 #' @param show.legend Logical describing the legend visibility.
 #' @param inherit.aes Logical describing if aesthetics are inherited
 #' @param position Passed on to geom_*
-#' @param fromepsg The epsg code of the projection of the dataset (defaults to lat/lon or 4326 if
-#'   not specified or the \code{data} does not specify a CRS)
-#' @param toepsg The projection of the final plot (defaults to \code{fromepsg} if not specified
-#'   or 3857 if \code{fromepsg} is not specified)
-#' @param fromprojection Long form of \code{fromepsg}, a CRS object created by \code{sp::CRS()}
-#' @param toprojection Long form of \code{toepsg}, a CRS object created by \code{sp::CRS()}
+#' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
+#'   to the CRS of the data or lat/lon if that does not exist
+#' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+#'   lat/lon so that the plot can be projected using coord_map()
 #' @param geom For data frames, the geometry to use
 #' @param attribute_table For SpatialPoints, SpatialLines, and SpatialPolygons, an attribute
 #'   table that matches the input object.
@@ -34,7 +32,7 @@
 #' library(prettymapr)
 #' ns <- searchbbox("Nova Scotia")
 #' cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
-#' ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(toepsg=26920)
+#' ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(crsto=26920)
 #' # default projection is Spherical Mercator (EPSG:3857)
 #' ggplot(cities, aes(x=lon, y=lat)) + geom_spatial() + coord_map()
 #' }
@@ -69,8 +67,8 @@ ggspatial <- function(data, mapping = NULL, ...) {
 #' @rdname geom_spatial
 #' @export
 geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                 position = "identity", fromepsg=NULL, toepsg=NULL,
-                                 fromprojection=NULL, toprojection=NULL, geom = "point", ...) {
+                                 position = "identity", crsfrom = NA, crsto = NA,
+                                 geom = "point", ...) {
 
   # allow missing data for inherited data
   if(missing(data)) {
@@ -83,10 +81,7 @@ geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inher
   }
 
   # get projections
-  projections <- get_projections(data = data,
-                                 fromepsg = fromepsg, toepsg = toepsg,
-                                 fromprojection = fromprojection,
-                                 toprojection = toprojection)
+  projections <- get_projections(data = data, crsfrom, crsto)
 
   # return layer
   layer(
@@ -99,15 +94,11 @@ geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inher
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialPoints <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                       position = "identity", fromepsg=NULL, toepsg=NULL,
-                                       fromprojection=NULL, toprojection=NULL,
+                                       position = "identity", crsfrom = NA, crsto = NA,
                                        attribute_table = NULL, ...) {
 
   # get projections
-  projections <- get_projections(data = data,
-                                 fromepsg = fromepsg, toepsg = toepsg,
-                                 fromprojection = fromprojection,
-                                 toprojection = toprojection)
+  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
 
   # extract coordinates
   coords <- sp::coordinates(data)
@@ -147,22 +138,20 @@ geom_spatial.SpatialPoints <- function(data, mapping = NULL, show.legend = TRUE,
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialPointsDataFrame <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                                position = "identity", fromepsg=NULL, toepsg=NULL,
-                                                fromprojection=NULL, toprojection=NULL, ...) {
+                                                position = "identity", crsfrom = NA,
+                                                crsto = NA, ...) {
   # use geom_spatial.SpatialPoints with attribute_table
   geom_spatial.SpatialPoints(sp::SpatialPoints(data, proj4string = data@proj4string),
                              mapping = mapping, show.legend = show.legend,
-                             inherit.aes = inherit.aes, position = position, fromepsg = fromepsg,
-                             toepsg = toepsg, fromprojection = fromprojection, toprojection = toprojection,
-                             attribute_table = data@data, ...)
+                             inherit.aes = inherit.aes, position = position, crsfrom = crsfrom,
+                             crsto = crsto, attribute_table = data@data, ...)
 }
 
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialLines <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                      position = "identity", fromepsg=NULL, toepsg=NULL,
-                                      fromprojection=NULL, toprojection=NULL, attribute_table = NULL,
-                                      ...) {
+                                      position = "identity", crsfrom = NA, crsto = NA,
+                                      attribute_table = NULL, ...) {
   # SpatialLines don't have a fortify function, so it's best just to create a
   # SpatialLinesDataFrame
 
@@ -180,23 +169,18 @@ geom_spatial.SpatialLines <- function(data, mapping = NULL, show.legend = TRUE, 
 
   # return result of geom_spatial.SpatialLinesDataFrame
   geom_spatial.SpatialLinesDataFrame(spldf, mapping = mapping, show.legend = show.legend,
-                                     inherit.aes = FALSE, position = position, fromepsg = fromepsg,
-                                     toepsg = toepsg, fromprojection = fromprojection,
-                                     toprojection = toprojection, ...)
+                                     inherit.aes = FALSE, position = position,
+                                     crsfrom = crsfrom, crsto = crsto, ...)
 }
 
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialLinesDataFrame <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                               position = "identity", fromepsg=NULL, toepsg=NULL,
-                                               fromprojection=NULL, toprojection=NULL, ...) {
+                                               position = "identity", crsfrom = NA,
+                                               crsto = NA, ...) {
 
   # get projections
-  projections <- get_projections(data = data,
-                                 fromepsg = fromepsg, toepsg = toepsg,
-                                 fromprojection = fromprojection,
-                                 toprojection = toprojection)
-
+  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
 
   # turn the SpatialLinesDataFrame into a data.frame, join with attribute table
   data@data$.id <- rownames(data@data)
@@ -217,9 +201,8 @@ geom_spatial.SpatialLinesDataFrame <- function(data, mapping = NULL, show.legend
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialPolygons <- function(data, mapping = NULL, show.legend = TRUE,
-                                         inherit.aes=NULL,
-                                         position = "identity", fromepsg=NULL, toepsg=NULL,
-                                         fromprojection=NULL, toprojection=NULL,
+                                         inherit.aes=NULL, position = "identity",
+                                         crsfrom = NA, crsto = NA,
                                          rule = "winding", attribute_table = NULL, ...) {
 
   # creating a SpatialPolygonsDataFrame and using
@@ -239,23 +222,18 @@ geom_spatial.SpatialPolygons <- function(data, mapping = NULL, show.legend = TRU
 
   # return result of geom_spatial.SpatialPolygonsDataFrame
   geom_spatial.SpatialPolygonsDataFrame(sppdf, mapping = mapping, show.legend = show.legend,
-                                        inherit.aes = FALSE, position = position, fromepsg = fromepsg,
-                                        toepsg = toepsg, fromprojection = fromprojection,
-                                        toprojection = toprojection, rule = rule, ...)
+                                        inherit.aes = FALSE, position = position,
+                                        crsfrom = crsfrom, crsto = crsto, rule = rule, ...)
 }
 
 #' @rdname geom_spatial
 #' @export
 geom_spatial.SpatialPolygonsDataFrame <- function(data, mapping = NULL, show.legend = TRUE,
-                                                  inherit.aes=NULL,
-                                                  position = "identity", fromepsg=NULL, toepsg=NULL,
-                                                  fromprojection=NULL, toprojection=NULL,
+                                                  inherit.aes=NULL, position = "identity",
+                                                  crsfrom = NA, crsto = NA,
                                                   rule = "winding", ...) {
   # get projections
-  projections <- get_projections(data = data,
-                                 fromepsg = fromepsg, toepsg = toepsg,
-                                 fromprojection = fromprojection,
-                                 toprojection = toprojection)
+  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
 
   # turn the SpatialPolygonsDataFrame into a data.frame, join with attribute table
   data@data$.id <- rownames(data@data)
@@ -279,31 +257,16 @@ geom_spatial.SpatialPolygonsDataFrame <- function(data, mapping = NULL, show.leg
 
 # this is used by most S3s to get projection info
 # note that 'data' cannot be missing
-get_projections <- function(data, fromepsg=NULL, toepsg=NULL,
-                            fromprojection=NULL, toprojection=NULL) {
+get_projections <- function(data, crsfrom = NA, crsto = NA) {
   # process projection information before finding methods
-  if(!is.null(fromepsg)) {
-    # ignore if "fromprojection" is passed
-    if(is.null(fromprojection)) {
-      fromprojection <- sp::CRS(paste0("+init=epsg:", fromepsg))
-    } else {
-      message("Ignoring fromepsg=", fromepsg)
-    }
-  } else if(is.null(fromprojection) && methods::is(data, "Spatial")) {
-    fromprojection <- data@proj4string
-  } else if(is.null(fromprojection) && methods::is(data, "Raster")) {
-    fromprojection <- data@crs
-  }
 
-  if(!is.null(toepsg)) {
-    # ignore if "toprojection" is passed
-    if(is.null(toprojection)) {
-      toprojection <- sp::CRS(paste0("+init=epsg:", toepsg))
-    } else {
-      message("Ignoring toepsg=", toepsg)
-    }
+  crsfrom <- as.CRS(crsfrom)
+  crsto <- as.CRS(crsto)
+
+  if(is.na(crsfrom)) {
+    crsfrom <- as.CRS(data)
   }
 
   # return list in the form used by StatProject
-  list(crsfrom = fromprojection, crsto = toprojection)
+  list(crsfrom = crsfrom, crsto = crsto)
 }

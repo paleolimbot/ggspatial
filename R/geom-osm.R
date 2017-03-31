@@ -165,7 +165,7 @@ GeomTileSource <- ggplot2::ggproto("GeomTileSource", Geom,
 )
 
 # not really an exportable function
-guess.epsg <- function(extents, plotunit = NULL, plotepsg = NULL) {
+guess.epsg <- function(extents, plotunit = NULL, plotepsg = NULL, quiet = FALSE) {
 
   if(is.null(plotepsg) && is.null(plotunit)) {
     # check for valid lat/lon in extents
@@ -177,11 +177,11 @@ guess.epsg <- function(extents, plotunit = NULL, plotepsg = NULL) {
        extents[2, 1] <= 90 &&
        extents[2, 2] >= -90 &&
        extents[2, 2] <= 90) {
-      message("Autodetect projection: assuming lat/lon (epsg 4326)")
+      if(!quiet) message("Autodetect projection: assuming lat/lon (epsg 4326)")
       plotepsg <- 4326
     } else {
       # else assume google mercator used by {OpenStreetMap} (epsg 3857)
-      message("Audotdetect projection: assuming Google Mercator (epsg 3857)")
+      if(!quiet) message("Audotdetect projection: assuming Google Mercator (epsg 3857)")
       plotepsg <- 3857
     }
   } else if(!is.null(plotunit)) {

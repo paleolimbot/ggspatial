@@ -17,39 +17,33 @@ geom_spatial(data, ...)
 ggspatial(data, mapping = NULL, ...)
 
 \method{geom_spatial}{default}(data, mapping = NULL, show.legend = TRUE,
-  inherit.aes = NULL, position = "identity", fromepsg = NULL,
-  toepsg = NULL, fromprojection = NULL, toprojection = NULL,
+  inherit.aes = NULL, position = "identity", crsfrom = NA, crsto = NA,
   geom = "point", ...)
 
 \method{geom_spatial}{SpatialPoints}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, attribute_table = NULL, ...)
+  crsfrom = NA, crsto = NA, attribute_table = NULL, ...)
 
 \method{geom_spatial}{SpatialPointsDataFrame}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, ...)
+  crsfrom = NA, crsto = NA, ...)
 
 \method{geom_spatial}{SpatialLines}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, attribute_table = NULL, ...)
+  crsfrom = NA, crsto = NA, attribute_table = NULL, ...)
 
 \method{geom_spatial}{SpatialLinesDataFrame}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, ...)
+  crsfrom = NA, crsto = NA, ...)
 
 \method{geom_spatial}{SpatialPolygons}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, rule = "winding", attribute_table = NULL, ...)
+  crsfrom = NA, crsto = NA, rule = "winding", attribute_table = NULL,
+  ...)
 
 \method{geom_spatial}{SpatialPolygonsDataFrame}(data, mapping = NULL,
   show.legend = TRUE, inherit.aes = NULL, position = "identity",
-  fromepsg = NULL, toepsg = NULL, fromprojection = NULL,
-  toprojection = NULL, rule = "winding", ...)
+  crsfrom = NA, crsto = NA, rule = "winding", ...)
 }
 \arguments{
 \item{data}{A \code{Spatial*} object or \code{data.frame}.}
@@ -64,15 +58,11 @@ ggspatial(data, mapping = NULL, ...)
 
 \item{position}{Passed on to geom_*}
 
-\item{fromepsg}{The epsg code of the projection of the dataset (defaults to lat/lon or 4326 if
-not specified or the \code{data} does not specify a CRS)}
+\item{crsfrom}{An object that can be coerced to a CRS using \link{as.CRS}; defaults
+to the CRS of the data or lat/lon if that does not exist}
 
-\item{toepsg}{The projection of the final plot (defaults to \code{fromepsg} if not specified
-or 3857 if \code{fromepsg} is not specified)}
-
-\item{fromprojection}{Long form of \code{fromepsg}, a CRS object created by \code{sp::CRS()}}
-
-\item{toprojection}{Long form of \code{toepsg}, a CRS object created by \code{sp::CRS()}}
+\item{crsto}{An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+lat/lon so that the plot can be projected using coord_map()}
 
 \item{geom}{For data frames, the geometry to use}
 
@@ -95,7 +85,7 @@ and other argumets passed on to that geom.
 library(prettymapr)
 ns <- searchbbox("Nova Scotia")
 cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
-ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(toepsg=26920)
+ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(crsto=26920)
 # default projection is Spherical Mercator (EPSG:3857)
 ggplot(cities, aes(x=lon, y=lat)) + geom_spatial() + coord_map()
 }

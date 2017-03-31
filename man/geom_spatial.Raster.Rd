@@ -6,9 +6,8 @@
 \title{Spatial Geometry for Raster* Objects}
 \usage{
 \method{geom_spatial}{Raster}(data, mapping = NULL, show.legend = TRUE,
-  inherit.aes = FALSE, position = "identity", fromepsg = NULL,
-  toepsg = NULL, fromprojection = NULL, toprojection = NULL,
-  geom = "raster", stat = "identity", ...)
+  inherit.aes = FALSE, position = "identity", crsfrom = crsfrom,
+  crsto = crsto, geom = "raster", stat = "identity", ...)
 
 ggraster(data, mapping = NULL, ...)
 }
@@ -23,19 +22,15 @@ ggraster(data, mapping = NULL, ...)
 
 \item{position}{The position to apply (should probably always be 'identity')}
 
-\item{fromepsg}{Override the source projection}
+\item{crsfrom}{Override the source projection}
 
-\item{toepsg}{Project cell coordinates to new projection}
-
-\item{fromprojection}{Override the source projection}
-
-\item{toprojection}{Project cell coordinates to new projection}
+\item{crsto}{Override the source projection}
 
 \item{geom}{The geometry to use. Defaults to raster (obviously), but could also
 be another value if used with a different stat (e.g. contour)}
 
 \item{stat}{The stat to apply. Defaults to 'identity', but could be something else
-like 'contour' or \link{stat_rgba}.}
+like 'contour', \link{stat_rgba} ("rgba"), or \link{stat_project} ("project").}
 
 \item{...}{Further arguments passed to the stat/geom}
 }

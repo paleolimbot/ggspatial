@@ -20,7 +20,9 @@ using \link{as.CRS}}
 \item{to}{The destination projection, or an object that can be coerce to one
 using \link{as.CRS}}
 
-\item{na.rm}{}
+\item{na.rm}{Currently xyTransform does not work with non-finite values.
+Pass na.rm = TRUE to remove them, or else a (more helpful) error will be
+thrown if non-finite values exist.}
 
 \item{bbox}{The bounding box to transform. Note that bounding boxes are not truly
 transformed bounding boxes, but the bounding box of the transformed lower-left
@@ -36,7 +38,8 @@ but raw coordinates are not as straightforward. Use this function to project raw
 coordinates, and \link[sp]{spTransform} to project Spatial* objects. Not
 }
 \examples{
-xyTransform(expand.grid(x=-180:180, y=-70:70), from = 4326, to = 3857)
+all_latlons <- expand.grid(x=-180:180, y=-70:70)
+xyTransform(all_latlons$x, all_latlons$y, from = 4326, to = 3857)
 bboxTransform(bbox(longlake_osm), from = 26920)
 
 }

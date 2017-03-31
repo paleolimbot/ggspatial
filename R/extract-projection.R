@@ -53,13 +53,16 @@ as.CRS <- function(x) {
 #'   using \link{as.CRS}
 #' @param to The destination projection, or an object that can be coerce to one
 #'   using \link{as.CRS}
-#' @param na.rm
+#' @param na.rm Currently xyTransform does not work with non-finite values.
+#'   Pass na.rm = TRUE to remove them, or else a (more helpful) error will be
+#'   thrown if non-finite values exist.
 #'
 #' @return A matrix with 2 columns (x and y)
 #' @export
 #'
 #' @examples
-#' xyTransform(expand.grid(x=-180:180, y=-70:70), from = 4326, to = 3857)
+#' all_latlons <- expand.grid(x=-180:180, y=-70:70)
+#' xyTransform(all_latlons$x, all_latlons$y, from = 4326, to = 3857)
 #' bboxTransform(bbox(longlake_osm), from = 26920)
 #'
 xyTransform <- function(x, y, from = 4326, to = 4326, na.rm = FALSE) {

@@ -180,14 +180,12 @@ geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
 #' @param geom The geometry to use. Defaults to raster (obviously), but could also
 #'   be another value if used with a different stat (e.g. contour)
 #' @param stat The stat to apply. Defaults to 'identity', but could be something else
-#'   like 'contour' or \link{stat_rgba}.
+#'   like 'contour', \link{stat_rgba} ("rgba"), or \link{stat_project} ("project").
 #' @param position The position to apply (should probably always be 'identity')
 #' @param show.legend Should the legend be shown for this layer?
 #' @param inherit.aes Should aesthetics be inherited from the base plot?
-#' @param fromepsg Override the source projection
-#' @param fromprojection Override the source projection
-#' @param toepsg Project cell coordinates to new projection
-#' @param toprojection Project cell coordinates to new projection
+#' @param crsfrom Override the source projection
+#' @param crsto Override the source projection
 #' @param ... Further arguments passed to the stat/geom
 #'
 #' @return A ggplot2 layer
@@ -201,9 +199,8 @@ geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
 #' ggraster(longlake_osm, aes(fill = band1))
 #'
 geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=FALSE,
-                                position = "identity", fromepsg=NULL, toepsg=NULL,
-                                fromprojection=NULL, toprojection=NULL, geom = "raster",
-                                stat = "identity", ...) {
+                                position = "identity", crsfrom = crsfrom, crsto = crsto,
+                                geom = "raster", stat = "identity", ...) {
 
   if(stat == "project") {
     if(geom == "raster") {
@@ -211,10 +208,8 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
     }
 
     # get projections
-    projections <- get_projections(data = data,
-                                   fromepsg = fromepsg, toepsg = toepsg,
-                                   fromprojection = fromprojection,
-                                   toprojection = toprojection)
+    projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
+
   } else {
     # no projections
     projections <- list()
