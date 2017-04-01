@@ -41,7 +41,7 @@ as.CRS <- function(x) {
 #'
 #' The sp package provides a powerful interface with easy syntax for projection Spatial* objects,
 #' but raw coordinates are not as straightforward. Use this function to project raw
-#' coordinates, and \link[sp]{spTransform} to project Spatial* objects. Not
+#' coordinates, and \link[sp]{spTransform} to project Spatial* objects.
 #'
 #' @param x The x values (or longitude)
 #' @param y The y values (or latitude)

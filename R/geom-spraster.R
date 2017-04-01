@@ -27,6 +27,7 @@
 #' df <- fortify(longlake_osm)
 #' ggplot(df, aes(x, y, fill = band1)) + geom_raster() +
 #'   coord_fixed()
+#' \donttest{
 #' # identical usage with ggraster()
 #' ggraster(longlake_osm, aes(fill = band1))
 #'
@@ -36,7 +37,7 @@
 #'   geom_raster() + facet_wrap(~band) +
 #'   coord_fixed()
 #'
-#' \donttest{
+#'
 #' # can use on other raster types as well
 #' x <- rosm::osm.raster("gatineau qc")
 #' ggraster(x, aes(fill = band1))

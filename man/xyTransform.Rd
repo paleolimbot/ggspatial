@@ -35,7 +35,7 @@ A matrix with 2 columns (x and y)
 \description{
 The sp package provides a powerful interface with easy syntax for projection Spatial* objects,
 but raw coordinates are not as straightforward. Use this function to project raw
-coordinates, and \link[sp]{spTransform} to project Spatial* objects. Not
+coordinates, and \link[sp]{spTransform} to project Spatial* objects.
 }
 \examples{
 all_latlons <- expand.grid(x=-180:180, y=-70:70)
