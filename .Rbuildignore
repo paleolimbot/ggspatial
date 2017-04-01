@@ -4,3 +4,4 @@
 ^rosm\.cache$
 ^README_files$
 ^README\.rmd$
+^README\.md$
