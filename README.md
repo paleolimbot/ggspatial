@@ -42,7 +42,7 @@ library(ggspatial)
 ggspatial(longlake_waterdf, fill = "lightblue")
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 Generally, a `geom_osm()` is your first layer. For this, you can use `ggosm()`, which is short for `ggplot() + geom_osm() + coord_map()`. In fact, `geom_osm()` *only* works using `coord_map()`, since tiles are projected and not in lat/lon coordinates.
 
@@ -51,7 +51,7 @@ ggosm() +
   geom_spatial(longlake_waterdf, fill = "red", alpha = 0.25)
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 Notice that `geom_osm()` doesn't need any arguments. Cool, right!? For more information, see `?geom_spatial` and `?geom_osm`. Now on to more mundane details...
 
@@ -68,7 +68,7 @@ ggplot() +
   coord_map()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 If we examine `longlake_waterdf`, we can use the columns as aesthetics just as we would for a normal `data.frame`.
 
@@ -78,7 +78,7 @@ ggplot() +
   coord_map()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 A more useful use of this may be to examine a depth survey from Long Lake I took on for my honours thesis.
 
@@ -90,7 +90,7 @@ ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue") +
   coord_map()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 Projections
 -----------
@@ -107,7 +107,7 @@ ggplot() +
   scale_color_gradient(low = "red", high = "blue")
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 Open Street Map Basemaps
 ------------------------
@@ -121,7 +121,7 @@ ggosm(type = "stamenwatercolor") +
   coord_map()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 So far we've only used `ggosm()` with no arguments, where it provides an auotmatic backdrop for all of the other layers. The first argument of `ggosm()` (and `geom_osm()`) is actually a bounding box (or an object from which one can be extracted, such as a `Spatial*` object, a `Raster*` object, a set of lon/lat coordinates, or a string of the location name, geocoded using `prettymapr::geocode`). When used with `ggosm()`, the most useful usage is a location name. It's worth noting that passing a vector of location names results in a bounding box containing all of them, so custom bounding boxes can be constructed a little more easily.
 
@@ -129,7 +129,7 @@ So far we've only used `ggosm()` with no arguments, where it provides an auotmat
 ggosm("nova scotia")
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 Rasters
 -------
@@ -163,7 +163,7 @@ ggplot(longlake_osm, aes(x, y, fill = band1)) +
   coord_fixed()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 ``` r
 raster_df_long <- fortify(longlake_osm, format = "long")
@@ -172,7 +172,7 @@ ggplot(raster_df_long, aes(x, y, fill = value)) +
   coord_fixed()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 There is also an implementation of `geom_spatial()` for rasters, which essentially fills in `aes(x, y)` for you, and if you're looking for an adventure, it will project and unproject the x and y coordinates. The only reason I can see that this might be useful is when using something like `stat = "contour"`, which I haven't tried yet. Unlike other implementations of `geom_spatial()`, the raster version leaves coordinates as is by default. This is largely because `geom_raster()` will not work in non-cartesian coordinate systems. It may be possible in the future to work in on-the-fly projection, but this is unlikely to be fast or useful.
 
@@ -188,7 +188,7 @@ Is the same as...
 ggraster(longlake_osm, aes(fill = band1))
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
 Native Rasters
 --------------
@@ -200,7 +200,7 @@ ggplot() + geom_spraster_rgb(longlake_osm, interpolate = TRUE) +
   coord_fixed()
 ```
 
-![](inst/README_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
 Ongoing development
 -------------------
