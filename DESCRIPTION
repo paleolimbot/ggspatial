@@ -1,8 +1,8 @@
 Package: ggspatial
 Type: Package
 Title: Spatial data framework for ggplot2
-Version: 0.2.9000
-Date: 2016-07-11
+Version: 0.2
+Date: 2017-04-01
 Author: Dewey Dunnington <dewey@fishandwhistle.net>
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: To be determined.
