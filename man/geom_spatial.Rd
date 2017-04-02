@@ -91,22 +91,13 @@ ggplot(cities, aes(x=lon, y=lat)) + geom_spatial() + coord_map()
 }
 
 # plot a number of spatial objects
-data(longlake_marshdf, longlake_roadsdf, longlake_waterdf, longlake_depthdf,
-     longlake_streamsdf, longlake_buildingsdf)
 ggplot() +
   geom_spatial(longlake_waterdf, fill="lightblue") +
   geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
   geom_spatial(longlake_streamsdf, col="lightblue") +
   geom_spatial(longlake_roadsdf, col="black") +
   geom_spatial(longlake_buildingsdf, pch=1, col="brown", size=0.25) +
-  geom_spatial(longlake_depthdf, aes(col=DEPTH.M)) +
-  facet_wrap(~NOTES)+
   coord_map()
-
-
-library(maptools)
-data(wrld_simpl)
-ggplot() + geom_spatial(wrld_simpl)
 
 }
 

@@ -38,10 +38,11 @@ ggplot(longlake_osm, aes(x, y)) +
             limits_red = NULL, limits_green = NULL, limits_blue = NULL,
             limits_alpha = NULL, interpolate = TRUE) +
   coord_fixed()
-
+\donttest{
 # using ggraster() with stat = 'rgba'
 ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
          stat = "rgba")
+}
 
 }
 

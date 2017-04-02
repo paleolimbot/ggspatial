@@ -48,9 +48,10 @@ to \code{coord_fixed()}.
 \examples{
 # standard ggplot syntax
 ggplot() + geom_spatial(longlake_osm, aes(fill = band1)) + coord_fixed()
-
+\donttest{
 # or use ggraster()
 ggraster(longlake_osm, aes(fill = band1))
+}
 
 }
 

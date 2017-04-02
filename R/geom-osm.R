@@ -38,7 +38,7 @@
 #' library(prettymapr)
 #' # use as a backdrop for geographical data
 #' cities <- geocode(c("Halifax, NS", "Moncton, NB", "Montreal QC"))
-#' ggplot(cities, aes(lon, lat)) + geom_osm() +
+#' ggplot(cities, aes(lon, lat, shape = query)) + geom_osm() +
 #'   geom_point() + coord_map()
 #'
 #' # use ggosm() shorthand
@@ -76,6 +76,7 @@ geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FAL
   # return GeomTileSource layer
   layer(data = data, mapping = ggplot2::aes_string("x", "y"),
         position = "identity", geom = GeomTileSource, stat = "identity",
+        show.legend = FALSE, inherit.aes = FALSE,
         params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,
                       forcedownload = forcedownload,
                       cachedir = cachedir, progress = progress, quiet = quiet))

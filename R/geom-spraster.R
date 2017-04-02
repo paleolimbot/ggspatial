@@ -195,9 +195,10 @@ geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
 #' @examples
 #' # standard ggplot syntax
 #' ggplot() + geom_spatial(longlake_osm, aes(fill = band1)) + coord_fixed()
-#'
+#' \donttest{
 #' # or use ggraster()
 #' ggraster(longlake_osm, aes(fill = band1))
+#' }
 #'
 geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=FALSE,
                                 position = "identity", crsfrom = crsfrom, crsto = crsto,
@@ -269,10 +270,11 @@ ggraster <- function(data, mapping = NULL, ...) {
 #'             limits_red = NULL, limits_green = NULL, limits_blue = NULL,
 #'             limits_alpha = NULL, interpolate = TRUE) +
 #'   coord_fixed()
-#'
+#' \donttest{
 #' # using ggraster() with stat = 'rgba'
 #' ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
 #'          stat = "rgba")
+#' }
 #'
 stat_rgba <- function(mapping = NULL, data = NULL, ..., limits_red = NA, limits_green = NA,
                       limits_blue = NA, limits_alpha = NA) {

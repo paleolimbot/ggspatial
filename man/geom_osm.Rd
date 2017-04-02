@@ -59,7 +59,7 @@ coord_map()}.
 library(prettymapr)
 # use as a backdrop for geographical data
 cities <- geocode(c("Halifax, NS", "Moncton, NB", "Montreal QC"))
-ggplot(cities, aes(lon, lat)) + geom_osm() +
+ggplot(cities, aes(lon, lat, shape = query)) + geom_osm() +
   geom_point() + coord_map()
 
 # use ggosm() shorthand
