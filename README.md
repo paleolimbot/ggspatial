@@ -8,7 +8,7 @@ Spatial data plus the power of the `ggplot2` framework means easier mapping when
 Installation
 ------------
 
-The package isn't available on CRAN (yet), but you can install it using `devtools::install_github()`.
+The package is available on CRAN, and can be installed using `install.packages("ggspatial")`. The development version can be installed via `devtools`.
 
 ``` r
 install.packages("devtools") # if devtools isn't installed
