@@ -1,4 +1,5 @@
 
+
 #' A ggplot2 geom for Spatial* objects
 #'
 #' A function returning a geom_* object based on the Spatial* input. Also will
@@ -46,208 +47,48 @@
 #'   geom_spatial(longlake_buildingsdf, pch=1, col="brown", size=0.25) +
 #'   coord_map()
 #'
-geom_spatial <- function(data, ...) UseMethod("geom_spatial")
+geom_spatial <- function(data, mapping = NULL, ...) UseMethod("geom_spatial")
 
-
-#' @rdname geom_spatial
 #' @export
+#' @rdname geom_spatial
 ggspatial <- function(data, mapping = NULL, ...) {
-  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + ggplot2::coord_map()
+  ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map()
 }
 
-#' @rdname geom_spatial
 #' @export
-geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                 position = "identity", crsfrom = NA, crsto = NA,
-                                 geom = "point", ...) {
-
-  # allow missing data for inherited data
-  if(missing(data)) {
-    data <- NULL
-  }
-
-  # inherit aes by default
-  if(is.null(inherit.aes)) {
-    inherit.aes <- TRUE
-  }
-
+#' @rdname geom_spatial
+geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes = FALSE,
+                                  position = "identity", crsfrom = NA, crsto = NA,
+                                  attribute_table = NULL, geom = NA, stat = NA, ...) {
   # get projections
-  projections <- get_projections(data = data, crsfrom, crsto)
+  projections <- get_projections(data, crsfrom, crsto)
+
+  # fortify then project
+  df <- spatial_fortify(data, attribute_table)
+  check_spatial_fortify(data, df)
+
+  df[, c(".long", ".lat")] <- xyTransform(df$.long, df$.lat,
+                                          projections$crsfrom, projections$crsto)
+
+  # find the geom, stat and default aesthetics
+  if(identical(geom, NA)) {
+    geom <- spatial_geom(data)
+  }
+  if(identical(stat, NA)) {
+    stat <- spatial_stat(data)
+  }
+
+  final_mapping <- override_aesthetics(mapping, spatial_default_aes(data))
 
   # return layer
   layer(
-    stat = StatProject, data = data, mapping = mapping, geom = geom,
-    show.legend = show.legend, inherit.aes = inherit.aes, position = "identity",
-    params=c(projections, list(...))
-  )
-}
-
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialPoints <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                       position = "identity", crsfrom = NA, crsto = NA,
-                                       attribute_table = NULL, ...) {
-
-  # get projections
-  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
-
-  # extract coordinates
-  coords <- sp::coordinates(data)
-  df <- data.frame(.x=coords[,1], .y=coords[,2])
-  # create mapping
-  final_mapping <- ggplot2::aes_string(".x", ".y")
-
-  if(is.null(attribute_table)) {
-    # warn if the user tried to pass a mapping
-    if(!is.null(mapping)) message("Ignoring argument 'mapping' in geom_spatial.SpatialPoints")
-    # warn if user tried to pass inherit.aes = TRUE
-    if(!is.null(inherit.aes)) message("Ignoring argument 'inherit.aes' in geom_spatial.SpatialPoints")
-  } else {
-    # ensure mapping is an uneval object
-    if(!is.null(mapping) && !inherits(mapping, "uneval")) {
-      stop("mapping must be created with aes() or aes_string()")
-    }
-    # ensure data has same length as coordinates and join
-    if(nrow(df) != nrow(attribute_table)) {
-      stop("Number of points and number of rows in attribute_table are not identical")
-    }
-    df <- cbind(df, attribute_table)
-
-    # add coordinates to mapping
-    final_mapping <- c(mapping, ggplot2::aes_string(".x", ".y"))
-    class(final_mapping) <- "uneval"
-  }
-
-  # return layer
-  layer(
-    stat = StatProject, data = df, mapping = final_mapping, geom = "point",
-    show.legend = show.legend, inherit.aes = FALSE, position = position,
-    params=c(projections, list(...))
-  )
-}
-
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialPointsDataFrame <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                                position = "identity", crsfrom = NA,
-                                                crsto = NA, ...) {
-  # use geom_spatial.SpatialPoints with attribute_table
-  geom_spatial.SpatialPoints(sp::SpatialPoints(data, proj4string = data@proj4string),
-                             mapping = mapping, show.legend = show.legend,
-                             inherit.aes = inherit.aes, position = position, crsfrom = crsfrom,
-                             crsto = crsto, attribute_table = data@data, ...)
-}
-
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialLines <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                      position = "identity", crsfrom = NA, crsto = NA,
-                                      attribute_table = NULL, ...) {
-  # SpatialLines don't have a fortify function, so it's best just to create a
-  # SpatialLinesDataFrame
-
-  if(is.null(attribute_table)) {
-    # warn if the user tried to pass a mapping
-    if(!is.null(mapping)) message("Ignoring argument 'mapping' in geom_spatial.SpatialLines")
-    # warn if user tried to pass inherit.aes = TRUE
-    if(!is.null(inherit.aes)) message("Ignoring argument 'inherit.aes' in geom_spatial.SpatialLines")
-    # create dummy attribute_table
-    attribute_table <- data.frame(.dummy=1:length(data), row.names=row.names(data))
-  }
-
-  # create SpatialLinesDataFrame
-  spldf <- sp::SpatialLinesDataFrame(data, attribute_table)
-
-  # return result of geom_spatial.SpatialLinesDataFrame
-  geom_spatial.SpatialLinesDataFrame(spldf, mapping = mapping, show.legend = show.legend,
-                                     inherit.aes = FALSE, position = position,
-                                     crsfrom = crsfrom, crsto = crsto, ...)
-}
-
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialLinesDataFrame <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes=NULL,
-                                               position = "identity", crsfrom = NA,
-                                               crsto = NA, ...) {
-
-  # get projections
-  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
-
-  # turn the SpatialLinesDataFrame into a data.frame, join with attribute table
-  data@data$.id <- rownames(data@data)
-  data.fort <- suppressMessages(fortify.SpatialLinesDataFrame(data, data@data))
-  data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))
-  mapping <- c(ggplot2::aes_string(x="long", y="lat", group="group"), mapping)
-  class(mapping) <- "uneval"
-
-  # return layer
-  layer(
-    stat = StatProject, data = data, mapping = mapping, geom = "path",
-    show.legend = show.legend, inherit.aes = FALSE, position = position,
-    params=c(projections, list(...))
+    stat = stat, data = df, mapping = final_mapping, geom = geom,
+    show.legend = show.legend, inherit.aes = inherit.aes, position = position,
+    params=list(...)
   )
 
 }
 
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialPolygons <- function(data, mapping = NULL, show.legend = TRUE,
-                                         inherit.aes=NULL, position = "identity",
-                                         crsfrom = NA, crsto = NA,
-                                         rule = "winding", attribute_table = NULL, ...) {
-
-  # creating a SpatialPolygonsDataFrame and using
-  # geom_spatial.SpatialPolygonsDataFrame
-
-  if(is.null(attribute_table)) {
-    # warn if the user tried to pass a mapping
-    if(!is.null(mapping)) message("Ignoring argument 'mapping' in geom_spatial.SpatialPolygons")
-    # warn if user tried to pass inherit.aes = TRUE
-    if(!is.null(inherit.aes)) message("Ignoring argument 'inherit.aes' in geom_spatial.SpatialPolygons")
-    # create dummy attribute_table
-    attribute_table <- data.frame(.dummy=1:length(data), row.names=row.names(data))
-  }
-
-  # create SpatialPolygonsDataFrame
-  sppdf <- sp::SpatialPolygonsDataFrame(data, attribute_table)
-
-  # return result of geom_spatial.SpatialPolygonsDataFrame
-  geom_spatial.SpatialPolygonsDataFrame(sppdf, mapping = mapping, show.legend = show.legend,
-                                        inherit.aes = FALSE, position = position,
-                                        crsfrom = crsfrom, crsto = crsto, rule = rule, ...)
-}
-
-#' @rdname geom_spatial
-#' @export
-geom_spatial.SpatialPolygonsDataFrame <- function(data, mapping = NULL, show.legend = TRUE,
-                                                  inherit.aes=NULL, position = "identity",
-                                                  crsfrom = NA, crsto = NA,
-                                                  rule = "winding", ...) {
-  # get projections
-  projections <- get_projections(data = data, crsfrom = crsfrom, crsto = crsto)
-
-  # turn the SpatialPolygonsDataFrame into a data.frame, join with attribute table
-  data@data$.id <- rownames(data@data)
-  data.fort <- suppressMessages(fortify.SpatialPolygonsDataFrame(data))
-  data <- suppressWarnings(merge(data.fort, data@data, by.x="id", by.y=".id"))
-
-  # add 'fortified' fields to mapping
-  if(is.null(mapping)) {
-    mapping <- ggplot2::aes()
-  }
-  mapping <- c(mapping, ggplot2::aes_string("long", "lat", group="group"))
-  class(mapping) <- "uneval"
-
-  # return layer
-  layer(
-    stat = StatProject, data = data, mapping = mapping, geom = GeomPolypath2,
-    show.legend = show.legend, inherit.aes = FALSE, position = position,
-    params=c(projections, list(na.rm = FALSE, rule=rule, ...))
-  )
-}
-
-# this is used by most S3s to get projection info
-# note that 'data' cannot be missing
 get_projections <- function(data, crsfrom = NA, crsto = NA) {
   # process projection information before finding methods
 
@@ -258,6 +99,21 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
     crsfrom <- as.CRS(data)
   }
 
+  if(identical(crsfrom, NA)) {
+    message("Assuming input coordinates are lat/lon")
+    crsfrom_out <- as.CRS(4326)
+  } else {
+    crsfrom_out <- crsfrom
+  }
+
+  # assign defaults here
+  if(identical(crsto, NA)) {
+    if(!identical(crsfrom, NA)) message("Converting coordinates to lat/lon")
+    crsto_out <- as.CRS(4326)
+  } else {
+    crsto_out <- crsto
+  }
+
   # return list in the form used by StatProject
-  list(crsfrom = crsfrom, crsto = crsto)
+  list(crsfrom = crsfrom_out, crsto = crsto_out)
 }

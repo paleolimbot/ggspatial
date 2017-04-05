@@ -6,7 +6,7 @@ GeomPolypath2 <- ggproto(
   "GeomPolypath",
   GeomPolygon,
   extra_params = c("na.rm", "rule"),
-  draw_panel = function(data, scales, coordinates, rule) {
+  draw_panel = function(data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
     if (n == 1)
       return(zeroGrob())

@@ -49,7 +49,6 @@ Notice that `geom_osm()` doesn't need any arguments. Cool, right!? For more info
 Many (but not all) objects of type `Spatial*` can be used with `ggplot` using the `fortify()` family, but syntax is inconsistent and results vary. This package introduces a single `geom_` for use with `Spatial*` objects (e.g. `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, `SpatialPolygonsDataFrame`...essentially what you get when you use `rgdal::readOGR()` or `maptools::readShapeSpatial()` to read any kind of spatial data). A few spatial objects are included in the package as examples, namely the `longlake_*` series of layers that I used to create my honours thesis figures (a distressingly long time ago, I may add).
 
 ```{r, warning=FALSE, message=FALSE}
-library(ggspatial)
 data(longlake_waterdf)
 ggplot() + 
   geom_spatial(longlake_waterdf, fill="lightblue") + 
@@ -85,7 +84,8 @@ ggplot() +
                crsto=3857) +
   geom_spatial(longlake_depthdf, aes(col=DEPTH.M), size=2,
                crsto=3857) +
-  scale_color_gradient(low = "red", high = "blue")
+  scale_color_gradient(low = "red", high = "blue") +
+  coord_fixed()
   
 ```
 
@@ -96,8 +96,7 @@ Using the [rosm package](https://github.com/paleolimbot/rosm), `ggspatial` can l
 ```{r, message = FALSE}
 ggosm(type = "stamenwatercolor") + 
   geom_spatial(longlake_waterdf, fill = "red", alpha = 0.25) +
-  geom_spatial(longlake_roadsdf, lty = 2) +
-  coord_map()
+  geom_spatial(longlake_roadsdf, lty = 2)
 ```
 
 So far we've only used `ggosm()` with no arguments, where it provides an auotmatic backdrop for all of the other layers. The first argument of `ggosm()` (and `geom_osm()`) is actually a bounding box (or an object from which one can be extracted, such as a `Spatial*` object, a `Raster*` object, a set of lon/lat coordinates, or a string of the location name, geocoded using `prettymapr::geocode`). When used with `ggosm()`, the most useful usage is a location name. It's worth noting that passing a vector of location names results in a bounding box containing all of them, so custom bounding boxes can be constructed a little more easily.
@@ -116,14 +115,14 @@ head(raster_df)
 ```
 
 ```{r}
-ggplot(longlake_osm, aes(x, y, fill = band1)) + 
+ggplot(longlake_osm, aes(long, lat, fill = band1)) + 
   geom_raster() + 
   coord_fixed()
 ```
 
 ```{r}
 raster_df_long <- fortify(longlake_osm, format = "long")
-ggplot(raster_df_long, aes(x, y, fill = value)) + 
+ggplot(raster_df_long, aes(long, lat, fill = value)) + 
   geom_raster() + facet_wrap(~band) +
   coord_fixed()
 ```
