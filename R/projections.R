@@ -17,7 +17,11 @@
 #' as.CRS(longlake_osm) # raster
 #' as.CRS(longlake_waterdf) # spatial
 #'
-as.CRS <- function(x) {
+as.CRS <- function(x) UseMethod("as.CRS")
+
+#' @rdname as.CRS
+#' @export
+as.CRS.default <- function(x) {
   if(is.null(x)) {
     NULL
   } else if(methods::is(x, "CRS")) {
