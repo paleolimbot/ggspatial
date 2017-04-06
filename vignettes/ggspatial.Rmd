@@ -60,7 +60,7 @@ ggplot() +
 
 It is actually not necessary to wrap objects in `fortify()` when passing them to `ggplot()` or `geom_*` or `stat_*` functions; `ggplot2` will do this for you if you should so choose. More likely, if you need the raw data produced by `fortify()`, you will want to calculate this prior to creating the plot anyway. You will notice that the code is slightly repetitive (the mapping is always `aes(long, lat, ...)`) and doesn't allow mapping of attributes that the spatial object may contain.
 
-This package (currently) contains `fortify()` implementations for `SpatialPoints`, `SpatialPointsDataFrame`, and `Raster` objects. The ggplot2 package contains implementations for `Polygon`, `Polygons`, `SpatialPolygons`, `SpatialPolygonsDataFrame`, `Line`, `Lines`, `SpatialLines`, and `SpatialLinesDataFrame`. Creating your own `fortify.ClassName()` function for a spatial object not included in this package is likely all you will need to add this functionality.
+This package (currently) contains `fortify()` implementations for `SpatialPoints`, `SpatialPointsDataFrame`, `SpatialLines`, and `Raster` objects. The ggplot2 package contains implementations for `Polygon`, `Polygons`, `SpatialPolygons`, `SpatialPolygonsDataFrame`, `Line`, `Lines`, and `SpatialLinesDataFrame`.
 
 ## Using spatial_fortify()
 
