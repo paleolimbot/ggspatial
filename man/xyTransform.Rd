@@ -27,7 +27,7 @@ thrown if non-finite values exist.}
 \item{bbox}{The bounding box to transform. Note that bounding boxes are not truly
 transformed bounding boxes, but the bounding box of the transformed lower-left
 and upper-right coordinates. This is a perfect approximation in cylindrical
-systems but questionable in more complex systems.}
+systems but questionable in more complex ones.}
 }
 \value{
 A matrix with 2 columns (x and y)

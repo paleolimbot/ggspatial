@@ -18,7 +18,9 @@
 #' as.CRS(longlake_waterdf) # spatial
 #'
 as.CRS <- function(x) {
-  if(methods::is(x, "CRS")) {
+  if(is.null(x)) {
+    NULL
+  } else if(methods::is(x, "CRS")) {
     x
   } else if(methods::is(x, "Spatial")) {
     if(!is.na(rgdal::CRSargs(x@proj4string))) {
@@ -48,7 +50,7 @@ as.CRS <- function(x) {
 #' @param bbox The bounding box to transform. Note that bounding boxes are not truly
 #'   transformed bounding boxes, but the bounding box of the transformed lower-left
 #'   and upper-right coordinates. This is a perfect approximation in cylindrical
-#'   systems but questionable in more complex systems.
+#'   systems but questionable in more complex ones.
 #' @param from The source projection, or an object that can be coerced to one
 #'   using \link{as.CRS}
 #' @param to The destination projection, or an object that can be coerce to one

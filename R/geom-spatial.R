@@ -90,7 +90,9 @@ geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inher
 }
 
 get_projections <- function(data, crsfrom = NA, crsto = NA) {
-  # process projection information before finding methods
+
+  # null crsfrom is ambiguous
+  if(is.null(crsfrom)) stop("Value of 'crsfrom' cannot be NULL")
 
   crsfrom <- as.CRS(crsfrom)
   crsto <- as.CRS(crsto)
@@ -106,14 +108,21 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
     crsfrom_out <- crsfrom
   }
 
-  # assign defaults here
-  if(identical(crsto, NA)) {
-    if(!identical(crsfrom, NA)) message("Converting coordinates to lat/lon")
-    crsto_out <- as.CRS(4326)
+  # null crsto means don't project
+  if(is.null(crsto)) {
+    crsto_out <- crsfrom
   } else {
-    crsto_out <- crsto
+
+    # assign crs to here
+    if(identical(crsto, NA)) {
+      if(!identical(crsfrom, NA)) message("Converting coordinates to lat/lon")
+      crsto_out <- as.CRS(4326)
+    } else {
+      crsto_out <- crsto
+    }
+
   }
 
-  # return list in the form used by StatProject
+  # return list of crsfrom and crsto
   list(crsfrom = crsfrom_out, crsto = crsto_out)
 }
