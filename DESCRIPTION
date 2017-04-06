@@ -18,7 +18,6 @@ Imports:
     reshape2,
     methods,
     rgdal,
-    maptools,
     plyr,
     raster,
     scales

@@ -16,6 +16,7 @@
 \alias{spatial_geom.SpatialLines}
 \alias{spatial_geom.SpatialPoints}
 \alias{spatial_geom.SpatialPolygons}
+\alias{spatial_geom.default}
 \alias{spatial_stat}
 \title{Guess ggplot parameters based on a spatial object}
 \usage{
@@ -46,6 +47,8 @@
 \method{spatial_default_aes}{SpatialPolygons}(x)
 
 spatial_geom(x)
+
+\method{spatial_geom}{default}(x)
 
 spatial_stat(x)
 

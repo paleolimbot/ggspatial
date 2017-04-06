@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' # using stat_rgba()
-#' ggplot(longlake_osm, aes(x, y)) +
+#' ggplot(longlake_osm, aes(long, lat)) +
 #'   stat_rgba(aes(red = band1, green = band2, blue = band3, alpha = 1),
 #'             limits_red = NULL, limits_green = NULL, limits_blue = NULL,
 #'             limits_alpha = NULL, interpolate = TRUE) +
@@ -48,27 +48,27 @@ stat_rgba <- function(mapping = NULL, data = NULL, ..., limits_red = NA, limits_
 
 StatRgba <- ggplot2::ggproto("StatRgba", ggplot2::Stat,
 
-                             compute_group = function(data, scales, limits_red = NA, limits_green = NA,
-                                                      limits_blue = NA, limits_alpha = NA) {
+   compute_group = function(data, scales, limits_red = NA, limits_green = NA,
+                            limits_blue = NA, limits_alpha = NA) {
 
-                               # rescale data between 0 and 255 for RGB, 0 and 1 for alpha
-                               data$red <- rescale_item(data$red, limits_red, to = c(0, 255))
-                               data$green <- rescale_item(data$green, limits_green, to = c(0, 255))
-                               data$blue <- rescale_item(data$blue, limits_blue, to = c(0, 255))
-                               data$alpha <- rescale_item(data$alpha, limits_alpha, to = c(0, 1))
+     # rescale data between 0 and 255 for RGB, 0 and 1 for alpha
+     data$red <- rescale_item(data$red, limits_red, to = c(0, 255))
+     data$green <- rescale_item(data$green, limits_green, to = c(0, 255))
+     data$blue <- rescale_item(data$blue, limits_blue, to = c(0, 255))
+     data$alpha <- rescale_item(data$alpha, limits_alpha, to = c(0, 1))
 
-                               not_finite <- !complete.cases(data[c("red", "green", "blue", "alpha")])
+     not_finite <- !complete.cases(data[c("red", "green", "blue", "alpha")])
 
-                               data$rgb <- paste0("#", do.call(paste0, lapply(data[c("red", "green", "blue")],
-                                                                              as.character.hexmode, 2)))
-                               data$rgb[not_finite] <- NA
+     data$rgb <- paste0("#", do.call(paste0, lapply(data[c("red", "green", "blue")],
+                                                    as.character.hexmode, 2)))
+     data$rgb[not_finite] <- NA
 
-                               data
-                             },
+     data
+   },
 
-                             required_aes = c("red", "green", "blue", "alpha"),
+   required_aes = c("red", "green", "blue", "alpha"),
 
-                             default_aes = aes(fill = ..rgb..)
+   default_aes = aes(fill = ..rgb..)
 )
 
 # this rescale item appears in StatRgba

@@ -33,7 +33,7 @@ it is slow, and in general, only good for very small datasets.
 }
 \examples{
 # using stat_rgba()
-ggplot(longlake_osm, aes(x, y)) +
+ggplot(longlake_osm, aes(long, lat)) +
   stat_rgba(aes(red = band1, green = band2, blue = band3, alpha = 1),
             limits_red = NULL, limits_green = NULL, limits_blue = NULL,
             limits_alpha = NULL, interpolate = TRUE) +

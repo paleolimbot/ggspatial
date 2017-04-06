@@ -2,6 +2,7 @@
 % Please edit documentation in R/geom-spatial.R
 \name{geom_spatial}
 \alias{geom_spatial}
+\alias{geom_spatial.data.frame}
 \alias{geom_spatial.default}
 \alias{ggspatial}
 \title{A ggplot2 geom for Spatial* objects}
@@ -9,6 +10,8 @@
 geom_spatial(data, mapping = NULL, ...)
 
 ggspatial(data, mapping = NULL, ...)
+
+\method{geom_spatial}{data.frame}(data, mapping = NULL, ...)
 
 \method{geom_spatial}{default}(data, mapping = NULL, show.legend = TRUE,
   inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
@@ -25,7 +28,7 @@ ggspatial(data, mapping = NULL, ...)
 
 \item{inherit.aes}{Logical describing if aesthetics are inherited}
 
-\item{position}{Passed on to geom_*}
+\item{position}{Passed on to the layer}
 
 \item{crsfrom}{An object that can be coerced to a CRS using \link{as.CRS}; defaults
 to the CRS of the data or lat/lon if that does not exist}
@@ -36,9 +39,9 @@ lat/lon so that the plot can be projected using coord_map()}
 \item{attribute_table}{For SpatialPoints, SpatialLines, and SpatialPolygons, an attribute
 table that matches the input object.}
 
-\item{geom}{For data frames, the geometry to use}
+\item{geom}{The geometry to use for the object (NA to guess: see \link{spatial_geom})}
 
-\item{rule}{One of 'evenodd' or 'winding', if the Spatial object is a polygon layer.}
+\item{stat}{The statistic to apply (NA to guess, is probably "identity": see \link{spatial_stat})}
 }
 \value{
 A ggplot2 'layer' object.
@@ -50,15 +53,6 @@ specified. The result is a \code{geom_*} for use with ggplot2, with aesthetics
 and other argumets passed on to that geom.
 }
 \examples{
-\donttest{
-library(prettymapr)
-ns <- searchbbox("Nova Scotia")
-cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
-ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(crsto=26920)
-# default projection is Spherical Mercator (EPSG:3857)
-ggplot(cities, aes(x=lon, y=lat)) + geom_spatial() + coord_map()
-}
-
 # plot a number of spatial objects
 ggplot() +
   geom_spatial(longlake_waterdf, fill="lightblue") +

@@ -38,7 +38,7 @@ with the attribute table. If there is no attribute table, the results of fortify
 returned with the column names preceeded by a \code{.}.
 }
 \examples{
-head(spatial_fortify(longlake_depthsdf))
+head(spatial_fortify(longlake_depthdf))
 
 }
 

@@ -26,6 +26,8 @@ ggraster(data, mapping = NULL, ...)
 
 \item{crsto}{Override the source projection}
 
+\item{attribute_table}{Not used by this method}
+
 \item{geom}{The geometry to use. Defaults to raster (obviously), but could also
 be another value if used with a different stat (e.g. contour)}
 

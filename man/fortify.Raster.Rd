@@ -32,7 +32,7 @@ etc., for use in creating a mapping.
 \examples{
 # use with ggplot()
 df <- fortify(longlake_osm)
-ggplot(df, aes(x, y, fill = band1)) + geom_raster() +
+ggplot(df, aes(long, lat, fill = band1)) + geom_raster() +
   coord_fixed()
 \donttest{
 # identical usage with ggraster()

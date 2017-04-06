@@ -19,6 +19,7 @@
 #' @param inherit.aes Should aesthetics be inherited from the base plot?
 #' @param crsfrom Override the source projection
 #' @param crsto Override the source projection
+#' @param attribute_table Not used by this method
 #' @param ... Further arguments passed to the stat/geom
 #'
 #' @return A ggplot2 layer
@@ -61,8 +62,8 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
 ggraster <- function(data, mapping = NULL, ...) {
   if(!methods::is(data, "Raster")) stop("ggraster is only applicable to objects of class Raster")
   ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) +
-    coord_fixed() +
-    labs(x = "long", y = "lat")
+    ggplot2::coord_fixed() +
+    ggplot2::labs(x = "long", y = "lat")
 }
 
 #' Turn a Raster into a data.frame
@@ -90,7 +91,7 @@ ggraster <- function(data, mapping = NULL, ...) {
 #' @examples
 #' # use with ggplot()
 #' df <- fortify(longlake_osm)
-#' ggplot(df, aes(x, y, fill = band1)) + geom_raster() +
+#' ggplot(df, aes(long, lat, fill = band1)) + geom_raster() +
 #'   coord_fixed()
 #' \donttest{
 #' # identical usage with ggraster()

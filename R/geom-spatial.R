@@ -11,15 +11,15 @@
 #' @param mapping A mapping as created by \code{aes()} or \code{aes_string()}
 #' @param show.legend Logical describing the legend visibility.
 #' @param inherit.aes Logical describing if aesthetics are inherited
-#' @param position Passed on to geom_*
+#' @param position Passed on to the layer
 #' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
 #'   to the CRS of the data or lat/lon if that does not exist
 #' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
 #'   lat/lon so that the plot can be projected using coord_map()
-#' @param geom For data frames, the geometry to use
+#' @param geom The geometry to use for the object (NA to guess: see \link{spatial_geom})
+#' @param stat The statistic to apply (NA to guess, is probably "identity": see \link{spatial_stat})
 #' @param attribute_table For SpatialPoints, SpatialLines, and SpatialPolygons, an attribute
 #'   table that matches the input object.
-#' @param rule One of 'evenodd' or 'winding', if the Spatial object is a polygon layer.
 #' @param ... Agruments passed on to the \code{geom_*} (e.g. \code{lwd}, \code{fill}, etc.)
 #'
 #' @return A ggplot2 'layer' object.
@@ -29,15 +29,6 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' library(prettymapr)
-#' ns <- searchbbox("Nova Scotia")
-#' cities <- geocode(c("Wolfville, NS", "Windsor, NS", "Halifax, NS"))
-#' ggplot(cities, aes(x=lon, y=lat)) + geom_spatial(crsto=26920)
-#' # default projection is Spherical Mercator (EPSG:3857)
-#' ggplot(cities, aes(x=lon, y=lat)) + geom_spatial() + coord_map()
-#' }
-#'
 #' # plot a number of spatial objects
 #' ggplot() +
 #'   geom_spatial(longlake_waterdf, fill="lightblue") +
@@ -52,8 +43,14 @@ geom_spatial <- function(data, mapping = NULL, ...) UseMethod("geom_spatial")
 #' @export
 #' @rdname geom_spatial
 ggspatial <- function(data, mapping = NULL, ...) {
-  ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map() +
-    labs(x = "long", y = "lat")
+  ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + ggplot2::coord_map() +
+    ggplot2::labs(x = "long", y = "lat")
+}
+
+#' @rdname geom_spatial
+#' @export
+geom_spatial.data.frame <- function(data, mapping = NULL, ...) {
+  stop("Use stat_project to apply projections to data frame input")
 }
 
 #' @export

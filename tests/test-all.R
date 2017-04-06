@@ -9,27 +9,8 @@ data("longlake_roadsdf")
 data("longlake_streamsdf")
 data("longlake_osm")
 
+# mapproj needs to be installed for
 library(mapproj) # library this to keep R CMD check from yelling at me
-
-# test a data.frame
-depthsdf <- data.frame(longlake_depthdf)
-
-# three cases
-ggplot(depthsdf, aes(LON, LAT)) + geom_spatial()
-ggplot() + geom_spatial(depthsdf, aes(LON, LAT))
-ggplot(NULL, aes(LON, LAT)) + geom_spatial(depthsdf)
-
-# check aesthetic mapping
-ggplot(depthsdf, aes(LON, LAT, col=DEPTH)) + geom_spatial()
-ggplot() + geom_spatial(depthsdf, aes(LON, LAT, col=DEPTH))
-
-# check show.legend
-ggplot(depthsdf, aes(LON, LAT, col=DEPTH)) + geom_spatial(show.legend = FALSE)
-
-# check inherit.aes
-ggplot(NULL, aes(col=DEPTH)) +
-  geom_spatial(depthsdf, aes(LON, LAT), inherit.aes=FALSE)
-
 
 # check SpatialPoints
 spoints <- SpatialPoints(longlake_depthdf, proj4string = longlake_depthdf@proj4string)
@@ -76,12 +57,12 @@ ggspatial(longlake_waterdf, aes(fill = label)) # fill
 ggspatial(longlake_waterdf, aes(fill = label), col = "red") # fill with different outline color
 
 # check mapped outlines
-ggspatial(longlake_waterdf, aes(col = id), fill = "white") # outline with different fill color
+ggspatial(longlake_waterdf, aes(col = .id), fill = "white") # outline with different fill color
 ggspatial(longlake_waterdf, aes(lty = label), fill = "white", col = "black") # outline with different fill color
-ggspatial(longlake_waterdf, aes(lwd = as.numeric(id)), fill = "white", col = "black")
+ggspatial(longlake_waterdf, aes(lwd = as.numeric(.id)), fill = "white", col = "black")
 
 # check mapped alpha
-ggspatial(longlake_waterdf, aes(alpha = id), fill = "white") # outline with different fill color
+ggspatial(longlake_waterdf, aes(alpha = .id), fill = "white") # outline with different fill color
 
 # check fill = NA
 ggspatial(longlake_waterdf, fill = NA, col = "black")
@@ -89,7 +70,7 @@ ggspatial(longlake_waterdf, fill = NA, col = "black")
 # check fill = NA with mapped outlines
 ggspatial(longlake_waterdf, aes(col = label), fill = NA)
 ggspatial(longlake_waterdf, aes(lty = label), fill = NA, col = "black")
-ggspatial(longlake_waterdf, aes(lwd = as.numeric(id)), fill = NA, col = "black")
+ggspatial(longlake_waterdf, aes(lwd = as.numeric(.id)), fill = NA, col = "black")
 
 
 # check final plot

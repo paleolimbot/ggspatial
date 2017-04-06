@@ -30,6 +30,9 @@
 #' spatial_geom(longlake_osm) # GeomRaster
 #'
 spatial_geom <- function(x) UseMethod("spatial_geom")
+
+#' @rdname spatial_geom
+#' @export
 spatial_geom.default <- function(x) ggplot2::GeomPoint
 
 #' @rdname spatial_geom

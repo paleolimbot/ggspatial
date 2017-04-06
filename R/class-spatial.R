@@ -3,7 +3,10 @@
 
 #' Create a data.frame from Spatial* objects
 #'
-#' Methods to turn Spatial* objects into data.frames.
+#' Methods to turn Spatial* objects into data.frames
+#'
+#' Several methods are missing from ggplot2, including \link[ggplot2]{fortify}
+#' implementations for SpatialPoints, SpatialPointsDataFrame, and SpatialLines.
 #'
 #' @param model The object
 #' @param data Not used by this method
@@ -14,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' fortify(longlake_depthsdf)
+#' fortify(longlake_depthdf)
 #'
 fortify.SpatialPoints <- function(model, data = NULL, ...) {
   coords <- sp::coordinates(model)
@@ -26,6 +29,12 @@ fortify.SpatialPoints <- function(model, data = NULL, ...) {
 fortify.SpatialPointsDataFrame <- function(model, data = NULL, ...) {
   coords <- sp::coordinates(model)
   data.frame(id=1:nrow(coords), long = coords[, 1], lat = coords[, 2])
+}
+
+#' @rdname fortify.SpatialPoints
+#' @export
+fortify.SpatialLines <- function(model, data, ...) {
+  plyr::ldply(model@lines, fortify)
 }
 
 # ----------- spatial_fortify definitions ---------------
@@ -61,8 +70,8 @@ spatial_fortify.SpatialLinesDataFrame <- function(x, attrs = NA, ...) {
 #' @rdname spatial_fortify
 #' @export
 spatial_fortify.SpatialPolygonsDataFrame <- function(x, attrs = NA, ...) {
-  # same as spatial lines data frame
-  spatial_fortify.SpatialLinesDataFrame(x, attrs = attrs, ...)
+  # same as spatial lines data frame with suppressMessages
+  suppressMessages(spatial_fortify.SpatialLinesDataFrame(x, attrs = attrs, ...))
 }
 
 

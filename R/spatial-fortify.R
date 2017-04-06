@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-#' head(spatial_fortify(longlake_depthsdf))
+#' head(spatial_fortify(longlake_depthdf))
 #'
 spatial_fortify <- function(x, attrs = NULL, ...) UseMethod("spatial_fortify")
 
