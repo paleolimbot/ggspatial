@@ -66,15 +66,15 @@ geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FAL
 
   # if x in NULL, this geom shouldn't have any influence on scale training
   if(is.null(x)) {
-    data <- data.frame(x=NA_real_, y=NA_real_)
+    data <- data.frame(long = NA_real_, lat = NA_real_)
   } else {
     # use the bounding box as the data
     bbox <- rosm::extract_bbox(x)
-    data <- data.frame(x = bbox[1, ], y = bbox[2, ])
+    data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
   }
 
   # return GeomTileSource layer
-  layer(data = data, mapping = ggplot2::aes_string("x", "y"),
+  layer(data = data, mapping = ggplot2::aes_string("long", "lat"),
         position = "identity", geom = GeomTileSource, stat = "identity",
         show.legend = FALSE, inherit.aes = FALSE,
         params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,

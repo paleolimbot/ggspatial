@@ -2,11 +2,51 @@
 # this is a revised version of GeomPolypath from the ggpolypath package
 # see https://github.com/mdsumner/ggpolypath/issues/3
 
-GeomPolypath2 <- ggproto(
+
+
+#' Polygons with holes in ggplot2
+#'
+#' This geometry correctly plots polygons with holes in ggplot2 at the
+#' expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}. This
+#' implementation fixes a bug in the \code{ggpolypath} package, which provides
+#' similar functionality.
+#'
+#' @param mapping An aesthetic mapping, created with \link[ggplot2]{aes}. The aesthetic
+#'   will mostly likely need to contain a \code{group} mapping.
+#' @param data A data.frame containing the coordinates to plot.
+#' @param stat A statistic to apply (most likely "identity")
+#' @param position A position to apply (most likely "identity")
+#' @param na.rm Should missing coordinate be removed?
+#' @param show.legend Should a legend be shown for mapped aesthetics?
+#' @param inherit.aes Should aesthetics be inherited?
+#' @param rule A fill rule to apply. One of "winding" or "evenodd".
+#' @param ... Passed to the geom and/or stat.
+#'
+#' @return A ggplot2 layer
+#' @export
+#'
+#' @examples
+#' ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +
+#'   geom_polypath()
+#'
+geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
+                           na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, rule = "winding",
+                           ...) {
+  if(!(rule %in% c("winding", "evenodd"))) {
+    stop("geom_polypath: 'rule' must be 'evenodd', or 'winding'")
+  }
+
+  ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomPolypath,
+                 position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+                 params = list(na.rm = na.rm , rule = rule, ...))
+}
+
+
+GeomPolypath <- ggproto(
   "GeomPolypath",
   GeomPolygon,
   extra_params = c("na.rm", "rule"),
-  draw_panel = function(data, scales, coordinates, rule) {
+  draw_panel = function(data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
     if (n == 1)
       return(zeroGrob())
@@ -28,7 +68,7 @@ GeomPolypath2 <- ggproto(
     groups <- with(munched, paste(fill, colour, alpha, size, linetype))
 
     ggplot2:::ggname(
-      "geom_holygon",
+      "geom_polypath",
       do.call(grid::grobTree, lapply(split(munched, groups), object_munch))
     )
   }

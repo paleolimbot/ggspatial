@@ -33,6 +33,5 @@ ggplot() +
   geom_spatial(longlake_waterdf, toepsg = 26920) +
   coord_fixed()
 
-
 }
 
