@@ -61,7 +61,6 @@ Spatial objects
 Many (but not all) objects of type `Spatial*` can be used with `ggplot` using the `fortify()` family, but syntax is inconsistent and results vary. This package introduces a single `geom_` for use with `Spatial*` objects (e.g. `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, `SpatialPolygonsDataFrame`...essentially what you get when you use `rgdal::readOGR()` or `maptools::readShapeSpatial()` to read any kind of spatial data). A few spatial objects are included in the package as examples, namely the `longlake_*` series of layers that I used to create my honours thesis figures (a distressingly long time ago, I may add).
 
 ``` r
-library(ggspatial)
 data(longlake_waterdf)
 ggplot() + 
   geom_spatial(longlake_waterdf, fill="lightblue") + 
@@ -104,7 +103,8 @@ ggplot() +
                crsto=3857) +
   geom_spatial(longlake_depthdf, aes(col=DEPTH.M), size=2,
                crsto=3857) +
-  scale_color_gradient(low = "red", high = "blue")
+  scale_color_gradient(low = "red", high = "blue") +
+  coord_fixed()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
@@ -116,9 +116,8 @@ Using the [rosm package](https://github.com/paleolimbot/rosm), `ggspatial` can l
 
 ``` r
 ggosm(type = "stamenwatercolor") + 
-  geom_spatial(longlake_waterdf, fill = "red", alpha = 0.25) +
-  geom_spatial(longlake_roadsdf, lty = 2) +
-  coord_map()
+  geom_spatial(longlake_waterdf, col = "black", fill = NA, size = 1.5) +
+  geom_spatial(longlake_roadsdf, lty = 3)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
@@ -134,7 +133,7 @@ ggosm("nova scotia")
 Rasters
 -------
 
-A number of packages exist ('raster' being one of them) to efficiently deal with raster data, but if you are really keen on using ggplot, there are a couple of tools in `ggspatial` to help yout out. The first is a `fortify()` implementation of the `Raster` class, so that you can pass a `Raster` wherever you would pass a data.frame in ggplot and expect a data.frame with columns x, y, band1, band2, and so on. You can call `fortify()` with `format = "long"` to return a melted form of the Raster, which as far as I can tell is only useful for facetting.
+A number of packages exist ('raster' being one of them) to efficiently deal with raster data, but if you are really keen on using ggplot, there are a couple of tools in `ggspatial` to help you out. The first is a `fortify()` implementation of the `Raster` class, so that you can pass a `Raster` wherever you would pass a data.frame in ggplot and expect a data.frame with columns x, y, band1, band2, and so on. You can call `fortify()` with `format = "long"` to return a melted form of the Raster, which as far as I can tell is only useful for facetting.
 
 ``` r
 raster_df <- fortify(longlake_osm)
@@ -149,16 +148,16 @@ raster_df <- fortify(longlake_osm)
 head(raster_df)
 ```
 
-    ##          x       y band1 band2 band3
-    ## 1 409891.4 5084849   180   217   163
-    ## 2 409894.8 5084849   184   219   164
-    ## 3 409898.1 5084849   189   223   167
-    ## 4 409901.4 5084849   186   223   166
-    ## 5 409904.8 5084849   166   210   157
-    ## 6 409908.1 5084849   163   208   156
+    ##       long     lat    band1    band2    band3
+    ## 1 409891.4 5084849 204.4357 218.0823 203.2291
+    ## 2 409894.8 5084849 209.2256 219.4866 209.5685
+    ## 3 409898.1 5084849 213.0683 221.0443 212.6845
+    ## 4 409901.4 5084849 215.3344 222.2331 212.9323
+    ## 5 409904.8 5084849 215.6586 222.3236 213.3762
+    ## 6 409908.1 5084849 216.0629 222.4249 213.8230
 
 ``` r
-ggplot(longlake_osm, aes(x, y, fill = band1)) + 
+ggplot(longlake_osm, aes(long, lat, fill = band1)) + 
   geom_raster() + 
   coord_fixed()
 ```
@@ -167,14 +166,14 @@ ggplot(longlake_osm, aes(x, y, fill = band1)) +
 
 ``` r
 raster_df_long <- fortify(longlake_osm, format = "long")
-ggplot(raster_df_long, aes(x, y, fill = value)) + 
+ggplot(raster_df_long, aes(long, lat, fill = value)) + 
   geom_raster() + facet_wrap(~band) +
   coord_fixed()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
-There is also an implementation of `geom_spatial()` for rasters, which essentially fills in `aes(x, y)` for you, and if you're looking for an adventure, it will project and unproject the x and y coordinates. The only reason I can see that this might be useful is when using something like `stat = "contour"`, which I haven't tried yet. Unlike other implementations of `geom_spatial()`, the raster version leaves coordinates as is by default. This is largely because `geom_raster()` will not work in non-cartesian coordinate systems. It may be possible in the future to work in on-the-fly projection, but this is unlikely to be fast or useful.
+There is also an implementation of `geom_spatial()` for rasters, which essentially fills in `aes(x, y)` for you, and if you're looking for an adventure, it will project and unproject the x and y coordinates. The only reason I can see that this might be useful is when using something like `stat = "contour"`, which I haven't tried yet. Unlike other implementations of `geom_spatial()`, the raster version leaves coordinates as is by default. This is largely because `geom_raster()` will not work in non-cartesian coordinate systems. It may be possible in the future to work in on-the-fly projection, but this is unlikely to be fast or useful. You can pass `crsto = NA` to re-enable automatic projection.
 
 ``` r
 ggplot() + 
