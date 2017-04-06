@@ -7,7 +7,7 @@
 \usage{
 \method{geom_spatial}{Raster}(data, mapping = NULL, show.legend = TRUE,
   inherit.aes = FALSE, position = "identity", crsfrom = NA,
-  crsto = NULL, attribute_table = NULL, geom = NA, stat = NA, ...)
+  crsto = NULL, attribute_table = NA, geom = NA, stat = NA, ...)
 
 ggraster(data, mapping = NULL, ...)
 }

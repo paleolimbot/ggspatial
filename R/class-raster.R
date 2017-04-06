@@ -34,7 +34,7 @@
 #'
 geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes = FALSE,
                                 position = "identity", crsfrom = NA, crsto = NULL,
-                                attribute_table = NULL, geom = NA, stat = NA, ...) {
+                                attribute_table = NA, geom = NA, stat = NA, ...) {
   # check number of bands
   nbands <- raster::nlayers(data)
 
@@ -61,7 +61,8 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
 ggraster <- function(data, mapping = NULL, ...) {
   if(!methods::is(data, "Raster")) stop("ggraster is only applicable to objects of class Raster")
   ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) +
-    coord_fixed()
+    coord_fixed() +
+    labs(x = "long", y = "lat")
 }
 
 #' Turn a Raster into a data.frame
@@ -140,15 +141,21 @@ fortify.Raster <- function(model, data = NULL, format = c("wide", "long"), ...) 
 
 # the spatial_fortify is *almost* the same, except band columns should not be
 # renamed to .band1, .band2, etc.
+#' @rdname spatial_fortify
+#' @export
 spatial_fortify.Raster <- function(x, ...) {
   fortified <- fortify(x, ...)
   plyr::rename(fortified, c(long = ".long", lat = ".lat"))
 }
 
 # add geometry definition
+#' @rdname spatial_geom
+#' @export
 spatial_geom.Raster <- function(x) ggplot2::GeomRaster
 
 # add default aes definition
+#' @rdname spatial_geom
+#' @export
 spatial_default_aes.Raster <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", fill = "band1")
 }

@@ -52,14 +52,15 @@ geom_spatial <- function(data, mapping = NULL, ...) UseMethod("geom_spatial")
 #' @export
 #' @rdname geom_spatial
 ggspatial <- function(data, mapping = NULL, ...) {
-  ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map()
+  ggplot() + geom_spatial(data, mapping = mapping, ...) + coord_map() +
+    labs(x = "long", y = "lat")
 }
 
 #' @export
 #' @rdname geom_spatial
 geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes = FALSE,
                                   position = "identity", crsfrom = NA, crsto = NA,
-                                  attribute_table = NULL, geom = NA, stat = NA, ...) {
+                                  attribute_table = NA, geom = NA, stat = NA, ...) {
   # get projections
   projections <- get_projections(data, crsfrom, crsto)
 

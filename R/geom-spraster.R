@@ -79,11 +79,11 @@ geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
 
   # wraps around annotation_spraster using a blank geometry to set bounds
   bbox <- raster::as.matrix(raster@extent)
-  data <- data.frame(x = bbox[1, ], y = bbox[2, ])
+  data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
 
   # returns a list with both layers
   list(
-    ggplot2::geom_point(ggplot2::aes_string("x", "y"), data = data, alpha = 0, inherit.aes = FALSE,
+    ggplot2::geom_point(ggplot2::aes_string("long", "lat"), data = data, alpha = 0, inherit.aes = FALSE,
                         show.legend = FALSE),
     annotation_spraster(raster, interpolate = interpolate, na.value = na.value)
   )

@@ -141,8 +141,7 @@ raster_df <- fortify(longlake_osm)
 
     ## Loading required package: raster
 
-    ## Warning: no function found corresponding to methods exports from 'raster'
-    ## for: 'overlay'
+    ## Warning: package 'raster' was built under R version 3.2.5
 
 ``` r
 head(raster_df)

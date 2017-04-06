@@ -24,8 +24,11 @@ Imports:
     scales
 Suggests:
     prettymapr,
-    mapproj
+    mapproj,
+    knitr,
+    rmarkdown
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

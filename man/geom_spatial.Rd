@@ -12,7 +12,7 @@ ggspatial(data, mapping = NULL, ...)
 
 \method{geom_spatial}{default}(data, mapping = NULL, show.legend = TRUE,
   inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
-  attribute_table = NULL, geom = NA, stat = NA, ...)
+  attribute_table = NA, geom = NA, stat = NA, ...)
 }
 \arguments{
 \item{data}{A \code{Spatial*} object or \code{data.frame}.}
