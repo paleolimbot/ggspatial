@@ -82,3 +82,15 @@ ggspatial(longlake_waterdf, fill="lightblue") +
    geom_spatial(longlake_depthdf, aes(col=DEPTH.M)) +
    facet_wrap(~NOTES)+
    coord_map()
+
+# check spatial fortify of spatial objects with non-standard row.names
+# SpatialPoints
+nonstandard_sp <- longlake_depthdf
+row.names(nonstandard_sp) <- sample(nrow(nonstandard_sp), replace = FALSE)
+head(spatial_fortify(nonstandard_sp))
+
+# SpatialPolygons
+nonstandard_sp <- longlake_waterdf
+row.names(nonstandard_sp) <- as.character(sample(nrow(nonstandard_sp), replace = FALSE))
+head(spatial_fortify(nonstandard_sp))
+ggspatial(nonstandard_sp, aes(fill = label))

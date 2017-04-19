@@ -28,7 +28,7 @@ fortify.SpatialPoints <- function(model, data = NULL, ...) {
 #' @export
 fortify.SpatialPointsDataFrame <- function(model, data = NULL, ...) {
   coords <- sp::coordinates(model)
-  data.frame(id=1:nrow(coords), long = coords[, 1], lat = coords[, 2])
+  data.frame(id=row.names(model), long = coords[, 1], lat = coords[, 2])
 }
 
 #' @rdname fortify.SpatialPoints
@@ -49,7 +49,7 @@ spatial_fortify.SpatialPointsDataFrame <- function(x, attrs = NA, ...) {
 
   if(!is.null(attrs)) {
     # add .id column
-    attrs$.id <- 1:nrow(attrs)
+    attrs$.id <- row.names(x)
   }
 
   # call default method
@@ -62,6 +62,7 @@ spatial_fortify.SpatialLinesDataFrame <- function(x, attrs = NA, ...) {
   # override attribute table if present
   if(identical(attrs, NA)) {
     attrs <- x@data
+    row.names(attrs) <- row.names(x)
   }
   # call default method
   spatial_fortify.default(x, attrs, ...)
