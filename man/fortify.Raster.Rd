@@ -55,4 +55,3 @@ ggplot(df, aes(long, lat, fill = value)) +
 }
 
 }
-

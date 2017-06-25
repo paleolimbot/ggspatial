@@ -43,4 +43,3 @@ ggplot(longlake_roadsdf, aes(long, lat)) +
   coord_map()
 
 }
-

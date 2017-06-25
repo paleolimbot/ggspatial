@@ -56,4 +56,3 @@ ggraster(longlake_osm, aes(fill = band1))
 }
 
 }
-

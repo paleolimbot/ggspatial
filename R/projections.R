@@ -17,6 +17,9 @@
 #' as.CRS(longlake_osm) # raster
 #' as.CRS(longlake_waterdf) # spatial
 #'
+#' library(sf)
+#' as.CRS(st_as_sf(longlake_waterdf)) # sf
+#'
 as.CRS <- function(x) UseMethod("as.CRS")
 
 #' @rdname as.CRS
@@ -43,6 +46,12 @@ as.CRS.default <- function(x) {
   }
 }
 
+#' @rdname as.CRS
+#' @export
+as.CRS.sf <- function(x) {
+  sp::CRS(sf::st_crs(x)$proj4string)
+}
+
 #' Project XY coordinates
 #'
 #' The sp package provides a powerful interface with easy syntax for projection Spatial* objects,
@@ -67,6 +76,7 @@ as.CRS.default <- function(x) {
 #' @export
 #'
 #' @examples
+#' library(sp)
 #' all_latlons <- expand.grid(x=-180:180, y=-70:70)
 #' xyTransform(all_latlons$x, all_latlons$y, from = 4326, to = 3857)
 #' bboxTransform(bbox(longlake_osm), from = 26920)

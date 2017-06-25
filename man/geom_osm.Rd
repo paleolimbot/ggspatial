@@ -74,4 +74,3 @@ ggosm(type = "stamenwatercolor") + geom_point(aes(lon, lat), cities)
 
 
 }
-

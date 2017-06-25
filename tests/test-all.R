@@ -1,5 +1,6 @@
 
 library(ggspatial)
+library(sp)
 
 data("longlake_buildingsdf")
 data("longlake_depthdf")

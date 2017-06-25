@@ -34,4 +34,3 @@ ggplot() +
   coord_fixed()
 
 }
-

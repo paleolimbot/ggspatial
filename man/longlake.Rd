@@ -3,6 +3,7 @@
 \docType{data}
 \name{longlake_buildingsdf}
 \alias{longlake_buildingsdf}
+\alias{longlake_buildingsdf}
 \alias{longlake_depthdf}
 \alias{longlake_marshdf}
 \alias{longlake_osm}
@@ -37,4 +38,3 @@ longlake_waterdf
 A group of Spatial* objects used to test \link{geom_spatial}.
 }
 \keyword{datasets}
-
