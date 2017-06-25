@@ -10,8 +10,7 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
 License: GPL-3
 Depends:
     R (>= 2.10),
-    ggplot2 (>= 2.0),
-    sp
+    ggplot2 (>= 2.0)
 Imports:
     rosm (>= 0.2),
     abind,
@@ -20,14 +19,17 @@ Imports:
     rgdal,
     plyr,
     raster,
-    scales
+    scales,
+    sp
 Suggests:
     prettymapr,
     mapproj,
     knitr,
-    rmarkdown
+    rmarkdown,
+    sf,
+    testthat
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr

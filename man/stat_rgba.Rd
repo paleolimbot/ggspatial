@@ -45,4 +45,3 @@ ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
 }
 
 }
-

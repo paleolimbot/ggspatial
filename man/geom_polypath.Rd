@@ -42,4 +42,3 @@ ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +
   geom_polypath()
 
 }
-

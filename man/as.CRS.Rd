@@ -3,11 +3,14 @@
 \name{as.CRS}
 \alias{as.CRS}
 \alias{as.CRS.default}
+\alias{as.CRS.sf}
 \title{Extract a projection from an object}
 \usage{
 as.CRS(x)
 
 \method{as.CRS}{default}(x)
+
+\method{as.CRS}{sf}(x)
 }
 \arguments{
 \item{x}{An object}
@@ -26,5 +29,7 @@ as.CRS(4326) # integer
 as.CRS(longlake_osm) # raster
 as.CRS(longlake_waterdf) # spatial
 
-}
+library(sf)
+as.CRS(st_as_sf(longlake_waterdf)) # sf
 
+}

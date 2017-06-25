@@ -2,9 +2,9 @@
 % Please edit documentation in R/geom-spatial.R
 \name{geom_spatial}
 \alias{geom_spatial}
+\alias{ggspatial}
 \alias{geom_spatial.data.frame}
 \alias{geom_spatial.default}
-\alias{ggspatial}
 \title{A ggplot2 geom for Spatial* objects}
 \usage{
 geom_spatial(data, mapping = NULL, ...)
@@ -63,4 +63,3 @@ ggplot() +
   coord_map()
 
 }
-
