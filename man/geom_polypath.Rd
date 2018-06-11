@@ -33,9 +33,7 @@ A ggplot2 layer
 }
 \description{
 This geometry correctly plots polygons with holes in ggplot2 at the
-expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}. This
-implementation fixes a bug in the \code{ggpolypath} package, which provides
-similar functionality.
+expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}.
 }
 \examples{
 ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +

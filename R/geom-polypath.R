@@ -7,9 +7,7 @@
 #' Polygons with holes in ggplot2
 #'
 #' This geometry correctly plots polygons with holes in ggplot2 at the
-#' expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}. This
-#' implementation fixes a bug in the \code{ggpolypath} package, which provides
-#' similar functionality.
+#' expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}.
 #'
 #' @param mapping An aesthetic mapping, created with \link[ggplot2]{aes}. The aesthetic
 #'   will mostly likely need to contain a \code{group} mapping.
@@ -29,11 +27,12 @@
 #' ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +
 #'   geom_polypath()
 #'
-geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
-                           na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, rule = "winding",
-                           ...) {
+geom_polypath <- function(
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, rule = "winding", ...
+) {
   if(!(rule %in% c("winding", "evenodd"))) {
-    stop("geom_polypath: 'rule' must be 'evenodd', or 'winding'")
+    stop("geom_polypath(): 'rule' must be 'evenodd', or 'winding'")
   }
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomPolypath,
@@ -65,7 +64,7 @@ GeomPolypath <- ggproto(
                                      lty = first_rows$linetype))
     }
 
-    groups <- with(munched, paste(fill, colour, alpha, size, linetype))
+    groups <- paste(munched$fill, munched$colour, munched$alpha, munched$size, munched$linetype, sep = ":::::")
 
     ggplot2:::ggname(
       "geom_polypath",
