@@ -24,10 +24,10 @@
 
 \item{position}{Passed on to the layer}
 
-\item{crsfrom}{An object that can be coerced to a CRS using \link{as.CRS}; defaults
+\item{crsfrom}{An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults
 to the CRS of the data or lat/lon if that does not exist}
 
-\item{crsto}{An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+\item{crsto}{An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults to
 lat/lon so that the plot can be projected using coord_map()}
 
 \item{attribute_table}{For SpatialPoints, SpatialLines, and SpatialPolygons, an attribute

@@ -13,18 +13,18 @@
 #' @export
 #'
 #' @examples
-#' as.CRS(4326) # integer
-#' as.CRS(longlake_osm) # raster
-#' as.CRS(longlake_waterdf) # spatial
+#' as_ggspatial_crs(4326) # integer
+#' as_ggspatial_crs(longlake_osm) # raster
+#' as_ggspatial_crs(longlake_waterdf) # spatial
 #'
 #' library(sf)
-#' as.CRS(st_as_sf(longlake_waterdf)) # sf
+#' as_ggspatial_crs(st_as_sf(longlake_waterdf)) # sf
 #'
-as.CRS <- function(x) UseMethod("as.CRS")
+as_ggspatial_crs <- function(x) UseMethod("as_ggspatial_crs")
 
-#' @rdname as.CRS
+#' @rdname as_ggspatial_crs
 #' @export
-as.CRS.default <- function(x) {
+as_ggspatial_crs.default <- function(x) {
   if(is.null(x)) {
     NULL
   } else if(methods::is(x, "CRS")) {
@@ -46,9 +46,9 @@ as.CRS.default <- function(x) {
   }
 }
 
-#' @rdname as.CRS
+#' @rdname as_ggspatial_crs
 #' @export
-as.CRS.sf <- function(x) {
+as_ggspatial_crs.sf <- function(x) {
   sp::CRS(sf::st_crs(x)$proj4string)
 }
 
@@ -65,9 +65,9 @@ as.CRS.sf <- function(x) {
 #'   and upper-right coordinates. This is a perfect approximation in cylindrical
 #'   systems but questionable in more complex ones.
 #' @param from The source projection, or an object that can be coerced to one
-#'   using \link{as.CRS}
+#'   using \link{as_ggspatial_crs}
 #' @param to The destination projection, or an object that can be coerce to one
-#'   using \link{as.CRS}
+#'   using \link{as_ggspatial_crs}
 #' @param na.rm Currently xyTransform does not work with non-finite values.
 #'   Pass na.rm = TRUE to remove them, or else a (more helpful) error will be
 #'   thrown if non-finite values exist.
@@ -87,15 +87,15 @@ xyTransform <- function(x, y, from = 4326, to = 4326, na.rm = FALSE) {
   rownames(coords) <- NULL # causes warnings if this is not done
 
   # if there is nothing to be done, don't project
-  # check before as.CRS
+  # check before as_ggspatial_crs
   if(identical(from, to)) return(coords)
 
   # load GDAL
   requireNamespace("rgdal", quietly=TRUE)
 
   # parse coordinate systems
-  from <- as.CRS(from)
-  to <- as.CRS(to)
+  from <- as_ggspatial_crs(from)
+  to <- as_ggspatial_crs(to)
 
   # deal with NA values
   finite <- !is.na(coords[, 1, drop = FALSE]) & !is.na(coords[, 2, drop = FALSE])

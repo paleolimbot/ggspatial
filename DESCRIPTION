@@ -6,7 +6,7 @@ Date: 2017-04-05
 Author: Dewey Dunnington <dewey@fishandwhistle.net>
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: Spatial data plus the power of the ggplot2 framework means easier mapping when input 
-  data are already in the form of Spatial* objects.
+  data are already spatially-aware objects.
 License: GPL-3
 Depends:
     R (>= 2.10),
@@ -20,13 +20,13 @@ Imports:
     plyr,
     raster,
     scales,
+    sf,
     sp
 Suggests:
     prettymapr,
     mapproj,
     knitr,
     rmarkdown,
-    sf,
     testthat
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues

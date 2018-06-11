@@ -75,7 +75,7 @@ ggplot() + geom_spatial(longlake_waterdf[2,], fill="lightblue") +
 
 ## Projections
 
-If you've been trying this at home, you may have noticed that you get a little message for every non-lat/lon dataset you try to plot. `geom_spatial()` is spatially aware, and if you don't tell it otherwise, it will convert all of your input data to lat/lon. I made this the default because `ggplot` has the nice `coord_map()` function that helpfully projects things that happen to be in lat/lon format (and communicates your intent clearly). If you're working in the polar regions or near the international date line, it's unlikely that this what you want. To get around the default projection, you can specify your own using `crsto` (see also `?as.CRS`). For example, the previous plot could be rendered to the Google Mercator projection by passing `crsto=3857` (note that you'll have to do this for all the layers).
+If you've been trying this at home, you may have noticed that you get a little message for every non-lat/lon dataset you try to plot. `geom_spatial()` is spatially aware, and if you don't tell it otherwise, it will convert all of your input data to lat/lon. I made this the default because `ggplot` has the nice `coord_map()` function that helpfully projects things that happen to be in lat/lon format (and communicates your intent clearly). If you're working in the polar regions or near the international date line, it's unlikely that this what you want. To get around the default projection, you can specify your own using `crsto` (see also `?as_ggspatial_crs`). For example, the previous plot could be rendered to the Google Mercator projection by passing `crsto=3857` (note that you'll have to do this for all the layers).
 
 ```{r, message=FALSE}
 data(longlake_depthdf)
@@ -115,15 +115,16 @@ head(raster_df)
 ```
 
 ```{r}
-ggplot(longlake_osm, aes(long, lat, fill = band1)) + 
+ggplot(longlake_osm, aes(x, y, fill = band1)) + 
   geom_raster() + 
   coord_fixed()
 ```
 
 ```{r, fig.height=3, fig.width=7}
 raster_df_long <- fortify(longlake_osm, format = "long")
-ggplot(raster_df_long, aes(long, lat, fill = value)) + 
-  geom_raster() + facet_wrap(~band) +
+ggplot(raster_df_long, aes(x, y, fill = value)) + 
+  geom_raster() +
+  facet_wrap(~band) +
   coord_fixed()
 ```
 
@@ -146,7 +147,8 @@ ggraster(longlake_osm, aes(fill = band1))
 Much faster is skipping the data frame and punching the raster image straight into the grob, as it were. Basically, if you already have an RGB raster (`longlake_osm` is one, or you could read one using `raster::brick("my_file.tif")`), you can use `annotation_spraster()` or `geom_spraster_rgb()` to plot it much more efficiently. Similar to ggplot's `annotation_raster()`, `annotation_spraster()` does not modify the plot bounds, whereas `geom_spraster_rgb()` will display the entire raster.
 
 ```{r}
-ggplot() + geom_spraster_rgb(longlake_osm, interpolate = TRUE) +
+ggplot() + 
+  geom_spraster_rgb(longlake_osm, interpolate = TRUE) +
   coord_fixed()
 ```
 

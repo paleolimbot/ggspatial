@@ -15,10 +15,10 @@ bboxTransform(bbox, from = 4326, to = 4326)
 \item{y}{The y values (or latitude)}
 
 \item{from}{The source projection, or an object that can be coerced to one
-using \link{as.CRS}}
+using \link{as_ggspatial_crs}}
 
 \item{to}{The destination projection, or an object that can be coerce to one
-using \link{as.CRS}}
+using \link{as_ggspatial_crs}}
 
 \item{na.rm}{Currently xyTransform does not work with non-finite values.
 Pass na.rm = TRUE to remove them, or else a (more helpful) error will be

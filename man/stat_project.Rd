@@ -13,10 +13,10 @@ stat_project(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
 
 \item{data}{A \code{Spatial*} object or \code{data.frame}.}
 
-\item{crsfrom}{An object that can be coerced to a CRS using \link{as.CRS}; defaults
+\item{crsfrom}{An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults
 to the CRS of the data or lat/lon if that does not exist}
 
-\item{crsto}{An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+\item{crsto}{An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults to
 lat/lon so that the plot can be projected using coord_map()}
 
 \item{position}{Passed on to geom_*}
@@ -31,7 +31,7 @@ lat/lon so that the plot can be projected using coord_map()}
 }
 \description{
 Projects coordinates using rgdal/sp. Takes params
-\code{crsfrom} and \code{crsto}, both wrapped in \link{as.CRS}, such that you can
+\code{crsfrom} and \code{crsto}, both wrapped in \link{as_ggspatial_crs}, such that you can
 pass an epsg code, a CRS object or \code{NA} to guess the input (will be either lat/lon or
 google mercator). If \code{NA}, \code{crsto} is assumed
 to be EPSG:4326 (Lat/Lon), so data can be used with \link[ggplot2]{coord_map}.

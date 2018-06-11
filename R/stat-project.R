@@ -2,7 +2,7 @@
 #' Statisitc to project coordinates
 #'
 #' Projects coordinates using rgdal/sp. Takes params
-#' \code{crsfrom} and \code{crsto}, both wrapped in \link{as.CRS}, such that you can
+#' \code{crsfrom} and \code{crsto}, both wrapped in \link{as_ggspatial_crs}, such that you can
 #' pass an epsg code, a CRS object or \code{NA} to guess the input (will be either lat/lon or
 #' google mercator). If \code{NA}, \code{crsto} is assumed
 #' to be EPSG:4326 (Lat/Lon), so data can be used with \link[ggplot2]{coord_map}.
@@ -12,9 +12,9 @@
 #' @param show.legend Logical describing the legend visibility.
 #' @param inherit.aes Logical describing if aesthetics are inherited
 #' @param position Passed on to geom_*
-#' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
+#' @param crsfrom An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults
 #'   to the CRS of the data or lat/lon if that does not exist
-#' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+#' @param crsto An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults to
 #'   lat/lon so that the plot can be projected using coord_map()
 #' @param geom For data frames, the geometry to use
 #' @param ... Passed to the geom
@@ -33,7 +33,7 @@ stat_project <- function(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
   layer(
     stat = StatProject, data = data, mapping = mapping, geom = geom,
     show.legend = show.legend, inherit.aes = inherit.aes, position = position,
-    params=list(crsfrom = as.CRS(crsfrom), crsto = as.CRS(crsto), ...)
+    params=list(crsfrom = as_ggspatial_crs(crsfrom), crsto = as_ggspatial_crs(crsto), ...)
   )
 }
 
@@ -47,12 +47,12 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
       # guess missing coordinate systems
       if(identical(crsfrom, NA) || is.na(rgdal::CRSargs(crsfrom))) {
         epsg <- guess.epsg(sp::bbox(cbind(data$x, data$y)))
-        crsfrom <- as.CRS(epsg)
+        crsfrom <- as_ggspatial_crs(epsg)
       }
 
       # default is actually to "unproject", for use with ggmap/coord_map
       if(identical(crsto, NA) || is.na(rgdal::CRSargs(crsto))) {
-        crsto <- as.CRS(4326)
+        crsto <- as_ggspatial_crs(4326)
         if(crsfrom@projargs != crsto@projargs) {
           message("Converting coordinates to lat/lon (epsg:4326)")
         }

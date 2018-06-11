@@ -12,9 +12,9 @@
 #' @param show.legend Logical describing the legend visibility.
 #' @param inherit.aes Logical describing if aesthetics are inherited
 #' @param position Passed on to the layer
-#' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
+#' @param crsfrom An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults
 #'   to the CRS of the data or lat/lon if that does not exist
-#' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
+#' @param crsto An object that can be coerced to a CRS using \link{as_ggspatial_crs}; defaults to
 #'   lat/lon so that the plot can be projected using coord_map()
 #' @param geom The geometry to use for the object (NA to guess: see \link{spatial_geom})
 #' @param stat The statistic to apply (NA to guess, is probably "identity": see \link{spatial_stat})
@@ -92,16 +92,16 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
   # null crsfrom is ambiguous
   if(is.null(crsfrom)) stop("Value of 'crsfrom' cannot be NULL")
 
-  crsfrom <- as.CRS(crsfrom)
-  crsto <- as.CRS(crsto)
+  crsfrom <- as_ggspatial_crs(crsfrom)
+  crsto <- as_ggspatial_crs(crsto)
 
   if(identical(crsfrom, NA)) {
-    crsfrom <- as.CRS(data)
+    crsfrom <- as_ggspatial_crs(data)
   }
 
   if(identical(crsfrom, NA)) {
     message("Assuming input coordinates are lat/lon")
-    crsfrom_out <- as.CRS(4326)
+    crsfrom_out <- as_ggspatial_crs(4326)
   } else {
     crsfrom_out <- crsfrom
   }
@@ -114,7 +114,7 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
     # assign crs to here
     if(identical(crsto, NA)) {
       if(!identical(crsfrom, NA)) message("Converting coordinates to lat/lon")
-      crsto_out <- as.CRS(4326)
+      crsto_out <- as_ggspatial_crs(4326)
     } else {
       crsto_out <- crsto
     }
