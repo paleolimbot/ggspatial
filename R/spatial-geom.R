@@ -56,7 +56,8 @@ override_aesthetics <- function(user_mapping = NULL, default_mapping = NULL) {
   } else if(is.null(user_mapping)) {
     default_mapping
   } else {
-    new_aes <- c(user_mapping, default_mapping)
+    all_aes_names <- unique(c(names(user_mapping), names(default_mapping)))
+    new_aes <- c(user_mapping, default_mapping)[all_aes_names]
     class(new_aes) <- "uneval"
     new_aes
   }
