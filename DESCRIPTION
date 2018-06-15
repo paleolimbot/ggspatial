@@ -21,7 +21,8 @@ Imports:
     raster,
     scales,
     sf,
-    sp
+    sp,
+    tibble
 Suggests:
     prettymapr,
     mapproj,
