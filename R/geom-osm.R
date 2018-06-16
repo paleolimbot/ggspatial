@@ -74,7 +74,7 @@ geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FAL
   }
 
   # return GeomTileSource layer
-  layer(data = data, mapping = ggplot2::aes_string("long", "lat"),
+  ggplot2::layer(data = data, mapping = ggplot2::aes_string("long", "lat"),
         position = "identity", geom = GeomTileSource, stat = "identity",
         show.legend = FALSE, inherit.aes = FALSE,
         params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,

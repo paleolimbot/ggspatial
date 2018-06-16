@@ -31,17 +31,3 @@ Usually used on conjunction with \link[ggplot2]{geom_raster} or
 \link{geom_spatial.Raster}. This function appears to work, however
 it is slow, and in general, only good for very small datasets.
 }
-\examples{
-# using stat_rgba()
-ggplot(longlake_osm, aes(long, lat)) +
-  stat_rgba(aes(red = band1, green = band2, blue = band3, alpha = 1),
-            limits_red = NULL, limits_green = NULL, limits_blue = NULL,
-            limits_alpha = NULL, interpolate = TRUE) +
-  coord_fixed()
-\donttest{
-# using ggraster() with stat = 'rgba'
-ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
-         stat = "rgba")
-}
-
-}

@@ -108,10 +108,6 @@ ggspatial(longlake_depthdf, aes(col = DEPTH))
 Raster spatial objects (of class `Raster` from the `raster` package) are treated in much the same way as vector objects, except for one major difference: spatial `Raster` objects do not have their coordinates projected by default, because `geom_raster()` throws an error if the coordinates for the raster are modified. Because of this, the shortcut method for raster spatial objects is `ggraster(data, ...)`, which is short for `ggplot() + geom_spatial(data, ...) + coord_fixed()`. The usage of `fortify()`, `spatial_fortify()`, and `geom_spatial()` are much the same.
 
 ```{r}
-head(fortify(longlake_osm))
-```
-
-```{r}
 head(spatial_fortify(longlake_osm))
 ```
 

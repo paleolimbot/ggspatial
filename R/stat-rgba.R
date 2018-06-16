@@ -17,19 +17,6 @@
 #' @return A ggplot2 layer object
 #' @export
 #'
-#' @examples
-#' # using stat_rgba()
-#' ggplot(longlake_osm, aes(long, lat)) +
-#'   stat_rgba(aes(red = band1, green = band2, blue = band3, alpha = 1),
-#'             limits_red = NULL, limits_green = NULL, limits_blue = NULL,
-#'             limits_alpha = NULL, interpolate = TRUE) +
-#'   coord_fixed()
-#' \donttest{
-#' # using ggraster() with stat = 'rgba'
-#' ggraster(longlake_osm, aes(red = band1, green = band2, blue = band3, alpha = 1),
-#'          stat = "rgba")
-#' }
-#'
 stat_rgba <- function(mapping = NULL, data = NULL, ..., limits_red = NA, limits_green = NA,
                       limits_blue = NA, limits_alpha = NA) {
   # return a list, since this stat is meaningless without identity scales
