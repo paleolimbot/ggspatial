@@ -19,48 +19,17 @@ That said, it should be noted that `ggplot2` is **not** a GIS. The grammar of gr
 
 This vignette assumes that readers are familar with the usage of `ggplot2`. There are many excellent resources for learning to use `ggplot2`, one of which is the [data visualization chapter](http://r4ds.had.co.nz/data-visualisation.html) in Hadley Wickham's excellent book, [R for Data Science](http://r4ds.had.co.nz).
 
+## Sample data
+
+```{r}
+load_longlake_data()
+```
+
 ## Spatial Objects
 
 There are many objects in R that represent geometries on the earth's surface (this package's definition of a "spatial object"), the most popular of which are the `Spatial*` series of objects from the [sp](https://cran.r-project.org/package=sp) package. When using `maptools::readShapeSpatial()` or `rgdal::readOGR()`, you will get a `Spatial*` object that is a `SpatialPointsDataFrame`, a `SpatialLinesDataFrame`, or a `SpatialPolygonsDataFrame`. These objects contain both the geometries (point, line, or polygon) and the attributes associated with these data. From a plotting perspective, `ggplot2` needs the geometry to know where things should plot, and it needs the attributes to map aesthetics. 
 
 The `fortify()` method provided by `ggplot2` extracts the geometries from (some) `Spatial*` objects as a `data.frame`, but does not provide the attribues. This isn't a design flaw; in most cases attributes aren't needed and for large objects, providing them is an expensive operation that would be unnecessary in most cases. The `ggspatial` package attempts to maintain this distinction, providing previously missing `fortify()` methods for other spatial objects, and a new method (`spatial_fortify()`) that adds attribute information to the output of `fortify()` so that it can be mapped to aesthetics using `aes()`. A further method (`geom_spatial()`) is provided to produce a complete ggplot `layer()` from spatial objects, and finally, a method is provided to produce a complete `ggplot` object from a spatial object. These methods are progressively more simple to use at the expense of flexibility, since the high-level `ggpatial()` makes a number of assumptions that `fortify()` does not.
-
-## Using fortify()
-
-The `fortify()` method produces a `data.frame` containing the information necessary for a geometry to plot a spatial object (as a note, `fortify()` according to its documentation was intended to be used with models, but here its use applies to spatial objects). In the case of point objects, this is just a `data.frame` with columns `long`, `lat`, and `id`. Calling `fortify()` on a spatial object *always* results in the columns `long` and `lat` (even if the values may be in another coordinate system). This is partially because the existing `ggplot2` methods already did this, but is also a reminder that the values contained in these columns are not just `x` and `y` coordinates, but positions on the earth's surface. Projections are handled in `geom_spatial()`, among other functions in this package.
-
-```{r}
-# a SpatialPointsDataFrame
-head(fortify(longlake_buildingsdf))
-```
-
-```{r}
-# a SpatialLinesDataFrame
-head(fortify(longlake_roadsdf))
-```
-
-```{r, message=FALSE}
-# a SpatialPolygonsDataFrame
-head(fortify(longlake_waterdf))
-```
-
-These `data.frame` outputs can then be passed to `ggplot()` with the appropriate `geom_*` and `aes()` to create a map.
-
-```{r, message = FALSE}
-ggplot() +
-  geom_polypath(aes(long, lat, group = id), fortify(longlake_waterdf),
-               fill = "lightblue") +
-  geom_path(aes(long, lat, group = id), fortify(longlake_roadsdf)) +
-  geom_point(aes(long, lat), fortify(longlake_buildingsdf),
-             color = "brown", shape = 17) +
-  coord_fixed()
-```
-
-(Note the use of `geom_polypath()` instead of `geom_polygon()` and the use of `geom_path()` instead of `geom_line()`. If you're curious, I suggest reading the entries for `?geom_polypath` and `?geom_path`.)
-
-It is actually not necessary to wrap objects in `fortify()` when passing them to `ggplot()` or `geom_*` or `stat_*` functions; `ggplot2` will do this for you if you should so choose. More likely, if you need the raw data produced by `fortify()`, you will want to calculate this prior to creating the plot anyway. You will notice that the code is slightly repetitive (the mapping is always `aes(long, lat, ...)`) and doesn't allow mapping of attributes that the spatial object may contain.
-
-This package (currently) contains `fortify()` implementations for `SpatialPoints`, `SpatialPointsDataFrame`, `SpatialLines`, and `Raster` objects. The ggplot2 package contains implementations for `Polygon`, `Polygons`, `SpatialPolygons`, `SpatialPolygonsDataFrame`, `Line`, `Lines`, and `SpatialLinesDataFrame`.
 
 ## Using spatial_fortify()
 

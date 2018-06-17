@@ -28,6 +28,7 @@ this will not adjust the extents of the plot. The coordinates used are in
 the coordinate system of the raster, which are likely not lat/lon.
 }
 \examples{
+load_longlake_data()
 ggplot() +
   annotation_spraster(longlake_osm) +
   geom_spatial(longlake_waterdf, toepsg = 26920) +

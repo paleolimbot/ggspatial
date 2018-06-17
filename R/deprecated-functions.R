@@ -92,7 +92,7 @@ spatial_default_aes.Raster <- function(x) {
 geom_spatial.sf <- function(data, mapping = NULL, show.legend = TRUE,
                             inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
                             attribute_table = NA, geom = NA, stat = NA, ...) {
-  geom_spatial.default(methods::as(data, "Spatial"), mapping = mapping, show.legend = show.legend,
+  geom_spatial.default(methods::as(sf::st_zm(data), "Spatial"), mapping = mapping, show.legend = show.legend,
                        inherit.aes = inherit.aes, position = position, crsfrom = crsfrom, crsto = crsto,
                        attribute_table = attribute_table, geom = geom, stat = stat, ...)
 }
@@ -102,7 +102,7 @@ geom_spatial.sf <- function(data, mapping = NULL, show.legend = TRUE,
 geom_spatial.sfc <- function(data, mapping = NULL, show.legend = TRUE,
                             inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
                             attribute_table = NA, geom = NA, stat = NA, ...) {
-  geom_spatial.default(methods::as(data, "Spatial"), mapping = mapping, show.legend = show.legend,
+  geom_spatial.default(methods::as(sf::st_zm(data), "Spatial"), mapping = mapping, show.legend = show.legend,
                        inherit.aes = inherit.aes, position = position, crsfrom = crsfrom, crsto = crsto,
                        attribute_table = attribute_table, geom = geom, stat = stat, ...)
 }
@@ -110,32 +110,32 @@ geom_spatial.sfc <- function(data, mapping = NULL, show.legend = TRUE,
 #' @rdname deprecated
 #' @export
 spatial_fortify.sf <- function(x, attrs = NA, ...) {
-  spatial_fortify(methods::as(x, "Spatial"), attrs = attrs, ...)
+  spatial_fortify(methods::as(sf::st_zm(x), "Spatial"), attrs = attrs, ...)
 }
 
 #' @rdname deprecated
 #' @export
 spatial_fortify.sfc <- function(x, attrs = NA, ...) {
-  spatial_fortify(methods::as(x, "Spatial"), attrs = attrs, ...)
+  spatial_fortify(methods::as(sf::st_zm(x), "Spatial"), attrs = attrs, ...)
 }
 
 #' @rdname deprecated
 #' @export
-spatial_geom.sf <- function(x) spatial_geom(methods::as(x, "Spatial"))
+spatial_geom.sf <- function(x) spatial_geom(methods::as(sf::st_zm(x), "Spatial"))
 #' @rdname deprecated
 #' @export
-spatial_geom.sfc <- function(x) spatial_geom(methods::as(x, "Spatial"))
+spatial_geom.sfc <- function(x) spatial_geom(methods::as(sf::st_zm(x), "Spatial"))
 
 #' @rdname deprecated
 #' @export
 spatial_default_aes.sf <- function(x) {
-  spatial_default_aes(methods::as(x, "Spatial"))
+  spatial_default_aes(methods::as(sf::st_zm(x), "Spatial"))
 }
 
 #' @rdname deprecated
 #' @export
 spatial_default_aes.sfc <- function(x) {
-  spatial_default_aes(methods::as(x, "Spatial"))
+  spatial_default_aes(methods::as(sf::st_zm(x), "Spatial"))
 }
 
 

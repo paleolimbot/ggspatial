@@ -38,7 +38,8 @@ implementation fixes a bug in the \code{ggpolypath} package, which provides
 similar functionality.
 }
 \examples{
-ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +
+load_longlake_data()
+ggplot(spatial_fortify(longlake_waterdf), aes(.long, .lat, group = .group)) +
   geom_polypath()
 
 }

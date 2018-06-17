@@ -16,6 +16,7 @@
 #' @export
 #'
 #' @examples
+#' load_longlake_data()
 #' ggplot() +
 #'   annotation_spraster(longlake_osm) +
 #'   geom_spatial(longlake_waterdf, toepsg = 26920) +
