@@ -9,7 +9,8 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
 License: GPL-3
 Depends:
     R (>= 2.10),
-    ggplot2 (>= 2.0)
+    ggplot2 (>= 2.0),
+    sf
 Imports:
     rosm (>= 0.2),
     abind,
@@ -17,7 +18,6 @@ Imports:
     methods,
     plyr,
     raster,
-    sf,
     tibble,
     scales
 Suggests:
@@ -27,7 +27,8 @@ Suggests:
     rmarkdown,
     sp,
     rgdal,
-    testthat
+    testthat,
+    dplyr
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
