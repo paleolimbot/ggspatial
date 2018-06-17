@@ -50,9 +50,9 @@ df_spatial.Lines <- function(x, ...) {
     df$piece_id <- i
     df
   })
-  pieces$id <- x@ID
+  pieces$feature_id <- x@ID
   pieces$piece_id <- factor(pieces$piece_id)
-  pieces$feature_id <- interaction(pieces$id, pieces$piece_id)
+  pieces$piece_id <- interaction(pieces$feature_id, pieces$piece_id)
   tibble::as_tibble(pieces)
 }
 
@@ -65,9 +65,8 @@ df_spatial.SpatialLines <- function(x, ...) {
 df_spatial.SpatialLinesDataFrame <- function(x, ...) {
   df <- tibble::as_tibble(plyr::ldply(x@lines, df_spatial.Lines))
   attrs <- as.data.frame(x)
-  attrs$.id <- rownames(attrs)
-  all <- merge(df, attrs, by.x = "id", by.y = ".id", suffix = c("", ".attrs"))
-  fix_duplicate_cols(all)
+  attrs <- attrs[match(df$feature_id, rownames(attrs)), , drop = FALSE]
+  fix_duplicate_cols(df, attrs)
 }
 
 #' Fix duplicate column names

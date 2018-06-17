@@ -1,10 +1,10 @@
 context("test-df_spatial.R")
 
-expect_df_spatial <- function(expr) {
+expect_df_spatial <- function(expr, cols = character(0)) {
    expr_name <- paste("Expression:", deparse(substitute(expr)))
    force(expr)
 
-   expect_true(all(c("x", "y", "feature_id") %in% colnames(df_spatial(expr))), info = expr_name)
+   expect_true(all(c("x", "y", "feature_id", cols) %in% colnames(df_spatial(expr))), info = expr_name)
    expect_is(df_spatial(expr), "data.frame", info = expr_name)
    expect_is(df_spatial(expr), "tbl_df", info = expr_name)
 }
@@ -48,5 +48,6 @@ test_that("Spatial* objects are fortified correctly", {
   expect_df_spatial(lines)
   expect_df_spatial(splines)
   expect_df_spatial(splines_df)
+  # make sure attributes get joined
   expect_true("FEAT_CODE" %in% colnames(df_spatial(splines_df)))
 })
