@@ -44,8 +44,9 @@ test_that("Spatial* objects are fortified correctly", {
   lines <- splines@lines[[1]]
 
 
-  df_spatial(line)
-  df_spatial(lines)
-  df_spatial(splines)
-
+  expect_df_spatial(line)
+  expect_df_spatial(lines)
+  expect_df_spatial(splines)
+  expect_df_spatial(splines_df)
+  expect_true("FEAT_CODE" %in% colnames(df_spatial(splines_df)))
 })

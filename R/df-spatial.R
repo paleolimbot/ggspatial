@@ -44,20 +44,30 @@ df_spatial.Line <- function(x, feature_id = 1L, piece_id = 1L, ...) {
 
 #' @export
 df_spatial.Lines <- function(x, ...) {
-  line_dfs <- mapply(x@Lines, seq_len(length(x)), df_spatial.Line)
-  tibble::as_tibble(do.call(rbind, line_dfs))
+  lines <- x@Lines
+  pieces <- plyr::ldply(seq_along(lines), function(i) {
+    df <- df_spatial.Line(lines[[i]])
+    df$piece_id <- i
+    df
+  })
+  pieces$id <- x@ID
+  pieces$piece_id <- factor(pieces$piece_id)
+  pieces$feature_id <- interaction(pieces$id, pieces$piece_id)
+  tibble::as_tibble(pieces)
 }
 
 #' @export
 df_spatial.SpatialLines <- function(x, ...) {
-  line_dfs <- lapply(x@lines, df_spatial.Line)
-  tibble::as_tibble(do.call(rbind, line_dfs))
+  tibble::as_tibble(plyr::ldply(x@lines, df_spatial.Lines))
 }
 
 #' @export
 df_spatial.SpatialLinesDataFrame <- function(x, ...) {
-  line_dfs <- lapply(x@lines, df_spatial.Line)
-  tibble::as_tibble(do.call(rbind, line_dfs))
+  df <- tibble::as_tibble(plyr::ldply(x@lines, df_spatial.Lines))
+  attrs <- as.data.frame(x)
+  attrs$.id <- rownames(attrs)
+  all <- merge(df, attrs, by.x = "id", by.y = ".id", suffix = c("", ".attrs"))
+  fix_duplicate_cols(all)
 }
 
 #' Fix duplicate column names
