@@ -43,7 +43,7 @@ geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", posit
 }
 
 
-GeomPolypath <- ggproto(
+GeomPolypath <- ggplot2::ggproto(
   "GeomPolypath",
   GeomPolygon,
   extra_params = c("na.rm", "rule"),
