@@ -155,6 +155,24 @@ df_spatial.sf <- function(x, ...) {
   df_spatial(as(sf::st_zm(x), "Spatial"))
 }
 
+#' @export
+df_spatial.Raster <- function(x, ...) {
+  # get values in a data frame
+  fused <- cbind(expand.grid(x=1:x@ncols, y=1:x@nrows), raster::values(x))
+  fused$feature_id <- factor(seq_len(nrow(fused)))
+
+  # set names to be long, lat, band1, band2, ...
+  nbands <- ncol(fused) - 3
+  names(fused) <- c("x", "y", paste0("band", 1:nbands), "feature_id")
+
+  # fix x and y to be physical coordinates using the bbox
+  bbox <- raster::as.matrix(x@extent)
+  fused$x <- bbox[1,1]+(fused$x-1)/x@ncols*(bbox[1,2]-bbox[1,1])
+  fused$y <- bbox[2,1]+(fused$y-x@nrows)/x@nrows*(bbox[2,1]-bbox[2,2])
+
+  tibble::as_tibble(fused)
+}
+
 #' Fix duplicate column names
 #'
 #' This fixes possible masking of column names within df_spatial without mangling

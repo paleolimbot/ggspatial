@@ -98,3 +98,12 @@ test_that("Spatial* objects are fortified correctly", {
   expect_identical(df_spatial(longlake_roadsdf), df_spatial(splines_df))
   expect_identical(df_spatial(longlake_waterdf), df_spatial(spoly_df))
 })
+
+test_that("Raster* objects are converted properly by df_spatial", {
+  load_longlake_data()
+  expect_df_spatial(longlake_depth_raster)
+  expect_df_spatial(longlake_osm)
+
+  # manual check
+  # ggplot(df_spatial(longlake_depth_raster)) + geom_raster(aes(x, y, fill = band1))
+})
