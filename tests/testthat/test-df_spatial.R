@@ -103,6 +103,14 @@ test_that("Raster* objects are converted properly by df_spatial", {
   load_longlake_data()
   expect_df_spatial(longlake_depth_raster)
   expect_df_spatial(longlake_osm)
+  expect_equal(
+    nrow(df_spatial(longlake_depth_raster)),
+    longlake_depth_raster@nrows * longlake_depth_raster@ncols
+  )
+  expect_equal(
+    nrow(df_spatial(longlake_osm)),
+    longlake_osm@nrows * longlake_osm@ncols
+  )
 
   # manual check
   # ggplot(df_spatial(longlake_depth_raster)) + geom_raster(aes(x, y, fill = band1))
