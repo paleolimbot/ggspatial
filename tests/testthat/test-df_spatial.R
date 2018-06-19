@@ -91,4 +91,10 @@ test_that("Spatial* objects are fortified correctly", {
   # manual check of success
   # ggplot(df_spatial(spoly)) + geom_polypath(aes(x, y, group = piece_id))
   # ggplot(df_spatial(spoly_df)) + geom_polypath(aes(x, y, group = piece_id))
+
+  # sf points, multipoints, lines, polygons
+  expect_identical(df_spatial(longlake_depthdf), df_spatial(spoints_df))
+  expect_identical(df_spatial(spmultipoints_sf), df_spatial(spmultipoints_df))
+  expect_identical(df_spatial(longlake_roadsdf), df_spatial(splines_df))
+  expect_identical(df_spatial(longlake_waterdf), df_spatial(spoly_df))
 })

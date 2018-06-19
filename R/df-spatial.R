@@ -139,6 +139,22 @@ df_spatial.SpatialPolygonsDataFrame <- function(x, ...) {
   fix_duplicate_cols(df, attrs)
 }
 
+#' @export
+df_spatial.sfc <- function(x, ...) {
+  if(!requireNamespace("sp", quietly = TRUE)) {
+    stop("There is no package called 'sp'")
+  }
+  df_spatial(as(sf::st_zm(x), "Spatial"))
+}
+
+#' @export
+df_spatial.sf <- function(x, ...) {
+  if(!requireNamespace("sp", quietly = TRUE)) {
+    stop("There is no package called 'sp'")
+  }
+  df_spatial(as(sf::st_zm(x), "Spatial"))
+}
+
 #' Fix duplicate column names
 #'
 #' This fixes possible masking of column names within df_spatial without mangling
