@@ -3,7 +3,7 @@ title: "ggspatial: Spatial data framework for ggplot2"
 output: github_document
 ---
 
-Spatial data plus the power of the `ggplot2` framework means easier mapping when input data are already in the form of `Spatial*` objects (most spatial data in R).
+Spatial data plus the power of the `ggplot2` framework means easier mapping.
 
 ## Installation
 
@@ -18,3 +18,36 @@ devtools::install_github("paleolimbot/ggspatial")
 
 Currently, this package is in mega overhaul mode.
 
+```{r}
+library(tidyverse)
+library(ggspatial)
+load_longlake_data()
+```
+
+## Using `df_spatial()`
+
+```{r}
+df_spatial(longlake_depthdf)
+```
+
+
+```{r}
+df_spatial(longlake_depth_raster)%>%
+  filter(!is.na(band1))
+```
+
+
+```{r fig-df-spatial}
+ggplot() +
+  geom_raster(aes(x, y, fill = band1), data = df_spatial(longlake_depth_raster)) +
+  geom_point(aes(x, y), data = df_spatial(longlake_depthdf)) +
+  coord_fixed()
+```
+
+## Using `layer_spatial()`
+
+```{r fig-layer-spatial}
+ggplot() +
+  # layer_spatial(longlake_depth_raster) +
+  layer_spatial(longlake_depthdf)
+```
