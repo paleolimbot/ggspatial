@@ -13,37 +13,48 @@
 #'
 layer_spatial.Raster <- function(data, mapping = waiver(), interpolate = TRUE, is_annotation = FALSE, ...) {
   ggplot2::layer(
-    data = data.frame(x = c(NA_real_, NA_real_), y = c(NA_real_, NA_real_)),
-    mapping = NULL, stat = StatSpatialRaster,
-    geom = GeomSpatialRaster, position = "identity",
+    data = tibble::tibble(raster = list(data)),
+    mapping = aes_string(raster = "raster"),
+    stat = StatSpatialRaster,
+    geom = GeomSpatialRaster,
+    position = "identity",
     inherit.aes = FALSE, show.legend = NA,
-    params = list(raster_obj = data, interpolate = interpolate, is_annotation = is_annotation)
+    params = list(interpolate = interpolate, is_annotation = is_annotation)
   )
 }
 
 StatSpatialRaster <-  ggproto(
   "StatSpatialRaster",
   Stat,
-  extra_params = c("raster_obj", "is_annotation"),
+  extra_params = "is_annotation",
+  required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
-    if(!params$is_annotation) {
 
-      coord_crs <- layout$coord$crs
+    coord_crs <- layout$coord$crs
 
-      if(!is.null(coord_crs)) {
-        raster_trans <- raster::projectRaster(
-          params$raster_obj,
-          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
-        )
-      } else {
-        warning("Skipping projection in geom_spatial_raster. Use coord_sf() to project.")
-        raster_trans <- raster_obj
-      }
+    if(!is.null(coord_crs)) {
+      data$raster <- lapply(
+        data$raster,
+        raster::projectRaster,
+        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+      )
+    } else {
+      warning("Skipping projection in geom_spatial_raster. Use coord_sf() to project.", call. = FALSE)
+    }
 
-      ext <- raster_trans@extent
-      data$x <- c(ext@xmin, ext@xmax)
-      data$y <- c(ext@ymin, ext@ymax)
+    data$extent <- lapply(data$raster, raster::extent)
+
+    if(params$is_annotation) {
+      data$xmin <- NA_real_
+      data$xmax <- NA_real_
+      data$ymin <- NA_real_
+      data$ymax <- NA_real_
+    } else {
+      data$xmin <- vapply(data$extent, function(x) x@xmin, numeric(1))
+      data$xmax <- vapply(data$extent, function(x) x@xmax, numeric(1))
+      data$ymin <- vapply(data$extent, function(x) x@ymin, numeric(1))
+      data$ymax <- vapply(data$extent, function(x) x@ymax, numeric(1))
     }
 
     data
@@ -54,35 +65,23 @@ GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
 
-  required_aesthetics = c("x", "y"),
+  required_aesthetics = c("raster", "extent", "xmin", "xmax", "ymin", "ymax"),
 
   handle_na = function(data, params) {
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, raster_obj, interpolate = TRUE, crop = TRUE) {
+  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, crop = TRUE) {
 
-    coord_crs <- coordinates$crs
-
-    if(!is.null(coord_crs)) {
-      raster_trans <- raster::projectRaster(
-        raster_obj,
-        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
-      )
-    } else {
-      warning("Skipping projection in geom_spatial_raster. Use coord_sf() to project.")
-      raster_trans <- raster_obj
-    }
-
-    ext <- raster_trans@extent
+    ext <- data$extent[[1]]
     corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
-    data <- coordinates$transform(corners, panel_params)
+    corners_trans <- coordinates$transform(corners, panel_params)
 
-    x_rng <- range(data$x, na.rm = TRUE)
-    y_rng <- range(data$y, na.rm = TRUE)
+    x_rng <- range(corners_trans$x, na.rm = TRUE)
+    y_rng <- range(corners_trans$y, na.rm = TRUE)
 
     grid::rasterGrob(
-      raster_as_array(raster_trans),
+      raster_as_array(data$raster[[1]]),
       x_rng[1], y_rng[1],
       diff(x_rng), diff(y_rng), default.units = "native",
       just = c("left","bottom"), interpolate = interpolate
