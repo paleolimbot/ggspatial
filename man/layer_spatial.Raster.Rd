@@ -2,15 +2,20 @@
 % Please edit documentation in R/layer-spatial-raster.R
 \name{layer_spatial.Raster}
 \alias{layer_spatial.Raster}
+\alias{annotation_spatial.Raster}
 \title{Spatial ggplot2 layer for raster objects}
 \usage{
-\method{layer_spatial}{Raster}(data, mapping = waiver(), interpolate = TRUE,
+\method{layer_spatial}{Raster}(data, mapping = NULL, interpolate = TRUE,
   ...)
+
+\method{annotation_spatial}{Raster}(data, mapping = NULL,
+  interpolate = TRUE, ...)
 }
 \arguments{
 \item{data}{A Raster object}
 
-\item{mapping}{A mapping, using band names or band1, band2, etc. to refer to band names}
+\item{mapping}{Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
+map specific bands to the fill and alpha aesthetics.}
 
 \item{interpolate}{Interpolate resampling for rendered raster image}
 
@@ -20,5 +25,6 @@
 A ggplot2 layer
 }
 \description{
-Spatial ggplot2 layer for raster objects
+This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
+bands as if they were columns, use \link{df_spatial}, \link{stat_rgb}, and \link{geom_raster}.
 }

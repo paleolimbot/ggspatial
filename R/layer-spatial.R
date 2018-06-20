@@ -15,6 +15,12 @@ layer_spatial <- function(data, mapping, ...) {
   UseMethod("layer_spatial")
 }
 
+#' @export
+#' @rdname layer_spatial
+annotation_spatial <- function(data, mapping, ...) {
+  UseMethod("annotation_spatial")
+}
+
 #' @rdname layer_spatial
 #' @export
 layer_spatial.default <- function(data, mapping = aes(), inherit.aes = FALSE, sf_params = list(), ...) {

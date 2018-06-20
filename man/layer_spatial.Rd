@@ -2,10 +2,13 @@
 % Please edit documentation in R/layer-spatial.R
 \name{layer_spatial}
 \alias{layer_spatial}
+\alias{annotation_spatial}
 \alias{layer_spatial.default}
 \title{Turn a spatial object into a ggplot2 layer}
 \usage{
 layer_spatial(data, mapping, ...)
+
+annotation_spatial(data, mapping, ...)
 
 \method{layer_spatial}{default}(data, mapping = aes(), inherit.aes = FALSE,
   sf_params = list(), ...)

@@ -37,12 +37,8 @@ df_spatial(longlake_depth_raster)%>%
 ```
 
 
-```{r fig-df-spatial}
+```{r fig-df-spatial-raster}
 ggplot() +
-  geom_raster_rgb(
-    aes(x, y, fill = band1), 
-    data = df_spatial(longlake_depth_raster) %>% filter(!is.na(band1))
-  ) +
   geom_raster(
     aes(x, y, fill = band1), 
     data = df_spatial(longlake_depth_raster) %>% filter(!is.na(band1))
@@ -53,9 +49,14 @@ ggplot() +
 
 ## Using `layer_spatial()`
 
-```{r fig-layer-spatial}
+```{r fig-layer-spatial-raster}
 ggplot() +
-  layer_spatial(longlake_osm, is_annotation = TRUE) +
-  layer_spatial(longlake_depthdf) +
-  coord_sf(crs = 3857)
+  layer_spatial(longlake_osm) +
+  layer_spatial(longlake_depthdf)
+```
+
+```{r fig-layer-annotation-raster}
+ggplot() +
+  annotation_spatial(longlake_osm) +
+  layer_spatial(longlake_depthdf)
 ```

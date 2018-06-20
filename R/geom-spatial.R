@@ -135,10 +135,10 @@ create_spatial_stat_class <- function(ParentStat, class_name) {
         from_crs <- sf::st_crs(params$crs)
       }
 
-      if(!is.null(layout$coord$crs)) {
+      if(!is.null(layout$coord_params$crs)) {
         # project data XY coordinates
         if(!all(c("x", "y") %in% colnames(data))) stop("Missing required aesthetics x, y in ", class_name, "()")
-        data[c("x", "y")] <- xy_transform(data$x, data$y, from = from_crs, to = layout$coord$crs)
+        data[c("x", "y")] <- xy_transform(data$x, data$y, from = from_crs, to = layout$coord_params$crs)
       } else {
         warning(
           "Ignoring transformation in ", class_name, "(). Use coord_sf() with a crs to project this layer.",

@@ -89,20 +89,31 @@ df_spatial(longlake_depth_raster)%>%
 
 ``` r
 ggplot() +
-  geom_raster(aes(x, y, fill = band1), data = df_spatial(longlake_depth_raster)) +
+  geom_raster(
+    aes(x, y, fill = band1), 
+    data = df_spatial(longlake_depth_raster) %>% filter(!is.na(band1))
+  ) +
   geom_point(aes(x, y), data = df_spatial(longlake_depthdf)) +
   coord_fixed()
 ```
 
-![](README_files/figure-markdown_github/fig-df-spatial-1.png)
+![](README_files/figure-markdown_github/fig-df-spatial-raster-1.png)
 
 Using `layer_spatial()`
 -----------------------
 
 ``` r
 ggplot() +
-  # layer_spatial(longlake_depth_raster) +
+  layer_spatial(longlake_osm) +
   layer_spatial(longlake_depthdf)
 ```
 
-![](README_files/figure-markdown_github/fig-layer-spatial-1.png)
+![](README_files/figure-markdown_github/fig-layer-spatial-raster-1.png)
+
+``` r
+ggplot() +
+  annotation_spatial(longlake_osm) +
+  layer_spatial(longlake_depthdf)
+```
+
+![](README_files/figure-markdown_github/fig-layer-annotation-raster-1.png)

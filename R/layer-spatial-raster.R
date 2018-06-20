@@ -1,8 +1,12 @@
 
 #' Spatial ggplot2 layer for raster objects
 #'
+#' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
+#' bands as if they were columns, use \link{df_spatial}, \link{stat_rgb}, and \link{geom_raster}.
+#'
 #' @param data A Raster object
-#' @param mapping A mapping, using band names or band1, band2, etc. to refer to band names
+#' @param mapping Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
+#'   map specific bands to the fill and alpha aesthetics.
 #' @param interpolate Interpolate resampling for rendered raster image
 #' @param ... Passed to other methods
 #'
@@ -11,28 +15,59 @@
 #'
 #' @importFrom ggplot2 waiver
 #'
-layer_spatial.Raster <- function(data, mapping = waiver(), interpolate = TRUE, is_annotation = FALSE, ...) {
-  ggplot2::layer(
-    data = tibble::tibble(raster = list(data)),
-    mapping = aes_string(raster = "raster"),
-    stat = StatSpatialRaster,
-    geom = GeomSpatialRaster,
-    position = "identity",
-    inherit.aes = FALSE, show.legend = NA,
-    params = list(interpolate = interpolate, is_annotation = is_annotation)
+layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  c(
+    ggplot2::layer(
+      data = tibble::tibble(raster = list(data)),
+      mapping = aes_string(raster = "raster"),
+      stat = StatSpatialRaster,
+      geom = GeomSpatialRaster,
+      position = "identity",
+      inherit.aes = FALSE, show.legend = FALSE,
+      params = list(interpolate = interpolate)
+    ),
+    # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
+    # using the first layer's CRS as the base CRS for coord_sf().
+    ggplot2::geom_sf(
+      data = sf::st_sfc(st_point(), crs = sf::st_crs(data@crs@projargs)),
+      inherit.aes = FALSE,
+      show.legend = FALSE
+    )
   )
 }
 
-StatSpatialRaster <-  ggproto(
+#' @rdname layer_spatial.Raster
+#' @export
+annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  c(
+    ggplot2::layer(
+      data = tibble::tibble(raster = list(data)),
+      mapping = aes_string(raster = "raster"),
+      stat = StatSpatialRasterAnnotation,
+      geom = GeomSpatialRaster,
+      position = "identity",
+      inherit.aes = FALSE, show.legend = FALSE,
+      params = list(interpolate = interpolate)
+    ),
+    # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
+    # using the first layer's CRS as the base CRS for coord_sf().
+    ggplot2::geom_sf(
+      data = sf::st_sfc(st_point(), crs = sf::st_crs(data@crs@projargs)),
+      inherit.aes = FALSE,
+      show.legend = FALSE
+    )
+  )
+}
+
+StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
   Stat,
-  extra_params = "is_annotation",
   required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
 
-    coord_crs <- layout$coord$crs
-
+    # project to target coordinate system
+    coord_crs <- layout$coord_params$crs
     if(!is.null(coord_crs)) {
       data$raster <- lapply(
         data$raster,
@@ -40,32 +75,41 @@ StatSpatialRaster <-  ggproto(
         crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
       )
     } else {
-      warning("Skipping projection in geom_spatial_raster. Use coord_sf() to project.", call. = FALSE)
+      warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
     }
 
+    # add extent so that scales are trained properly
     data$extent <- lapply(data$raster, raster::extent)
-
-    if(params$is_annotation) {
-      data$xmin <- NA_real_
-      data$xmax <- NA_real_
-      data$ymin <- NA_real_
-      data$ymax <- NA_real_
-    } else {
-      data$xmin <- vapply(data$extent, function(x) x@xmin, numeric(1))
-      data$xmax <- vapply(data$extent, function(x) x@xmax, numeric(1))
-      data$ymin <- vapply(data$extent, function(x) x@ymin, numeric(1))
-      data$ymax <- vapply(data$extent, function(x) x@ymax, numeric(1))
-    }
+    data$xmin <- vapply(data$extent, function(x) x@xmin, numeric(1))
+    data$xmax <- vapply(data$extent, function(x) x@xmax, numeric(1))
+    data$ymin <- vapply(data$extent, function(x) x@ymin, numeric(1))
+    data$ymax <- vapply(data$extent, function(x) x@ymax, numeric(1))
 
     data
  }
+)
+
+StatSpatialRasterAnnotation <- ggplot2::ggproto(
+  "StatSpatialRaster",
+  StatSpatialRaster,
+  required_aes = "raster",
+
+  compute_layer = function(self, data, params, layout) {
+    data <- ggplot2::ggproto_parent(self, StatSpatialRaster)$compute_layer(data, params, layout)
+    data$xmin <- NULL
+    data$xmax <- NULL
+    data$ymin <- NULL
+    data$ymax <- NULL
+
+    data
+  }
 )
 
 GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
 
-  required_aesthetics = c("raster", "extent", "xmin", "xmax", "ymin", "ymax"),
+  required_aesthetics = c("raster", "extent"),
 
   handle_na = function(data, params) {
     data
@@ -87,7 +131,6 @@ GeomSpatialRaster <- ggplot2::ggproto(
       just = c("left","bottom"), interpolate = interpolate
     )
   }
-
 )
 
 
