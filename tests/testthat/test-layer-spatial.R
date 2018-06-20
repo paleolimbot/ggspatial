@@ -25,5 +25,6 @@ test_that("layer_spatial() works as intended", {
   ggplot() + layer_spatial(as(longlake_depthdf, "Spatial"), aes(col = DEPTH.M))
   ggplot() + layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
 
-
+  # visual test
+  expect_true(TRUE)
 })
