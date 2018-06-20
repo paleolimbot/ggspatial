@@ -2,7 +2,7 @@
 #' Spatial ggplot2 layer for raster objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-#' bands as if they were columns, use \link{df_spatial}, \link{stat_rgb}, and \link{geom_raster}.
+#' bands as if they were columns, use \link{df_spatial}, \link{stat_rgba}, and \link{geom_raster}.
 #'
 #' @param data A Raster object
 #' @param mapping Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
@@ -19,7 +19,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) 
   c(
     ggplot2::layer(
       data = tibble::tibble(raster = list(data)),
-      mapping = aes_string(raster = "raster"),
+      mapping = ggplot2::aes_string(raster = "raster"),
       stat = StatSpatialRaster,
       geom = GeomSpatialRaster,
       position = "identity",
@@ -29,7 +29,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) 
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(st_point(), crs = sf::st_crs(data@crs@projargs)),
+      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data@crs@projargs)),
       inherit.aes = FALSE,
       show.legend = FALSE
     )
@@ -42,7 +42,7 @@ annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, 
   c(
     ggplot2::layer(
       data = tibble::tibble(raster = list(data)),
-      mapping = aes_string(raster = "raster"),
+      mapping = ggplot2::aes_string(raster = "raster"),
       stat = StatSpatialRasterAnnotation,
       geom = GeomSpatialRaster,
       position = "identity",
@@ -52,7 +52,7 @@ annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, 
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(st_point(), crs = sf::st_crs(data@crs@projargs)),
+      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data@crs@projargs)),
       inherit.aes = FALSE,
       show.legend = FALSE
     )

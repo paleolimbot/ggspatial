@@ -26,5 +26,5 @@ A ggplot2 layer
 }
 \description{
 This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-bands as if they were columns, use \link{df_spatial}, \link{stat_rgb}, and \link{geom_raster}.
+bands as if they were columns, use \link{df_spatial}, \link{stat_rgba}, and \link{geom_raster}.
 }

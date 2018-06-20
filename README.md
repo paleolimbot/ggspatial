@@ -102,6 +102,20 @@ ggplot() +
 Using `layer_spatial()`
 -----------------------
 
+With `sf` (or `sp`) objects:
+
+``` r
+ggplot() +
+  annotation_spatial(longlake_roadsdf, size = 1, col = "black") +
+  annotation_spatial(longlake_roadsdf, size = 0.8, col = "white") +
+  annotation_spatial(longlake_waterdf, fill = "lightblue", col = NA) +
+  layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
+```
+
+![](README_files/figure-markdown_github/fig-layer-spatial-sf-1.png)
+
+With RBG(A) rasters...
+
 ``` r
 ggplot() +
   layer_spatial(longlake_osm) +
