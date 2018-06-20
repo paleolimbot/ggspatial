@@ -4,6 +4,7 @@
 \alias{layer_spatial}
 \alias{annotation_spatial}
 \alias{layer_spatial.default}
+\alias{annotation_spatial.default}
 \title{Turn a spatial object into a ggplot2 layer}
 \usage{
 layer_spatial(data, mapping, ...)
@@ -12,6 +13,9 @@ annotation_spatial(data, mapping, ...)
 
 \method{layer_spatial}{default}(data, mapping = aes(), inherit.aes = FALSE,
   sf_params = list(), ...)
+
+\method{annotation_spatial}{default}(data, mapping = aes(),
+  inherit.aes = FALSE, sf_params = list(), ...)
 }
 \arguments{
 \item{data}{An object that can be coerced to an sf object using \link[sf]{st_as_sf}.}

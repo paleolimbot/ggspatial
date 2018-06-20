@@ -31,3 +31,30 @@ layer_spatial.default <- function(data, mapping = aes(), inherit.aes = FALSE, sf
     ...
   )
 }
+
+#' @rdname layer_spatial
+#' @export
+annotation_spatial.default <- function(data, mapping = aes(), inherit.aes = FALSE, sf_params = list(), ...) {
+  ggplot2::geom_sf(
+    mapping = mapping,
+    data = do.call(sf::st_as_sf, c(list(data), sf_params)),
+    inherit.aes = FALSE,
+    na.rm = TRUE,
+    stat = StatSfAnnotation,
+    ...
+  )
+}
+
+StatSfAnnotation <- ggplot2::ggproto(
+  "StatSfAnnotation",
+  ggplot2::StatSf,
+  compute_group = function(data, scales) {
+    data$xmin <- NA_real_
+    data$xmax <- NA_real_
+    data$ymin <- NA_real_
+    data$ymax <- NA_real_
+
+    data
+  }
+)
+
