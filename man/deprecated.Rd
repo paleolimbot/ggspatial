@@ -24,6 +24,10 @@
 \alias{spatial_fortify}
 \alias{spatial_fortify.default}
 \alias{stat_project}
+\alias{annotation_spraster}
+\alias{geom_spraster_rgb}
+\alias{geom_osm}
+\alias{ggosm}
 \title{Deprecated functions}
 \usage{
 \method{geom_spatial}{Raster}(data, mapping = NULL, show.legend = TRUE,
@@ -81,6 +85,18 @@ spatial_fortify(x, attrs = NULL, ...)
 stat_project(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
   position = "identity", show.legend = TRUE, inherit.aes = TRUE,
   geom = "point", ...)
+
+annotation_spraster(raster, interpolate = FALSE, na.value = NA)
+
+geom_spraster_rgb(raster, interpolate = FALSE, na.value = NA)
+
+geom_osm(x = NULL, zoomin = 0, zoom = NULL, type = NULL,
+  forcedownload = FALSE, cachedir = NULL, progress = c("text", "none"),
+  quiet = TRUE)
+
+ggosm(x = NULL, zoomin = 0, zoom = NULL, type = NULL,
+  forcedownload = FALSE, cachedir = NULL, progress = c("text", "none"),
+  quiet = TRUE)
 }
 \arguments{
 \item{data, mapping, geom, stat, position, show.legend, inherit.aes}{deprecated}
@@ -89,7 +105,9 @@ stat_project(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
 
 \item{...}{Passed to/from methods}
 
-\item{format, attrs, x}{deprecated}
+\item{format, attrs, x, raster, interpolate, na.value}{deprecated}
+
+\item{zoomin, zoom, type, forcedownload, cachedir, progress, quiet}{deprecated}
 }
 \description{
 These functions are deprecated and should not be used.

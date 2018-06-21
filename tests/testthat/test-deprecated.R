@@ -103,3 +103,65 @@ test_that("deprecated tests run without error", {
   # empty tests
   expect_true(TRUE)
 })
+
+test_that("old stat project works", {
+  load_longlake_data()
+  expect_silent(
+    print(
+      ggplot() +
+        stat_project(aes(LON, LAT, col = DEPTH.M), data = longlake_depthdf, crsfrom = 4326, crsto = 26920) +
+        labs(caption = "These coordinates should be in UTM not lat/lon")
+    )
+  )
+})
+
+test_that("deprecated geom_spatial works with sf objects", {
+  load_longlake_data()
+  print(ggplot() + geom_spatial(longlake_waterdf))
+  print(ggplot() + geom_spatial(longlake_waterdf$geometry))
+})
+
+test_that("deprecated spraster functions work", {
+  load_longlake_data()
+  print(
+    ggplot() +
+      geom_spraster_rgb(longlake_osm) +
+      coord_fixed() +
+      labs(caption = "This should be a picture of long lake with grey around the edge")
+  )
+
+  print(
+    ggplot() +
+      geom_spatial(longlake_depth_raster, aes(fill = band1)) +
+      coord_fixed() +
+      labs(caption = "This should be a depth raster of long lake with a legend")
+  )
+
+  print(ggraster(longlake_depth_raster, aes(fill = band1)))
+
+  expect_true(TRUE)
+})
+
+test_that("deprecated OSM tiles work", {
+  load_longlake_data()
+  expect_message(
+    print(
+      ggplot() +
+        geom_osm(zoom = 15, type = "osm", cachedir = system.file("rosm.cache", package = "ggspatial")) +
+        geom_spatial(longlake_depthdf, crsto = 4326) +
+        coord_map()
+    ),
+    "Zoom: 15"
+  )
+
+  expect_message(
+    print(
+      ggosm(zoom = 13, type = "osm", cachedir = system.file("rosm.cache", package = "ggspatial")) +
+        geom_spatial(longlake_waterdf, crsto = 4326) +
+        geom_spatial(longlake_roadsdf, crsto = 4326) +
+        geom_spatial(longlake_streamsdf, crsto = 4326) +
+        geom_spatial(longlake_buildingsdf, crsto = 4326)
+    ),
+    "Zoom: 13"
+  )
+})

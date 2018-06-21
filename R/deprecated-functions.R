@@ -7,7 +7,8 @@
 #'
 #' @param data,mapping,geom,stat,position,show.legend,inherit.aes deprecated
 #' @param crsfrom,crsto,attribute_table deprecated
-#' @param format,attrs,x deprecated
+#' @param format,attrs,x,raster,interpolate,na.value deprecated
+#' @param zoomin,zoom,type,forcedownload,cachedir,progress,quiet deprecated
 #'
 #' @param ... Passed to/from methods
 #'
@@ -538,3 +539,220 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
 
     required_aes = c("x", "y")
 )
+
+#' @rdname deprecated
+#' @export
+annotation_spraster <- function(raster, interpolate = FALSE, na.value = NA) {
+  if(!methods::is(raster, "Raster")) stop("Cannot use annotation_spraster with non Raster* object")
+  bbox <- raster::as.matrix(raster@extent)
+  raster <- raster::as.array(raster)
+
+  # check dims
+  dims <- dim(raster)
+  if(length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  if(!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use annotation_spraster")
+
+  # make values between 0 and 1, if they are not already
+  vrange <- range(raster, finite = TRUE)
+  if(!all(vrange >= 0 & vrange <= 1)) {
+    if(all(vrange >= 0 & vrange <= 256)) {
+      raster <- scales::rescale(raster, from = c(0, 256))
+    } else{
+      raster <- scales::rescale(raster)
+    }
+  }
+
+  # eliminate NAs
+  if(is.na(na.value) && any(is.na(raster))) {
+    # find NA cells
+    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) |
+      is.na(raster[, , 3])
+
+    # grid doesn't do non-finite values, so we need to set the transparency band
+    # for missing cells
+    if(dim(raster)[3] == 4) {
+      tband <- raster[ , , 4, drop = FALSE]
+    } else {
+      tband <- array(1, dim(raster)[1:2])
+    }
+
+    # set alpha to NA cells to 0
+    tband[na_cells] <- 0
+
+    # bind it to the original raster
+    raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
+
+    # set NA values to 0
+    raster[is.na(raster)] <- 0
+  } else {
+    raster[is.na(raster)] <- na.value
+  }
+
+  # call ggplot2's annotation_raster
+  ggplot2::annotation_raster(raster, bbox[1, 1], bbox[1, 2], bbox[2, 1], bbox[2, 2],
+                             interpolate = interpolate)
+}
+
+#' @rdname deprecated
+#' @export
+geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
+  if(!methods::is(raster, "Raster")) stop("Cannot use geom_spraster_rgb with non Raster* object")
+
+  # wraps around annotation_spraster using a blank geometry to set bounds
+  bbox <- raster::as.matrix(raster@extent)
+  data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
+
+  # returns a list with both layers
+  list(
+    ggplot2::geom_point(ggplot2::aes_string("long", "lat"), data = data, alpha = 0, inherit.aes = FALSE,
+                        show.legend = FALSE),
+    annotation_spraster(raster, interpolate = interpolate, na.value = na.value)
+  )
+}
+
+#' @rdname deprecated
+#' @export
+geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                     progress = c("text", "none"), quiet = TRUE) {
+  # sanitze progress arg
+  progress <- match.arg(progress)
+
+  # sanitize type here to avoid errors that don't show up until later
+  if(is.null(type)) {
+    type <- rosm::get_default_tile_source()
+  } else {
+    type <- rosm::as.tile_source(type)
+  }
+
+  # if x in NULL, this geom shouldn't have any influence on scale training
+  if(is.null(x)) {
+    data <- data.frame(long = NA_real_, lat = NA_real_)
+  } else {
+    # use the bounding box as the data
+    bbox <- rosm::extract_bbox(x)
+    data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
+  }
+
+  # return GeomTileSource layer
+  ggplot2::layer(data = data, mapping = ggplot2::aes_string("long", "lat"),
+                 position = "identity", geom = GeomTileSource, stat = "identity",
+                 show.legend = FALSE, inherit.aes = FALSE,
+                 params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,
+                               forcedownload = forcedownload,
+                               cachedir = cachedir, progress = progress, quiet = quiet))
+}
+
+#' @rdname deprecated
+#' @export
+ggosm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                  progress = c("text", "none"), quiet = TRUE) {
+  progress <- match.arg(progress)
+
+  # return ggplot() + geom_osm()
+  ggplot2::ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
+                               forcedownload = forcedownload, cachedir = cachedir,
+                               progress = progress, quiet = quiet) +
+    ggplot2::coord_map(projection = "mercator")
+}
+
+# the ggproto version
+GeomTileSource <- ggplot2::ggproto(
+  "GeomTileSource",
+  Geom,
+
+  required_aes = c("x", "y"),
+
+  handle_na = function(data, params) {
+    data
+  },
+
+  draw_panel = function(data, scales, coordinates,
+                        zoomin=-1, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                        progress = c("text", "none"), quiet = TRUE, crsto = NULL,
+                        interpolate = TRUE) {
+
+    # original coordinate bounding box
+    bbox <- rbind(x = scales$x.range, y = scales$y.range)
+
+    if(!is.null(coordinates$projection)) {
+      # check that projection is a play-by-the-rules, cyllindrical projection
+      if(coordinates$projection != "mercator") {
+        stop("geom_osm requires a 'mercator' projection")
+      }
+
+      # check that there is no change in orientation
+      if(!is.null(coordinates$orientation) && (coordinates$orientation != 0)) {
+        stop("geom_osm requires an orientation of 0")
+      }
+
+      # source is lat/lon
+      epsg <- 4326
+
+    } else {
+      # warn user
+      message("Attemping to use geom_osm without coord_map()")
+
+      # guess source coordinate system
+      epsg <- guess.epsg(bbox)
+      bbox <- bboxTransform(bbox, from = epsg)
+    }
+
+    # get OSM image
+    img <- rosm::osm.image(bbox, zoomin = zoomin, zoom = zoom, type = type,
+                           forcedownload = forcedownload, cachedir = cachedir,
+                           progress = progress, quiet = quiet)
+
+    # convert bounding box back to lat/lon, if not epsg 3857
+    if(epsg == 4326) {
+      bbox_img <- bboxTransform(attr(img, "bbox"), from = 3857)
+    } else {
+      bbox_img <- attr(img, "bbox")
+    }
+
+    # mimic GeomRasterAnn in ggplot2
+    # https://github.com/tidyverse/ggplot2/blob/master/R/annotation-raster.r
+
+    # find bbox extents in the coordinate system
+    data <- coordinates$transform(data.frame(t(bbox_img)), scales)
+
+    # get coordinate ranges
+    x_rng <- range(data$x, na.rm = TRUE)
+    y_rng <- range(data$y, na.rm = TRUE)
+
+    # return the grid::rasterGrob object
+    grid::rasterGrob(img, x_rng[1], y_rng[1],
+                     diff(x_rng), diff(y_rng), default.units = "native",
+                     just = c("left","bottom"), interpolate = interpolate)
+
+  }
+)
+
+# not really an exportable function
+guess.epsg <- function(extents, plotunit = NULL, plotepsg = NULL, quiet = FALSE) {
+
+  if(is.null(plotepsg) && is.null(plotunit)) {
+    # check for valid lat/lon in extents
+    if(extents[1, 1] >= -180 &&
+       extents[1, 1] <= 180 &&
+       extents[1, 2] >= -180 &&
+       extents[1, 2] <= 180 &&
+       extents[2, 1] >= -90 &&
+       extents[2, 1] <= 90 &&
+       extents[2, 2] >= -90 &&
+       extents[2, 2] <= 90) {
+      if(!quiet) message("Autodetect projection: assuming lat/lon (epsg 4326)")
+      plotepsg <- 4326
+    } else {
+      # else assume google mercator used by {OpenStreetMap} (epsg 3857)
+      if(!quiet) message("Audotdetect projection: assuming Google Mercator (epsg 3857)")
+      plotepsg <- 3857
+    }
+  } else if(!is.null(plotunit)) {
+    if(plotunit=="latlon") {
+      plotepsg <- 4326
+    }
+  }
+
+  plotepsg
+}
+
