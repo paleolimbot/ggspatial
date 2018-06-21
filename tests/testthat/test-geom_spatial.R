@@ -48,3 +48,35 @@ test_that("geom_spatial_* geoms work properly", {
   expect_silent(print(poly))
 
 })
+
+test_that("stat_spatial_identity function", {
+  load_longlake_data()
+  df <- df_spatial(longlake_depthdf)
+
+  expect_message(
+    print(
+      ggplot() +
+        annotation_spatial(longlake_waterdf, fill = "lightblue") +
+        stat_spatial_identity(aes(LON, LAT, col = DEPTH.M), data = df) +
+        labs(caption = "all the points should be in the lake!")
+    ),
+    "Assuming crs"
+  )
+
+  expect_silent(
+    print(
+      ggplot() +
+        annotation_spatial(longlake_waterdf, fill = "lightblue") +
+        stat_spatial_identity(aes(LON, LAT, col = DEPTH.M), data = df, crs = 4326) +
+        labs(caption = "all the points should be in the lake!")
+    )
+  )
+
+})
+
+test_that("create spatial stat class gets tested", {
+  expect_is(
+    create_spatial_stat_class(ggplot2::StatIdentity, "stat_spatial_identity"),
+    "StatIdentity"
+  )
+})

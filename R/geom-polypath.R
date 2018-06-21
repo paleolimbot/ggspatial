@@ -49,8 +49,7 @@ GeomPolypath <- ggplot2::ggproto(
   extra_params = c("na.rm", "rule"),
   draw_panel = function(data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
-    if (n == 1)
-      return(zeroGrob())
+    if (n == 1) return(zeroGrob())
 
     munched <- coord_munch(coordinates, data, scales)
     munched <- munched[order(munched$group), ]
