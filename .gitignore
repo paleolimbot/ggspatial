@@ -2,5 +2,4 @@
 .Rhistory
 .RData
 .DS_Store
-rosm.cache
 inst/doc
