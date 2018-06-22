@@ -6,7 +6,7 @@
 \title{Spatial ggplot2 layer for raster objects}
 \usage{
 \method{layer_spatial}{Raster}(data, mapping = NULL, interpolate = TRUE,
-  ...)
+  is_annotation = FALSE, ...)
 
 \method{annotation_spatial}{Raster}(data, mapping = NULL,
   interpolate = TRUE, ...)
@@ -18,6 +18,8 @@
 map specific bands to the fill and alpha aesthetics.}
 
 \item{interpolate}{Interpolate resampling for rendered raster image}
+
+\item{is_annotation}{Lets raster exist without modifying scales}
 
 \item{...}{Passed to other methods}
 }

@@ -8,6 +8,7 @@
 #' @param mapping Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
 #'   map specific bands to the fill and alpha aesthetics.
 #' @param interpolate Interpolate resampling for rendered raster image
+#' @param is_annotation Lets raster exist without modifying scales
 #' @param ... Passed to other methods
 #'
 #' @return A ggplot2 layer
@@ -15,16 +16,44 @@
 #'
 #' @importFrom ggplot2 waiver
 #'
-layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE, ...) {
+
+
+  is_rgb <- is.null(mapping) && (raster::nbands(data) %in% c(3, 4))
+  if(is_rgb) {
+    # RGB(A)
+    if(is_annotation) {
+      stat <- StatSpatialRasterAnnotation
+    } else {
+      stat <- StatSpatialRaster
+    }
+
+    geom <- GeomSpatialRaster
+    mapping <- ggplot2::aes_string(raster = "raster")
+  } else {
+    # mapped aesthetics mode
+    if(is_annotation) {
+      stop("Non-RGBA rasters with is_annotation = TRUE is not implemented.")
+    } else {
+      stat <- StatSpatialRasterDf
+    }
+
+    geom <- ggplot2::GeomRaster
+    mapping <- override_aesthetics(
+      mapping,
+      ggplot2::aes_string(raster = "raster")
+    )
+  }
+
   c(
     ggplot2::layer(
       data = tibble::tibble(raster = list(data)),
-      mapping = ggplot2::aes_string(raster = "raster"),
-      stat = StatSpatialRaster,
-      geom = GeomSpatialRaster,
+      mapping = mapping,
+      stat = stat,
+      geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = FALSE,
-      params = list(interpolate = interpolate)
+      inherit.aes = FALSE, show.legend = !is_rgb,
+      params = list(interpolate = interpolate, ...)
     ),
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
@@ -39,24 +68,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) 
 #' @rdname layer_spatial.Raster
 #' @export
 annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
-  c(
-    ggplot2::layer(
-      data = tibble::tibble(raster = list(data)),
-      mapping = ggplot2::aes_string(raster = "raster"),
-      stat = StatSpatialRasterAnnotation,
-      geom = GeomSpatialRaster,
-      position = "identity",
-      inherit.aes = FALSE, show.legend = FALSE,
-      params = list(interpolate = interpolate)
-    ),
-    # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
-    # using the first layer's CRS as the base CRS for coord_sf().
-    ggplot2::geom_sf(
-      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data@crs@projargs)),
-      inherit.aes = FALSE,
-      show.legend = FALSE
-    )
-  )
+  layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
 }
 
 StatSpatialRaster <-  ggplot2::ggproto(
@@ -93,6 +105,7 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
   "StatSpatialRaster",
   StatSpatialRaster,
   required_aes = "raster",
+  retransform = FALSE,
 
   compute_layer = function(self, data, params, layout) {
     data <- ggplot2::ggproto_parent(self, StatSpatialRaster)$compute_layer(data, params, layout)
@@ -105,18 +118,39 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
   }
 )
 
+StatSpatialRasterDf <- ggplot2::ggproto(
+  "StatSpatialRasterDf",
+  StatSpatialRasterAnnotation,
+  required_aes = "raster",
+  default_aes = ggplot2::aes(fill = stat(band1)),
+
+  compute_layer = function(self, data, params, layout) {
+    data <- ggplot2::ggproto_parent(self, StatSpatialRasterAnnotation)$compute_layer(data, params, layout)
+    data$extent <- NULL
+
+    # make all rasters data frames using df_spatial, if column still exists
+    if("raster" %in% colnames(data)) {
+      data$raster <- lapply(data$raster, df_spatial)
+      tidyr::unnest(data, .data$raster)
+    } else {
+      data
+    }
+  }
+)
+
 GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
 
   required_aesthetics = c("raster", "extent"),
 
+  default_aes = ggplot2::aes(alpha = 1),
+
   handle_na = function(data, params) {
     data
   },
 
   draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, crop = TRUE) {
-
     ext <- data$extent[[1]]
     corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
     corners_trans <- coordinates$transform(corners, panel_params)
@@ -125,7 +159,7 @@ GeomSpatialRaster <- ggplot2::ggproto(
     y_rng <- range(corners_trans$y, na.rm = TRUE)
 
     grid::rasterGrob(
-      raster_as_array(data$raster[[1]]),
+      raster_as_array(data$raster[[1]], alpha = data$alpha[1]),
       x_rng[1], y_rng[1],
       diff(x_rng), diff(y_rng), default.units = "native",
       just = c("left","bottom"), interpolate = interpolate
@@ -134,7 +168,7 @@ GeomSpatialRaster <- ggplot2::ggproto(
 )
 
 
-raster_as_array <- function(raster_obj, na.value = NA) {
+raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   if(!methods::is(raster_obj, "Raster")) stop("Cannot use raster_as_array with non Raster* object")
 
   raster <- raster::as.array(raster_obj)
@@ -155,10 +189,9 @@ raster_as_array <- function(raster_obj, na.value = NA) {
   }
 
   # eliminate NAs
-  if(is.na(na.value) && any(is.na(raster))) {
+  if((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
     # find NA cells
-    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) |
-      is.na(raster[, , 3])
+    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) | is.na(raster[, , 3])
 
     # grid doesn't do non-finite values, so we need to set the transparency band
     # for missing cells
@@ -170,6 +203,9 @@ raster_as_array <- function(raster_obj, na.value = NA) {
 
     # set alpha to NA cells to 0
     tband[na_cells] <- 0
+
+    # multiply the alpha band by the requested alpha (clamping to 0,1)
+    tband <- tband * max(0, min(1, alpha))
 
     # bind it to the original raster
     raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
