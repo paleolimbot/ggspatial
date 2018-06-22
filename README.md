@@ -1,6 +1,8 @@
 ggspatial: Spatial data framework for ggplot2
 ================
 
+[![ggspatial on CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial) [![Travis-CI Build Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial) [![Coverage Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
+
 Spatial data plus the power of the `ggplot2` framework means easier mapping.
 
 Installation

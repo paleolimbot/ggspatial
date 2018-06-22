@@ -28,7 +28,8 @@ Suggests:
     sp,
     rgdal,
     testthat,
-    dplyr
+    dplyr,
+    covr
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
