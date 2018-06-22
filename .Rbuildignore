@@ -5,3 +5,5 @@
 ^README_files$
 ^README\.rmd$
 ^README\.md$
+^\.travis\.yml$
+^codecov\.yml$

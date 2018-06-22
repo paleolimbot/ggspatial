@@ -2,7 +2,6 @@ Package: ggspatial
 Type: Package
 Title: Spatial Data Framework for ggplot2
 Version: 0.3.0.9000
-Date: 2017-04-05
 Author: Dewey Dunnington <dewey@fishandwhistle.net>
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: Spatial data plus the power of the ggplot2 framework means easier mapping when input 
@@ -10,24 +9,29 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
 License: GPL-3
 Depends:
     R (>= 2.10),
-    ggplot2 (>= 2.0)
+    ggplot2 (>= 2.0),
+    sf
 Imports:
     rosm (>= 0.2),
     abind,
     reshape2,
     methods,
-    rgdal,
     plyr,
     raster,
+    tibble,
     scales,
-    sp
+    tidyr,
+    grid
 Suggests:
     prettymapr,
     mapproj,
     knitr,
     rmarkdown,
-    sf,
-    testthat
+    sp,
+    rgdal,
+    testthat,
+    dplyr,
+    covr
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE

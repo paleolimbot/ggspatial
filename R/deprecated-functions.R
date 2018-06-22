@@ -1,39 +1,19 @@
 #####    R/class-raster.R    #####
 
 
-#' Spatial Geometry for Raster* Objects
+#' Deprecated functions
 #'
-#' Similar to the \link{geom_spatial} family for Spatial* objects, this method
-#' plots a spatial raster as a spatial raster. Note that projecting (or un-projecting)
-#' this layer will likely result in odd results (namely that geom_raster will not
-#' function properly or at all). As a convenience, \code{ggraster()} is provided,
-#' which replaces the call to \code{coord_map()} from \link{ggspatial} with a call
-#' to \code{coord_fixed()}.
+#' These functions are deprecated and should not be used.
 #'
-#' @param data A Raster* object
-#' @param mapping A mapping
-#' @param geom The geometry to use. Defaults to raster (obviously), but could also
-#'   be another value if used with a different stat (e.g. contour)
-#' @param stat The stat to apply. Defaults to 'identity', but could be something else
-#'   like 'contour', \link{stat_rgba} ("rgba"), or \link{stat_project} ("project").
-#' @param position The position to apply (should probably always be 'identity')
-#' @param show.legend Should the legend be shown for this layer?
-#' @param inherit.aes Should aesthetics be inherited from the base plot?
-#' @param crsfrom Override the source projection
-#' @param crsto Override the source projection
-#' @param attribute_table Not used by this method
-#' @param ... Further arguments passed to the stat/geom
+#' @param data,mapping,geom,stat,position,show.legend,inherit.aes deprecated
+#' @param crsfrom,crsto,attribute_table deprecated
+#' @param format,attrs,x,raster,interpolate,na.value deprecated
+#' @param zoomin,zoom,type,forcedownload,cachedir,progress,quiet deprecated
 #'
-#' @return A ggplot2 layer
+#' @param ... Passed to/from methods
+#'
+#' @rdname deprecated
 #' @export
-#'
-#' @examples
-#' # standard ggplot syntax
-#' ggplot() + geom_spatial(longlake_osm, aes(fill = band1)) + coord_fixed()
-#' \donttest{
-#' # or use ggraster()
-#' ggraster(longlake_osm, aes(fill = band1))
-#' }
 #'
 geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes = FALSE,
                                 position = "identity", crsfrom = NA, crsto = NULL,
@@ -59,7 +39,7 @@ geom_spatial.Raster <- function(data, mapping = NULL, show.legend = TRUE, inheri
                        geom = geom, stat = stat, ...)
 }
 
-#' @rdname geom_spatial.Raster
+#' @rdname deprecated
 #' @export
 ggraster <- function(data, mapping = NULL, ...) {
   if(!methods::is(data, "Raster")) stop("ggraster is only applicable to objects of class Raster")
@@ -68,96 +48,36 @@ ggraster <- function(data, mapping = NULL, ...) {
     ggplot2::labs(x = "long", y = "lat")
 }
 
-#' Turn a Raster into a data.frame
-#'
-#' Like others in the \link[ggplot2]{fortify} family, this method coerces its
-#' input into a \code{data.frame}. Each band in the raster is a column in the data frame,
-#' alongside x and y coordinate columns. This is the format required for input to
-#' \link[ggplot2]{geom_raster}, such that a \code{Raster} object can be passed directly
-#' to geom_raster without a conversion function. Band columns are named band1, band2, band3,
-#' etc., for use in creating a mapping.
-#'
-#' @param model A \code{Raster} object
-#' @param data Unused
-#' @param format Use 'long' to get values in a single column; otherwise
-#'   values are in one column per band.
-#' @param ... Not used by this method
-#'
-#' @return A data.frame with columns, x and y as coordinates in the projection
-#'   of the Raster,
-#'
+#' @rdname deprecated
 #' @export
-#'
-#' @importFrom ggplot2 fortify
-#'
-#' @examples
-#' # use with ggplot()
-#' df <- fortify(longlake_osm)
-#' ggplot(df, aes(long, lat, fill = band1)) + geom_raster() +
-#'   coord_fixed()
-#' \donttest{
-#' # identical usage with ggraster()
-#' ggraster(longlake_osm, aes(fill = band1))
-#'
-#' # use long format to facet by band
-#' dflong <- fortify(longlake_osm, format = "long")
-#' ggplot(dflong, aes(long, lat, fill = value)) +
-#'   geom_raster() + facet_wrap(~band) +
-#'   coord_fixed()
-#'
-#'
-#' # can use on other raster types as well
-#' x <- rosm::osm.raster("gatineau qc")
-#' ggraster(x, aes(fill = band1))
-#' df <- fortify(x, format = "long")
-#' ggplot(df, aes(long, lat, fill = value)) +
-#'   geom_raster() + facet_wrap(~band) +
-#'   coord_fixed()
-#' }
-#'
-fortify.Raster <- function(model, data = NULL, format = c("wide", "long"), ...) {
+spatial_fortify.Raster <- function(x, ..., format = c("wide", "long")) {
   # match format arg
   format <- match.arg(format)
 
-  # I used 'x', ggplot2 used 'model'...
-  x <- model
-
   # get values in a data frame
-  fused <- cbind(expand.grid(x=1:x@ncols, y=1:x@nrows),
-                 raster::values(x))
+  fused <- cbind(expand.grid(x=1:x@ncols, y=1:x@nrows), raster::values(x))
   # set names to be long, lat, band1, band2, ...
   nbands <- ncol(fused) - 2
-  names(fused) <- c("long", "lat", paste0("band", 1:nbands))
+  names(fused) <- c(".long", ".lat", paste0("band", 1:nbands))
 
   # fix x and y to be physical coordinates using the bbox
   bbox <- raster::as.matrix(x@extent)
-  fused$long <- bbox[1,1]+(fused$long-1)/x@ncols*(bbox[1,2]-bbox[1,1])
-  fused$lat <- bbox[2,1]+(fused$lat-x@nrows)/x@nrows*(bbox[2,1]-bbox[2,2])
+  fused$.long <- bbox[1,1]+(fused$.long-1)/x@ncols*(bbox[1,2]-bbox[1,1])
+  fused$.lat <- bbox[2,1]+(fused$.lat-x@nrows)/x@nrows*(bbox[2,1]-bbox[2,2])
 
   if(format == "wide") {
     # return the data frame
     fused
   } else {
-    reshape2::melt(fused, id.vars = c("long", "lat"), variable.name = "band")
+    reshape2::melt(fused, id.vars = c(".long", ".lat"), variable.name = "band")
   }
 }
 
-# the spatial_fortify is *almost* the same, except band columns should not be
-# renamed to .band1, .band2, etc.
-#' @rdname spatial_fortify
-#' @export
-spatial_fortify.Raster <- function(x, ...) {
-  fortified <- fortify(x, ...)
-  plyr::rename(fortified, c(long = ".long", lat = ".lat"))
-}
-
-# add geometry definition
-#' @rdname spatial_geom
+#' @rdname deprecated
 #' @export
 spatial_geom.Raster <- function(x) ggplot2::GeomRaster
 
-# add default aes definition
-#' @rdname spatial_geom
+#' @rdname deprecated
 #' @export
 spatial_default_aes.Raster <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", fill = "band1")
@@ -168,82 +88,55 @@ spatial_default_aes.Raster <- function(x) {
 #####    R/class-sf.R    #####
 
 
-#' A ggplot2 geom for sf* objects
-#'
-#' This implementation of \link{geom_spatial} for the sf package currently converts
-#' objects to a Spatial* object, although this will likely change in future versions.
-#'
-#' @inheritParams geom_spatial
-#'
-#' @return A ggplot2 Geom object
+#' @rdname deprecated
 #' @export
-#'
-#' @examples
-#' library(sf)
-#' llsf <- st_as_sf(longlake_waterdf)
-#' ggspatial(llsf)
-#' llsfc <- st_as_sfc(longlake_waterdf)
-#' ggspatial(llsfc)
-#'
 geom_spatial.sf <- function(data, mapping = NULL, show.legend = TRUE,
                             inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
                             attribute_table = NA, geom = NA, stat = NA, ...) {
-  geom_spatial.default(methods::as(data, "Spatial"), mapping = mapping, show.legend = show.legend,
+  geom_spatial.default(methods::as(sf::st_zm(data), "Spatial"), mapping = mapping, show.legend = show.legend,
                        inherit.aes = inherit.aes, position = position, crsfrom = crsfrom, crsto = crsto,
                        attribute_table = attribute_table, geom = geom, stat = stat, ...)
 }
 
-#' @rdname geom_spatial.sf
+#' @rdname deprecated
 #' @export
 geom_spatial.sfc <- function(data, mapping = NULL, show.legend = TRUE,
                             inherit.aes = FALSE, position = "identity", crsfrom = NA, crsto = NA,
                             attribute_table = NA, geom = NA, stat = NA, ...) {
-  geom_spatial.default(methods::as(data, "Spatial"), mapping = mapping, show.legend = show.legend,
+  geom_spatial.default(methods::as(sf::st_zm(data), "Spatial"), mapping = mapping, show.legend = show.legend,
                        inherit.aes = inherit.aes, position = position, crsfrom = crsfrom, crsto = crsto,
                        attribute_table = attribute_table, geom = geom, stat = stat, ...)
 }
 
-#' @rdname fortify.SpatialPoints
-#' @export
-fortify.sf <- function(model, data, ...) {
-  fortify(methods::as(model, "Spatial"), data = data, ...)
-}
-
-#' @rdname fortify.SpatialPoints
-#' @export
-fortify.sfc <- function(model, data, ...) {
-  fortify(methods::as(model, "Spatial"), data = data, ...)
-}
-
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.sf <- function(x, attrs = NA, ...) {
-  spatial_fortify(methods::as(x, "Spatial"), attrs = attrs, ...)
+  spatial_fortify(methods::as(sf::st_zm(x), "Spatial"), attrs = attrs, ...)
 }
 
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.sfc <- function(x, attrs = NA, ...) {
-  spatial_fortify(methods::as(x, "Spatial"), attrs = attrs, ...)
+  spatial_fortify(methods::as(sf::st_zm(x), "Spatial"), attrs = attrs, ...)
 }
 
-#' @rdname spatial_geom
+#' @rdname deprecated
 #' @export
-spatial_geom.sf <- function(x) spatial_geom(methods::as(x, "Spatial"))
-#' @rdname spatial_geom
+spatial_geom.sf <- function(x) spatial_geom(methods::as(sf::st_zm(x), "Spatial"))
+#' @rdname deprecated
 #' @export
-spatial_geom.sfc <- function(x) spatial_geom(methods::as(x, "Spatial"))
+spatial_geom.sfc <- function(x) spatial_geom(methods::as(sf::st_zm(x), "Spatial"))
 
-#' @rdname spatial_geom
+#' @rdname deprecated
 #' @export
 spatial_default_aes.sf <- function(x) {
-  spatial_default_aes(methods::as(x, "Spatial"))
+  spatial_default_aes(methods::as(sf::st_zm(x), "Spatial"))
 }
 
-#' @rdname spatial_geom
+#' @rdname deprecated
 #' @export
 spatial_default_aes.sfc <- function(x) {
-  spatial_default_aes(methods::as(x, "Spatial"))
+  spatial_default_aes(methods::as(sf::st_zm(x), "Spatial"))
 }
 
 
@@ -254,37 +147,21 @@ spatial_default_aes.sfc <- function(x) {
 
 # ---------- method definitions for objects from sp ------------
 
-#' Create a data.frame from Spatial* objects
-#'
-#' Methods to turn Spatial* objects into data.frames
-#'
-#' Several methods are missing from ggplot2, including \link[ggplot2]{fortify}
-#' implementations for SpatialPoints, SpatialPointsDataFrame, and SpatialLines.
-#'
-#' @param model The object
-#' @param data Not used by this method
-#' @param ... Not used by this method
-#'
-#' @return A data.frame with colummns id, long and lat (mimics
-#' behaviour in fortify.Spatial* from ggplot2.
+#' @importFrom ggplot2 fortify
 #' @export
-#'
-#' @examples
-#' fortify(longlake_depthdf)
-#'
 fortify.SpatialPoints <- function(model, data = NULL, ...) {
   coords <- sp::coordinates(model)
   data.frame(id=1:nrow(coords), long = coords[, 1], lat = coords[, 2])
 }
 
-#' @rdname fortify.SpatialPoints
+#' @importFrom ggplot2 fortify
 #' @export
 fortify.SpatialPointsDataFrame <- function(model, data = NULL, ...) {
   coords <- sp::coordinates(model)
   data.frame(id=row.names(model), long = coords[, 1], lat = coords[, 2])
 }
 
-#' @rdname fortify.SpatialPoints
+#' @importFrom ggplot2 fortify
 #' @export
 fortify.SpatialLines <- function(model, data, ...) {
   plyr::ldply(model@lines, fortify)
@@ -292,7 +169,7 @@ fortify.SpatialLines <- function(model, data, ...) {
 
 # ----------- spatial_fortify definitions ---------------
 
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.SpatialPointsDataFrame <- function(x, attrs = NA, ...) {
   # override attribute table if present
@@ -309,7 +186,7 @@ spatial_fortify.SpatialPointsDataFrame <- function(x, attrs = NA, ...) {
   spatial_fortify.default(x, attrs, ...)
 }
 
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.SpatialLinesDataFrame <- function(x, attrs = NA, ...) {
   # override attribute table if present
@@ -321,7 +198,7 @@ spatial_fortify.SpatialLinesDataFrame <- function(x, attrs = NA, ...) {
   spatial_fortify.default(x, attrs, ...)
 }
 
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.SpatialPolygonsDataFrame <- function(x, attrs = NA, ...) {
   # same as spatial lines data frame with suppressMessages
@@ -331,53 +208,29 @@ spatial_fortify.SpatialPolygonsDataFrame <- function(x, attrs = NA, ...) {
 
 # --------- geometry definitions ----------------
 
-#' @rdname spatial_geom
-#' @export
 spatial_geom.SpatialPoints <- function(x) ggplot2::GeomPoint
-#' @rdname spatial_geom
-#' @export
 spatial_geom.Line <- function(x) ggplot2::GeomPath
-#' @rdname spatial_geom
-#' @export
 spatial_geom.Lines <- function(x) ggplot2::GeomPath
-#' @rdname spatial_geom
-#' @export
 spatial_geom.SpatialLines <- function(x) ggplot2::GeomPath
-#' @rdname spatial_geom
-#' @export
 spatial_geom.Polygon <- function(x) GeomPolypath
-#' @rdname spatial_geom
-#' @export
 spatial_geom.Polygons <- function(x) GeomPolypath
-#' @rdname spatial_geom
-#' @export
 spatial_geom.SpatialPolygons <- function(x) GeomPolypath
 
 # ----------- default aes definitions ------------
 # for items whose fortify() method produceds a group
 
-#' @rdname spatial_geom
-#' @export
 spatial_default_aes.Lines <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", group = ".group")
 }
 
-# spatial lines data frame extends spatial lines
-#' @rdname spatial_geom
-#' @export
 spatial_default_aes.SpatialLines <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", group = ".group")
 }
 
-#' @rdname spatial_geom
-#' @export
 spatial_default_aes.Polygons <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", group = ".group")
 }
 
-# spatial lines data frame extends spatial polygons
-#' @rdname spatial_geom
-#' @export
 spatial_default_aes.SpatialPolygons <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat", group = ".group")
 }
@@ -389,61 +242,25 @@ spatial_default_aes.SpatialPolygons <- function(x) {
 
 
 
-#' A ggplot2 geom for Spatial* objects
-#'
-#' A function returning a geom_* object based on the Spatial* input. Also will
-#' happily project a regular \code{data.frame} provided x and y aesthetics are
-#' specified. The result is a \code{geom_*} for use with ggplot2, with aesthetics
-#' and other argumets passed on to that geom.
-#'
-#' @param data A \code{Spatial*} object or \code{data.frame}.
-#' @param mapping A mapping as created by \code{aes()} or \code{aes_string()}
-#' @param show.legend Logical describing the legend visibility.
-#' @param inherit.aes Logical describing if aesthetics are inherited
-#' @param position Passed on to the layer
-#' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
-#'   to the CRS of the data or lat/lon if that does not exist
-#' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
-#'   lat/lon so that the plot can be projected using coord_map()
-#' @param geom The geometry to use for the object (NA to guess: see \link{spatial_geom})
-#' @param stat The statistic to apply (NA to guess, is probably "identity": see \link{spatial_stat})
-#' @param attribute_table For SpatialPoints, SpatialLines, and SpatialPolygons, an attribute
-#'   table that matches the input object.
-#' @param ... Agruments passed on to the \code{geom_*} (e.g. \code{lwd}, \code{fill}, etc.)
-#'
-#' @return A ggplot2 'layer' object.
-#'
-#' @importFrom ggplot2 layer
-#' @importFrom sp CRS
+#' @rdname deprecated
 #' @export
-#'
-#' @examples
-#' # plot a number of spatial objects
-#' ggplot() +
-#'   geom_spatial(longlake_waterdf, fill="lightblue") +
-#'   geom_spatial(longlake_marshdf, fill="grey", alpha=0.5) +
-#'   geom_spatial(longlake_streamsdf, col="lightblue") +
-#'   geom_spatial(longlake_roadsdf, col="black") +
-#'   geom_spatial(longlake_buildingsdf, pch=1, col="brown", size=0.25) +
-#'   coord_map()
-#'
 geom_spatial <- function(data, mapping = NULL, ...) UseMethod("geom_spatial")
 
 #' @export
-#' @rdname geom_spatial
+#' @rdname deprecated
 ggspatial <- function(data, mapping = NULL, ...) {
   ggplot2::ggplot() + geom_spatial(data, mapping = mapping, ...) + ggplot2::coord_map() +
     ggplot2::labs(x = "long", y = "lat")
 }
 
-#' @rdname geom_spatial
+#' @rdname deprecated
 #' @export
 geom_spatial.data.frame <- function(data, mapping = NULL, ...) {
   stop("Use stat_project to apply projections to data frame input")
 }
 
 #' @export
-#' @rdname geom_spatial
+#' @rdname deprecated
 geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inherit.aes = FALSE,
                                   position = "identity", crsfrom = NA, crsto = NA,
                                   attribute_table = NA, geom = NA, stat = NA, ...) {
@@ -468,7 +285,7 @@ geom_spatial.default <- function(data, mapping = NULL, show.legend = TRUE, inher
   final_mapping <- override_aesthetics(mapping, spatial_default_aes(data))
 
   # return layer
-  layer(
+  ggplot2::layer(
     stat = stat, data = df, mapping = final_mapping, geom = geom,
     show.legend = show.legend, inherit.aes = inherit.aes, position = position,
     params=list(...)
@@ -518,32 +335,8 @@ get_projections <- function(data, crsfrom = NA, crsto = NA) {
 
 #####    R/projections.R    #####
 
-
-
-#' Extract a projection from an object
-#'
-#' Many functions in this package require projection information. This function
-#' allows a CRS to be extracted from various objects, notably Spatial*,
-#' Raster*, and integers (which are assumed to be EPSG codes). This allows
-#' for less verbose syntax when dealing with projections in this package.
-#'
-#' @param x An object
-#'
-#' @return A CRS object, or NA if one cannot be extracted
-#' @export
-#'
-#' @examples
-#' as.CRS(4326) # integer
-#' as.CRS(longlake_osm) # raster
-#' as.CRS(longlake_waterdf) # spatial
-#'
-#' library(sf)
-#' as.CRS(st_as_sf(longlake_waterdf)) # sf
-#'
 as.CRS <- function(x) UseMethod("as.CRS")
 
-#' @rdname as.CRS
-#' @export
 as.CRS.default <- function(x) {
   if(is.null(x)) {
     NULL
@@ -566,41 +359,10 @@ as.CRS.default <- function(x) {
   }
 }
 
-#' @rdname as.CRS
-#' @export
 as.CRS.sf <- function(x) {
   sp::CRS(sf::st_crs(x)$proj4string)
 }
 
-#' Project XY coordinates
-#'
-#' The sp package provides a powerful interface with easy syntax for projection Spatial* objects,
-#' but raw coordinates are not as straightforward. Use this function to project raw
-#' coordinates, and \link[sp]{spTransform} to project Spatial* objects.
-#'
-#' @param x The x values (or longitude)
-#' @param y The y values (or latitude)
-#' @param bbox The bounding box to transform. Note that bounding boxes are not truly
-#'   transformed bounding boxes, but the bounding box of the transformed lower-left
-#'   and upper-right coordinates. This is a perfect approximation in cylindrical
-#'   systems but questionable in more complex ones.
-#' @param from The source projection, or an object that can be coerced to one
-#'   using \link{as.CRS}
-#' @param to The destination projection, or an object that can be coerce to one
-#'   using \link{as.CRS}
-#' @param na.rm Currently xyTransform does not work with non-finite values.
-#'   Pass na.rm = TRUE to remove them, or else a (more helpful) error will be
-#'   thrown if non-finite values exist.
-#'
-#' @return A matrix with 2 columns (x and y)
-#' @export
-#'
-#' @examples
-#' library(sp)
-#' all_latlons <- expand.grid(x=-180:180, y=-70:70)
-#' xyTransform(all_latlons$x, all_latlons$y, from = 4326, to = 3857)
-#' bboxTransform(bbox(longlake_osm), from = 26920)
-#'
 xyTransform <- function(x, y, from = 4326, to = 4326, na.rm = FALSE) {
   # create coordinates
   coords <- cbind(x, y)
@@ -631,8 +393,6 @@ xyTransform <- function(x, y, from = 4326, to = 4326, na.rm = FALSE) {
   sp::coordinates(sp_out)
 }
 
-#' @rdname xyTransform
-#' @export
 bboxTransform <- function(bbox, from = 4326, to = 4326) {
   coords <- t(bbox)
   pbox <- t(xyTransform(coords[, 1], coords[, 2], from = from, to = to))
@@ -641,37 +401,11 @@ bboxTransform <- function(bbox, from = 4326, to = 4326) {
   pbox
 }
 
-
-
-
-#####    R/spatial-fortify.R    #####
-
-
-# this method performs the join between the fortified data frame
-# and the original object. it starts by calling fortify() on
-# the object
-
-
-#' Create a data frame from a Spatial object with attributes
-#'
-#' The \link[ggplot2]{fortify} function returns a data frame with geometry information;
-#' \code{spatial_fortify()} returns a data frame with the results of fortify (left) joined
-#' with the attribute table. If there is no attribute table, the results of fortify are
-#' returned with the column names preceeded by a \code{.}.
-#'
-#' @param x A spatial object
-#' @param attrs An optional attribute table, NA for the default, or NULL for none.
-#' @param ... Additional arguments passed to \link[ggplot2]{fortify}
-#'
-#' @return A data.frame with (at least) columns ".lat" and ".long".
 #' @export
-#'
-#' @examples
-#' head(spatial_fortify(longlake_depthdf))
-#'
+#' @rdname deprecated
 spatial_fortify <- function(x, attrs = NULL, ...) UseMethod("spatial_fortify")
 
-#' @rdname spatial_fortify
+#' @rdname deprecated
 #' @export
 spatial_fortify.default <- function(x, attrs = NA, ...) {
   # check input
@@ -728,50 +462,11 @@ check_spatial_fortify <- function(x, df) {
 
 #####    R/spatial-geom.R    #####
 
-
-# this is essentially an automatic geometry chooser, since the
-# geom is often implied by the input type
-
-#' Guess ggplot parameters based on a spatial object
-#'
-#' In most cases, the ggplot geometry that should be used with a
-#' spatial object is suggested based on its type (e.g, SpatialPoints
-#' should use \code{geom = "point"}). S3 implementations of this
-#' method should return a ggplot2 \code{Geom} that will be used in
-#' \link{geom_spatial} when \code{geom = NA}. The default is
-#' \code{geom = "point"}. In almost all cases, the statistic
-#' to be used should be \code{stat = "identity"}, but could
-#' theoretically be a custom stat written for a specific
-#' class of spatial object. Default aesthetics are by default
-#' \code{aes(.long, .lat)}, but some spatial objects require
-#' other aesthetics, for which the defaults are returned by
-#' \code{spatial_default_aes()}.
-#'
-#' @param x A spatial object
-#'
-#' @return A ggplot2 \code{Geom}
-#' @export
-#'
-#' @examples
-#' spatial_geom(data.frame()) # default is GeomPoint
-#' spatial_geom(longlake_waterdf) # GeomPolypath
-#' spatial_geom(longlake_roadsdf) # GeomPath
-#' spatial_geom(longlake_buildingsdf) # GeomPoint
-#' spatial_geom(longlake_osm) # GeomRaster
-#'
 spatial_geom <- function(x) UseMethod("spatial_geom")
-
-#' @rdname spatial_geom
-#' @export
 spatial_geom.default <- function(x) ggplot2::GeomPoint
-
-#' @rdname spatial_geom
-#' @export
 spatial_stat <- function(x) UseMethod("spatial_stat")
 spatial_stat.default <- function(x) ggplot2::StatIdentity
 
-#' @rdname spatial_geom
-#' @export
 spatial_default_aes <- function(x) UseMethod("spatial_default_aes")
 spatial_default_aes.default <- function(x) {
   ggplot2::aes_string(x = ".long", y = ".lat")
@@ -798,38 +493,12 @@ override_aesthetics <- function(user_mapping = NULL, default_mapping = NULL) {
 #####    R/stat-project.R    #####
 
 
-#' Statisitc to project coordinates
-#'
-#' Projects coordinates using rgdal/sp. Takes params
-#' \code{crsfrom} and \code{crsto}, both wrapped in \link{as.CRS}, such that you can
-#' pass an epsg code, a CRS object or \code{NA} to guess the input (will be either lat/lon or
-#' google mercator). If \code{NA}, \code{crsto} is assumed
-#' to be EPSG:4326 (Lat/Lon), so data can be used with \link[ggplot2]{coord_map}.
-#'
-#' @param data A \code{Spatial*} object or \code{data.frame}.
-#' @param mapping A mapping as created by \code{aes()} or \code{aes_string()}
-#' @param show.legend Logical describing the legend visibility.
-#' @param inherit.aes Logical describing if aesthetics are inherited
-#' @param position Passed on to geom_*
-#' @param crsfrom An object that can be coerced to a CRS using \link{as.CRS}; defaults
-#'   to the CRS of the data or lat/lon if that does not exist
-#' @param crsto An object that can be coerced to a CRS using \link{as.CRS}; defaults to
-#'   lat/lon so that the plot can be projected using coord_map()
-#' @param geom For data frames, the geometry to use
-#' @param ... Passed to the geom
-#'
+#' @rdname deprecated
 #' @export
-#'
-#' @examples
-#' # longlake roads df is in UTM zone 20 (epsg:26920)
-#' ggplot(longlake_roadsdf, aes(long, lat)) +
-#'   stat_project(geom = "path", crsfrom = 26920) +
-#'   coord_map()
-#'
 stat_project <- function(mapping = NULL, data = NULL, crsfrom = NA, crsto = NA,
                          position = "identity", show.legend = TRUE, inherit.aes = TRUE,
                          geom = "point", ...) {
-  layer(
+  ggplot2::layer(
     stat = StatProject, data = data, mapping = mapping, geom = geom,
     show.legend = show.legend, inherit.aes = inherit.aes, position = position,
     params=list(crsfrom = as.CRS(crsfrom), crsto = as.CRS(crsto), ...)
@@ -870,3 +539,220 @@ StatProject <- ggplot2::ggproto("StatProject", ggplot2::Stat,
 
     required_aes = c("x", "y")
 )
+
+#' @rdname deprecated
+#' @export
+annotation_spraster <- function(raster, interpolate = FALSE, na.value = NA) {
+  if(!methods::is(raster, "Raster")) stop("Cannot use annotation_spraster with non Raster* object")
+  bbox <- raster::as.matrix(raster@extent)
+  raster <- raster::as.array(raster)
+
+  # check dims
+  dims <- dim(raster)
+  if(length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  if(!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use annotation_spraster")
+
+  # make values between 0 and 1, if they are not already
+  vrange <- range(raster, finite = TRUE)
+  if(!all(vrange >= 0 & vrange <= 1)) {
+    if(all(vrange >= 0 & vrange <= 256)) {
+      raster <- scales::rescale(raster, from = c(0, 256))
+    } else{
+      raster <- scales::rescale(raster)
+    }
+  }
+
+  # eliminate NAs
+  if(is.na(na.value) && any(is.na(raster))) {
+    # find NA cells
+    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) |
+      is.na(raster[, , 3])
+
+    # grid doesn't do non-finite values, so we need to set the transparency band
+    # for missing cells
+    if(dim(raster)[3] == 4) {
+      tband <- raster[ , , 4, drop = FALSE]
+    } else {
+      tband <- array(1, dim(raster)[1:2])
+    }
+
+    # set alpha to NA cells to 0
+    tband[na_cells] <- 0
+
+    # bind it to the original raster
+    raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
+
+    # set NA values to 0
+    raster[is.na(raster)] <- 0
+  } else {
+    raster[is.na(raster)] <- na.value
+  }
+
+  # call ggplot2's annotation_raster
+  ggplot2::annotation_raster(raster, bbox[1, 1], bbox[1, 2], bbox[2, 1], bbox[2, 2],
+                             interpolate = interpolate)
+}
+
+#' @rdname deprecated
+#' @export
+geom_spraster_rgb <- function(raster, interpolate = FALSE, na.value = NA) {
+  if(!methods::is(raster, "Raster")) stop("Cannot use geom_spraster_rgb with non Raster* object")
+
+  # wraps around annotation_spraster using a blank geometry to set bounds
+  bbox <- raster::as.matrix(raster@extent)
+  data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
+
+  # returns a list with both layers
+  list(
+    ggplot2::geom_point(ggplot2::aes_string("long", "lat"), data = data, alpha = 0, inherit.aes = FALSE,
+                        show.legend = FALSE),
+    annotation_spraster(raster, interpolate = interpolate, na.value = na.value)
+  )
+}
+
+#' @rdname deprecated
+#' @export
+geom_osm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                     progress = c("text", "none"), quiet = TRUE) {
+  # sanitze progress arg
+  progress <- match.arg(progress)
+
+  # sanitize type here to avoid errors that don't show up until later
+  if(is.null(type)) {
+    type <- rosm::get_default_tile_source()
+  } else {
+    type <- rosm::as.tile_source(type)
+  }
+
+  # if x in NULL, this geom shouldn't have any influence on scale training
+  if(is.null(x)) {
+    data <- data.frame(long = NA_real_, lat = NA_real_)
+  } else {
+    # use the bounding box as the data
+    bbox <- rosm::extract_bbox(x)
+    data <- data.frame(long = bbox[1, ], lat = bbox[2, ])
+  }
+
+  # return GeomTileSource layer
+  ggplot2::layer(data = data, mapping = ggplot2::aes_string("long", "lat"),
+                 position = "identity", geom = GeomTileSource, stat = "identity",
+                 show.legend = FALSE, inherit.aes = FALSE,
+                 params = list(na.rm = TRUE, zoomin = zoomin, zoom = zoom, type = type,
+                               forcedownload = forcedownload,
+                               cachedir = cachedir, progress = progress, quiet = quiet))
+}
+
+#' @rdname deprecated
+#' @export
+ggosm <- function(x = NULL, zoomin=0, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                  progress = c("text", "none"), quiet = TRUE) {
+  progress <- match.arg(progress)
+
+  # return ggplot() + geom_osm()
+  ggplot2::ggplot() + geom_osm(x = x, zoomin = zoomin, zoom = zoom, type = type,
+                               forcedownload = forcedownload, cachedir = cachedir,
+                               progress = progress, quiet = quiet) +
+    ggplot2::coord_map(projection = "mercator")
+}
+
+# the ggproto version
+GeomTileSource <- ggplot2::ggproto(
+  "GeomTileSource",
+  Geom,
+
+  required_aes = c("x", "y"),
+
+  handle_na = function(data, params) {
+    data
+  },
+
+  draw_panel = function(data, scales, coordinates,
+                        zoomin=-1, zoom=NULL, type=NULL, forcedownload=FALSE, cachedir=NULL,
+                        progress = c("text", "none"), quiet = TRUE, crsto = NULL,
+                        interpolate = TRUE) {
+
+    # original coordinate bounding box
+    bbox <- rbind(x = scales$x.range, y = scales$y.range)
+
+    if(!is.null(coordinates$projection)) {
+      # check that projection is a play-by-the-rules, cyllindrical projection
+      if(coordinates$projection != "mercator") {
+        stop("geom_osm requires a 'mercator' projection")
+      }
+
+      # check that there is no change in orientation
+      if(!is.null(coordinates$orientation) && (coordinates$orientation != 0)) {
+        stop("geom_osm requires an orientation of 0")
+      }
+
+      # source is lat/lon
+      epsg <- 4326
+
+    } else {
+      # warn user
+      message("Attemping to use geom_osm without coord_map()")
+
+      # guess source coordinate system
+      epsg <- guess.epsg(bbox)
+      bbox <- bboxTransform(bbox, from = epsg)
+    }
+
+    # get OSM image
+    img <- rosm::osm.image(bbox, zoomin = zoomin, zoom = zoom, type = type,
+                           forcedownload = forcedownload, cachedir = cachedir,
+                           progress = progress, quiet = quiet)
+
+    # convert bounding box back to lat/lon, if not epsg 3857
+    if(epsg == 4326) {
+      bbox_img <- bboxTransform(attr(img, "bbox"), from = 3857)
+    } else {
+      bbox_img <- attr(img, "bbox")
+    }
+
+    # mimic GeomRasterAnn in ggplot2
+    # https://github.com/tidyverse/ggplot2/blob/master/R/annotation-raster.r
+
+    # find bbox extents in the coordinate system
+    data <- coordinates$transform(data.frame(t(bbox_img)), scales)
+
+    # get coordinate ranges
+    x_rng <- range(data$x, na.rm = TRUE)
+    y_rng <- range(data$y, na.rm = TRUE)
+
+    # return the grid::rasterGrob object
+    grid::rasterGrob(img, x_rng[1], y_rng[1],
+                     diff(x_rng), diff(y_rng), default.units = "native",
+                     just = c("left","bottom"), interpolate = interpolate)
+
+  }
+)
+
+# not really an exportable function
+guess.epsg <- function(extents, plotunit = NULL, plotepsg = NULL, quiet = FALSE) {
+
+  if(is.null(plotepsg) && is.null(plotunit)) {
+    # check for valid lat/lon in extents
+    if(extents[1, 1] >= -180 &&
+       extents[1, 1] <= 180 &&
+       extents[1, 2] >= -180 &&
+       extents[1, 2] <= 180 &&
+       extents[2, 1] >= -90 &&
+       extents[2, 1] <= 90 &&
+       extents[2, 2] >= -90 &&
+       extents[2, 2] <= 90) {
+      if(!quiet) message("Autodetect projection: assuming lat/lon (epsg 4326)")
+      plotepsg <- 4326
+    } else {
+      # else assume google mercator used by {OpenStreetMap} (epsg 3857)
+      if(!quiet) message("Audotdetect projection: assuming Google Mercator (epsg 3857)")
+      plotepsg <- 3857
+    }
+  } else if(!is.null(plotunit)) {
+    if(plotunit=="latlon") {
+      plotepsg <- 4326
+    }
+  }
+
+  plotepsg
+}
+

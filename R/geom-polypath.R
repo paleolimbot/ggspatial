@@ -26,7 +26,8 @@
 #' @export
 #'
 #' @examples
-#' ggplot(fortify(longlake_waterdf), aes(long, lat, group = group)) +
+#' load_longlake_data()
+#' ggplot(spatial_fortify(longlake_waterdf), aes(.long, .lat, group = .group)) +
 #'   geom_polypath()
 #'
 geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
@@ -42,14 +43,13 @@ geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", posit
 }
 
 
-GeomPolypath <- ggproto(
+GeomPolypath <- ggplot2::ggproto(
   "GeomPolypath",
   GeomPolygon,
   extra_params = c("na.rm", "rule"),
   draw_panel = function(data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
-    if (n == 1)
-      return(zeroGrob())
+    if (n == 1) return(zeroGrob())
 
     munched <- coord_munch(coordinates, data, scales)
     munched <- munched[order(munched$group), ]
