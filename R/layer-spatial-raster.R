@@ -75,6 +75,7 @@ StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
   Stat,
   required_aes = "raster",
+  extra_params = "",
 
   compute_layer = function(self, data, params, layout) {
 
@@ -105,7 +106,6 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
   "StatSpatialRaster",
   StatSpatialRaster,
   required_aes = "raster",
-  retransform = FALSE,
 
   compute_layer = function(self, data, params, layout) {
     data <- ggplot2::ggproto_parent(self, StatSpatialRaster)$compute_layer(data, params, layout)
@@ -141,6 +141,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
 GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
+  extra_params = "",
 
   required_aesthetics = c("raster", "extent"),
 

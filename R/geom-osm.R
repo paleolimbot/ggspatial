@@ -69,6 +69,12 @@ GeomMapTile <- ggplot2::ggproto(
   "GeomMapTile",
   ggplot2::Geom,
 
+  extra_params = "",
+
+  handle_na = function(data, params) {
+    data
+  },
+
   default_aes = ggplot2::aes(
     type = "osm",
     zoomin = 0,

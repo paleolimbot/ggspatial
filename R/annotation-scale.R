@@ -56,7 +56,7 @@ annotation_scale <- function(plot_unit = NULL, width_hint = 0.25, unit_category 
     mapping = NULL,
     stat = ggplot2::StatIdentity,
     geom = GeomScaleBar,
-    position = PositionIdentity,
+    position = ggplot2::PositionIdentity,
     show.legend = FALSE,
     inherit.aes = FALSE,
     params = list(
