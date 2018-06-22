@@ -19,7 +19,9 @@ Imports:
     plyr,
     raster,
     tibble,
-    scales
+    scales,
+    tidyr,
+    grid
 Suggests:
     prettymapr,
     mapproj,
