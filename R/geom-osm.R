@@ -28,10 +28,10 @@ annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
 
   if(is.null(data)) {
     if(is.null(zoom)) {
-      data <- data.frame(type = type, zoomin = zoomin)
+      data <- data.frame(type = type, zoomin = zoomin, stringsAsFactors = FALSE)
       mapping <- ggplot2::aes(type = type, zoomin = zoomin)
     } else {
-      data <- data.frame(type = type, zoom = zoom, zoomin = zoomin)
+      data <- data.frame(type = type, zoom = zoom, zoomin = zoomin, stringsAsFactors = FALSE)
       mapping <- ggplot2::aes(type = type, zoom = zoom, zoomin = zoomin)
     }
   }
@@ -116,7 +116,7 @@ GeomMapTile <- ggplot2::ggproto(
         x = sp_bbox,
         zoomin = data[["zoomin"]][1],
         zoom = data[["zoom"]][1],
-        type = data[["type"]][1],
+        type = as.character(data[["type"]][1]),
         forcedownload = forcedownload,
         cachedir = cachedir,
         progress = progress,
@@ -139,7 +139,7 @@ GeomMapTile <- ggplot2::ggproto(
         x = sp_bbox,
         zoomin = data[["zoomin"]][1],
         zoom = data[["zoom"]][1],
-        type = data[["type"]][1],
+        type = as.character(data[["type"]][1]),
         forcedownload = forcedownload,
         cachedir = cachedir,
         progress = progress,
