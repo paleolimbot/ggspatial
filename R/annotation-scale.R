@@ -12,7 +12,7 @@
 #' @param line_col Line colour for scale bar
 #' @param height Height of scale bar
 #' @param pad_x,pad_y Distance between scale bar and edge of panel
-#' @param text_pad,text_cex,text_col Parameters for label
+#' @param text_pad,text_cex,text_col,text_face,text_family Parameters for label
 #' @param tick_height Height of ticks relative to height of scale bar
 #'
 #' @return A ggplot2 layer.
@@ -32,6 +32,8 @@ annotation_scale <- function(plot_unit = NULL, width_hint = 0.25, unit_category 
                              text_pad = unit(0.15, "cm"),
                              text_cex = 0.7,
                              text_col = "black",
+                             text_face = NULL,
+                             text_family = "",
                              tick_height = 0.6) {
   unit_category <- match.arg(unit_category)
   style <- match.arg(style)
@@ -74,6 +76,8 @@ annotation_scale <- function(plot_unit = NULL, width_hint = 0.25, unit_category 
       text_pad = text_pad,
       text_cex = text_cex,
       text_col = text_col,
+      text_face = text_face,
+      text_family = text_family,
       tick_height = tick_height
     )
   )
@@ -103,6 +107,8 @@ GeomScaleBar <- ggplot2::ggproto(
                         text_pad = unit(0.15, "cm"),
                         text_cex = 0.7,
                         text_col = "black",
+                        text_face = NULL,
+                        text_family = "",
                         tick_height = 0.6) {
 
     if(inherits(coordinates, "CoordSf")) {
@@ -144,6 +150,8 @@ GeomScaleBar <- ggplot2::ggproto(
       text_pad = text_pad,
       text_cex = text_cex,
       text_col = text_col,
+      text_face = text_face,
+      text_family = text_family,
       tick_height = tick_height
     )
   }
@@ -162,6 +170,8 @@ scalebar_grobs <- function(
   text_pad = unit(0.15, "cm"),
   text_cex = 0.7,
   text_col = "black",
+  text_face = NULL,
+  text_family = "",
   tick_height = 0.6
 ) {
   style <- match.arg(style)
@@ -228,7 +238,9 @@ scalebar_grobs <- function(
       vjust = 0.5,
       gp = grid::gpar(
         cex = text_cex,
-        col = text_col
+        col = text_col,
+        fontfamily = text_family,
+        fontface = text_face
       )
     )
   )
