@@ -75,28 +75,41 @@ StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
   Stat,
   required_aes = "raster",
-  extra_params = "",
 
   compute_layer = function(self, data, params, layout) {
 
-    # project to target coordinate system
+    # raster extents
+    extents <- lapply(data$raster, raster::extent)
+
+    # project to target coordinate system, if one exists
     coord_crs <- layout$coord_params$crs
     if(!is.null(coord_crs)) {
-      data$raster <- lapply(
-        data$raster,
-        raster::projectRaster,
-        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
-      )
+
+      projected_bboxes <- lapply(seq_along(extents), function(i) {
+        x <- extents[[i]]
+        project_extent(
+          xmin = x@xmin,
+          xmax = x@xmax,
+          ymin = x@ymin,
+          ymax = x@ymax,
+          from_crs = sf::st_crs(raster::crs(data$raster[[i]])@projargs),
+          to_crs = sf::st_crs(coord_crs)
+        )
+      })
+
+      data$xmin <- vapply(projected_bboxes, function(x) x["xmin"], numeric(1))
+      data$xmax <- vapply(projected_bboxes, function(x) x["xmax"], numeric(1))
+      data$ymin <- vapply(projected_bboxes, function(x) x["ymin"], numeric(1))
+      data$ymax <- vapply(projected_bboxes, function(x) x["ymax"], numeric(1))
+
     } else {
       warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
-    }
 
-    # add extent so that scales are trained properly
-    data$extent <- lapply(data$raster, raster::extent)
-    data$xmin <- vapply(data$extent, function(x) x@xmin, numeric(1))
-    data$xmax <- vapply(data$extent, function(x) x@xmax, numeric(1))
-    data$ymin <- vapply(data$extent, function(x) x@ymin, numeric(1))
-    data$ymax <- vapply(data$extent, function(x) x@ymax, numeric(1))
+      data$xmin <- vapply(extents, function(x) x@xmin, numeric(1))
+      data$xmax <- vapply(extents, function(x) x@xmax, numeric(1))
+      data$ymin <- vapply(extents, function(x) x@ymin, numeric(1))
+      data$ymax <- vapply(extents, function(x) x@ymax, numeric(1))
+    }
 
     data
  }
@@ -120,16 +133,30 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
 
 StatSpatialRasterDf <- ggplot2::ggproto(
   "StatSpatialRasterDf",
-  StatSpatialRasterAnnotation,
+  Stat,
   required_aes = "raster",
+
   default_aes = ggplot2::aes(fill = stat(band1)),
 
   compute_layer = function(self, data, params, layout) {
-    data <- ggplot2::ggproto_parent(self, StatSpatialRasterAnnotation)$compute_layer(data, params, layout)
-    data$extent <- NULL
 
+    # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
+    # (because this method gets called multiple times)
+
     if("raster" %in% colnames(data)) {
+
+      coord_crs <- layout$coord_params$crs
+      if(!is.null(coord_crs)) {
+        data$raster <- lapply(
+          data$raster,
+          raster::projectRaster,
+          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+        )
+      } else {
+        warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
+      }
+
       data$raster <- lapply(data$raster, df_spatial)
       tidyr::unnest(data, .data$raster)
     } else {
@@ -141,7 +168,6 @@ StatSpatialRasterDf <- ggplot2::ggproto(
 GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
-  extra_params = "",
 
   required_aesthetics = c("raster", "extent"),
 
@@ -152,7 +178,17 @@ GeomSpatialRaster <- ggplot2::ggproto(
   },
 
   draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, crop = TRUE) {
-    ext <- data$extent[[1]]
+
+    rst <- data$raster[[1]]
+    coord_crs <- panel_params$crs
+    if(!is.null(coord_crs)) {
+      rst <- raster::projectRaster(
+        rst,
+        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+      )
+    }
+
+    ext <- raster::extent(rst)
     corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
     corners_trans <- coordinates$transform(corners, panel_params)
 
@@ -160,7 +196,7 @@ GeomSpatialRaster <- ggplot2::ggproto(
     y_rng <- range(corners_trans$y, na.rm = TRUE)
 
     grid::rasterGrob(
-      raster_as_array(data$raster[[1]], alpha = data$alpha[1]),
+      raster_as_array(rst, alpha = data$alpha[1]),
       x_rng[1], y_rng[1],
       diff(x_rng), diff(y_rng), default.units = "native",
       just = c("left","bottom"), interpolate = interpolate
@@ -220,3 +256,27 @@ raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   raster
 }
 
+project_extent <- function(xmin, ymin, xmax, ymax, from_crs = 4326, to_crs = 4326, format = c("sf", "sp"), n = 50) {
+  format <- match.arg(format)
+
+  proj_corners <- sf::st_sfc(
+    st_point(c(xmin, ymin)),
+    st_point(c(xmax, ymax)),
+    crs = from_crs
+  )
+
+  proj_grid <- sf::st_make_grid(proj_corners, n = n, what = "corners")
+  out_grid <- sf::st_transform(proj_grid, crs = to_crs)
+  out_bbox <- sf::st_bbox(out_grid)
+
+  if(format == "sp") {
+    prettymapr::makebbox(
+      n = out_bbox["ymax"],
+      e = out_bbox["xmax"],
+      s = out_bbox["ymin"],
+      w = out_bbox["xmin"]
+    )
+  } else {
+    out_bbox
+  }
+}
