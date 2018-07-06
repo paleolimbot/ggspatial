@@ -284,7 +284,7 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
         # add Grobs
         grid::gList(
           grid::circleGrob(
-            x = 0.525,
+            x = 0.505,
             y = 0.4,
             r = 0.3,
             default.units = "npc",
