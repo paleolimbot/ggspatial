@@ -128,3 +128,16 @@ test_that("annotation scale works as intended", {
 
 })
 
+test_that("font items are passed on to annotation_scale()", {
+  print(
+    ggplot() +
+      geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      annotation_scale(plot_unit = "m", text_face = "bold") +
+      annotation_scale(plot_unit = "m", pad_y = unit(1, "cm")) +
+      annotation_scale(plot_unit = "m", pad_y = unit(2, "cm"), text_family = "serif") +
+      labs(caption = "serif label, default label, bold label") +
+      coord_fixed()
+  )
+
+  expect_true(TRUE)
+})

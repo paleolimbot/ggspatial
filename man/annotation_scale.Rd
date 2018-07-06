@@ -13,7 +13,7 @@ annotation_scale(plot_unit = NULL, width_hint = 0.25,
   line_width = 1, line_col = "black", height = unit(0.25, "cm"),
   pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
   text_pad = unit(0.15, "cm"), text_cex = 0.7, text_col = "black",
-  tick_height = 0.6)
+  text_face = NULL, text_family = "", tick_height = 0.6)
 
 GeomScaleBar
 }
@@ -39,7 +39,7 @@ Must be one of km, m, cm, mi, ft, or in.}
 
 \item{pad_x, pad_y}{Distance between scale bar and edge of panel}
 
-\item{text_pad, text_cex, text_col}{Parameters for label}
+\item{text_pad, text_cex, text_col, text_face, text_family}{Parameters for label}
 
 \item{tick_height}{Height of ticks relative to height of scale bar}
 }
