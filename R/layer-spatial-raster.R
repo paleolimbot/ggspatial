@@ -260,8 +260,8 @@ project_extent <- function(xmin, ymin, xmax, ymax, from_crs = 4326, to_crs = 432
   format <- match.arg(format)
 
   proj_corners <- sf::st_sfc(
-    st_point(c(xmin, ymin)),
-    st_point(c(xmax, ymax)),
+    sf::st_point(c(xmin, ymin)),
+    sf::st_point(c(xmax, ymax)),
     crs = from_crs
   )
 

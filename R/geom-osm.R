@@ -90,21 +90,16 @@ GeomMapTile <- ggplot2::ggproto(
 
     coord_crs <- sf::st_crs(panel_params$crs)
     if(!is.null(coord_crs)) {
+      sp_bbox <- project_extent(
+        xmin = panel_params$x_range[1],
+        ymin = panel_params$y_range[1],
+        xmax = panel_params$x_range[2],
+        ymax = panel_params$y_range[2],
+        from_crs = coord_crs,
+        to_crs = 4326,
+        format = "sp"
+      )
 
-      proj_corners <- sf::st_sfc(
-        st_point(c(panel_params$x_range[1], panel_params$y_range[1])),
-        st_point(c(panel_params$x_range[2], panel_params$y_range[2])),
-        crs = coord_crs
-      )
-      proj_grid <- sf::st_make_grid(proj_corners, n = 50, what = "corners")
-      latlon_grid <- sf::st_transform(proj_grid, crs = 4326)
-      latlon_bbox <- sf::st_bbox(latlon_grid)
-      sp_bbox <- prettymapr::makebbox(
-        n = latlon_bbox["ymax"],
-        e = latlon_bbox["xmax"],
-        s = latlon_bbox["ymin"],
-        w = latlon_bbox["xmin"]
-      )
     } else {
       stop("geom_map_tile() requires coord_sf().", call. = FALSE)
     }
