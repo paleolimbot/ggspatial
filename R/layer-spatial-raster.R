@@ -9,6 +9,8 @@
 #'   map specific bands to the fill and alpha aesthetics.
 #' @param interpolate Interpolate resampling for rendered raster image
 #' @param is_annotation Lets raster exist without modifying scales
+#' @param lazy Delay projection and resample of raster until the plot is being rendered
+#' @param dpi if lazy = TRUE, the dpi to which the raster should be resampled
 #' @param ... Passed to other methods
 #'
 #' @return A ggplot2 layer
@@ -16,7 +18,8 @@
 #'
 #' @importFrom ggplot2 waiver
 #'
-layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE, ...) {
+layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE,
+                                 lazy = FALSE, dpi = 150, ...) {
 
 
   is_rgb <- is.null(mapping) && (raster::nbands(data) %in% c(3, 4))
@@ -53,7 +56,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
       geom = geom,
       position = "identity",
       inherit.aes = FALSE, show.legend = !is_rgb,
-      params = list(interpolate = interpolate, ...)
+      params = list(interpolate = interpolate, lazy = lazy, ...)
     ),
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
@@ -71,6 +74,8 @@ annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, 
   layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
 }
 
+#' @rdname layer_spatial.Raster
+#' @export
 StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
   Stat,
@@ -115,6 +120,8 @@ StatSpatialRaster <-  ggplot2::ggproto(
  }
 )
 
+#' @rdname layer_spatial.Raster
+#' @export
 StatSpatialRasterAnnotation <- ggplot2::ggproto(
   "StatSpatialRaster",
   StatSpatialRaster,
@@ -131,14 +138,19 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
   }
 )
 
+#' @rdname layer_spatial.Raster
+#' @export
 StatSpatialRasterDf <- ggplot2::ggproto(
   "StatSpatialRasterDf",
   Stat,
   required_aes = "raster",
+  extra_params = "lazy",
 
   default_aes = ggplot2::aes(fill = stat(band1)),
 
   compute_layer = function(self, data, params, layout) {
+
+    if(params$lazy) stop("Lazy rendering not implemented for mapped rasters")
 
     # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
@@ -165,6 +177,8 @@ StatSpatialRasterDf <- ggplot2::ggproto(
   }
 )
 
+#' @rdname layer_spatial.Raster
+#' @export
 GeomSpatialRaster <- ggplot2::ggproto(
   "GeomSpatialRaster",
   ggplot2::Geom,
@@ -177,33 +191,127 @@ GeomSpatialRaster <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, crop = TRUE) {
-
+  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
-    if(!is.null(coord_crs)) {
-      rst <- raster::projectRaster(
+    alpha <- data$alpha[1]
+
+    if(lazy) {
+      # return a gTree with the right params so that the raster can be rendered later
+      grid::gTree(
+        raster_obj = rst,
+        coord_crs = coord_crs,
+        coordinates = coordinates,
+        panel_params = panel_params,
+        alpha = alpha,
+        interpolate = interpolate,
+        dpi = dpi,
+        cl = "geom_spatial_raster_lazy"
+      )
+
+    } else {
+      raster_grob_from_raster(
         rst,
-        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+        coord_crs,
+        coordinates,
+        panel_params,
+        alpha = alpha,
+        interpolate = interpolate
       )
     }
-
-    ext <- raster::extent(rst)
-    corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
-    corners_trans <- coordinates$transform(corners, panel_params)
-
-    x_rng <- range(corners_trans$x, na.rm = TRUE)
-    y_rng <- range(corners_trans$y, na.rm = TRUE)
-
-    grid::rasterGrob(
-      raster_as_array(rst, alpha = data$alpha[1]),
-      x_rng[1], y_rng[1],
-      diff(x_rng), diff(y_rng), default.units = "native",
-      just = c("left","bottom"), interpolate = interpolate
-    )
   }
 )
 
+#' @importFrom grid makeContent
+#' @export
+makeContent.geom_spatial_raster_lazy <- function(x) {
+
+  width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
+  height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
+
+  width_px <- width_in * x$dpi
+  height_px <- height_in * x$dpi
+
+  # no idea how to get DPI here...grDevices::dev.size() returns
+  # incorrect pixel dimensions I think...
+  # message(sprintf("%s x %s in (%s x %s px) dpi: %s", width_in, height_in, width_px, height_px, x$dpi))
+
+  if(!is.null(x$coord_crs)) {
+    # maybe better to use projectExtent() or similar to make
+    # smallest possible result?
+
+    template_raster <- raster::raster(
+      xmn = x$panel_params$x_range[1],
+      ymn = x$panel_params$y_range[1],
+      xmx = x$panel_params$x_range[2],
+      ymx = x$panel_params$y_range[2],
+      ncols = ceiling(width_px),
+      nrows = ceiling(height_px),
+      crs = raster::crs(sf::st_crs(x$coord_crs)$proj4string)
+    )
+
+  } else {
+    template_raster <- NULL
+  }
+
+  # add content to the gTree
+  grid::setChildren(
+    x,
+    grid::gList(
+      raster_grob_from_raster(
+        x$raster_obj,
+        x$coord_crs,
+        x$coordinates,
+        x$panel_params,
+        alpha = x$alpha,
+        interpolate = x$interpolate,
+        template_raster = template_raster
+      )
+    )
+  )
+}
+
+raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
+                                    template_raster = NULL, alpha = 1, interpolate = TRUE) {
+
+  if(interpolate) {
+    raster_method <- "bilinear"
+  } else {
+    raster_method <- "ngb"
+  }
+
+  if(!is.null(template_raster) && !is.null(coord_crs)) {
+    # project + resample
+    rst <- raster::projectRaster(
+      rst,
+      to = template_raster,
+      method = raster_method
+    )
+  } else if(!is.null(coord_crs)) {
+    # project
+    rst <- raster::projectRaster(
+      rst,
+      crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+    )
+  } else if(!is.null(template_raster)) {
+    # resample (& crop?)
+    rst <- raster::resample(rst, template_raster, method = raster_method)
+  }
+
+  ext <- raster::extent(rst)
+  corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
+  corners_trans <- coordinates$transform(corners, panel_params)
+
+  x_rng <- range(corners_trans$x, na.rm = TRUE)
+  y_rng <- range(corners_trans$y, na.rm = TRUE)
+
+  grid::rasterGrob(
+    raster_as_array(rst, alpha = alpha),
+    x_rng[1], y_rng[1],
+    diff(x_rng), diff(y_rng), default.units = "native",
+    just = c("left","bottom"), interpolate = interpolate
+  )
+}
 
 raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   if(!methods::is(raster_obj, "Raster")) stop("Cannot use raster_as_array with non Raster* object")
