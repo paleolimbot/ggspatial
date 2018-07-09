@@ -10,6 +10,7 @@
 #' @param rotation Override the rotation of the north arrow (degrees conterclockwise)
 #' @param location Where to put the north arrow ("tl" for top left, etc.)
 #' @param style Determines the style of North Arrow design you wish to use. Options are 'default', 'style_1', and 'style_2'
+
 #'
 #' @return A ggplot2 layer
 #' @export
@@ -17,16 +18,17 @@
 #'
 annotation_north_arrow <- function(line_width = 1, line_col = "black", fill = c("white", "black"),
                                    text_col = "black", text_family = "", text_face = NULL,
-                                   text_angle = NULL,
+                                   text_angle = NULL, text_size = 12,
                                    height = unit(1.5, "cm"), width = unit(1.5, "cm"),
                                    pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
                                    which_north = c("grid", "true"), rotation = NULL,
                                    location = c("tr", "bl", "br", "tl"),
-                                   style = c("default","style_1","style_2")){
+                                   style = c("default","style_1","style_2","nautical")){
 
   which_north <- match.arg(which_north)
   location <- match.arg(location)
   style <- match.arg(style)
+
 
   stopifnot(
     is.numeric(line_width), length(line_width) == 1,
@@ -198,7 +200,7 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
                                      arrow_x = c(0, 0.5, 0.5, 1, 0.5, 0.5),
                                      arrow_y = c(0.1, 1, 0.5, 0.1, 1, 0.5),
                                      arrow_id = c(1, 1, 1, 2, 2, 2),
-                                     text_x = 0.5, text_y = 0.1, text_size = 18, text_adj = c(0.5, 0.5),
+                                     text_x = 0.5, text_y = 0.1, text_size = 10, text_adj = c(0.5, 0.5),
                                      text_label = "N", text_angle = 0, style = "default"){
   # use default style
   if(style == "default"){
@@ -220,35 +222,29 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
         y = text_y,
         hjust = text_adj[0],
         vjust = text_adj[1],
-        rot = text_angle,
+        # rot = text_angle,
         gp = grid::gpar(
           fontfamily = text_family,
           fontface = text_face,
-          fontsize = text_size
+          fontsize = text_size + 2
           )
         )
       )
     }
      # use 'style_1'
      else if(style == "style_1"){
-      arrow_x_new  <- arrow_x[1:3] + c(0.65, 0, 0)
-      arrow_y_new  <- arrow_y[1:3] + c(0.55, 0, 0.2)
-      arrow_id_new <- arrow_id[1:3]
-      text_x_new   <- text_x + 0.025
-      text_y_new   <- text_y + 0.2
-      text_size_new <- text_size - 3
 
       # add Grobs
       grid::gList(
         grid::polygonGrob(
-          x = arrow_x_new,
-          y = arrow_y_new,
-          id = arrow_id_new,
+          x = arrow_x[1:3] + c(0.65, 0, 0),
+          y = arrow_y[1:3] + c(0.55, 0, 0.2),
+          id = arrow_id[1:3],
           default.units = "npc",
           gp = grid::gpar(
             lwd = line_width,
             col = line_col,
-            fill = fill[1]
+            fill = fill[2]
             )
           ),
         grid::linesGrob(
@@ -262,13 +258,13 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
           ),
         grid::textGrob(
           label = "N",
-          x = text_x_new,
-          y = text_y_new,
+          x = text_x,
+          y = text_y + 0.2,
           rot = text_angle,
           gp = grid::gpar(
             fontfamily = text_family,
             fontface = text_face,
-            fontsize = text_size_new
+            fontsize = text_size
             )
           )
         )
@@ -279,7 +275,7 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
         arrow_x_new  <- arrow_x + c(0.75, 0, 0, (-0.75), 0, 0)
         arrow_y_new  <- arrow_y - c(0, 0.2, 0.2, 0, 0.2, 0.2)
         text_y_new   <- text_y + 0.85
-        text_size_new <- text_size - 7
+        text_size_new <- text_size
 
         # add Grobs
         grid::gList(
@@ -318,5 +314,102 @@ north_arrow_grob_default <- function(line_width = 1, line_col = "black", fill = 
             )
           )
 
-      }
+       }
+  else if(style == "nautical"){
+    nautical <- data.frame(x = c(0.5,0.45,0.5,0.5,0.55,0.5,  #North
+                                 0.5,0.55,0.5,0.5,0.45,0.5,  #South
+                                 0.5,0.6,0.8,0.5,0.6,0.8,    #East
+                                 0.5,0.4,0.2,0.5,0.4,0.2,    #West
+                                 0.5,0.55,0.65,0.5,0.6,0.65,  #NE
+                                 0.5,0.6,0.65,0.5,0.55,0.65,  #SE
+                                 0.5,0.4,0.35,0.5,0.45,0.35,  #NW
+                                 0.5,0.45,0.35,0.5,0.4,0.35), #SW
+                           y = c(0.5,0.6,0.8,0.5,0.6,0.8,
+                                 0.5,0.4,0.2,0.5,0.4,0.2,
+                                 0.5,0.55,0.5,0.5,0.45,0.5,
+                                 0.5,0.45,0.5,0.5,0.55,0.5,
+                                 0.5,0.6,0.65,0.5,0.55,0.65,
+                                 0.5,0.45,0.35,0.5,0.4,0.35,
+                                 0.5,0.55,0.65,0.5,0.6,0.65,
+                                 0.5,0.4,0.35,0.5,0.45,0.35),
+                           id = c(1,1,1,2,2,2,
+                                  3,3,3,4,4,4,
+                                  5,5,5,6,6,6,
+                                  7,7,7,8,8,8,
+                                  9,9,9,10,10,10,
+                                  11,11,11,12,12,12,
+                                  13,13,13,14,14,14,
+                                  15,15,15,16,16,16))
+
+
+    # add Grobs
+    grid::gList(
+      grid::circleGrob(
+        x = 0.5,
+        y = 0.5,
+        r = 0.01,
+        default.units = "npc",
+        gp = grid::gpar(
+          fill = fill[2],
+          col = line_col,
+          lwd = line_width
+        )
+      ),
+      grid::circleGrob(
+        x = 0.5,
+        y = 0.5,
+        r = 0.25,
+        default.units = "npc",
+        gp = grid::gpar(
+          col = col,
+          lty = 1,
+          fill = NA,
+          lwd = line_width
+        )
+      ),
+      grid::circleGrob(
+        x = 0.5,
+        y = 0.5,
+        r = 0.255,
+        default.units = "npc",
+        gp = grid::gpar(
+          col = line_col,
+          fill = NA,
+          lty = 1,
+          lwd = line_width
+        )
+      ),
+      grid::polygonGrob(
+        name = "nautical",
+        x = nautical$x,
+        y = nautical$y,
+        id = nautical$id,
+        default.units = "npc",
+        gp = grid::gpar(
+          fill = fill,
+          col = line_col,
+          lwd = line_width - 0.8
+        )
+      ),
+      grid::textGrob(
+        label = "N",
+        x = unit(0.5, "npc"),
+        y = unit(0.9, "npc"),
+        just = "centre",
+        hjust = NULL,
+        vjust = NULL,
+        rot = 0,
+        check.overlap = FALSE,
+        default.units = "npc",
+        name = NULL,
+        gp = gpar(
+          fontsize = text_size,
+          fontface = text_face,
+          fontfamily = text_family,
+          col = text_col
+        ),
+        vp = NULL
+      )
+    )
+  }
 }

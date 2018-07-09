@@ -9,11 +9,11 @@
 \usage{
 annotation_north_arrow(line_width = 1, line_col = "black",
   fill = c("white", "black"), text_col = "black", text_family = "",
-  text_face = NULL, text_angle = NULL, height = unit(1.5, "cm"),
-  width = unit(1.5, "cm"), pad_x = unit(0.25, "cm"), pad_y = unit(0.25,
-  "cm"), which_north = c("grid", "true"), rotation = NULL,
-  location = c("tr", "bl", "br", "tl"), style = c("default", "style_1",
-  "style_2"))
+  text_face = NULL, text_angle = NULL, text_size = 12,
+  height = unit(1.5, "cm"), width = unit(1.5, "cm"), pad_x = unit(0.25,
+  "cm"), pad_y = unit(0.25, "cm"), which_north = c("grid", "true"),
+  rotation = NULL, location = c("tr", "bl", "br", "tl"),
+  style = c("default", "style_1", "style_2", "nautical"))
 
 GeomNorthArrow
 }
