@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' load_longlake_data()
-#' ggplot(spatial_fortify(longlake_waterdf), aes(.long, .lat, group = .group)) +
+#' ggplot(df_spatial(longlake_waterdf), aes(x, y, group = piece_id)) +
 #'   geom_polypath()
 #'
 geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity",

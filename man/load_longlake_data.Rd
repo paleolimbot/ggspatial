@@ -5,7 +5,7 @@
 \title{Load longlake test data}
 \source{
 The Nova Scotia Topographic Database
-(\url{http://www.mapsnovascotia.com/category.aspx?ic=24}) and
+(\url{https://geonova.novascotia.ca/}) and
 Open Street Map (\url{http://www.openstreetmap.org}).
 }
 \usage{

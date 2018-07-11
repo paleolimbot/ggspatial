@@ -34,3 +34,26 @@ A ggplot2 \link[ggplot2]{layer}.
 \description{
 Turn a spatial object into a ggplot2 layer
 }
+\examples{
+load_longlake_data()
+
+ggplot() +
+
+  # annotation_spatial() layers don't train the scales, so data stays central
+  annotation_spatial(longlake_roadsdf, size = 2, col = "black") +
+  annotation_spatial(longlake_roadsdf, size = 1.6, col = "white") +
+
+  # raster layers train scales and get projected automatically
+  layer_spatial(longlake_depth_raster, aes(alpha = stat(band1)), fill = "darkblue") +
+  scale_alpha_continuous(na.value = 0) +
+
+  # layer_spatial() layers train the scales
+  layer_spatial(longlake_depthdf, aes(col = DEPTH.M)) +
+
+  # spatial-aware automagic scale bar
+  annotation_scale(location = "tl") +
+
+  # spatial-aware automagic north arrow
+  annotation_north_arrow(location = "br", which_north = "true")
+
+}

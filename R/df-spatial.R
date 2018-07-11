@@ -7,6 +7,12 @@
 #' @return A tibble with coordinates as .x and .y, and features as .feature
 #' @export
 #'
+#' @examples
+#' load_longlake_data()
+#' df_spatial(longlake_osm)
+#' df_spatial(longlake_depthdf)
+#' df_spatial(as(longlake_depthdf, "Spatial"))
+#'
 df_spatial <- function(x, ...) {
   UseMethod("df_spatial")
 }
