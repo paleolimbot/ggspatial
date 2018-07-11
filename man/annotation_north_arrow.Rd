@@ -7,21 +7,14 @@
 \title{Spatial-aware north arrow}
 \format{An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
-annotation_north_arrow(line_width = 1, line_col = "black",
-  fill = c("white", "black"), text_col = "black", text_family = "",
-  text_face = NULL, text_angle = NULL, text_size = 12,
-  height = unit(1.5, "cm"), width = unit(1.5, "cm"), pad_x = unit(0.25,
-  "cm"), pad_y = unit(0.25, "cm"), which_north = c("grid", "true"),
-  rotation = NULL, location = c("tr", "bl", "br", "tl"),
-  style = c("default", "style_1", "style_2", "nautical"))
+annotation_north_arrow(height = unit(1.5, "cm"), width = unit(1.5, "cm"),
+  pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
+  which_north = c("grid", "true"), rotation = NULL, location = c("tr",
+  "bl", "br", "tl"), style = north_arrow_orienteering)
 
 GeomNorthArrow
 }
 \arguments{
-\item{line_width, line_col, fill}{Parameters for north arrow polygons}
-
-\item{text_col, text_family, text_face, text_angle}{Parameters for the "N" text}
-
 \item{height, width}{Height and width of north arrow}
 
 \item{pad_x, pad_y}{Padding between north arrow and edge of frame}
@@ -33,7 +26,8 @@ north pole from whichever corner of the map the north arrow is in.}
 
 \item{location}{Where to put the north arrow ("tl" for top left, etc.)}
 
-\item{style}{Determines the style of North Arrow design you wish to use. Options are 'default', 'style_1', and 'style_2'}
+\item{style}{A grob or callable that produces a grob that will be drawn as the north arrow.
+See \link{north_arrow_orienteering} for options.}
 }
 \value{
 A ggplot2 layer

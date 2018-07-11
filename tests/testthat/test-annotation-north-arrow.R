@@ -90,3 +90,43 @@ test_that("true north arrow points in the right direction", {
 
   expect_true(TRUE)
 })
+
+test_that("all built-in styles of north arrow rotate properly", {
+
+  p <- ggplot() +
+    geom_spatial_point(
+      mapping = aes(x, y),
+      data = data.frame(x = c(-63.58595, 116.41214), y = c(44.64862, 40.19063), city = c("Halifax", "Beijing")),
+      crs = 4326
+    ) +
+    coord_sf(crs = 3995)
+
+  print(
+    p +
+      annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering) +
+      annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering) +
+      annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal) +
+      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical) +
+      labs(caption = "All four arrows should point to the north pole and have different styles")
+  )
+
+  print(
+    p +
+      annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering()) +
+      annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering()) +
+      annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal()) +
+      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical()) +
+      labs(caption = "All four arrows should point to the north pole and have different styles with rotated text")
+  )
+
+  print(
+    p +
+      annotation_north_arrow(location = "tl", which_north = "grid", style = north_arrow_orienteering) +
+      annotation_north_arrow(location = "tr", which_north = "grid", style = north_arrow_fancy_orienteering) +
+      annotation_north_arrow(location = "bl", which_north = "grid", style = north_arrow_minimal) +
+      annotation_north_arrow(location = "br", which_north = "grid", style = north_arrow_nautical) +
+      labs(caption = "All four arrows should point straight up and have different styles")
+  )
+
+  expect_true(TRUE)
+})
