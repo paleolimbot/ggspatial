@@ -1,5 +1,5 @@
 ---
-title: "A framework for plotting spatial objects using ggplot2"
+title: "Spatial objects using ggspatial and ggplot2"
 author: "Dewey Dunnington"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -11,18 +11,75 @@ vignette: >
 
 ```{r setup, include = FALSE}
 library(ggspatial)
+rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
+knitr::opts_chunk$set(fig.width = 4, fig.height = 3, dpi = 150)
 ```
 
-On first use, a GIS user who stumbles across [ggplot2](https://cran.r-project.org/package=ggplot2) will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). Using ggplot2 to plot spatial line and polygon objects has long been possible thanks to the `fortify()` implementation for `SpatialLines` and `SpatialPolygons` provided in the `ggplot2` package, and there is even an [entire wiki article](https://github.com/tidyverse/ggplot2/wiki/plotting-polygon-shapefiles) on ploting spatial polygons using ggplot2. As is, the syntax for plotting spatial objects ussing `ggplot()` is verbose and unlikely to inspire its use for the rapid creation of maps. The `ggspatial` package is designed to bridge the syntax gap between spatial objects and ggplot2 layers, allowing spatial data to be plotted efficiently.
-
-That said, it should be noted that `ggplot2` is **not** a GIS. The grammar of graphics (outlined by Leland Wilkinson in his [excellent book](http://www.springer.com/gp/book/9780387245447)) was never designed to produce maps, and is almost infinitely flexible at (it could be argued) the expense of performance. So to qualify the above statement, it is more accurate to say that `ggspatial` is designed to leverage the existing facilities of (the `ggplot2` implementation of) the grammar of graphics to produce effecive maps with a small amount of readable code. For large data files, it is unlikely that this package will produce these plots quickly, in the computing sense. There are many packages in the [spatial task view](https://CRAN.R-project.org/view=Spatial) that are well suited to this task.
+On first use, a GIS user who stumbles across [ggplot2](https://cran.r-project.org/package=ggplot2) will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With **ggplot** version 3.0, `geom_sf()` and `coord_sf()` let users pass simple features (**sf** package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in **ggplot2**, which the gap filled by this package.
 
 This vignette assumes that readers are familar with the usage of `ggplot2`. There are many excellent resources for learning to use `ggplot2`, one of which is the [data visualization chapter](http://r4ds.had.co.nz/data-visualisation.html) in Hadley Wickham's excellent book, [R for Data Science](http://r4ds.had.co.nz).
 
 ## Sample data
 
+This vignette uses some data that was used in/collected for my honours thesis [@dunnington11]. The data is included as files within the package, and can be loaded using `load_longlake_data()`.
+
 ```{r}
+library(ggspatial)
 load_longlake_data()
 ```
 
+## Using `layer_spatial()` and `annotation_spatial()`
 
+Any spatial layer can be added to a `ggplot()` using `layer_spatial()` (well, any object from the **sf**, **sp**, or **raster** packages...). These layers will train the scales, meaning they will be visible unless you explicitly set the X or Y scale limits. Unlike `geom_` or `stat_` functions, `layer_spatial()` always takes its data first. Aesthetics can be passed for most types of objects, the exception being RGB rasters, which are more like backround images than data that should be mapped to a scale. Unlike `layer_spatial()`, `annotation_spatial()` layers never train the scales, so they can be used as a backdrop for other layers.
+
+```{r}
+ggplot() +
+  annotation_spatial(longlake_waterdf) +
+  layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
+```
+
+## Using north arrow and scalebar
+
+North arrows are added using the `annotation_north_arrow()` function, and scalebars can be added using `annotation_scale()`. These functions are "spatial-aware", meaning they know where north is and what the distance is across the plot. Thus, they don't need any arguments (unless you think the defaults aren't pretty). There are two styles for scalebars and four styles for north arrows (see `?annotation_scale` and `?annotation_north_arrow` for details).
+
+```{r}
+ggplot() +
+  annotation_spatial(longlake_waterdf) +
+  layer_spatial(longlake_depthdf, aes(col = DEPTH.M)) +
+  annotation_scale(location = "tl") +
+  annotation_north_arrow(location = "br", which_north = "true")
+```
+
+## Tile map layers
+
+Using the **rosm** package, **ggspatial** can add tile layers from a few predefined tile sources (see `rosm::osm.types()`), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by `coord_sf()` (this defaults to the CRS of the first `geom_sf()` or `layer_spatial()` layer that was added to the plot). It's usually necessary to adjust the zoom to the right level when you know how the plot will be used...the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast.
+
+```{r, message=FALSE}
+ggplot() +
+  annotation_map_tile(type = "osm") +
+  layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
+```
+
+There are a number of url patterns available for tiles, although how they are formatted varies. The **rosm** package uses `${x}`, `${y}`, and `${z}` for the x, y , and zoom of the tile (or `${q}` for the quadkey, if you're using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see [this blog post](https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/), and for a number of other tile sources that are less open you'll have to dig around yourself. Bing Virtual Earth is a particularly good one (`type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"`).
+
+## Data frames with coordinates
+
+Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In **ggspatial** you can use `df_spatial()` to get a spatial object into a data frame with coordinate columms (much like `fortify()` does, but with a bit better coverage of spatial types). Conversely, you can use a data frame with coordinate columns in `geom_spatial_*` functions to use these data with `geom_sf()`/`coord_sf()`/`layer_spatial()`. More generally, you can use `stat_spatial_identity()` to use any geometry with `coord_sf()`. For example, a polar perspective on two cities across the world from eachother could look like this:
+
+```{r, message=FALSE, warning=FALSE}
+cities <- data.frame(
+  x = c(-63.58595, 116.41214), 
+  y = c(44.64862, 40.19063), 
+  city = c("Halifax", "Beijing")
+)
+
+library(ggrepel) # needed for geom_text_repel()
+
+ggplot(cities, aes(x, y)) +
+  annotation_map_tile(type = "stamenwatercolor") +
+  geom_spatial_point() +
+  stat_spatial_identity(aes(label = city), geom = "text_repel", box.padding = 1) +
+  coord_sf(crs = 3995)
+```
+
+Using `df_spatial()` is probably useful mostly with point geometries so they can be used with `stat_spatial_identity()` and `geom_text_repel()`. It can also be useful with **raster** objects that need calculations done on them, as it translates them into a data frame.

@@ -23,19 +23,6 @@
 #'   annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
 #'   geom_sf(data = longlake_waterdf, fill = NA, col = "grey50")
 #'
-#' ggplot() +
-#'   annotation_map_tile(
-#'     data = tibble::tibble(
-#'       type = c("osm", "stamenbw", "cartolight", "cartodark"),
-#'       zoom = 13
-#'     ),
-#'     cachedir = system.file("rosm.cache", package = "ggspatial"),
-#'     mapping = aes(type = type, zoom = zoom)
-#'   ) +
-#'   geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-#'   coord_sf(crs = 3857) +
-#'   facet_wrap(~type)
-#'
 annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
                                 forcedownload = FALSE, cachedir = NULL,
                                 progress = c("text", "none"), quiet = TRUE,
