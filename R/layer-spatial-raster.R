@@ -16,7 +16,10 @@
 #' @return A ggplot2 layer
 #' @export
 #'
-#' @importFrom ggplot2 waiver
+#' @examples
+#' load_longlake_data()
+#' ggplot() + layer_spatial(longlake_osm)
+#' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
 #'
 layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE,
                                  lazy = FALSE, dpi = 150, ...) {

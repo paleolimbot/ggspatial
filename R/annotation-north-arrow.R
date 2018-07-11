@@ -15,6 +15,24 @@
 #' @export
 #' @importFrom grid unit
 #'
+#' @examples
+#'
+#' cities <- data.frame(
+#'   x = c(-63.58595, 116.41214),
+#'   y = c(44.64862, 40.19063),
+#'   city = c("Halifax", "Beijing")
+#' )
+#'
+#' ggplot(cities) +
+#'   geom_spatial_point(aes(x, y), crs = 4326) +
+#'   annotation_north_arrow(which_north = "true") +
+#'   coord_sf(crs = 3995)
+#'
+#' ggplot(cities) +
+#'   geom_spatial_point(aes(x, y), crs = 4326) +
+#'   annotation_north_arrow(which_north = "grid") +
+#'   coord_sf(crs = 3995)
+#'
 annotation_north_arrow <- function(height = unit(1.5, "cm"), width = unit(1.5, "cm"),
                                    pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
                                    which_north = c("grid", "true"), rotation = NULL,
@@ -182,10 +200,13 @@ true_north <- function(x, y, crs, delta_crs = 0.1, delta_lat = 0.1) {
 #' @examples
 #' grid::grid.newpage()
 #' grid::grid.draw(north_arrow_orienteering())
+#'
 #' grid::grid.newpage()
 #' grid::grid.draw(north_arrow_fancy_orienteering())
+#'
 #' grid::grid.newpage()
 #' grid::grid.draw(north_arrow_minimal())
+#'
 #' grid::grid.newpage()
 #' grid::grid.draw(north_arrow_nautical())
 #'

@@ -35,4 +35,23 @@ A ggplot2 layer
 \description{
 Spatial-aware north arrow
 }
+\examples{
+
+cities <- data.frame(
+  x = c(-63.58595, 116.41214),
+  y = c(44.64862, 40.19063),
+  city = c("Halifax", "Beijing")
+)
+
+ggplot(cities) +
+  geom_spatial_point(aes(x, y), crs = 4326) +
+  annotation_north_arrow(which_north = "true") +
+  coord_sf(crs = 3995)
+
+ggplot(cities) +
+  geom_spatial_point(aes(x, y), crs = 4326) +
+  annotation_north_arrow(which_north = "grid") +
+  coord_sf(crs = 3995)
+
+}
 \keyword{datasets}

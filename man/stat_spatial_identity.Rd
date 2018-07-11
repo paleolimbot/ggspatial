@@ -41,6 +41,20 @@ A ggplot2 layer.
 These layers are much like their counterparts, \link[ggplot2]{stat_identity},
 \link[ggplot2]{geom_point}, \link[ggplot2]{geom_path},
 and \link[ggplot2]{geom_polygon}, except they have a \code{crs} argument that
-ensures they are projected when using \link[ggplot2]{coord_sf}. Stats are applied the x and y coordinates
-have been transformed.
+ensures they are projected when using \link[ggplot2]{coord_sf}. Stats are applied to the x and y coordinates
+that have been transformed.
+}
+\examples{
+cities <- data.frame(
+  x = c(-63.58595, 116.41214, 0),
+  y = c(44.64862, 40.19063, 89.9),
+  city = c("Halifax", "Beijing", "North Pole")
+)
+
+library(ggrepel)
+ggplot(cities, aes(x, y)) +
+  geom_spatial_point(crs = 4326) +
+  stat_spatial_identity(aes(label = city), geom = "label_repel") +
+  coord_sf(crs = 3857)
+
 }

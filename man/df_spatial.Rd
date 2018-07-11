@@ -17,3 +17,10 @@ A tibble with coordinates as .x and .y, and features as .feature
 \description{
 Create a ggplot-friendly data frame from a spatial object
 }
+\examples{
+load_longlake_data()
+df_spatial(longlake_osm)
+df_spatial(longlake_depthdf)
+df_spatial(as(longlake_depthdf, "Spatial"))
+
+}

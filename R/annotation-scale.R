@@ -20,6 +20,18 @@
 #'
 #' @importFrom grid unit
 #'
+#' @examples
+#' cities <- data.frame(
+#'   x = c(-63.58595, 116.41214),
+#'   y = c(44.64862, 40.19063),
+#'   city = c("Halifax", "Beijing")
+#' )
+#'
+#' ggplot(cities) +
+#'   geom_spatial_point(aes(x, y), crs = 4326) +
+#'   annotation_scale() +
+#'   coord_sf(crs = 3995)
+#'
 annotation_scale <- function(plot_unit = NULL, width_hint = 0.25, unit_category = c("metric", "imperial"),
                              style = c("bar", "ticks"),
                              location = c("bl", "br", "tr", "tl"),

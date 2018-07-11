@@ -38,10 +38,13 @@ North arrow styles
 \examples{
 grid::grid.newpage()
 grid::grid.draw(north_arrow_orienteering())
+
 grid::grid.newpage()
 grid::grid.draw(north_arrow_fancy_orienteering())
+
 grid::grid.newpage()
 grid::grid.draw(north_arrow_minimal())
+
 grid::grid.newpage()
 grid::grid.draw(north_arrow_nautical())
 

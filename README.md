@@ -33,14 +33,17 @@ ggplot() +
   annotation_spatial(longlake_roadsdf, size = 1.6, col = "white") +
 
   # raster layers train scales and get projected automatically
-  layer_spatial(longlake_depth_raster, aes(fill = NULL, alpha = stat(band1)), fill = "darkblue") +
+  layer_spatial(longlake_depth_raster, aes(alpha = stat(band1)), fill = "darkblue") +
   scale_alpha_continuous(na.value = 0) +
   
   # layer_spatial trains the scales
   layer_spatial(longlake_depthdf, aes(col = DEPTH.M)) +
   
   # spatial-aware automagic scale bar
-  annotation_scale(location = "tl")
+  annotation_scale(location = "tl") +
+
+  # spatial-aware automagic north arrow
+  annotation_north_arrow(location = "br", which_north = "true")
 ```
 
 ![](README_files/figure-markdown_github/fig-layer-spatial-sf-1.png)
