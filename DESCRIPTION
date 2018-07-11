@@ -12,9 +12,9 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
 License: GPL-3
 Depends:
     R (>= 2.10),
-    ggplot2 (>= 2.0),
-    sf
+    ggplot2 (>= 2.2.1.9000)
 Imports:
+    sf,
     rosm (>= 0.2),
     abind,
     reshape2,

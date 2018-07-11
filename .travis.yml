@@ -4,9 +4,6 @@ language: R
 sudo: false
 cache: packages
 
-r_github_packages:
-  - tidyverse/ggplot2
-
 addons:
   apt:
     sources:
