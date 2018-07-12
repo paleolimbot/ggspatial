@@ -1,7 +1,7 @@
 Package: ggspatial
 Type: Package
 Title: Spatial Data Framework for ggplot2
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Dewey", "Dunnington", , "dewey@fishandwhistle.net", c("aut", "cre")),
     person("Brent", "Thorne", role = "ctb")
