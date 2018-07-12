@@ -7,7 +7,7 @@ output: github_document
 
 ```{r setup, include = FALSE}
 rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
-knitr::opts_chunk$set(dpi = 300, echo = TRUE)
+knitr::opts_chunk$set(dpi = 150, echo = TRUE)
 ```
 
 Spatial data plus the power of the `ggplot2` framework means easier mapping.

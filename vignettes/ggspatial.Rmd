@@ -15,13 +15,13 @@ rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
 knitr::opts_chunk$set(fig.width = 4, fig.height = 3, dpi = 150)
 ```
 
-On first use, a GIS user who stumbles across [ggplot2](https://cran.r-project.org/package=ggplot2) will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With **ggplot** version 3.0, `geom_sf()` and `coord_sf()` let users pass simple features (**sf** package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in **ggplot2**, which the gap filled by this package.
+On first use, a GIS user who stumbles across [ggplot2](https://cran.r-project.org/package=ggplot2) will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With **ggplot** version 3.0, `geom_sf()` and `coord_sf()` let users pass simple features (GIS layers from the **sf** package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in **ggplot2**, which is the gap filled by this package.
 
 This vignette assumes that readers are familar with the usage of `ggplot2`. There are many excellent resources for learning to use `ggplot2`, one of which is the [data visualization chapter](http://r4ds.had.co.nz/data-visualisation.html) in Hadley Wickham's excellent book, [R for Data Science](http://r4ds.had.co.nz).
 
 ## Sample data
 
-This vignette uses some data that was used in/collected for my honours thesis [@dunnington11]. The data is included as files within the package, and can be loaded using `load_longlake_data()`.
+This vignette uses some data that was used in/collected for my honours thesis. The data is included as files within the package, and can be loaded using `load_longlake_data()`. If you're looking to read in some of your own data, you may be interested in `sf::read_sf()` or `raster::raster()`.
 
 ```{r}
 library(ggspatial)

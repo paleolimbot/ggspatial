@@ -7,3 +7,4 @@
 ^README\.md$
 ^\.travis\.yml$
 ^codecov\.yml$
+^tests/testthat/Rplots\.pdf$
