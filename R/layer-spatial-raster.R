@@ -391,3 +391,19 @@ project_extent <- function(xmin, ymin, xmax, ymax, from_crs = 4326, to_crs = 432
     out_bbox
   }
 }
+
+# also need a method to combine aesthetics with overriding values
+override_aesthetics <- function(user_mapping = NULL, default_mapping = NULL) {
+  if(is.null(user_mapping) && is.null(default_mapping)) {
+    ggplot2::aes()
+  } else if(is.null(default_mapping)) {
+    user_mapping
+  } else if(is.null(user_mapping)) {
+    default_mapping
+  } else {
+    all_aes_names <- unique(c(names(user_mapping), names(default_mapping)))
+    new_aes <- c(user_mapping, default_mapping)[all_aes_names]
+    class(new_aes) <- "uneval"
+    new_aes
+  }
+}

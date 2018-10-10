@@ -35,7 +35,7 @@ Any spatial layer can be added to a `ggplot()` using `layer_spatial()` (well, an
 ```{r}
 ggplot() +
   annotation_spatial(longlake_waterdf) +
-  layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
+  layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
 ```
 
 ## Using north arrow and scalebar
@@ -45,7 +45,7 @@ North arrows are added using the `annotation_north_arrow()` function, and scaleb
 ```{r}
 ggplot() +
   annotation_spatial(longlake_waterdf) +
-  layer_spatial(longlake_depthdf, aes(col = DEPTH.M)) +
+  layer_spatial(longlake_depthdf, aes(col = DEPTH_M)) +
   annotation_scale(location = "tl") +
   annotation_north_arrow(location = "br", which_north = "true")
 ```
@@ -57,7 +57,7 @@ Using the **rosm** package, **ggspatial** can add tile layers from a few predefi
 ```{r, message=FALSE}
 ggplot() +
   annotation_map_tile(type = "osm") +
-  layer_spatial(longlake_depthdf, aes(col = DEPTH.M))
+  layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
 ```
 
 There are a number of url patterns available for tiles, although how they are formatted varies. The **rosm** package uses `${x}`, `${y}`, and `${z}` for the x, y , and zoom of the tile (or `${q}` for the quadkey, if you're using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see [this blog post](https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/), and for a number of other tile sources that are less open you'll have to dig around yourself. Bing Virtual Earth is a particularly good one (`type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"`).
