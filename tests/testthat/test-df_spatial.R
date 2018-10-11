@@ -34,7 +34,7 @@ test_that("Spatial* objects are fortified correctly", {
     spoints <- sp::SpatialPoints(spoints_df, proj4string = spoints_df@proj4string)
     expect_df_spatial(spoints)
     expect_equal(nrow(df_spatial(spoints)), length(spoints))
-    expect_df_spatial(spoints_df, c("NOTES", "DEPTH.M"))
+    expect_df_spatial(spoints_df, c("NOTES", "DEPTH_M"))
 
     # SpatialMultiPoints
     spmultipoints_sf <- dplyr::summarise(dplyr::group_by(longlake_depthdf, NOTES), one = 1)

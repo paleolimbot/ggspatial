@@ -83,7 +83,7 @@ gam_repl <- function(points, k = 60, quiet = TRUE, by = NULL, length.out = 100) 
 
 longlake_depth_raster <- interpolate_raster(
   longlake_depthdf,
-  values = DEPTH.M,
+  values = DEPTH_M,
   boundary = longlake_waterdf %>% slice(2)
 )
 

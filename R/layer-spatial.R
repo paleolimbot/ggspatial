@@ -25,7 +25,7 @@
 #'   scale_alpha_continuous(na.value = 0) +
 #'
 #'   # layer_spatial() layers train the scales
-#'   layer_spatial(longlake_depthdf, aes(col = DEPTH.M)) +
+#'   layer_spatial(longlake_depthdf, aes(col = DEPTH_M)) +
 #'
 #'   # spatial-aware automagic scale bar
 #'   annotation_scale(location = "tl") +

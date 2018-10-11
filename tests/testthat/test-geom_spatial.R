@@ -23,24 +23,24 @@ test_that("xy_transform works as intended", {
 test_that("geom_spatial_* geoms work properly", {
   load_longlake_data()
 
-  point_df <- spatial_fortify(longlake_depthdf)
+  point_df <- df_spatial(longlake_depthdf)
 
-  point <- ggplot(point_df, aes(.long, .lat)) +
-    geom_spatial_point(aes(col = DEPTH.M), crs = 26920) +
+  point <- ggplot(point_df, aes(x, y)) +
+    geom_spatial_point(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
   expect_is(point, "ggplot")
   expect_silent(print(point))
 
-  path <- ggplot(point_df[order(point_df$WAYPOINT_I),], aes(.long, .lat)) +
-    geom_spatial_path(aes(col = DEPTH.M), crs = 26920) +
+  path <- ggplot(point_df[order(point_df$WAYPOINT_I),], aes(x, y)) +
+    geom_spatial_path(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
   expect_is(path, "ggplot")
   expect_silent(print(path))
 
-  poly_df <- spatial_fortify(longlake_waterdf[2,])
-  poly <- ggplot(poly_df, aes(.long, .lat)) +
+  poly_df <- df_spatial(longlake_waterdf[2,])
+  poly <- ggplot(poly_df, aes(x, y)) +
     geom_spatial_polygon(crs = 26920) +
     coord_sf(crs = 3857)
 
@@ -57,7 +57,7 @@ test_that("stat_spatial_identity function", {
     print(
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
-        stat_spatial_identity(aes(LON, LAT, col = DEPTH.M), data = df) +
+        stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df) +
         labs(caption = "all the points should be in the lake!")
     ),
     "Assuming crs"
@@ -67,7 +67,7 @@ test_that("stat_spatial_identity function", {
     print(
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
-        stat_spatial_identity(aes(LON, LAT, col = DEPTH.M), data = df, crs = 4326) +
+        stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df, crs = 4326) +
         labs(caption = "all the points should be in the lake!")
     )
   )
