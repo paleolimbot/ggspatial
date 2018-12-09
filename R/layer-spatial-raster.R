@@ -25,7 +25,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
                                  lazy = FALSE, dpi = 150, ...) {
 
 
-  is_rgb <- is.null(mapping) && (raster::nbands(data) %in% c(3, 4))
+  is_rgb <- is.null(mapping) && (raster::nlayers(data) %in% c(3, 4))
   if(is_rgb) {
     # RGB(A)
     if(is_annotation) {
@@ -75,6 +75,22 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
 #' @export
 annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
   layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
+}
+
+#' @rdname layer_spatial.Raster
+#' @export
+layer_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  loadNamespace("raster")
+  layer_spatial.Raster(methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, ...)
+}
+
+#' @rdname layer_spatial.Raster
+#' @export
+annotation_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  loadNamespace("raster")
+  layer_spatial.Raster(
+    methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...
+  )
 }
 
 #' @rdname layer_spatial.Raster

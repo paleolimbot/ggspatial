@@ -118,3 +118,11 @@ test_that("Raster* objects are converted properly by df_spatial", {
   # manual check
   # ggplot(df_spatial(longlake_depth_raster)) + geom_raster(aes(x, y, fill = band1))
 })
+
+test_that("stars objects are converted properly by df_spatial", {
+  stars_rast <- stars::read_stars(system.file("longlake/longlake_depth.tif", package = "ggspatial"))
+  stars_rgb <- stars::read_stars(system.file("longlake/longlake.tif", package = "ggspatial"))
+
+  expect_equal(colnames(df_spatial(stars_rast)), c("x", "y", "value_name", "band1"))
+  expect_equal(colnames(df_spatial(stars_rgb)), c("x", "y", "value_name", "band1", "band2", "band3"))
+})

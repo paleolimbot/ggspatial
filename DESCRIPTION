@@ -28,6 +28,7 @@ Imports:
     tibble,
     scales,
     tidyr,
+    rlang,
     grid
 Suggests:
     prettymapr,
@@ -40,6 +41,7 @@ Suggests:
     dplyr,
     withr,
     ggrepel,
+    stars,
     covr
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues

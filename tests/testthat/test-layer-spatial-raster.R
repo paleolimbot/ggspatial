@@ -190,4 +190,29 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     expect_true(TRUE)
   })
 
+  test_that("layer-spatial works for stars objects", {
+    stars_rast <- stars::read_stars(system.file("longlake/longlake_depth.tif", package = "ggspatial"))
+    stars_rgb <- stars::read_stars(system.file("longlake/longlake.tif", package = "ggspatial"))
+    print(ggplot() + layer_spatial(stars_rast) + labs(caption = "longlake raster read by stars"))
+    print(ggplot() + layer_spatial(stars_rgb) + labs(caption = "longlake rgb read by stars"))
+
+    load_longlake_data()
+    print(
+      ggplot() +
+        annotation_spatial(stars_rgb) +
+        layer_spatial(longlake_depthdf) +
+        labs(caption = "annotation stars rgb")
+    )
+
+    print(
+      ggplot() +
+        annotation_spatial(stars_rgb, lazy = TRUE) +
+        layer_spatial(longlake_depthdf) +
+        labs(caption = "annotation stars rgb with lazy=TRUE")
+    )
+
+    # graphical tests so...
+    expect_true(TRUE)
+  })
+
 }
