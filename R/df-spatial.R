@@ -69,8 +69,8 @@ df_spatial.Line <- function(x, ...) {
 }
 
 df_spatial_line <- function(x, feature_id = 1L, ...) {
-  df <- tibble::as_tibble(x@coords[, c(1, 2), drop = FALSE])
-  colnames(df) <- c("x", "y")
+  mat <- x@coords[, c(1, 2), drop = FALSE]
+  df <- tibble::tibble(x = mat[, 1, drop = TRUE], y = mat[, 2, drop = TRUE])
   df$feature_id <- feature_id
   df$coordinate_id <- seq_len(nrow(df))
   df
@@ -109,8 +109,8 @@ df_spatial.Polygon <- function(x, ...) {
 }
 
 df_spatial_poly <- function(x, feature_id = 1L, ...) {
-  df <- tibble::as_tibble(x@coords[, c(1, 2), drop = FALSE])
-  colnames(df) <- c("x", "y")
+  mat <- x@coords[, c(1, 2), drop = FALSE]
+  df <- tibble::tibble(x = mat[, 1, drop = TRUE], y = mat[, 2, drop = TRUE])
   df$feature_id <- feature_id
   df$coordinate_id <- seq_len(nrow(df))
   df$is_hole <- x@hole
