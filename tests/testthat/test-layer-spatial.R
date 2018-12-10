@@ -28,3 +28,14 @@ test_that("layer_spatial() works as intended", {
   # visual test
   expect_true(TRUE)
 })
+
+# this is depedent on the fix of an sf bug, which has been closed but not released to CRAN
+# https://github.com/r-spatial/sf/issues/905
+#
+# test_that("3D sp data can be used with layer_spatial()", {
+#   spoints <- sp::SpatialPoints(
+#     matrix(c(0, 0, 1, 1, 1, 0), nrow = 2, byrow = TRUE),
+#     proj4string = sp::CRS("+init=epsg:4326")
+#   )
+#   expect_silent(ggplot() + layer_spatial(spoints))
+# })
