@@ -114,20 +114,29 @@ GeomMapTile <- ggplot2::ggproto(
     if(coord_crs != sf::st_crs(3857)) {
 
       # have to use raster to reproject...
-      raster <- rosm::osm.raster(
-        x = sp_bbox,
-        zoomin = data[["zoomin"]][1],
-        zoom = data[["zoom"]][1],
-        type = as.character(data[["type"]][1]),
-        forcedownload = forcedownload,
-        cachedir = cachedir,
-        progress = progress,
-        quiet = quiet
+      # because this involves a call to projectRaster(), it has to be wrapped in
+      # suppressWarnings to avaoid the "no non-missing arguments to min; returning Inf" error
+      raster <- suppressWarnings(
+          rosm::osm.raster(
+          x = sp_bbox,
+          zoomin = data[["zoomin"]][1],
+          zoom = data[["zoom"]][1],
+          type = as.character(data[["type"]][1]),
+          forcedownload = forcedownload,
+          cachedir = cachedir,
+          progress = progress,
+          quiet = quiet
+        )
       )
 
-      raster_proj <- raster::projectRaster(
-        raster,
-        crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+      # raster::projectRaster has very odd behaviour...it outputs the warning
+      # "no non-missing arguments to max; returning -Inf"
+      # but only when run with a calling handler
+      raster_proj <- suppressWarnings(
+          raster::projectRaster(
+          raster,
+          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+        )
       )
 
       ext <- raster::extent(raster_proj)

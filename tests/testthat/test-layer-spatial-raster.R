@@ -215,4 +215,50 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     expect_true(TRUE)
   })
 
+  test_that("layer-spatial raster does not throw warnings", {
+    load_longlake_data()
+
+    # this error doesn't show up unless there's a wrapper around the call
+    # such as in testthat or RMarkdown. this is replicated below
+    # the culprit is raster::projectRaster()
+    #
+    # withCallingHandlers(
+    #   print(
+    #     ggplot() +
+    #       annotation_map_tile(type = "osm", progress = "none") +
+    #       layer_spatial(longlake_depthdf) +
+    #       coord_sf(crs = 26920) +
+    #       labs(caption = "just checking whether it prints without any messages")
+    #   ),
+    #   warning = function(w) stop(w)
+    # )
+
+    expect_silent(
+      print(
+        ggplot() +
+          layer_spatial(longlake_osm) +
+          labs(caption = "just checking whether it prints without any messages")
+      )
+    )
+
+    expect_silent(
+      print(
+        ggplot() +
+          layer_spatial(longlake_depth_raster) +
+          labs(caption = "just checking whether it prints without any messages")
+      )
+    )
+
+    expect_silent(
+      print(
+        ggplot() +
+          annotation_map_tile(type = "osm", progress = "none") +
+          layer_spatial(longlake_depthdf) +
+          coord_sf(crs = 26920) +
+          labs(caption = "just checking whether it prints without any messages")
+      )
+    )
+  })
+
+
 }

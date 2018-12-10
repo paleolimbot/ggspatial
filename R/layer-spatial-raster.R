@@ -181,7 +181,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
       if(!is.null(coord_crs)) {
         data$raster <- lapply(
           data$raster,
-          raster::projectRaster,
+          function(...) suppressWarnings(raster::projectRaster(...)),
           crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
         )
       } else {
@@ -301,16 +301,26 @@ raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
 
   if(!is.null(template_raster) && !is.null(coord_crs)) {
     # project + resample
-    rst <- raster::projectRaster(
-      rst,
-      to = template_raster,
-      method = raster_method
+    # raster::projectRaster has very odd behaviour...it outputs the warning
+    # "no non-missing arguments to max; returning -Inf"
+    # but only when run with a calling handler
+    rst <- suppressWarnings(
+        raster::projectRaster(
+          rst,
+          to = template_raster,
+          method = raster_method
+      )
     )
   } else if(!is.null(coord_crs)) {
     # project
-    rst <- raster::projectRaster(
-      rst,
-      crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+    # raster::projectRaster has very odd behaviour...it outputs the warning
+    # "no non-missing arguments to max; returning -Inf"
+    # but only when run with a calling handler
+    rst <- suppressWarnings(
+        raster::projectRaster(
+          rst,
+          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+      )
     )
   } else if(!is.null(template_raster)) {
     # resample (& crop?)
