@@ -141,3 +141,40 @@ test_that("font items are passed on to annotation_scale()", {
 
   expect_true(TRUE)
 })
+
+
+test_that("certain parameters can be passed as aesthetics to show up on different panels", {
+
+  df <- tibble::tibble(
+    facet_var = c("one", "two", "three", "four"),
+    data = list(data.frame(x = 0:4, y = -(0:4)))
+  ) %>%
+    tidyr::unnest()
+
+  scale_params <- tibble::tibble(
+    facet_var = c("one", "two", "three"),
+    width_hint = c(0.25, 0.5, 0.75),
+    style = c("bar", "ticks", "bar"),
+    location = c("bl", "tr", "tl"),
+    unit_category = c("metric", "imperial", "metric"),
+    text_col = c("black", "red", "blue"),
+    line_col = c("black", "red", "blue")
+  )
+
+  print(
+    ggplot(df) +
+      geom_point(aes(x, y)) +
+      annotation_scale(
+        aes(width_hint = width_hint, style = style, location = location, unit_category = unit_category,
+            text_col = text_col, line_col = line_col),
+        data = scale_params,
+        plot_unit = "m"
+      ) +
+      facet_wrap(~facet_var) +
+      coord_fixed() +
+      labs(caption = "three scale bars in different panels with different parameters")
+  )
+
+  # visual test
+  expect_true(TRUE)
+})

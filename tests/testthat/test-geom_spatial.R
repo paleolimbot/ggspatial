@@ -49,6 +49,45 @@ test_that("geom_spatial_* geoms work properly", {
 
 })
 
+test_that("spatial labellers work properly", {
+  cities <- data.frame(
+    x = c(-63.58595, 116.41214, 0),
+    y = c(44.64862, 40.19063, 89.9),
+    city = c("Halifax", "Beijing", "North Pole")
+  )
+
+  p <-  ggplot(cities, aes(x, y, label = city)) +
+    geom_spatial_point(crs = 4326) +
+    coord_sf(crs = 3857)
+
+  print(
+    p +
+      geom_spatial_text(crs = 4326) +
+      labs(caption = "geom_spatial_text()")
+  )
+
+  print(
+    p +
+      geom_spatial_label(crs = 4326) +
+      labs(caption = "geom_spatial_label()")
+  )
+
+  print(
+    p +
+      geom_spatial_text_repel(crs = 4326) +
+      labs(caption = "geom_spatial_text_repel()")
+  )
+
+  print(
+    p +
+      geom_spatial_label_repel(crs = 4326) +
+      labs(caption = "geom_spatial_label_repel()")
+  )
+
+  # visual test
+  expect_true(TRUE)
+})
+
 test_that("stat_spatial_identity function", {
   load_longlake_data()
   df <- df_spatial(longlake_depthdf)

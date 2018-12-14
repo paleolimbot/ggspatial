@@ -3,13 +3,21 @@
 #'
 #' @param height,width Height and width of north arrow
 #' @param pad_x,pad_y Padding between north arrow and edge of frame
-#' @param which_north "grid" results in a north arrow always pointing up; "true" always points to the
-#'   north pole from whichever corner of the map the north arrow is in.
 #' @param rotation Override the rotation of the north arrow (degrees conterclockwise)
-#' @param location Where to put the north arrow ("tl" for top left, etc.)
 #' @param style A grob or callable that produces a grob that will be drawn as the north arrow.
 #'   See \link{north_arrow_orienteering} for options.
-
+#' @param mapping,data,... See Aesthetics
+#'
+#' @section Aesthetics:
+#' The following can be used as parameters or aesthetics. Using them as
+#' aesthetics is useful when facets are used to display multiple panels,
+#' and a different (or missing) scale bar is required in different panels.
+#' Otherwise, just pass them as arguments to \code{annotation_north_arrow()}.
+#'   \itemize{
+#'     \item which_north: "grid" results in a north arrow always pointing up; "true" always points to the
+#'         north pole from whichever corner of the map the north arrow is in.
+#'     \item location: Where to put the scale bar ("tl" for top left, etc.)
+#'   }
 #'
 #' @return A ggplot2 layer
 #' @export
@@ -33,38 +41,29 @@
 #'   annotation_north_arrow(which_north = "grid") +
 #'   coord_sf(crs = 3995)
 #'
-annotation_north_arrow <- function(height = unit(1.5, "cm"), width = unit(1.5, "cm"),
+annotation_north_arrow <- function(mapping = NULL, data = NULL, ...,
+                                   height = unit(1.5, "cm"), width = unit(1.5, "cm"),
                                    pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
-                                   which_north = c("grid", "true"), rotation = NULL,
-                                   location = c("tr", "bl", "br", "tl"),
-                                   style = north_arrow_orienteering) {
+                                   rotation = NULL, style = north_arrow_orienteering) {
 
-  which_north <- match.arg(which_north)
-  location <- match.arg(location)
-
-  stopifnot(
-    grid::is.unit(height), length(height) == 1,
-    grid::is.unit(width), length(width) == 1,
-    grid::is.unit(pad_x), length(pad_x) == 1,
-    grid::is.unit(pad_y), length(pad_y) == 1,
-    is_grob_like(style) || is_grob_like(style())
-  )
+  if(is.null(data)) {
+    data <- data.frame(x = NA)
+  }
 
   ggplot2::layer(
-    data = data.frame(x = NA),
-    mapping = NULL,
+    data = data,
+    mapping = mapping,
     stat = ggplot2::StatIdentity,
     geom = GeomNorthArrow,
     position = ggplot2::PositionIdentity,
     show.legend = FALSE,
     inherit.aes = FALSE,
     params = list(
+      ...,
       height = height,
       width = width,
       pad_x = pad_x,
       pad_y = pad_y,
-      which_north = which_north,
-      location = location,
       style = style
     )
   )
@@ -82,10 +81,26 @@ GeomNorthArrow <- ggplot2::ggproto(
     data
   },
 
+  default_aes = ggplot2::aes(
+    which_north = "grid",
+    location = "bl"
+  ),
+
   draw_panel = function(data, panel_params, coordinates,
                         height = unit(1.5, "cm"), width = unit(1.5, "cm"),
-                        pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"), which_north = "grid",
-                        rotation = NULL, location = "tr", style = north_arrow_orienteering) {
+                        pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
+                        rotation = NULL, style = north_arrow_orienteering) {
+
+    which_north <- data$which_north[1]
+    location <- data$location[1]
+
+    stopifnot(
+      grid::is.unit(height), length(height) == 1,
+      grid::is.unit(width), length(width) == 1,
+      grid::is.unit(pad_x), length(pad_x) == 1,
+      grid::is.unit(pad_y), length(pad_y) == 1,
+      is_grob_like(style) || is_grob_like(style())
+    )
 
     if(is.null(rotation)) {
       rotation <- 0 # degrees anticlockwise

@@ -5,41 +5,31 @@
 \alias{annotation_scale}
 \alias{GeomScaleBar}
 \title{Spatial-aware scalebar annotation}
-\format{An object of class \code{GeomScaleBar} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 4.}
+\format{An object of class \code{GeomScaleBar} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
-annotation_scale(plot_unit = NULL, width_hint = 0.25,
-  unit_category = c("metric", "imperial"), style = c("bar", "ticks"),
-  location = c("bl", "br", "tr", "tl"), bar_cols = c("black", "white"),
-  line_width = 1, line_col = "black", height = unit(0.25, "cm"),
-  pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
-  text_pad = unit(0.15, "cm"), text_cex = 0.7, text_col = "black",
-  text_face = NULL, text_family = "", tick_height = 0.6)
+annotation_scale(mapping = NULL, data = NULL, ..., plot_unit = NULL,
+  bar_cols = c("black", "white"), line_width = 1, height = unit(0.25,
+  "cm"), pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
+  text_pad = unit(0.15, "cm"), text_cex = 0.7, text_face = NULL,
+  text_family = "", tick_height = 0.6)
 
 GeomScaleBar
 }
 \arguments{
+\item{mapping, data, ...}{See Aesthetics}
+
 \item{plot_unit}{For non-coord_sf applications, specify the unit for x and y coordinates.
 Must be one of km, m, cm, mi, ft, or in.}
-
-\item{width_hint}{The (suggested) proportion of the plot area which the scalebar should occupy.}
-
-\item{unit_category}{Use metric or imperial units.}
-
-\item{style}{One of "bar" or "ticks"}
-
-\item{location}{Where to put the scale bar ("tl" for top left, etc.)}
 
 \item{bar_cols}{Colours to use for the bars}
 
 \item{line_width}{Line width for scale bar}
 
-\item{line_col}{Line colour for scale bar}
-
 \item{height}{Height of scale bar}
 
 \item{pad_x, pad_y}{Distance between scale bar and edge of panel}
 
-\item{text_pad, text_cex, text_col, text_face, text_family}{Parameters for label}
+\item{text_pad, text_cex, text_face, text_family}{Parameters for label}
 
 \item{tick_height}{Height of ticks relative to height of scale bar}
 }
@@ -49,6 +39,21 @@ A ggplot2 layer.
 \description{
 Spatial-aware scalebar annotation
 }
+\section{Aesthetics}{
+
+The following can be used as parameters or aesthetics. Using them as
+aesthetics is useful when facets are used to display multiple panels,
+and a different (or missing) scale bar is required in different panels.
+Otherwise, just pass them as arguments to \code{annotation_scale}.
+  \itemize{
+    \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
+    \item unit_category: Use "metric" or "imperial" units.
+    \item style: One of "bar" or "ticks"
+    \item location: Where to put the scale bar ("tl" for top left, etc.)
+    \item line_col and text_col: Line and text colour, respectively
+  }
+}
+
 \examples{
 cities <- data.frame(
   x = c(-63.58595, 116.41214),

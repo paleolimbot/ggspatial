@@ -25,7 +25,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
                                  lazy = FALSE, dpi = 150, ...) {
 
 
-  is_rgb <- is.null(mapping) && (raster::nbands(data) %in% c(3, 4))
+  is_rgb <- is.null(mapping) && (raster::nlayers(data) %in% c(3, 4))
   if(is_rgb) {
     # RGB(A)
     if(is_annotation) {
@@ -75,6 +75,22 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
 #' @export
 annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
   layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
+}
+
+#' @rdname layer_spatial.Raster
+#' @export
+layer_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  loadNamespace("raster")
+  layer_spatial.Raster(methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, ...)
+}
+
+#' @rdname layer_spatial.Raster
+#' @export
+annotation_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+  loadNamespace("raster")
+  layer_spatial.Raster(
+    methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...
+  )
 }
 
 #' @rdname layer_spatial.Raster
@@ -165,7 +181,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
       if(!is.null(coord_crs)) {
         data$raster <- lapply(
           data$raster,
-          raster::projectRaster,
+          function(...) suppressWarnings(raster::projectRaster(...)),
           crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
         )
       } else {
@@ -285,16 +301,26 @@ raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
 
   if(!is.null(template_raster) && !is.null(coord_crs)) {
     # project + resample
-    rst <- raster::projectRaster(
-      rst,
-      to = template_raster,
-      method = raster_method
+    # raster::projectRaster has very odd behaviour...it outputs the warning
+    # "no non-missing arguments to max; returning -Inf"
+    # but only when run with a calling handler
+    rst <- suppressWarnings(
+        raster::projectRaster(
+          rst,
+          to = template_raster,
+          method = raster_method
+      )
     )
   } else if(!is.null(coord_crs)) {
     # project
-    rst <- raster::projectRaster(
-      rst,
-      crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+    # raster::projectRaster has very odd behaviour...it outputs the warning
+    # "no non-missing arguments to max; returning -Inf"
+    # but only when run with a calling handler
+    rst <- suppressWarnings(
+        raster::projectRaster(
+          rst,
+          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+      )
     )
   } else if(!is.null(template_raster)) {
     # resample (& crop?)

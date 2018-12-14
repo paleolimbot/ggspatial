@@ -13,6 +13,8 @@ addons:
       - libproj-dev
       - libgeos-dev
       - libgdal-dev
+      - libnetcdf-dev
+      - netcdf-bin
 
 after_success:
   - Rscript -e 'covr::codecov()'

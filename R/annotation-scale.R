@@ -3,17 +3,26 @@
 #'
 #' @param plot_unit For non-coord_sf applications, specify the unit for x and y coordinates.
 #'   Must be one of km, m, cm, mi, ft, or in.
-#' @param width_hint The (suggested) proportion of the plot area which the scalebar should occupy.
-#' @param unit_category Use metric or imperial units.
-#' @param style One of "bar" or "ticks"
-#' @param location Where to put the scale bar ("tl" for top left, etc.)
 #' @param bar_cols Colours to use for the bars
 #' @param line_width Line width for scale bar
-#' @param line_col Line colour for scale bar
 #' @param height Height of scale bar
 #' @param pad_x,pad_y Distance between scale bar and edge of panel
-#' @param text_pad,text_cex,text_col,text_face,text_family Parameters for label
+#' @param text_pad,text_cex,text_face,text_family Parameters for label
 #' @param tick_height Height of ticks relative to height of scale bar
+#' @param mapping,data,... See Aesthetics
+#'
+#' @section Aesthetics:
+#' The following can be used as parameters or aesthetics. Using them as
+#' aesthetics is useful when facets are used to display multiple panels,
+#' and a different (or missing) scale bar is required in different panels.
+#' Otherwise, just pass them as arguments to \code{annotation_scale}.
+#'   \itemize{
+#'     \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
+#'     \item unit_category: Use "metric" or "imperial" units.
+#'     \item style: One of "bar" or "ticks"
+#'     \item location: Where to put the scale bar ("tl" for top left, etc.)
+#'     \item line_col and text_col: Line and text colour, respectively
+#'   }
 #'
 #' @return A ggplot2 layer.
 #' @export
@@ -32,62 +41,42 @@
 #'   annotation_scale() +
 #'   coord_sf(crs = 3995)
 #'
-annotation_scale <- function(plot_unit = NULL, width_hint = 0.25, unit_category = c("metric", "imperial"),
-                             style = c("bar", "ticks"),
-                             location = c("bl", "br", "tr", "tl"),
+annotation_scale <- function(mapping = NULL, data = NULL,
+                             ...,
+                             plot_unit = NULL,
                              bar_cols = c("black", "white"),
                              line_width = 1,
-                             line_col = "black",
                              height = unit(0.25, "cm"),
                              pad_x = unit(0.25, "cm"),
                              pad_y = unit(0.25, "cm"),
                              text_pad = unit(0.15, "cm"),
                              text_cex = 0.7,
-                             text_col = "black",
                              text_face = NULL,
                              text_family = "",
                              tick_height = 0.6) {
-  unit_category <- match.arg(unit_category)
-  style <- match.arg(style)
-  location <- match.arg(location)
 
-  stopifnot(
-    is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm"),
-    is.numeric(width_hint), length(width_hint) == 1,
-    is.atomic(bar_cols),
-    is.numeric(line_width), length(line_width) == 1,
-    length(line_col) == 1,
-    grid::is.unit(height), length(height) == 1,
-    grid::is.unit(pad_x), length(pad_x) == 1,
-    grid::is.unit(pad_y), length(pad_y) == 1,
-    grid::is.unit(text_pad), length(text_pad) == 1,
-    length(text_col) == 1,
-    is.numeric(tick_height), length(tick_height) == 1
-  )
+  if(is.null(data)) {
+    data <- data.frame(x = NA)
+  }
 
   ggplot2::layer(
-    data = data.frame(x = NA),
-    mapping = NULL,
+    data = data,
+    mapping = mapping,
     stat = ggplot2::StatIdentity,
     geom = GeomScaleBar,
     position = ggplot2::PositionIdentity,
     show.legend = FALSE,
     inherit.aes = FALSE,
     params = list(
+      ...,
       plot_unit = plot_unit,
-      width_hint = width_hint,
-      unit_category = unit_category,
-      style = style,
-      location = location,
       bar_cols = bar_cols,
       line_width = line_width,
-      line_col = line_col,
       height = height,
       pad_x = pad_x,
       pad_y = pad_y,
       text_pad = text_pad,
       text_cex = text_cex,
-      text_col = text_col,
       text_face = text_face,
       text_family = text_family,
       tick_height = tick_height
@@ -107,21 +96,48 @@ GeomScaleBar <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, plot_unit = NULL, width_hint = 0.25, unit_category = "metric",
-                        style = "bar",
-                        location = "bl",
+  default_aes = ggplot2::aes(
+    width_hint = 0.25,
+    style = "bar",
+    location = "bl",
+    unit_category = "metric",
+    text_col = "black",
+    line_col = "black"
+  ),
+
+  draw_panel = function(self, data, panel_params, coordinates, plot_unit = NULL,
                         bar_cols = c("black", "white"),
                         line_width = 1,
-                        line_col = "black",
                         height = unit(0.25, "cm"),
                         pad_x = unit(0.25, "cm"),
                         pad_y = unit(0.25, "cm"),
                         text_pad = unit(0.15, "cm"),
                         text_cex = 0.7,
-                        text_col = "black",
                         text_face = NULL,
                         text_family = "",
                         tick_height = 0.6) {
+
+    width_hint <- data$width_hint[1]
+    style <- data$style[1]
+    location = data$location[1]
+    unit_category <- data$unit_category[1]
+    text_col <- data$text_col[1]
+    line_col <- data$line_col[1]
+
+    stopifnot(
+      is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm"),
+      length(unit_category) == 1, unit_category %in% c("metric", "imperial"),
+      is.numeric(width_hint), length(width_hint) == 1,
+      is.atomic(bar_cols),
+      is.numeric(line_width), length(line_width) == 1,
+      length(line_col) == 1,
+      grid::is.unit(height), length(height) == 1,
+      grid::is.unit(pad_x), length(pad_x) == 1,
+      grid::is.unit(pad_y), length(pad_y) == 1,
+      grid::is.unit(text_pad), length(text_pad) == 1,
+      length(text_col) == 1,
+      is.numeric(tick_height), length(tick_height) == 1
+    )
 
     if(inherits(coordinates, "CoordSf")) {
       sf_bbox <- c(
@@ -230,7 +246,7 @@ scalebar_grobs <- function(
         y0 = origin_y,
         x1 = origin_x + width,
         y1 = origin_y,
-        grid::gpar(
+        gp = grid::gpar(
           lwd = line_width,
           col = line_col
         )

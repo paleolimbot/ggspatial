@@ -5,6 +5,10 @@
 \alias{geom_spatial_point}
 \alias{geom_spatial_path}
 \alias{geom_spatial_polygon}
+\alias{geom_spatial_text}
+\alias{geom_spatial_label}
+\alias{geom_spatial_text_repel}
+\alias{geom_spatial_label_repel}
 \title{Spatial-aware ggplot2 layers}
 \usage{
 stat_spatial_identity(mapping = NULL, data = NULL, crs = NULL,
@@ -16,6 +20,14 @@ geom_spatial_point(mapping = NULL, data = NULL, crs = NULL, ...)
 geom_spatial_path(mapping = NULL, data = NULL, crs = NULL, ...)
 
 geom_spatial_polygon(mapping = NULL, data = NULL, crs = NULL, ...)
+
+geom_spatial_text(mapping = NULL, data = NULL, crs = NULL, ...)
+
+geom_spatial_label(mapping = NULL, data = NULL, crs = NULL, ...)
+
+geom_spatial_text_repel(mapping = NULL, data = NULL, crs = NULL, ...)
+
+geom_spatial_label_repel(mapping = NULL, data = NULL, crs = NULL, ...)
 }
 \arguments{
 \item{mapping}{An aesthetic mapping created with \link[ggplot2]{aes}.}
@@ -30,7 +42,9 @@ crs.}
 \item{position}{The position to use.}
 
 \item{...}{Passed to the base ggplot2 functions \link[ggplot2]{geom_point},
-\link[ggplot2]{geom_path}, and \link[ggplot2]{geom_polygon}, respectively.}
+\link[ggplot2]{geom_path}, \link[ggplot2]{geom_polygon},
+\link[ggplot2]{geom_text}, \link[ggplot2]{geom_label},
+\link[ggrepel]{geom_text_repel}, and \link[ggrepel]{geom_label_repel}, respectively.}
 
 \item{show.legend, inherit.aes}{See \link[ggplot2]{layer}.}
 }

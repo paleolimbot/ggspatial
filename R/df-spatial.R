@@ -69,8 +69,8 @@ df_spatial.Line <- function(x, ...) {
 }
 
 df_spatial_line <- function(x, feature_id = 1L, ...) {
-  df <- tibble::as_tibble(x@coords[, c(1, 2), drop = FALSE])
-  colnames(df) <- c("x", "y")
+  mat <- x@coords[, c(1, 2), drop = FALSE]
+  df <- tibble::tibble(x = mat[, 1, drop = TRUE], y = mat[, 2, drop = TRUE])
   df$feature_id <- feature_id
   df$coordinate_id <- seq_len(nrow(df))
   df
@@ -109,8 +109,8 @@ df_spatial.Polygon <- function(x, ...) {
 }
 
 df_spatial_poly <- function(x, feature_id = 1L, ...) {
-  df <- tibble::as_tibble(x@coords[, c(1, 2), drop = FALSE])
-  colnames(df) <- c("x", "y")
+  mat <- x@coords[, c(1, 2), drop = FALSE]
+  df <- tibble::tibble(x = mat[, 1, drop = TRUE], y = mat[, 2, drop = TRUE])
   df$feature_id <- feature_id
   df$coordinate_id <- seq_len(nrow(df))
   df$is_hole <- x@hole
@@ -179,6 +179,21 @@ df_spatial.Raster <- function(x, ...) {
   fused$y <- bbox[2,1]+(fused$y-x@nrows)/x@nrows*(bbox[2,1]-bbox[2,2])
 
   tibble::as_tibble(fused)
+}
+
+#' @export
+#' @importFrom rlang !!
+df_spatial.stars <- function(x, ...) {
+  names <- names(x)
+
+  df <- as.data.frame(x, ...)
+  gathered <- tidyr::gather(df, key = "value_name", value = "band1", !!names)
+  if("band" %in% colnames(gathered)) {
+    gathered$band <- paste0("band", gathered$band)
+    tibble::as_tibble(tidyr::spread(gathered, key = "band", value = "band1"))
+  } else {
+    tibble::as_tibble(gathered)
+  }
 }
 
 #' Fix duplicate column names
