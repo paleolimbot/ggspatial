@@ -16,10 +16,7 @@ annotation_scale(mapping = NULL, data = NULL, ..., plot_unit = NULL,
 GeomScaleBar
 }
 \arguments{
-\item{mapping, data}{An aesthetics mapping and data, if plotting different scale bars
-on different facts.}
-
-\item{...}{See Aesthetics}
+\item{mapping, data, ...}{See Aesthetics}
 
 \item{plot_unit}{For non-coord_sf applications, specify the unit for x and y coordinates.
 Must be one of km, m, cm, mi, ft, or in.}

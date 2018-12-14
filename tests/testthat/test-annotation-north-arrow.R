@@ -130,3 +130,29 @@ test_that("all built-in styles of north arrow rotate properly", {
 
   expect_true(TRUE)
 })
+
+test_that("certain parameters can be passed as aesthetics to show up on different panels", {
+  load_longlake_data()
+
+  # note that passing NA in the label column makes this not work
+  arrow_params <- tibble::tibble(
+    label = c("Round Lake", "Long Lake"),
+    which_north = c("true", "grid"),
+    location = c("bl", "tr")
+  )
+
+  print(
+    ggplot() +
+      layer_spatial(longlake_waterdf) +
+      annotation_north_arrow(
+        aes(which_north = which_north, location = location),
+        data = arrow_params
+      ) +
+      facet_wrap(~label) +
+      labs(caption = "two north arrows in different panels with different parameters")
+  )
+
+  # visual test
+  expect_true(TRUE)
+})
+

@@ -5,26 +5,23 @@
 \alias{annotation_north_arrow}
 \alias{GeomNorthArrow}
 \title{Spatial-aware north arrow}
-\format{An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 4.}
+\format{An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
-annotation_north_arrow(height = unit(1.5, "cm"), width = unit(1.5, "cm"),
-  pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
-  which_north = c("grid", "true"), rotation = NULL, location = c("tr",
-  "bl", "br", "tl"), style = north_arrow_orienteering)
+annotation_north_arrow(mapping = NULL, data = NULL, ...,
+  height = unit(1.5, "cm"), width = unit(1.5, "cm"), pad_x = unit(0.25,
+  "cm"), pad_y = unit(0.25, "cm"), rotation = NULL,
+  style = north_arrow_orienteering)
 
 GeomNorthArrow
 }
 \arguments{
+\item{mapping, data, ...}{See Aesthetics}
+
 \item{height, width}{Height and width of north arrow}
 
 \item{pad_x, pad_y}{Padding between north arrow and edge of frame}
 
-\item{which_north}{"grid" results in a north arrow always pointing up; "true" always points to the
-north pole from whichever corner of the map the north arrow is in.}
-
 \item{rotation}{Override the rotation of the north arrow (degrees conterclockwise)}
-
-\item{location}{Where to put the north arrow ("tl" for top left, etc.)}
 
 \item{style}{A grob or callable that produces a grob that will be drawn as the north arrow.
 See \link{north_arrow_orienteering} for options.}
@@ -35,6 +32,19 @@ A ggplot2 layer
 \description{
 Spatial-aware north arrow
 }
+\section{Aesthetics}{
+
+The following can be used as parameters or aesthetics. Using them as
+aesthetics is useful when facets are used to display multiple panels,
+and a different (or missing) scale bar is required in different panels.
+Otherwise, just pass them as arguments to \code{annotation_north_arrow()}.
+  \itemize{
+    \item which_north: "grid" results in a north arrow always pointing up; "true" always points to the
+        north pole from whichever corner of the map the north arrow is in.
+    \item location: Where to put the scale bar ("tl" for top left, etc.)
+  }
+}
+
 \examples{
 
 cities <- data.frame(

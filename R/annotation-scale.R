@@ -1,8 +1,6 @@
 
 #' Spatial-aware scalebar annotation
 #'
-#' @param mapping,data An aesthetics mapping and data, if plotting different scale bars
-#'   on different facts.
 #' @param plot_unit For non-coord_sf applications, specify the unit for x and y coordinates.
 #'   Must be one of km, m, cm, mi, ft, or in.
 #' @param bar_cols Colours to use for the bars
@@ -11,7 +9,7 @@
 #' @param pad_x,pad_y Distance between scale bar and edge of panel
 #' @param text_pad,text_cex,text_face,text_family Parameters for label
 #' @param tick_height Height of ticks relative to height of scale bar
-#' @param ... See Aesthetics
+#' @param mapping,data,... See Aesthetics
 #'
 #' @section Aesthetics:
 #' The following can be used as parameters or aesthetics. Using them as
