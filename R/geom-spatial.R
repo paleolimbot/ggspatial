@@ -14,7 +14,9 @@
 #' @param geom The geometry to use.
 #' @param position The position to use.
 #' @param ... Passed to the base ggplot2 functions \link[ggplot2]{geom_point},
-#'   \link[ggplot2]{geom_path}, and \link[ggplot2]{geom_polygon}, respectively.
+#'   \link[ggplot2]{geom_path}, \link[ggplot2]{geom_polygon},
+#'   \link[ggplot2]{geom_text}, \link[ggplot2]{geom_label},
+#'   \link[ggrepel]{geom_text_repel}, and \link[ggrepel]{geom_label_repel}, respectively.
 #' @param show.legend,inherit.aes See \link[ggplot2]{layer}.
 #'
 #' @return A ggplot2 layer.
@@ -60,6 +62,30 @@ geom_spatial_path <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
 #' @export
 geom_spatial_polygon <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
   geom_polypath(mapping = mapping, data = data, stat = StatSpatialIdentity, crs = crs, ...)
+}
+
+#' @rdname stat_spatial_identity
+#' @export
+geom_spatial_text <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
+  ggplot2::geom_text(mapping = mapping, data = data, stat = StatSpatialIdentity, crs = crs, ...)
+}
+
+#' @rdname stat_spatial_identity
+#' @export
+geom_spatial_label <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
+  ggplot2::geom_label(mapping = mapping, data = data, stat = StatSpatialIdentity, crs = crs, ...)
+}
+
+#' @rdname stat_spatial_identity
+#' @export
+geom_spatial_text_repel <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
+  ggrepel::geom_text_repel(mapping = mapping, data = data, stat = StatSpatialIdentity, crs = crs, ...)
+}
+
+#' @rdname stat_spatial_identity
+#' @export
+geom_spatial_label_repel <- function(mapping = NULL, data = NULL, crs = NULL, ...) {
+  ggrepel::geom_label_repel(mapping = mapping, data = data, stat = StatSpatialIdentity, crs = crs, ...)
 }
 
 #' Coordinate transform
