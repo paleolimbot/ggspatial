@@ -3,7 +3,7 @@ context("test-geom-osm.R")
 # max test length was exceeded on CRAN, so these tests are skipped
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
-  test_that("geom_osm works as intended", {
+  test_that("annotation_map_tile() works as intended", {
     load_longlake_data()
 
     expect_message(
@@ -66,6 +66,55 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           labs(caption = "this should have the maptypes correspond to the backdrop")
       ),
       "Zoom: 13"
+    )
+
+    df_alta <- data.frame(lon = c(-122.974, -123.0042), lat = c(50.1232, 50.1035))
+    p <- ggplot(df_alta, aes(lon, lat)) + geom_spatial_point(crs = 4326)
+    print(
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 1) +
+        labs(caption = "RGBA tile with 1 alpha")
+    )
+    print(
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 0.5) +
+        labs(caption = "RGBA tile with 0.5 alpha")
+    )
+    print(
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 1) +
+        labs(caption = "RGBA tile with 1 alpha") +
+        coord_sf(crs = 26910)
+    )
+    print(
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 0.5) +
+        labs(caption = "RGBA tile with 0.5 alpha") +
+        coord_sf(crs = 26910)
+    )
+
+
+    print(
+      p +
+        annotation_map_tile(alpha = 1) +
+        labs(caption = "RGB tile with 1 alpha")
+    )
+    print(
+      p +
+        annotation_map_tile(alpha = 0.5) +
+        labs(caption = "RGB tile with 0.5 alpha")
+    )
+    print(
+      p +
+        annotation_map_tile(alpha = 1) +
+        labs(caption = "RGB tile with 1 alpha") +
+        coord_sf(crs = 26910)
+    )
+    print(
+      p +
+        annotation_map_tile(alpha = 0.5) +
+        labs(caption = "RGB tile with 0.5 alpha") +
+        coord_sf(crs = 26910)
     )
 
   })

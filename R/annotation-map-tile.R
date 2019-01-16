@@ -11,6 +11,7 @@
 #' @param progress Use progress = "none" to suppress progress and zoom output
 #' @param quiet Use quiet = FALSE to see which URLs are downloaded
 #' @param interpolate Parameter for raster
+#' @param alpha Use to make this layer semi-transparent
 #' @param data,mapping Specify data and mapping to use this geom with facets
 #'
 #' @return A ggplot2 layer
@@ -26,7 +27,7 @@
 annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
                                 forcedownload = FALSE, cachedir = NULL,
                                 progress = c("text", "none"), quiet = TRUE,
-                                interpolate = TRUE, data = NULL, mapping = NULL) {
+                                interpolate = TRUE, data = NULL, mapping = NULL, alpha = 1) {
 
   progress <- match.arg(progress)
   if(!is.null(zoom)) {
@@ -55,7 +56,8 @@ annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
         cachedir = cachedir,
         progress = progress,
         quiet = quiet,
-        interpolate = interpolate
+        interpolate = interpolate,
+        alpha = alpha
       ),
       inherit.aes = FALSE,
       show.legend = FALSE
@@ -91,7 +93,7 @@ GeomMapTile <- ggplot2::ggproto(
   draw_panel = function(
     data, panel_params, coordinates,
     forcedownload = FALSE, cachedir = NULL,
-    progress = c("none", "text"), quiet = TRUE, interpolate = TRUE
+    progress = c("none", "text"), quiet = TRUE, interpolate = TRUE, alpha = 1
   ) {
     progress <- match.arg(progress)
 
@@ -141,7 +143,7 @@ GeomMapTile <- ggplot2::ggproto(
 
       ext <- raster::extent(raster_proj)
       corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
-      img <- raster_as_array(raster_proj)
+      img <- raster_as_array(raster_proj, alpha = alpha)
 
     } else {
 
@@ -159,6 +161,22 @@ GeomMapTile <- ggplot2::ggproto(
 
       bbox_img <- attr(img, "bbox")
       corners <- data.frame(t(bbox_img))
+
+      # apply the specified alpha
+      if(alpha != 1) {
+        # it could be that there is already a band 4, or it may not exist yet
+        if(dim(img)[3] == 4) {
+          tband <- img[ , , 4, drop = FALSE]
+        } else {
+          tband <- array(1, dim(img)[1:2])
+        }
+
+        # multiply the alpha band by the requested alpha (clamping to 0,1)
+        tband <- tband * max(0, min(1, alpha))
+
+        # bind it to the original raster
+        img <- abind::abind(img[, , 1:3, drop = FALSE], tband)
+      }
     }
 
     # transform corners to viewport cs
