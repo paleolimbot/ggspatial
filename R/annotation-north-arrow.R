@@ -269,7 +269,8 @@ north_arrow_orienteering <- function(line_width = 1, line_col = "black", fill = 
       gp = grid::gpar(
         fontfamily = text_family,
         fontface = text_face,
-        fontsize = text_size + 2
+        fontsize = text_size + 2,
+        col = text_col
       )
     )
   )
@@ -319,7 +320,8 @@ north_arrow_fancy_orienteering <- function(line_width = 1, line_col = "black", f
       gp = grid::gpar(
         fontfamily = text_family,
         fontface = text_face,
-        fontsize = text_size
+        fontsize = text_size,
+        col = text_col
       )
     )
   )
@@ -374,7 +376,8 @@ north_arrow_minimal <- function(line_width = 1, line_col = "black", fill = "blac
       gp = grid::gpar(
         fontfamily = text_family,
         fontface = text_face,
-        fontsize = text_size
+        fontsize = text_size,
+        col = text_col
       )
     )
   )

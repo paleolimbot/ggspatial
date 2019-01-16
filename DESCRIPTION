@@ -1,14 +1,14 @@
 Package: ggspatial
 Type: Package
 Title: Spatial Data Framework for ggplot2
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(
     person("Dewey", "Dunnington",
            email = "dewey@fishandwhistle.net", 
            role = c("aut", "cre"), 
            comment = c(ORCID = "0000-0002-9415-4582")
     ),
-    person("Brent", "Thorne", role = "ctb")
+    person("Brent", "Thorne", role = "ctb", comment = c(ORCID = "0000-0002-1099-3857"))
   )
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: Spatial data plus the power of the ggplot2 framework means easier mapping when input 
@@ -32,7 +32,6 @@ Imports:
     grid
 Suggests:
     prettymapr,
-    mapproj,
     knitr,
     rmarkdown,
     sp,
