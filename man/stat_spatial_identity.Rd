@@ -27,7 +27,8 @@ geom_spatial_label(mapping = NULL, data = NULL, crs = NULL, ...)
 
 geom_spatial_text_repel(mapping = NULL, data = NULL, crs = NULL, ...)
 
-geom_spatial_label_repel(mapping = NULL, data = NULL, crs = NULL, ...)
+geom_spatial_label_repel(mapping = NULL, data = NULL, crs = NULL,
+  ...)
 }
 \arguments{
 \item{mapping}{An aesthetic mapping created with \link[ggplot2]{aes}.}

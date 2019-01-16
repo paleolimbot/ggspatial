@@ -131,6 +131,27 @@ test_that("all built-in styles of north arrow rotate properly", {
   expect_true(TRUE)
 })
 
+test_that("colour on north arrows is propogated through for all north arrow styles", {
+  p <- ggplot() +
+    geom_spatial_point(
+      mapping = aes(x, y),
+      data = data.frame(x = c(-63.58595, 116.41214), y = c(44.64862, 40.19063), city = c("Halifax", "Beijing")),
+      crs = 4326
+    ) +
+    coord_sf(crs = 3995)
+
+  print(
+    p +
+      annotation_north_arrow(location = "tl", style = north_arrow_orienteering(text_col = "purple")) +
+      annotation_north_arrow(location = "tr", style = north_arrow_fancy_orienteering(text_col = "blue")) +
+      annotation_north_arrow(location = "bl", style = north_arrow_minimal(text_col = "green")) +
+      annotation_north_arrow(location = "br", style = north_arrow_nautical(text_col = "red")) +
+      labs(caption = "All four arrows should have cifferent text colours")
+  )
+
+  expect_true(TRUE)
+})
+
 test_that("certain parameters can be passed as aesthetics to show up on different panels", {
   load_longlake_data()
 

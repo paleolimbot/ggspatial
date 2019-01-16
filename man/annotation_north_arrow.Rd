@@ -8,9 +8,9 @@
 \format{An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
 annotation_north_arrow(mapping = NULL, data = NULL, ...,
-  height = unit(1.5, "cm"), width = unit(1.5, "cm"), pad_x = unit(0.25,
-  "cm"), pad_y = unit(0.25, "cm"), rotation = NULL,
-  style = north_arrow_orienteering)
+  height = unit(1.5, "cm"), width = unit(1.5, "cm"),
+  pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
+  rotation = NULL, style = north_arrow_orienteering)
 
 GeomNorthArrow
 }

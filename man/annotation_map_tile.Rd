@@ -8,8 +8,9 @@
 \format{An object of class \code{GeomMapTile} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
 annotation_map_tile(type = "osm", zoom = NULL, zoomin = -2,
-  forcedownload = FALSE, cachedir = NULL, progress = c("text", "none"),
-  quiet = TRUE, interpolate = TRUE, data = NULL, mapping = NULL)
+  forcedownload = FALSE, cachedir = NULL, progress = c("text",
+  "none"), quiet = TRUE, interpolate = TRUE, data = NULL,
+  mapping = NULL, alpha = 1)
 
 GeomMapTile
 }
@@ -31,6 +32,8 @@ GeomMapTile
 \item{interpolate}{Parameter for raster}
 
 \item{data, mapping}{Specify data and mapping to use this geom with facets}
+
+\item{alpha}{Use to make this layer semi-transparent}
 }
 \value{
 A ggplot2 layer

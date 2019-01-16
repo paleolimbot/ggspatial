@@ -13,16 +13,18 @@
 \title{Spatial ggplot2 layer for raster objects}
 \format{An object of class \code{StatSpatialRaster} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.}
 \usage{
-\method{layer_spatial}{Raster}(data, mapping = NULL, interpolate = TRUE,
-  is_annotation = FALSE, lazy = FALSE, dpi = 150, ...)
+\method{layer_spatial}{Raster}(data, mapping = NULL,
+  interpolate = TRUE, is_annotation = FALSE, lazy = FALSE,
+  dpi = 150, ...)
 
 \method{annotation_spatial}{Raster}(data, mapping = NULL,
   interpolate = TRUE, ...)
 
-\method{layer_spatial}{stars}(data, mapping = NULL, interpolate = TRUE, ...)
-
-\method{annotation_spatial}{stars}(data, mapping = NULL, interpolate = TRUE,
+\method{layer_spatial}{stars}(data, mapping = NULL, interpolate = TRUE,
   ...)
+
+\method{annotation_spatial}{stars}(data, mapping = NULL,
+  interpolate = TRUE, ...)
 
 StatSpatialRaster
 

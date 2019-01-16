@@ -15,13 +15,13 @@ north_arrow_fancy_orienteering(line_width = 1, line_col = "black",
   fill = c("white", "black"), text_col = "black", text_family = "",
   text_face = NULL, text_size = 10, text_angle = 0)
 
-north_arrow_minimal(line_width = 1, line_col = "black", fill = "black",
-  text_col = "black", text_family = "", text_face = NULL,
-  text_size = 10)
+north_arrow_minimal(line_width = 1, line_col = "black",
+  fill = "black", text_col = "black", text_family = "",
+  text_face = NULL, text_size = 10)
 
-north_arrow_nautical(line_width = 1, line_col = "black", fill = c("black",
-  "white"), text_size = 10, text_face = NULL, text_family = "",
-  text_col = "black", text_angle = 0)
+north_arrow_nautical(line_width = 1, line_col = "black",
+  fill = c("black", "white"), text_size = 10, text_face = NULL,
+  text_family = "", text_col = "black", text_angle = 0)
 }
 \arguments{
 \item{line_width, line_col, fill}{Parameters customizing the appearance of the north arrow}
