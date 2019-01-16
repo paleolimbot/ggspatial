@@ -12,7 +12,7 @@ vignette: >
 ```{r setup, include = FALSE}
 library(ggspatial)
 rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
-knitr::opts_chunk$set(fig.width = 4, fig.height = 3, dpi = 150)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3, dpi = 150)
 ```
 
 On first use, a GIS user who stumbles across [ggplot2](https://cran.r-project.org/package=ggplot2) will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With **ggplot** version 3.0, `geom_sf()` and `coord_sf()` let users pass simple features (GIS layers from the **sf** package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in **ggplot2**, which is the gap filled by this package.
@@ -38,6 +38,14 @@ ggplot() +
   layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
 ```
 
+With raster layers, you can also use `layer_spatial()`. **ggspatial** takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as `stat(band1)` (or another band, if there is more than one in the raster). To get no data values to display as "no data", you'll have to set the `na.value` of the scale to `NA` (or `0` if it is an alpha scale).
+
+```{r, warning=FALSE}
+ggplot() + 
+  layer_spatial(longlake_depth_raster, aes(fill = stat(band1))) +
+  scale_fill_viridis_c(na.value = NA)
+```
+
 ## Using north arrow and scalebar
 
 North arrows are added using the `annotation_north_arrow()` function, and scalebars can be added using `annotation_scale()`. These functions are "spatial-aware", meaning they know where north is and what the distance is across the plot. Thus, they don't need any arguments (unless you think the defaults aren't pretty). There are two styles for scalebars and four styles for north arrows (see `?annotation_scale` and `?annotation_north_arrow` for details).
@@ -52,7 +60,7 @@ ggplot() +
 
 ## Tile map layers
 
-Using the **rosm** package, **ggspatial** can add tile layers from a few predefined tile sources (see `rosm::osm.types()`), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by `coord_sf()` (this defaults to the CRS of the first `geom_sf()` or `layer_spatial()` layer that was added to the plot). It's usually necessary to adjust the zoom to the right level when you know how the plot will be used...the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast.
+Using the **rosm** package, **ggspatial** can add tile layers from a few predefined tile sources (see `rosm::osm.types()`), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by `coord_sf()` (this defaults to the CRS of the first `geom_sf()` or `layer_spatial()` layer that was added to the plot). It's usually necessary to adjust the zoom to the right level when you know how the plot will be used...the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast. Use `progress = "none"` to suppress the messaging (particularly nice for use within RMarkdown).
 
 ```{r, message=FALSE}
 ggplot() +
@@ -64,7 +72,7 @@ There are a number of url patterns available for tiles, although how they are fo
 
 ## Data frames with coordinates
 
-Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In **ggspatial** you can use `df_spatial()` to get a spatial object into a data frame with coordinate columms (much like `fortify()` does, but with a bit better coverage of spatial types). Conversely, you can use a data frame with coordinate columns in `geom_spatial_*` functions to use these data with `geom_sf()`/`coord_sf()`/`layer_spatial()`. More generally, you can use `stat_spatial_identity()` to use any geometry with `coord_sf()`. For example, a polar perspective on two cities across the world from eachother could look like this:
+Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In **ggspatial** you can use `df_spatial()` to get a spatial object into a data frame with coordinate columms. Conversely, you can use a data frame with coordinate columns in `geom_spatial_*` functions to use these data with `geom_sf()`/`coord_sf()`/`layer_spatial()`. The `geom_spatial_point()` (wrapping `geom_point()`) and `geom_spatial_label_repel()` (wrapping `geom_label_repel()` from the **ggrepel** package) functions are the most commonly used in this situation. For example, a polar perspective on two cities across the world from eachother could look like this:
 
 ```{r, message=FALSE, warning=FALSE}
 cities <- data.frame(
@@ -73,13 +81,9 @@ cities <- data.frame(
   city = c("Halifax", "Beijing")
 )
 
-library(ggrepel) # needed for geom_text_repel()
-
 ggplot(cities, aes(x, y)) +
   annotation_map_tile(type = "stamenwatercolor") +
   geom_spatial_point() +
-  stat_spatial_identity(aes(label = city), geom = "text_repel", box.padding = 1) +
+  geom_spatial_label_repel(aes(label = city), box.padding = 1) +
   coord_sf(crs = 3995)
 ```
-
-Using `df_spatial()` is probably useful mostly with point geometries so they can be used with `stat_spatial_identity()` and `geom_text_repel()`. It can also be useful with **raster** objects that need calculations done on them, as it translates them into a data frame.
