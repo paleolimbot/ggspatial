@@ -4,8 +4,6 @@
 \name{layer_spatial.Raster}
 \alias{layer_spatial.Raster}
 \alias{annotation_spatial.Raster}
-\alias{layer_spatial.stars}
-\alias{annotation_spatial.stars}
 \alias{StatSpatialRaster}
 \alias{StatSpatialRasterAnnotation}
 \alias{StatSpatialRasterDf}
@@ -18,12 +16,6 @@
   dpi = 150, ...)
 
 \method{annotation_spatial}{Raster}(data, mapping = NULL,
-  interpolate = TRUE, ...)
-
-\method{layer_spatial}{stars}(data, mapping = NULL, interpolate = TRUE,
-  ...)
-
-\method{annotation_spatial}{stars}(data, mapping = NULL,
   interpolate = TRUE, ...)
 
 StatSpatialRaster
