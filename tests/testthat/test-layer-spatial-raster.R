@@ -4,7 +4,7 @@ context("test-layer-spatial-raster.R")
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
   test_that("layer-spatial works for raster objects", {
-    load_longlake_data()
+    load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
 
     # should have little grey thing around it
     print(
@@ -93,7 +93,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
 
   test_that("layer-spatial works for raster objects", {
-    load_longlake_data()
+    load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
 
     # should have little grey thing around it
     print(

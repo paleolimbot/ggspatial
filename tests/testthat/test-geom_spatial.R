@@ -21,7 +21,7 @@ test_that("xy_transform works as intended", {
 })
 
 test_that("geom_spatial_* geoms work properly", {
-  load_longlake_data()
+  load_longlake_data(which = c("longlake_depthdf", "longlake_waterdf"))
 
   point_df <- df_spatial(longlake_depthdf)
 
@@ -89,7 +89,7 @@ test_that("spatial labellers work properly", {
 })
 
 test_that("stat_spatial_identity function", {
-  load_longlake_data()
+  load_longlake_data(which = c("longlake_depthdf", "longlake_waterdf"))
   df <- df_spatial(longlake_depthdf)
 
   expect_message(

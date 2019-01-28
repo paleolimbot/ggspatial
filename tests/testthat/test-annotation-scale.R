@@ -1,7 +1,7 @@
 context("test-annotation-scale.R")
 
 test_that("scale bar parameters are generated correctly", {
-  load_longlake_data()
+  load_longlake_data(which = "longlake_depthdf")
   nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
   expect_equal(
@@ -41,7 +41,7 @@ test_that("scale bar parameters are generated correctly", {
 })
 
 test_that("annotation scale works as intended", {
-  load_longlake_data()
+  load_longlake_data(which = "longlake_depthdf")
   nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
   # defaults are ok

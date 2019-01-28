@@ -9,8 +9,7 @@ test_that("stars tests", {
 if (FALSE) {
 
   test_that("layer-spatial works for raster objects", {
-    load_longlake_data()
-    longlake_osm_stars <- stars::read_stars(system.file("longlake/longlake.tif", package = "ggspatial"))
+    load_longlake_data(which = c("longlake_depthdf", "longlake_osm", "longlake_depth_raster"), raster_format = "stars")
 
     # should have little grey thing around it
     print(
@@ -86,8 +85,11 @@ if (FALSE) {
   })
 
 
-  test_that("layer-spatial works for raster objects", {
-    load_longlake_data()
+  test_that("layer-spatial works for stars_proxy objects", {
+    load_longlake_data(
+      which = c("longlake_depthdf", "longlake_osm", "longlake_depth_raster"),
+      raster_format = "stars_proxy"
+    )
 
     # should have little grey thing around it
     print(

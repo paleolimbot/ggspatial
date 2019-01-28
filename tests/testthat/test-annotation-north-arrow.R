@@ -1,7 +1,7 @@
 context("test-annotation-north-arrow.R")
 
 test_that("north arrow drawing works", {
-  load_longlake_data()
+  load_longlake_data(which = "longlake_waterdf")
 
   print(
     ggplot() +
@@ -49,7 +49,7 @@ test_that("north arrow math is correct", {
 })
 
 test_that("true north arrow points in the right direction", {
-  load_longlake_data()
+  load_longlake_data(which = "longlake_waterdf")
 
   print(
     ggplot() +
@@ -153,7 +153,7 @@ test_that("colour on north arrows is propogated through for all north arrow styl
 })
 
 test_that("certain parameters can be passed as aesthetics to show up on different panels", {
-  load_longlake_data()
+  load_longlake_data(which = "longlake_waterdf")
 
   # note that passing NA in the label column makes this not work
   arrow_params <- tibble::tibble(

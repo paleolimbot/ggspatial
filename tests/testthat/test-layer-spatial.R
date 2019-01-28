@@ -1,7 +1,7 @@
 context("test-layer-spatial.R")
 
 test_that("layer_spatial() works as intended", {
-  load_longlake_data()
+  load_longlake_data(which = c("longlake_roadsdf", "longlake_waterdf", "longlake_depthdf"))
 
   print(
     ggplot() +

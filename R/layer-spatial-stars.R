@@ -161,6 +161,13 @@ StatSpatialStarsDf <- ggplot2::ggproto(
       # FIXME this is a temporary fix until I can figure out how to do some of this using stars
       # basically, we need to return a representative subsample of the df version, which may
       # include some kind of mutate operation?
+      # the temp fix bungles the NODATA values?
+
+      # something like this would help
+      # withr::with_output_sink("message.txt", {
+      #   sf::gdal_utils("info", "longlake.tif", options = c("-approx_stats", "-json"))
+      # })
+      #
       data$raster <- lapply(data$raster, methods::as, "Raster")
 
       if(!is.null(coord_crs)) {
