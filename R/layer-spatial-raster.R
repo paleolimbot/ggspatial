@@ -189,21 +189,22 @@ GeomSpatialRaster <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150) {
+  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150,
+                        max_pixel_scale = 1) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
 
     if(lazy) {
 
-      # this code makes sure that the resampled raster doesn't contain any more pixels than it needs to
+      # this code makes sure that the resampled raster doesn't contain any more area than it needs to
       coord_bbox <- panel_params_as_bbox(panel_params)
       rst_bbox <- data$extent[[1]]
       if(bboxes_equal(coord_bbox, rst_bbox)) {
         target_bbox <- coord_bbox
       } else {
         target_bbox <- sf::st_bbox(
-            sf::st_intersection(
+          sf::st_intersection(
             bbox_as_polygon(rst_bbox),
             bbox_as_polygon(coord_bbox)
           )
@@ -212,6 +213,16 @@ GeomSpatialRaster <- ggplot2::ggproto(
       bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
       bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
 
+      # this code makes sure we aren't making more pixels in the resampled image than there was in the
+      # original image (a bit hard because of reprojection but we can estimate)
+      original_pixels_y <- dim(rst)[1]
+      original_pixels_x <- dim(rst)[2]
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
+
       # return a gTree with the right params so that the raster can be rendered later
       grid::gTree(
         raster_obj = rst,
@@ -219,6 +230,7 @@ GeomSpatialRaster <- ggplot2::ggproto(
         coordinates = coordinates,
         target_bbox = target_bbox,
         bbox_scale = c(bbox_scale_x, bbox_scale_y),
+        max_pixels = c(max_pixels_x, max_pixels_y),
         panel_params = panel_params,
         alpha = alpha,
         interpolate = interpolate,
@@ -244,14 +256,15 @@ GeomSpatialRaster <- ggplot2::ggproto(
 #' @export
 makeContent.geom_spatial_raster_lazy <- function(x) {
 
-  # until I figure out how to get DPI from the graphics device at load time,
-  # use the user-specified value
   width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
   height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
+
+  # until I figure out how to get DPI from the graphics device at load time,
+  # use the user-specified value
   dpi_x <- x$dpi
   dpi_y <- x$dpi
-  width_px <- ceiling(width_in * dpi_x * x$bbox_scale[1])
-  height_px <- ceiling(height_in * dpi_y * x$bbox_scale[2])
+  width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
+  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
 
   # check to see if the x$cache environment has a raster already
   raster_var <- paste0("raster_", width_px, "x", height_px)
