@@ -122,7 +122,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       )
     }, height = 10, width = 10)
 
-    withr::with_png(file.path(tempdir(), "test.pdf"), {
+    withr::with_png(file.path(tempdir(), "test.png"), {
       print(
         ggplot() +
           layer_spatial(longlake_osm, lazy = TRUE) +
