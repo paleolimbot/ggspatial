@@ -105,10 +105,36 @@ StatSpatialRaster <-  ggplot2::ggproto(
         )
       })
 
+      # this needs to be directly in the data so that the position scales get trained
       data$xmin <- vapply(data$extent, function(x) x["xmin"], numeric(1))
       data$xmax <- vapply(data$extent, function(x) x["xmax"], numeric(1))
       data$ymin <- vapply(data$extent, function(x) x["ymin"], numeric(1))
       data$ymax <- vapply(data$extent, function(x) x["ymax"], numeric(1))
+
+      # this stat also generates band1....band[n] columns with the limits of each band
+      # this allows aesthetics in the form fill = stat(band1), alpha = stat(band3)
+
+      # in many cases this is cached or at the very least doesn't lead to the whole
+      # raster being read into memory
+
+      # the raster package doesn't have support for discrete values in bands (?),
+      # so there are no discrete limits to worry about here (?)
+      # if there were, crossing() would probably be the way to go
+
+      # commenting this out until access to the scales is possible from the Geom
+
+      # data$band_limits <- lapply(data$raster, function(rst) {
+      #   min_values <- as.list(raster::minValue(rst))
+      #   names(min_values) <- paste0("band", seq_along(min_values))
+      #   max_values <- as.list(raster::maxValue(rst))
+      #   names(max_values) <- paste0("band", seq_along(max_values))
+      #   rbind(
+      #     tibble::as_tibble(min_values),
+      #     tibble::as_tibble(max_values)
+      #   )
+      # })
+      #
+      # data <- tidyr::unnest(data, .data$band_limits, .drop = FALSE)
 
     } else {
       stop("Spatial rasters require coord_sf().", call. = FALSE)
