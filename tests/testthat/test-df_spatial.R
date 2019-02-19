@@ -103,7 +103,7 @@ test_that("Spatial* objects are fortified correctly", {
 })
 
 test_that("Raster* objects are converted properly by df_spatial", {
-  load_longlake_data()
+  load_longlake_data(which = c("longlake_depth_raster", "longlake_osm"), raster_format = "raster")
   expect_df_spatial(longlake_depth_raster)
   expect_df_spatial(longlake_osm)
   expect_equal(

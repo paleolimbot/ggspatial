@@ -4,7 +4,7 @@ context("test-geom-osm.R")
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
   test_that("annotation_map_tile() works as intended", {
-    load_longlake_data()
+    load_longlake_data(which = "longlake_waterdf")
 
     expect_message(
       print(

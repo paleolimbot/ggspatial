@@ -79,22 +79,6 @@ annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, 
 
 #' @rdname layer_spatial.Raster
 #' @export
-layer_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
-  loadNamespace("raster")
-  layer_spatial.Raster(methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, ...)
-}
-
-#' @rdname layer_spatial.Raster
-#' @export
-annotation_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
-  loadNamespace("raster")
-  layer_spatial.Raster(
-    methods::as(data, "Raster"), mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...
-  )
-}
-
-#' @rdname layer_spatial.Raster
-#' @export
 StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
   Stat,
@@ -109,7 +93,7 @@ StatSpatialRaster <-  ggplot2::ggproto(
     coord_crs <- layout$coord_params$crs
     if(!is.null(coord_crs)) {
 
-      projected_bboxes <- lapply(seq_along(extents), function(i) {
+      data$extent <- lapply(seq_along(extents), function(i) {
         x <- extents[[i]]
         project_extent(
           xmin = x@xmin,
@@ -121,18 +105,39 @@ StatSpatialRaster <-  ggplot2::ggproto(
         )
       })
 
-      data$xmin <- vapply(projected_bboxes, function(x) x["xmin"], numeric(1))
-      data$xmax <- vapply(projected_bboxes, function(x) x["xmax"], numeric(1))
-      data$ymin <- vapply(projected_bboxes, function(x) x["ymin"], numeric(1))
-      data$ymax <- vapply(projected_bboxes, function(x) x["ymax"], numeric(1))
+      # this needs to be directly in the data so that the position scales get trained
+      data$xmin <- vapply(data$extent, function(x) x["xmin"], numeric(1))
+      data$xmax <- vapply(data$extent, function(x) x["xmax"], numeric(1))
+      data$ymin <- vapply(data$extent, function(x) x["ymin"], numeric(1))
+      data$ymax <- vapply(data$extent, function(x) x["ymax"], numeric(1))
+
+      # this stat also generates band1....band[n] columns with the limits of each band
+      # this allows aesthetics in the form fill = stat(band1), alpha = stat(band3)
+
+      # in many cases this is cached or at the very least doesn't lead to the whole
+      # raster being read into memory
+
+      # the raster package doesn't have support for discrete values in bands (?),
+      # so there are no discrete limits to worry about here (?)
+      # if there were, crossing() would probably be the way to go
+
+      # commenting this out until access to the scales is possible from the Geom
+
+      # data$band_limits <- lapply(data$raster, function(rst) {
+      #   min_values <- as.list(raster::minValue(rst))
+      #   names(min_values) <- paste0("band", seq_along(min_values))
+      #   max_values <- as.list(raster::maxValue(rst))
+      #   names(max_values) <- paste0("band", seq_along(max_values))
+      #   rbind(
+      #     tibble::as_tibble(min_values),
+      #     tibble::as_tibble(max_values)
+      #   )
+      # })
+      #
+      # data <- tidyr::unnest(data, .data$band_limits, .drop = FALSE)
 
     } else {
-      warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
-
-      data$xmin <- vapply(extents, function(x) x@xmin, numeric(1))
-      data$xmax <- vapply(extents, function(x) x@xmax, numeric(1))
-      data$ymin <- vapply(extents, function(x) x@ymin, numeric(1))
-      data$ymax <- vapply(extents, function(x) x@ymax, numeric(1))
+      stop("Spatial rasters require coord_sf().", call. = FALSE)
     }
 
     data
@@ -210,21 +215,53 @@ GeomSpatialRaster <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150) {
+  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150,
+                        max_pixel_scale = 1) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
 
     if(lazy) {
+
+      # this code makes sure that the resampled raster doesn't contain any more area than it needs to
+      coord_bbox <- panel_params_as_bbox(panel_params)
+      rst_bbox <- data$extent[[1]]
+      if(bboxes_equal(coord_bbox, rst_bbox)) {
+        target_bbox <- coord_bbox
+      } else {
+        target_bbox <- sf::st_bbox(
+          sf::st_intersection(
+            bbox_as_polygon(rst_bbox),
+            bbox_as_polygon(coord_bbox)
+          )
+        )
+      }
+      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
+      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
+
+      # this code makes sure we aren't making more pixels in the resampled image than there was in the
+      # original image (a bit hard because of reprojection but we can estimate)
+      original_pixels_y <- dim(rst)[1]
+      original_pixels_x <- dim(rst)[2]
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
+
       # return a gTree with the right params so that the raster can be rendered later
       grid::gTree(
         raster_obj = rst,
         coord_crs = coord_crs,
         coordinates = coordinates,
+        target_bbox = target_bbox,
+        bbox_scale = c(bbox_scale_x, bbox_scale_y),
+        max_pixels = c(max_pixels_x, max_pixels_y),
         panel_params = panel_params,
         alpha = alpha,
         interpolate = interpolate,
         dpi = dpi,
+        cache = new.env(parent = emptyenv()),
         cl = "geom_spatial_raster_lazy"
       )
 
@@ -248,24 +285,27 @@ makeContent.geom_spatial_raster_lazy <- function(x) {
   width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
   height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
 
-  width_px <- width_in * x$dpi
-  height_px <- height_in * x$dpi
+  # until I figure out how to get DPI from the graphics device at load time,
+  # use the user-specified value
+  dpi_x <- x$dpi
+  dpi_y <- x$dpi
+  width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
+  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
 
-  # no idea how to get DPI here...grDevices::dev.size() returns
-  # incorrect pixel dimensions I think...
-  # message(sprintf("%s x %s in (%s x %s px) dpi: %s", width_in, height_in, width_px, height_px, x$dpi))
+  # check to see if the x$cache environment has a raster already
+  raster_var <- paste0("raster_", width_px, "x", height_px)
+  if(raster_var %in% names(x$cache)) {
+    return(grid::setChildren(x, grid::gList(x$cache[[raster_var]])))
+  }
 
   if(!is.null(x$coord_crs)) {
-    # maybe better to use projectExtent() or similar to make
-    # smallest possible result?
-
     template_raster <- raster::raster(
-      xmn = x$panel_params$x_range[1],
-      ymn = x$panel_params$y_range[1],
-      xmx = x$panel_params$x_range[2],
-      ymx = x$panel_params$y_range[2],
-      ncols = ceiling(width_px),
-      nrows = ceiling(height_px),
+      xmn = x$target_bbox["xmin"],
+      ymn = x$target_bbox["ymin"],
+      xmx = x$target_bbox["xmax"],
+      ymx = x$target_bbox["ymax"],
+      ncols = width_px,
+      nrows = height_px,
       crs = raster::crs(sf::st_crs(x$coord_crs)$proj4string)
     )
 
@@ -273,26 +313,22 @@ makeContent.geom_spatial_raster_lazy <- function(x) {
     template_raster <- NULL
   }
 
-  # add content to the gTree
-  grid::setChildren(
-    x,
-    grid::gList(
-      raster_grob_from_raster(
-        x$raster_obj,
-        x$coord_crs,
-        x$coordinates,
-        x$panel_params,
-        alpha = x$alpha,
-        interpolate = x$interpolate,
-        template_raster = template_raster
-      )
-    )
+  # add content to the gTree, cache the rasterGrob
+  x$cache[[raster_var]] <- raster_grob_from_raster(
+    x$raster_obj,
+    x$coord_crs,
+    x$coordinates,
+    x$panel_params,
+    alpha = x$alpha,
+    interpolate = x$interpolate,
+    template_raster = template_raster
   )
+
+  grid::setChildren(x, grid::gList(x$cache[[raster_var]]))
 }
 
 raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
                                     template_raster = NULL, alpha = 1, interpolate = TRUE) {
-
   if(interpolate) {
     raster_method <- "bilinear"
   } else {
@@ -416,6 +452,34 @@ project_extent <- function(xmin, ymin, xmax, ymax, from_crs = 4326, to_crs = 432
   } else {
     out_bbox
   }
+}
+
+bboxes_equal <- function(bbox1, bbox2) {
+  all(bbox1 == bbox2)
+}
+
+panel_params_as_bbox <- function(panel_params) {
+  data <- c(
+    xmin = panel_params$x_range[1],
+    ymin = panel_params$y_range[1],
+    xmax = panel_params$x_range[2],
+    ymax = panel_params$y_range[2]
+  )
+
+  structure(data, crs = sf::st_crs(panel_params$crs))
+}
+
+# need a way to get an extent to an sf::st_polygon
+bbox_as_polygon <- function(bbox) {
+  sf::st_polygon(list(matrix(
+    c(bbox["xmin"], bbox["ymin"],
+      bbox["xmax"], bbox["ymin"],
+      bbox["xmax"], bbox["ymax"],
+      bbox["xmin"], bbox["ymax"],
+      bbox["xmin"], bbox["ymin"]),
+    ncol = 2,
+    byrow = TRUE
+  )), dim = "XY")
 }
 
 # also need a method to combine aesthetics with overriding values
