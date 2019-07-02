@@ -254,7 +254,7 @@ north_arrow_orienteering <- function(line_width = 1, line_col = "black", fill = 
       id = arrow_id,
       default.units = "npc",
       gp = grid::gpar(
-        linewidth = line_width,
+        lwd = line_width,
         col = line_col,
         fill = fill
       )
