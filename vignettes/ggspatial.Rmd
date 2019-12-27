@@ -10,6 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+library(ggplot2)
 library(ggspatial)
 rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
 knitr::opts_chunk$set(fig.width = 5, fig.height = 3, dpi = 150)
@@ -24,6 +25,7 @@ This vignette assumes that readers are familar with the usage of `ggplot2`. Ther
 This vignette uses some data that was used in/collected for my honours thesis. The data is included as files within the package, and can be loaded using `load_longlake_data()`. If you're looking to read in some of your own data, you may be interested in `sf::read_sf()` or `raster::raster()`.
 
 ```{r}
+library(ggplot2)
 library(ggspatial)
 load_longlake_data()
 ```
