@@ -7,11 +7,22 @@
 \title{Spatial-aware scalebar annotation}
 \format{An object of class \code{GeomScaleBar} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
-annotation_scale(mapping = NULL, data = NULL, ..., plot_unit = NULL,
-  bar_cols = c("black", "white"), line_width = 1, height = unit(0.25,
-  "cm"), pad_x = unit(0.25, "cm"), pad_y = unit(0.25, "cm"),
-  text_pad = unit(0.15, "cm"), text_cex = 0.7, text_face = NULL,
-  text_family = "", tick_height = 0.6)
+annotation_scale(
+  mapping = NULL,
+  data = NULL,
+  ...,
+  plot_unit = NULL,
+  bar_cols = c("black", "white"),
+  line_width = 1,
+  height = unit(0.25, "cm"),
+  pad_x = unit(0.25, "cm"),
+  pad_y = unit(0.25, "cm"),
+  text_pad = unit(0.15, "cm"),
+  text_cex = 0.7,
+  text_face = NULL,
+  text_family = "",
+  tick_height = 0.6
+)
 
 GeomScaleBar
 }

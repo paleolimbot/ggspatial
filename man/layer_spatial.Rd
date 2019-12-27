@@ -11,11 +11,21 @@ layer_spatial(data, mapping, ...)
 
 annotation_spatial(data, mapping, ...)
 
-\method{layer_spatial}{default}(data, mapping = aes(),
-  inherit.aes = FALSE, sf_params = list(), ...)
+\method{layer_spatial}{default}(
+  data,
+  mapping = aes(),
+  inherit.aes = FALSE,
+  sf_params = list(),
+  ...
+)
 
-\method{annotation_spatial}{default}(data, mapping = aes(),
-  inherit.aes = FALSE, sf_params = list(), ...)
+\method{annotation_spatial}{default}(
+  data,
+  mapping = aes(),
+  inherit.aes = FALSE,
+  sf_params = list(),
+  ...
+)
 }
 \arguments{
 \item{data}{An object that can be coerced to an sf object using \link[sf]{st_as_sf}.}

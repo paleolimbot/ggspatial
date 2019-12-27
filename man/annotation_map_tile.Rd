@@ -7,10 +7,19 @@
 \title{Add background OSM tiles}
 \format{An object of class \code{GeomMapTile} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
 \usage{
-annotation_map_tile(type = "osm", zoom = NULL, zoomin = -2,
-  forcedownload = FALSE, cachedir = NULL, progress = c("text",
-  "none"), quiet = TRUE, interpolate = TRUE, data = NULL,
-  mapping = NULL, alpha = 1)
+annotation_map_tile(
+  type = "osm",
+  zoom = NULL,
+  zoomin = -2,
+  forcedownload = FALSE,
+  cachedir = NULL,
+  progress = c("text", "none"),
+  quiet = TRUE,
+  interpolate = TRUE,
+  data = NULL,
+  mapping = NULL,
+  alpha = 1
+)
 
 GeomMapTile
 }

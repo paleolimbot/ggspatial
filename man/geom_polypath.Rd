@@ -4,9 +4,17 @@
 \alias{geom_polypath}
 \title{Polygons with holes in ggplot2}
 \usage{
-geom_polypath(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, rule = "winding", ...)
+geom_polypath(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  rule = "winding",
+  ...
+)
 }
 \arguments{
 \item{mapping}{An aesthetic mapping, created with \link[ggplot2]{aes}. The aesthetic
