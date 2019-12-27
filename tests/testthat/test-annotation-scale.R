@@ -149,7 +149,7 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     facet_var = c("one", "two", "three", "four"),
     data = list(data.frame(x = 0:4, y = -(0:4)))
   ) %>%
-    tidyr::unnest()
+    tidyr::unnest(data)
 
   scale_params <- tibble::tibble(
     facet_var = c("one", "two", "three"),
