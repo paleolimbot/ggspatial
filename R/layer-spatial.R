@@ -12,6 +12,7 @@
 #' @importFrom ggplot2 aes
 #'
 #' @examples
+#' library(ggplot2)
 #' load_longlake_data()
 #'
 #' ggplot() +

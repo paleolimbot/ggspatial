@@ -45,6 +45,7 @@ A ggplot2 \link[ggplot2]{layer}.
 Turn a spatial object into a ggplot2 layer
 }
 \examples{
+library(ggplot2)
 load_longlake_data()
 
 ggplot() +

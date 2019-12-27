@@ -32,6 +32,7 @@ remotes::install_github("paleolimbot/ggspatial")
 This package is a framework for interacting with spatial data using **ggplot2** as a plotting backend. The package supports **sf** package objects, **sp** package objects, and **raster** package objects, and uses `geom_sf()` and `coord_sf()` to do most of the heavy lifting with respect to coordinate transformation.
 
 ```{r fig-layer-spatial-sf, warning=FALSE, message=FALSE}
+library(ggplot2)
 library(ggspatial)
 load_longlake_data()
 

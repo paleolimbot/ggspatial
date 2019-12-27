@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' load_longlake_data()
 #' ggplot() + layer_spatial(longlake_osm)
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)

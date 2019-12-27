@@ -18,6 +18,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' load_longlake_data()
 #'
 #' ggplot() +

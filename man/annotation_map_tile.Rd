@@ -51,6 +51,7 @@ A ggplot2 layer
 Uses \link[rosm]{osm.image} to add background tiles.
 }
 \examples{
+library(ggplot2)
 load_longlake_data()
 
 ggplot() +

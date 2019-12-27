@@ -15,8 +15,7 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
   data are already in the form of spatial objects.
 License: GPL-3
 Depends:
-    R (>= 2.10),
-    ggplot2 (>= 2.2.1.9000)
+    R (>= 2.10)
 Imports:
     sf,
     rosm (>= 0.2),

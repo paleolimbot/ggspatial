@@ -55,6 +55,7 @@ This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or pho
 bands as if they were columns, use \link{df_spatial} and \link{geom_raster}.
 }
 \examples{
+library(ggplot2)
 load_longlake_data()
 ggplot() + layer_spatial(longlake_osm)
 ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)

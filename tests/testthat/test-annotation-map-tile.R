@@ -11,7 +11,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-          labs("This plot sould have they grey outlines line up with the OSM map beneath")
+          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
       ),
       "Zoom: 13"
     )
@@ -22,7 +22,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
           coord_sf(crs = 26920) +
-          labs("This plot sould have they grey outlines line up with the OSM map beneath")
+          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
       ),
       "Zoom: 13"
     )
@@ -33,7 +33,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
           coord_sf(crs = 3857) +
-          labs("This plot sould have they grey outlines line up with the OSM map beneath")
+          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
       ),
       "Zoom: 13"
     )
@@ -44,7 +44,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
           coord_sf(crs = 3978) +
-          labs("This plot sould have they grey outlines line up with the OSM map beneath")
+          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
       ),
       "Zoom: 13"
     )
@@ -62,8 +62,8 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           ) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
           coord_sf(crs = 3857) +
-          facet_wrap(~type) +
-          labs(caption = "this should have the maptypes correspond to the backdrop")
+          ggplot2::facet_wrap(~type) +
+          ggplot2::labs(caption = "this should have the maptypes correspond to the backdrop")
       ),
       "Zoom: 13"
     )
@@ -73,23 +73,23 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     print(
       p +
         annotation_map_tile(type = "hillshade", alpha = 1) +
-        labs(caption = "RGBA tile with 1 alpha")
+        ggplot2::labs(caption = "RGBA tile with 1 alpha")
     )
     print(
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5) +
-        labs(caption = "RGBA tile with 0.5 alpha")
+        ggplot2::labs(caption = "RGBA tile with 0.5 alpha")
     )
     print(
       p +
         annotation_map_tile(type = "hillshade", alpha = 1) +
-        labs(caption = "RGBA tile with 1 alpha") +
+        ggplot2::labs(caption = "RGBA tile with 1 alpha") +
         coord_sf(crs = 26910)
     )
     print(
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5) +
-        labs(caption = "RGBA tile with 0.5 alpha") +
+        ggplot2::labs(caption = "RGBA tile with 0.5 alpha") +
         coord_sf(crs = 26910)
     )
 
@@ -97,23 +97,23 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     print(
       p +
         annotation_map_tile(alpha = 1) +
-        labs(caption = "RGB tile with 1 alpha")
+        ggplot2::labs(caption = "RGB tile with 1 alpha")
     )
     print(
       p +
         annotation_map_tile(alpha = 0.5) +
-        labs(caption = "RGB tile with 0.5 alpha")
+        ggplot2::labs(caption = "RGB tile with 0.5 alpha")
     )
     print(
       p +
         annotation_map_tile(alpha = 1) +
-        labs(caption = "RGB tile with 1 alpha") +
+        ggplot2::labs(caption = "RGB tile with 1 alpha") +
         coord_sf(crs = 26910)
     )
     print(
       p +
         annotation_map_tile(alpha = 0.5) +
-        labs(caption = "RGB tile with 0.5 alpha") +
+        ggplot2::labs(caption = "RGB tile with 0.5 alpha") +
         coord_sf(crs = 26910)
     )
 

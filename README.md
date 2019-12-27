@@ -1,14 +1,21 @@
 ggspatial: Spatial data framework for ggplot2
 ================
 
-[![ggspatial on CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial) [![Travis-CI Build Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial) [![Coverage Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
+[![ggspatial on
+CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial)
+[![Travis-CI Build
+Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
 
-Spatial data plus the power of the `ggplot2` framework means easier mapping.
+Spatial data plus the power of the `ggplot2` framework means easier
+mapping.
 
-Installation
-------------
+## Installation
 
-The package is available on CRAN, and can be installed using `install.packages("ggspatial")`. The development version can be installed via **remotes**.
+The package is available on CRAN, and can be installed using
+`install.packages("ggspatial")`. The development version can be
+installed via **remotes**.
 
 ``` r
 install.packages("ggspatial")
@@ -21,12 +28,16 @@ install.packages("remotes") # if remotes isn't installed
 remotes::install_github("paleolimbot/ggspatial")
 ```
 
-Introduction
-------------
+## Introduction
 
-This package is a framework for interacting with spatial data using **ggplot2** as a plotting backend. The package supports **sf** package objects, **sp** package objects, and **raster** package objects, and uses `geom_sf()` and `coord_sf()` to do most of the heavy lifting with respect to coordinate transformation.
+This package is a framework for interacting with spatial data using
+**ggplot2** as a plotting backend. The package supports **sf** package
+objects, **sp** package objects, and **raster** package objects, and
+uses `geom_sf()` and `coord_sf()` to do most of the heavy lifting with
+respect to coordinate transformation.
 
 ``` r
+library(ggplot2)
 library(ggspatial)
 load_longlake_data()
 
@@ -53,4 +64,4 @@ ggplot() +
   annotation_north_arrow(location = "br", which_north = "true")
 ```
 
-![](README_files/figure-markdown_github/fig-layer-spatial-sf-1.png)
+![](README_files/figure-gfm/fig-layer-spatial-sf-1.png)<!-- -->
