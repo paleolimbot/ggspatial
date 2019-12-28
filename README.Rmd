@@ -1,14 +1,28 @@
 ---
-title: "ggspatial: Spatial data framework for ggplot2"
 output: github_document
 ---
 
-[![ggspatial on CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial) [![Travis-CI Build Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial) [![Coverage Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
+```{r, include = FALSE}
 rosm::set_default_cachedir(system.file("rosm.cache", package = "ggspatial"))
-knitr::opts_chunk$set(dpi = 150, echo = TRUE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 150,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
+
+# ggspatial
+
+<!-- badges: start -->
+[![ggspatial on CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial)
+[![Travis-CI Build Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial)
+[![Coverage Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 Spatial data plus the power of the `ggplot2` framework means easier mapping.
 

@@ -1,5 +1,9 @@
-ggspatial: Spatial data framework for ggplot2
-================
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# ggspatial
+
+<!-- badges: start -->
 
 [![ggspatial on
 CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/package=ggspatial)
@@ -7,6 +11,9 @@ CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/p
 Status](https://travis-ci.org/paleolimbot/ggspatial.svg?branch=master)](https://travis-ci.org/paleolimbot/ggspatial)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 Spatial data plus the power of the `ggplot2` framework means easier
 mapping.
@@ -64,4 +71,4 @@ ggplot() +
   annotation_north_arrow(location = "br", which_north = "true")
 ```
 
-![](README_files/figure-gfm/fig-layer-spatial-sf-1.png)<!-- -->
+<img src="man/figures/README-fig-layer-spatial-sf-1.png" width="100%" />
