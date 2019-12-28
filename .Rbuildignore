@@ -7,3 +7,6 @@
 ^codecov\.yml$
 ^tests/testthat/Rplots\.pdf$
 ^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
