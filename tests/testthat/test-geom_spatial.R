@@ -63,25 +63,25 @@ test_that("spatial labellers work properly", {
   print(
     p +
       geom_spatial_text(crs = 4326) +
-      labs(caption = "geom_spatial_text()")
+      ggplot2::labs(caption = "geom_spatial_text()")
   )
 
   print(
     p +
       geom_spatial_label(crs = 4326) +
-      labs(caption = "geom_spatial_label()")
+      ggplot2::labs(caption = "geom_spatial_label()")
   )
 
   print(
     p +
       geom_spatial_text_repel(crs = 4326) +
-      labs(caption = "geom_spatial_text_repel()")
+      ggplot2::labs(caption = "geom_spatial_text_repel()")
   )
 
   print(
     p +
       geom_spatial_label_repel(crs = 4326) +
-      labs(caption = "geom_spatial_label_repel()")
+      ggplot2::labs(caption = "geom_spatial_label_repel()")
   )
 
   # visual test
@@ -97,7 +97,7 @@ test_that("stat_spatial_identity function", {
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
         stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df) +
-        labs(caption = "all the points should be in the lake!")
+        ggplot2::labs(caption = "all the points should be in the lake!")
     ),
     "Assuming crs"
   )
@@ -107,7 +107,7 @@ test_that("stat_spatial_identity function", {
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
         stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df, crs = 4326) +
-        labs(caption = "all the points should be in the lake!")
+        ggplot2::labs(caption = "all the points should be in the lake!")
     )
   )
 

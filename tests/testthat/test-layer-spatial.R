@@ -9,7 +9,7 @@ test_that("layer_spatial() works as intended", {
       layer_spatial(longlake_roadsdf, size = 0.8, col = "white") +
       layer_spatial(longlake_waterdf, fill = "lightblue", col = NA) +
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M)) +
-      labs(caption = "Should show long lake, round lake, etc.")
+      ggplot2::labs(caption = "Should show long lake, round lake, etc.")
   )
 
   print(
@@ -18,7 +18,7 @@ test_that("layer_spatial() works as intended", {
       annotation_spatial(longlake_roadsdf, size = 0.8, col = "white") +
       annotation_spatial(longlake_waterdf, fill = "lightblue", col = NA) +
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M)) +
-      labs(caption = "Should show only long lake")
+      ggplot2::labs(caption = "Should show only long lake")
   )
 
   # sp objects converted to sf

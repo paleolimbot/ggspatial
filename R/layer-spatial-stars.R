@@ -77,7 +77,7 @@ annotation_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, .
 #' @export
 StatSpatialStars <-  ggplot2::ggproto(
   "StatSpatialStars",
-  Stat,
+  ggplot2::Stat,
   required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
@@ -141,7 +141,7 @@ StatSpatialStarsAnnotation <- ggplot2::ggproto(
 #' @export
 StatSpatialStarsDf <- ggplot2::ggproto(
   "StatSpatialStarsDf",
-  Stat,
+  ggplot2::Stat,
   required_aes = "raster",
   extra_params = "lazy",
 

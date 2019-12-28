@@ -15,10 +15,10 @@ Description: Spatial data plus the power of the ggplot2 framework means easier m
   data are already in the form of spatial objects.
 License: GPL-3
 Depends:
-    R (>= 2.10),
-    ggplot2 (>= 2.2.1.9000)
+    R (>= 2.10)
 Imports:
     sf,
+    ggplot2 (>= 3.0.0),
     rosm (>= 0.2),
     abind,
     reshape2,
@@ -45,6 +45,6 @@ Suggests:
 URL: https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Encoding: UTF-8
 VignetteBuilder: knitr

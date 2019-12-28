@@ -5,16 +5,16 @@ test_that("north arrow drawing works", {
 
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_north_arrow() +
-      labs(caption = "default behaviour of north arrow in cartesian coordinates")
+      ggplot2::labs(caption = "default behaviour of north arrow in cartesian coordinates")
   )
 
   print(
     ggplot() +
       geom_sf(data = longlake_waterdf) +
       annotation_north_arrow() +
-      labs(caption = "default behaviour of north arrow in sf coordinates")
+      ggplot2::labs(caption = "default behaviour of north arrow in sf coordinates")
   )
 
   expect_true(TRUE)
@@ -59,7 +59,7 @@ test_that("true north arrow points in the right direction", {
       annotation_north_arrow(location = "bl", which_north = "grid") +
       annotation_north_arrow(location = "br", which_north = "grid") +
       coord_sf(crs = 26922) + # utm zone 22...has some angle to it
-      labs(caption = "North arrow pointing to 'grid' north")
+      ggplot2::labs(caption = "North arrow pointing to 'grid' north")
   )
 
   print(
@@ -70,7 +70,7 @@ test_that("true north arrow points in the right direction", {
       annotation_north_arrow(location = "bl", which_north = "true") +
       annotation_north_arrow(location = "br", which_north = "true") +
       coord_sf(crs = 26922) + # utm zone 22...has some angle to it
-      labs(caption = "North arrow pointing to 'true' north, 'N' is straight up and down")
+      ggplot2::labs(caption = "North arrow pointing to 'true' north, 'N' is straight up and down")
   )
 
   print(
@@ -85,7 +85,7 @@ test_that("true north arrow points in the right direction", {
       annotation_north_arrow(location = "bl", which_north = "true") +
       annotation_north_arrow(location = "br", which_north = "true") +
       coord_sf(crs = 3995) +
-      labs(caption = "All four arrows should point to the north pole")
+      ggplot2::labs(caption = "All four arrows should point to the north pole")
   )
 
   expect_true(TRUE)
@@ -107,7 +107,7 @@ test_that("all built-in styles of north arrow rotate properly", {
       annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering) +
       annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal) +
       annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical) +
-      labs(caption = "All four arrows should point to the north pole and have different styles")
+      ggplot2::labs(caption = "All four arrows should point to the north pole and have different styles")
   )
 
   print(
@@ -116,7 +116,7 @@ test_that("all built-in styles of north arrow rotate properly", {
       annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering()) +
       annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal()) +
       annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical()) +
-      labs(caption = "All four arrows should point to the north pole and have different styles with rotated text")
+      ggplot2::labs(caption = "All four arrows should point to the north pole and have different styles with rotated text")
   )
 
   print(
@@ -125,7 +125,7 @@ test_that("all built-in styles of north arrow rotate properly", {
       annotation_north_arrow(location = "tr", which_north = "grid", style = north_arrow_fancy_orienteering) +
       annotation_north_arrow(location = "bl", which_north = "grid", style = north_arrow_minimal) +
       annotation_north_arrow(location = "br", which_north = "grid", style = north_arrow_nautical) +
-      labs(caption = "All four arrows should point straight up and have different styles")
+      ggplot2::labs(caption = "All four arrows should point straight up and have different styles")
   )
 
   expect_true(TRUE)
@@ -146,7 +146,7 @@ test_that("colour on north arrows is propogated through for all north arrow styl
       annotation_north_arrow(location = "tr", style = north_arrow_fancy_orienteering(text_col = "blue")) +
       annotation_north_arrow(location = "bl", style = north_arrow_minimal(text_col = "green")) +
       annotation_north_arrow(location = "br", style = north_arrow_nautical(text_col = "red")) +
-      labs(caption = "All four arrows should have cifferent text colours")
+      ggplot2::labs(caption = "All four arrows should have cifferent text colours")
   )
 
   expect_true(TRUE)
@@ -169,8 +169,8 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
         aes(which_north = which_north, location = location),
         data = arrow_params
       ) +
-      facet_wrap(~label) +
-      labs(caption = "two north arrows in different panels with different parameters")
+      ggplot2::facet_wrap(~label) +
+      ggplot2::labs(caption = "two north arrows in different panels with different parameters")
   )
 
   # visual test

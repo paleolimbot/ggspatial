@@ -9,8 +9,12 @@ The Nova Scotia Topographic Database
 Open Street Map (\url{http://www.openstreetmap.org}).
 }
 \usage{
-load_longlake_data(env = parent.frame(), vector_format = c("sf", "sp"),
-  raster_format = c("raster", "stars", "stars_proxy"), which = NULL)
+load_longlake_data(
+  env = parent.frame(),
+  vector_format = c("sf", "sp"),
+  raster_format = c("raster", "stars", "stars_proxy"),
+  which = NULL
+)
 }
 \arguments{
 \item{env}{The environment in which to assign the objects}

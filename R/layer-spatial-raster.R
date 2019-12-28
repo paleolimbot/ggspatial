@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' load_longlake_data()
 #' ggplot() + layer_spatial(longlake_osm)
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
@@ -81,7 +82,7 @@ annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, 
 #' @export
 StatSpatialRaster <-  ggplot2::ggproto(
   "StatSpatialRaster",
-  Stat,
+  ggplot2::Stat,
   required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
@@ -166,7 +167,7 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
 #' @export
 StatSpatialRasterDf <- ggplot2::ggproto(
   "StatSpatialRasterDf",
-  Stat,
+  ggplot2::Stat,
   required_aes = "raster",
   extra_params = "lazy",
 

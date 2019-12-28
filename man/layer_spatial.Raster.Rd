@@ -11,12 +11,17 @@
 \title{Spatial ggplot2 layer for raster objects}
 \format{An object of class \code{StatSpatialRaster} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.}
 \usage{
-\method{layer_spatial}{Raster}(data, mapping = NULL,
-  interpolate = TRUE, is_annotation = FALSE, lazy = FALSE,
-  dpi = 150, ...)
+\method{layer_spatial}{Raster}(
+  data,
+  mapping = NULL,
+  interpolate = TRUE,
+  is_annotation = FALSE,
+  lazy = FALSE,
+  dpi = 150,
+  ...
+)
 
-\method{annotation_spatial}{Raster}(data, mapping = NULL,
-  interpolate = TRUE, ...)
+\method{annotation_spatial}{Raster}(data, mapping = NULL, interpolate = TRUE, ...)
 
 StatSpatialRaster
 
@@ -50,6 +55,7 @@ This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or pho
 bands as if they were columns, use \link{df_spatial} and \link{geom_raster}.
 }
 \examples{
+library(ggplot2)
 load_longlake_data()
 ggplot() + layer_spatial(longlake_osm)
 ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)

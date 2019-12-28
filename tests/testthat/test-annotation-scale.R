@@ -49,16 +49,16 @@ test_that("annotation scale works as intended", {
     ggplot() +
       geom_sf(data = nc) +
       annotation_scale() +
-      labs(caption = "defaults for annotation_scale() with coord_sf()")
+      ggplot2::labs(caption = "defaults for annotation_scale() with coord_sf()")
   )
 
   expect_message(
     print(
       ggplot() +
-        geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+        ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
         annotation_scale(pad_x = unit(0, "cm")) +
-        labs(caption = "defaults for annotation_scale() with non-coord_sf()") +
-        coord_fixed(expand = FALSE)
+        ggplot2::labs(caption = "defaults for annotation_scale() with non-coord_sf()") +
+        ggplot2::coord_fixed(expand = FALSE)
     ),
     "Using plotunit"
   )
@@ -66,26 +66,26 @@ test_that("annotation scale works as intended", {
 
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:4/10, y = -(0:4)/10)) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4/10, y = -(0:4)/10)) +
       annotation_scale(pad_x = unit(0, "cm"), plot_unit = "m") +
-      labs(caption = "mixing metric units") +
-      coord_fixed(expand = FALSE)
+      ggplot2::labs(caption = "mixing metric units") +
+      ggplot2::coord_fixed(expand = FALSE)
   )
 
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(unit_category = "imperial", plot_unit = "ft", width_hint = 0.6, pad_x = unit(0, "cm")) +
-      labs(caption = "mixing imperial units") +
-      coord_fixed(expand = FALSE)
+      ggplot2::labs(caption = "mixing imperial units") +
+      ggplot2::coord_fixed(expand = FALSE)
   )
 
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:15, y = -(0:15))) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:15, y = -(0:15))) +
       annotation_scale(unit_category = "imperial", plot_unit = "ft", width_hint = 0.7, pad_x = unit(0, "cm")) +
-      labs(caption = "imperial units") +
-      coord_fixed(expand = FALSE)
+      ggplot2::labs(caption = "imperial units") +
+      ggplot2::coord_fixed(expand = FALSE)
   )
 
   # position
@@ -93,37 +93,37 @@ test_that("annotation scale works as intended", {
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "bl") +
-      labs(caption = "defaults for annotation_scale(), legend bottom left")
+      ggplot2::labs(caption = "defaults for annotation_scale(), legend bottom left")
   )
 
   print(
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "br") +
-      labs(caption = "defaults for annotation_scale(), legend bottom right")
+      ggplot2::labs(caption = "defaults for annotation_scale(), legend bottom right")
   )
 
   print(
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "tl") +
-      labs(caption = "defaults for annotation_scale(), legend top left")
+      ggplot2::labs(caption = "defaults for annotation_scale(), legend top left")
   )
 
   print(
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "tr") +
-      labs(caption = "defaults for annotation_scale(), legend top right")
+      ggplot2::labs(caption = "defaults for annotation_scale(), legend top right")
   )
 
   # styles
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(plot_unit = "m", style = "ticks") +
-      labs(caption = "ticks style scale") +
-      coord_fixed()
+      ggplot2::labs(caption = "ticks style scale") +
+      ggplot2::coord_fixed()
   )
 
 })
@@ -131,12 +131,12 @@ test_that("annotation scale works as intended", {
 test_that("font items are passed on to annotation_scale()", {
   print(
     ggplot() +
-      geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(plot_unit = "m", text_face = "bold") +
       annotation_scale(plot_unit = "m", pad_y = unit(1, "cm")) +
       annotation_scale(plot_unit = "m", pad_y = unit(2, "cm"), text_family = "serif") +
-      labs(caption = "serif label, default label, bold label") +
-      coord_fixed()
+      ggplot2::labs(caption = "serif label, default label, bold label") +
+      ggplot2::coord_fixed()
   )
 
   expect_true(TRUE)
@@ -149,7 +149,7 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     facet_var = c("one", "two", "three", "four"),
     data = list(data.frame(x = 0:4, y = -(0:4)))
   ) %>%
-    tidyr::unnest()
+    tidyr::unnest(data)
 
   scale_params <- tibble::tibble(
     facet_var = c("one", "two", "three"),
@@ -163,16 +163,16 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
 
   print(
     ggplot(df) +
-      geom_point(aes(x, y)) +
+      ggplot2::geom_point(aes(x, y)) +
       annotation_scale(
         aes(width_hint = width_hint, style = style, location = location, unit_category = unit_category,
             text_col = text_col, line_col = line_col),
         data = scale_params,
         plot_unit = "m"
       ) +
-      facet_wrap(~facet_var) +
-      coord_fixed() +
-      labs(caption = "three scale bars in different panels with different parameters")
+      ggplot2::facet_wrap(~facet_var) +
+      ggplot2::coord_fixed() +
+      ggplot2::labs(caption = "three scale bars in different panels with different parameters")
   )
 
   # visual test

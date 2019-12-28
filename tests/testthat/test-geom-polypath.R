@@ -5,14 +5,14 @@ test_that("polypath works as intended", {
   df <- df_spatial(longlake_waterdf[3,])
   print(
     ggplot() +
-      geom_polygon(aes(x, y, group = piece_id), data = df) +
-      labs(caption = "this polygon doesn't have the holes right!")
+      ggplot2::geom_polygon(aes(x, y, group = piece_id), data = df) +
+      ggplot2::labs(caption = "this polygon doesn't have the holes right!")
   )
 
   print(
     ggplot() +
       geom_polypath(aes(x, y, group = piece_id), data = df) +
-      labs(caption = "this polygon does have the holes right!")
+      ggplot2::labs(caption = "this polygon does have the holes right!")
   )
 
   expect_error(

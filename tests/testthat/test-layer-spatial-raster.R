@@ -11,7 +11,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       ggplot() +
         layer_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
-        labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+        ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
     )
 
     # should not have little grey thing around it
@@ -19,7 +19,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       ggplot() +
         annotation_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
-        labs(caption = "Should have no grey area around the sides, roughly N-S projection")
+        ggplot2::labs(caption = "Should have no grey area around the sides, roughly N-S projection")
     )
 
     # grey thing
@@ -28,7 +28,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         layer_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have a little grey area around the sides, rotated projection")
+        ggplot2::labs(caption = "Should have a little grey area around the sides, rotated projection")
     )
 
     # no grey thing
@@ -37,7 +37,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         annotation_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have no grey area around the sides, rotated projection")
+        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection")
     )
 
     # with alpha
@@ -46,7 +46,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         annotation_spatial(longlake_osm, alpha = 0.7) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
+        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
     )
 
     # with aesthetics
@@ -100,7 +100,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       ggplot() +
         layer_spatial(longlake_osm, lazy = TRUE) +
         layer_spatial(longlake_depthdf) +
-        labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+        ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
     )
 
     # try on gr device with no pixel concept
@@ -109,7 +109,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         ggplot() +
           layer_spatial(longlake_osm, lazy = TRUE) +
           layer_spatial(longlake_depthdf) +
-          labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
       )
     }, height = 10, width = 10)
 
@@ -118,7 +118,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         ggplot() +
           layer_spatial(longlake_osm, lazy = TRUE) +
           layer_spatial(longlake_depthdf) +
-          labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
       )
     }, height = 10, width = 10)
 
@@ -127,7 +127,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         ggplot() +
           layer_spatial(longlake_osm, lazy = TRUE) +
           layer_spatial(longlake_depthdf) +
-          labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
       )
     }, res = 300)
 
@@ -136,7 +136,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       ggplot() +
         annotation_spatial(longlake_osm, lazy = TRUE) +
         layer_spatial(longlake_depthdf) +
-        labs(caption = "Should have no grey area around the sides, roughly N-S projection")
+        ggplot2::labs(caption = "Should have no grey area around the sides, roughly N-S projection")
     )
 
     # grey thing
@@ -145,7 +145,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         layer_spatial(longlake_osm, lazy = TRUE) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have a little grey area around the sides, rotated projection")
+        ggplot2::labs(caption = "Should have a little grey area around the sides, rotated projection")
     )
 
     # no grey thing
@@ -154,7 +154,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         annotation_spatial(longlake_osm, lazy = TRUE) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have no grey area around the sides, rotated projection")
+        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection")
     )
 
     # with alpha
@@ -163,7 +163,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         annotation_spatial(longlake_osm, alpha = 0.7, lazy = TRUE) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978) +
-        labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
+        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
     )
 
     # with aesthetics (currently not implemented)

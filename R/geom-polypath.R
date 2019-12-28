@@ -26,6 +26,7 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' load_longlake_data()
 #' ggplot(df_spatial(longlake_waterdf), aes(x, y, group = piece_id)) +
 #'   geom_polypath()
@@ -45,13 +46,13 @@ geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", posit
 
 GeomPolypath <- ggplot2::ggproto(
   "GeomPolypath",
-  GeomPolygon,
+  ggplot2::GeomPolygon,
   extra_params = c("na.rm", "rule"),
   draw_panel = function(data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
-    if (n == 1) return(zeroGrob())
+    if (n == 1) return(ggplot2::zeroGrob())
 
-    munched <- coord_munch(coordinates, data, scales)
+    munched <- ggplot2::coord_munch(coordinates, data, scales)
     munched <- munched[order(munched$group), ]
     ## function to be applied to get a pathGrob for each "region"
     object_munch <- function(xmunch) {
@@ -60,8 +61,8 @@ GeomPolypath <- ggplot2::ggproto(
       grid::pathGrob(xmunch$x, xmunch$y, default.units = "native",
                      id = xmunch$group, rule = rule,
                      gp = grid::gpar(col = first_rows$colour,
-                                     fill = alpha(first_rows$fill, first_rows$alpha),
-                                     lwd = first_rows$size * .pt,
+                                     fill = scales::alpha(first_rows$fill, first_rows$alpha),
+                                     lwd = first_rows$size * ggplot2::.pt,
                                      lty = first_rows$linetype))
     }
 

@@ -11,12 +11,18 @@
 \title{Spatial ggplot2 layer for stars objects}
 \format{An object of class \code{StatSpatialStars} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.}
 \usage{
-\method{layer_spatial}{stars}(data, mapping = NULL, interpolate = TRUE,
-  is_annotation = FALSE, lazy = FALSE, dpi = 150,
-  options = character(0), ...)
+\method{layer_spatial}{stars}(
+  data,
+  mapping = NULL,
+  interpolate = TRUE,
+  is_annotation = FALSE,
+  lazy = FALSE,
+  dpi = 150,
+  options = character(0),
+  ...
+)
 
-\method{annotation_spatial}{stars}(data, mapping = NULL,
-  interpolate = TRUE, ...)
+\method{annotation_spatial}{stars}(data, mapping = NULL, interpolate = TRUE, ...)
 
 StatSpatialStars
 
