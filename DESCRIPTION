@@ -42,7 +42,7 @@ Suggests:
     ggrepel,
     stars,
     covr
-URL: https://github.com/paleolimbot/ggspatial
+URL: https://paleolimbot.github.io/ggspatial, https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
 RoxygenNote: 7.0.1
