@@ -8,7 +8,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_message(
       vdiffr::expect_doppelganger(
-        "annotation_map_tile (default EPSG)",
+        "default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50")
@@ -18,7 +18,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_message(
       vdiffr::expect_doppelganger(
-        "annotation_map_tile (non-default EPSG)",
+        "non-default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
@@ -29,7 +29,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_message(
       vdiffr::expect_doppelganger(
-        "annotation_map_tile (specified default EPSG)",
+        "specified default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
@@ -40,7 +40,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_message(
       vdiffr::expect_doppelganger(
-        "annotation_map_tile (extreme rotated EPSG)",
+        "extreme rotated EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
@@ -51,7 +51,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_message(
       vdiffr::expect_doppelganger(
-        "annotation_map_tile (faceted type)",
+        "faceted type",
         ggplot() +
           annotation_map_tile(
             data = tibble::tibble(
@@ -71,24 +71,24 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     df_alta <- data.frame(lon = c(-122.974, -123.0042), lat = c(50.1232, 50.1035))
     p <- ggplot(df_alta, aes(lon, lat)) + geom_spatial_point(crs = 4326)
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (hillshade)",
+      "hillshade",
       p +
         annotation_map_tile(type = "hillshade", alpha = 1)
     )
 
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (hillshade with alpha)",
+      "hillshade with alpha",
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5)
     )
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (projected hillshade)",
+      "projected hillshade",
       p +
         annotation_map_tile(type = "hillshade", alpha = 1) +
         coord_sf(crs = 26910)
     )
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (projected hillshade with alpha)",
+      "projected hillshade w/alpha",
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5) +
         coord_sf(crs = 26910)
@@ -96,24 +96,24 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
 
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (rgb tile)",
+      "rgb tile",
       p +
         annotation_map_tile(alpha = 1)
     )
 
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (rgb tile with alpha)",
+      "rgb tile with alpha",
       p +
         annotation_map_tile(alpha = 0.5)
     )
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (rgb tile projected)",
+      "rgb tile projected",
       p +
         annotation_map_tile(alpha = 1) +
         coord_sf(crs = 26910)
     )
     vdiffr::expect_doppelganger(
-      "annotation_map_tile (rgb tile projected with alpha)",
+      "rgb tile projected with alpha",
       p +
         annotation_map_tile(alpha = 0.5) +
         coord_sf(crs = 26910)

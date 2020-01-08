@@ -12,7 +12,10 @@ test_that("xy_transform works as intended", {
   expect_identical(xy_transform(c(1, 2, NA), c(1, 2, 3), to = 3857, na.rm = TRUE)$y[3], NA_real_)
 
   # messaging
-  expect_warning(xy_transform(c(NA, 2, 3), c(1, 2, 3), to = 3857, na.rm = FALSE), "non-finite points removed")
+  expect_warning(
+    xy_transform(c(NA, 2, 3), c(1, 2, 3), to = 3857, na.rm = FALSE),
+    "non-finite points removed"
+  )
   expect_silent(xy_transform(c(NA, 2, 3), c(1, 2, 3), to = 3857, na.rm = TRUE))
 
   # zero-length cases
@@ -29,23 +32,29 @@ test_that("geom_spatial_* geoms work properly", {
     geom_spatial_point(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
-  expect_is(point, "ggplot")
-  expect_silent(print(point))
+  vdiffr::expect_doppelganger(
+    "geom_spatial_point()",
+    point
+  )
 
   path <- ggplot(point_df[order(point_df$WAYPOINT_I),], aes(x, y)) +
     geom_spatial_path(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
-  expect_is(path, "ggplot")
-  expect_silent(print(path))
+  vdiffr::expect_doppelganger(
+    "geom_spatial_path()",
+    path
+  )
 
   poly_df <- df_spatial(longlake_waterdf[2,])
   poly <- ggplot(poly_df, aes(x, y)) +
     geom_spatial_polygon(crs = 26920) +
     coord_sf(crs = 3857)
 
-  expect_is(poly, "ggplot")
-  expect_silent(print(poly))
+  vdiffr::expect_doppelganger(
+    "geom_spatial_polygon()",
+    poly
+  )
 
 })
 
@@ -60,32 +69,29 @@ test_that("spatial labellers work properly", {
     geom_spatial_point(crs = 4326) +
     coord_sf(crs = 3857)
 
-  print(
+  vdiffr::expect_doppelganger(
+    "geom_spatial_text()",
     p +
-      geom_spatial_text(crs = 4326) +
-      ggplot2::labs(caption = "geom_spatial_text()")
+      geom_spatial_text(crs = 4326)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "geom_spatial_label()",
     p +
-      geom_spatial_label(crs = 4326) +
-      ggplot2::labs(caption = "geom_spatial_label()")
+      geom_spatial_label(crs = 4326)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "geom_spatial_text_repel()",
     p +
-      geom_spatial_text_repel(crs = 4326) +
-      ggplot2::labs(caption = "geom_spatial_text_repel()")
+      geom_spatial_text_repel(crs = 4326, seed = 12)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "geom_spatial_label_repel()",
     p +
-      geom_spatial_label_repel(crs = 4326) +
-      ggplot2::labs(caption = "geom_spatial_label_repel()")
+      geom_spatial_label_repel(crs = 4326, seed = 12)
   )
-
-  # visual test
-  expect_true(TRUE)
 })
 
 test_that("stat_spatial_identity function", {
@@ -93,24 +99,21 @@ test_that("stat_spatial_identity function", {
   df <- df_spatial(longlake_depthdf)
 
   expect_message(
-    print(
+    vdiffr::expect_doppelganger(
+      "stat_spatial_identity(crs = NULL)",
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
-        stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df) +
-        ggplot2::labs(caption = "all the points should be in the lake!")
+        stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df)
     ),
     "Assuming crs"
   )
 
-  expect_silent(
-    print(
-      ggplot() +
-        annotation_spatial(longlake_waterdf, fill = "lightblue") +
-        stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df, crs = 4326) +
-        ggplot2::labs(caption = "all the points should be in the lake!")
-    )
+  vdiffr::expect_doppelganger(
+    "stat_spatial_identity(crs = 4326)",
+    ggplot() +
+      annotation_spatial(longlake_waterdf, fill = "lightblue") +
+      stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df, crs = 4326)
   )
-
 })
 
 test_that("create spatial stat class gets tested", {
