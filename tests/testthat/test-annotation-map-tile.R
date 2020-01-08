@@ -1,4 +1,4 @@
-context("test-geom-osm.R")
+context("test-annotation-map-tile.R")
 
 # max test length was exceeded on CRAN, so these tests are skipped
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
@@ -7,50 +7,51 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     load_longlake_data(which = "longlake_waterdf")
 
     expect_message(
-      print(
+      vdiffr::expect_doppelganger(
+        "annotation_map_tile (default EPSG)",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
-          geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
+          geom_sf(data = longlake_waterdf, fill = NA, col = "grey50")
       ),
       "Zoom: 13"
     )
 
     expect_message(
-      print(
+      vdiffr::expect_doppelganger(
+        "annotation_map_tile (non-default EPSG)",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-          coord_sf(crs = 26920) +
-          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
+          coord_sf(crs = 26920)
       ),
       "Zoom: 13"
     )
 
     expect_message(
-      print(
+      vdiffr::expect_doppelganger(
+        "annotation_map_tile (specified default EPSG)",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-          coord_sf(crs = 3857) +
-          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
+          coord_sf(crs = 3857)
       ),
       "Zoom: 13"
     )
 
     expect_message(
-      print(
+      vdiffr::expect_doppelganger(
+        "annotation_map_tile (extreme rotated EPSG)",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
-          coord_sf(crs = 3978) +
-          ggplot2::labs(caption = "This plot sould have they grey outlines line up with the OSM map beneath")
+          coord_sf(crs = 3978)
       ),
       "Zoom: 13"
     )
 
     expect_message(
-      print(
+      vdiffr::expect_doppelganger(
+        "annotation_map_tile (faceted type)",
         ggplot() +
           annotation_map_tile(
             data = tibble::tibble(
@@ -62,58 +63,59 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
           ) +
           geom_sf(data = longlake_waterdf, fill = NA, col = "grey50") +
           coord_sf(crs = 3857) +
-          ggplot2::facet_wrap(~type) +
-          ggplot2::labs(caption = "this should have the maptypes correspond to the backdrop")
+          ggplot2::facet_wrap(~type)
       ),
       "Zoom: 13"
     )
 
     df_alta <- data.frame(lon = c(-122.974, -123.0042), lat = c(50.1232, 50.1035))
     p <- ggplot(df_alta, aes(lon, lat)) + geom_spatial_point(crs = 4326)
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (hillshade)",
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 1)
+    )
+
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (hillshade with alpha)",
+      p +
+        annotation_map_tile(type = "hillshade", alpha = 0.5)
+    )
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (projected hillshade)",
       p +
         annotation_map_tile(type = "hillshade", alpha = 1) +
-        ggplot2::labs(caption = "RGBA tile with 1 alpha")
-    )
-    print(
-      p +
-        annotation_map_tile(type = "hillshade", alpha = 0.5) +
-        ggplot2::labs(caption = "RGBA tile with 0.5 alpha")
-    )
-    print(
-      p +
-        annotation_map_tile(type = "hillshade", alpha = 1) +
-        ggplot2::labs(caption = "RGBA tile with 1 alpha") +
         coord_sf(crs = 26910)
     )
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (projected hillshade with alpha)",
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5) +
-        ggplot2::labs(caption = "RGBA tile with 0.5 alpha") +
         coord_sf(crs = 26910)
     )
 
 
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (rgb tile)",
+      p +
+        annotation_map_tile(alpha = 1)
+    )
+
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (rgb tile with alpha)",
+      p +
+        annotation_map_tile(alpha = 0.5)
+    )
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (rgb tile projected)",
       p +
         annotation_map_tile(alpha = 1) +
-        ggplot2::labs(caption = "RGB tile with 1 alpha")
-    )
-    print(
-      p +
-        annotation_map_tile(alpha = 0.5) +
-        ggplot2::labs(caption = "RGB tile with 0.5 alpha")
-    )
-    print(
-      p +
-        annotation_map_tile(alpha = 1) +
-        ggplot2::labs(caption = "RGB tile with 1 alpha") +
         coord_sf(crs = 26910)
     )
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_map_tile (rgb tile projected with alpha)",
       p +
         annotation_map_tile(alpha = 0.5) +
-        ggplot2::labs(caption = "RGB tile with 0.5 alpha") +
         coord_sf(crs = 26910)
     )
 

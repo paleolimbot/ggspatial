@@ -3,21 +3,19 @@ context("test-annotation-north-arrow.R")
 test_that("north arrow drawing works", {
   load_longlake_data(which = "longlake_waterdf")
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrow default (cartesian)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
-      annotation_north_arrow() +
-      ggplot2::labs(caption = "default behaviour of north arrow in cartesian coordinates")
+      annotation_north_arrow()
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrow default (sf)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
-      annotation_north_arrow() +
-      ggplot2::labs(caption = "default behaviour of north arrow in sf coordinates")
+      annotation_north_arrow()
   )
-
-  expect_true(TRUE)
 })
 
 test_that("north arrow math is correct", {
@@ -51,29 +49,30 @@ test_that("north arrow math is correct", {
 test_that("true north arrow points in the right direction", {
   load_longlake_data(which = "longlake_waterdf")
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (grid north)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
       annotation_north_arrow(location = "tl", which_north = "grid") +
       annotation_north_arrow(location = "tr", which_north = "grid") +
       annotation_north_arrow(location = "bl", which_north = "grid") +
       annotation_north_arrow(location = "br", which_north = "grid") +
-      coord_sf(crs = 26922) + # utm zone 22...has some angle to it
-      ggplot2::labs(caption = "North arrow pointing to 'grid' north")
+      coord_sf(crs = 26922) # utm zone 22...has some angle to it
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (true north)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
       annotation_north_arrow(location = "tl", which_north = "true") +
       annotation_north_arrow(location = "tr", which_north = "true") +
       annotation_north_arrow(location = "bl", which_north = "true") +
       annotation_north_arrow(location = "br", which_north = "true") +
-      coord_sf(crs = 26922) + # utm zone 22...has some angle to it
-      ggplot2::labs(caption = "North arrow pointing to 'true' north, 'N' is straight up and down")
+      coord_sf(crs = 26922) # utm zone 22...has some angle to it
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (true north, global)",
     ggplot() +
       geom_spatial_point(
         mapping = aes(x, y),
@@ -84,11 +83,8 @@ test_that("true north arrow points in the right direction", {
       annotation_north_arrow(location = "tr", which_north = "true") +
       annotation_north_arrow(location = "bl", which_north = "true") +
       annotation_north_arrow(location = "br", which_north = "true") +
-      coord_sf(crs = 3995) +
-      ggplot2::labs(caption = "All four arrows should point to the north pole")
+      coord_sf(crs = 3995)
   )
-
-  expect_true(TRUE)
 })
 
 test_that("all built-in styles of north arrow rotate properly", {
@@ -101,34 +97,32 @@ test_that("all built-in styles of north arrow rotate properly", {
     ) +
     coord_sf(crs = 3995)
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (styles as functions)",
     p +
       annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering) +
       annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering) +
       annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal) +
-      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical) +
-      ggplot2::labs(caption = "All four arrows should point to the north pole and have different styles")
+      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (styles as calls)",
     p +
       annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering()) +
       annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering()) +
       annotation_north_arrow(location = "bl", which_north = "true", style = north_arrow_minimal()) +
-      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical()) +
-      ggplot2::labs(caption = "All four arrows should point to the north pole and have different styles with rotated text")
+      annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical())
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (styles, grid north)",
     p +
       annotation_north_arrow(location = "tl", which_north = "grid", style = north_arrow_orienteering) +
       annotation_north_arrow(location = "tr", which_north = "grid", style = north_arrow_fancy_orienteering) +
       annotation_north_arrow(location = "bl", which_north = "grid", style = north_arrow_minimal) +
-      annotation_north_arrow(location = "br", which_north = "grid", style = north_arrow_nautical) +
-      ggplot2::labs(caption = "All four arrows should point straight up and have different styles")
+      annotation_north_arrow(location = "br", which_north = "grid", style = north_arrow_nautical)
   )
-
-  expect_true(TRUE)
 })
 
 test_that("colour on north arrows is propogated through for all north arrow styles", {
@@ -140,16 +134,14 @@ test_that("colour on north arrows is propogated through for all north arrow styl
     ) +
     coord_sf(crs = 3995)
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (text colours)",
     p +
       annotation_north_arrow(location = "tl", style = north_arrow_orienteering(text_col = "purple")) +
       annotation_north_arrow(location = "tr", style = north_arrow_fancy_orienteering(text_col = "blue")) +
       annotation_north_arrow(location = "bl", style = north_arrow_minimal(text_col = "green")) +
-      annotation_north_arrow(location = "br", style = north_arrow_nautical(text_col = "red")) +
-      ggplot2::labs(caption = "All four arrows should have cifferent text colours")
+      annotation_north_arrow(location = "br", style = north_arrow_nautical(text_col = "red"))
   )
-
-  expect_true(TRUE)
 })
 
 test_that("certain parameters can be passed as aesthetics to show up on different panels", {
@@ -162,18 +154,14 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     location = c("bl", "tr")
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "north arrows (use of aesthetics)",
     ggplot() +
       layer_spatial(longlake_waterdf) +
       annotation_north_arrow(
         aes(which_north = which_north, location = location),
         data = arrow_params
       ) +
-      ggplot2::facet_wrap(~label) +
-      ggplot2::labs(caption = "two north arrows in different panels with different parameters")
+      ggplot2::facet_wrap(~label)
   )
-
-  # visual test
-  expect_true(TRUE)
 })
-

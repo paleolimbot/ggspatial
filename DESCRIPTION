@@ -41,7 +41,8 @@ Suggests:
     withr,
     ggrepel,
     stars,
-    covr
+    covr,
+    vdiffr
 URL: https://paleolimbot.github.io/ggspatial, https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE

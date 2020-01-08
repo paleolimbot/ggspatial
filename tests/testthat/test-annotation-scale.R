@@ -45,101 +45,98 @@ test_that("annotation scale works as intended", {
   nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
   # defaults are ok
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (defaults, coord_sf)",
     ggplot() +
       geom_sf(data = nc) +
-      annotation_scale() +
-      ggplot2::labs(caption = "defaults for annotation_scale() with coord_sf()")
+      annotation_scale()
   )
 
   expect_message(
-    print(
+    vdiffr::expect_doppelganger(
+      "scale bar (defaults, cartesian)",
       ggplot() +
         ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
         annotation_scale(pad_x = unit(0, "cm")) +
-        ggplot2::labs(caption = "defaults for annotation_scale() with non-coord_sf()") +
         ggplot2::coord_fixed(expand = FALSE)
     ),
     "Using plotunit"
   )
 
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (metric plotunit, cartesian)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4/10, y = -(0:4)/10)) +
       annotation_scale(pad_x = unit(0, "cm"), plot_unit = "m") +
-      ggplot2::labs(caption = "mixing metric units") +
       ggplot2::coord_fixed(expand = FALSE)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (imperial plotunit)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(unit_category = "imperial", plot_unit = "ft", width_hint = 0.6, pad_x = unit(0, "cm")) +
-      ggplot2::labs(caption = "mixing imperial units") +
       ggplot2::coord_fixed(expand = FALSE)
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (imperial unit)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:15, y = -(0:15))) +
       annotation_scale(unit_category = "imperial", plot_unit = "ft", width_hint = 0.7, pad_x = unit(0, "cm")) +
-      ggplot2::labs(caption = "imperial units") +
       ggplot2::coord_fixed(expand = FALSE)
   )
 
   # position
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (defaults, bottom left)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
-      annotation_scale(location = "bl") +
-      ggplot2::labs(caption = "defaults for annotation_scale(), legend bottom left")
+      annotation_scale(location = "bl")
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (defaults, bottom right)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
-      annotation_scale(location = "br") +
-      ggplot2::labs(caption = "defaults for annotation_scale(), legend bottom right")
+      annotation_scale(location = "br")
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (defaults, top left)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
-      annotation_scale(location = "tl") +
-      ggplot2::labs(caption = "defaults for annotation_scale(), legend top left")
+      annotation_scale(location = "tl")
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (defaults, top right)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
-      annotation_scale(location = "tr") +
-      ggplot2::labs(caption = "defaults for annotation_scale(), legend top right")
+      annotation_scale(location = "tr")
   )
 
   # styles
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (ticks)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(plot_unit = "m", style = "ticks") +
-      ggplot2::labs(caption = "ticks style scale") +
       ggplot2::coord_fixed()
   )
-
 })
 
 test_that("font items are passed on to annotation_scale()", {
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (fonts)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_scale(plot_unit = "m", text_face = "bold") +
       annotation_scale(plot_unit = "m", pad_y = unit(1, "cm")) +
       annotation_scale(plot_unit = "m", pad_y = unit(2, "cm"), text_family = "serif") +
-      ggplot2::labs(caption = "serif label, default label, bold label") +
       ggplot2::coord_fixed()
   )
-
-  expect_true(TRUE)
 })
 
 
@@ -161,7 +158,8 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     line_col = c("black", "red", "blue")
   )
 
-  print(
+  vdiffr::expect_doppelganger(
+    "scale bar (parameters as aesthetics)",
     ggplot(df) +
       ggplot2::geom_point(aes(x, y)) +
       annotation_scale(
@@ -171,10 +169,6 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
         plot_unit = "m"
       ) +
       ggplot2::facet_wrap(~facet_var) +
-      ggplot2::coord_fixed() +
-      ggplot2::labs(caption = "three scale bars in different panels with different parameters")
+      ggplot2::coord_fixed()
   )
-
-  # visual test
-  expect_true(TRUE)
 })
