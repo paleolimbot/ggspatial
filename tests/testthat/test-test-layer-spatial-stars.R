@@ -1,4 +1,4 @@
-context("test-test-layer-spatial-stars")
+context("test-layer-spatial-stars")
 
 # only a few of these work, so skpping
 test_that("stars tests", {
@@ -255,6 +255,4 @@ if (FALSE) {
       )
     )
   })
-
-
 }

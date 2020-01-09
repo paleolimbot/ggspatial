@@ -7,186 +7,62 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
 
     # should have little grey thing around it
-    print(
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster()",
       ggplot() +
         layer_spatial(longlake_osm) +
-        layer_spatial(longlake_depthdf) +
-        ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
+        layer_spatial(longlake_depthdf)
     )
 
     # should not have little grey thing around it
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_spatial.Raster()",
       ggplot() +
         annotation_spatial(longlake_osm) +
-        layer_spatial(longlake_depthdf) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, roughly N-S projection")
+        layer_spatial(longlake_depthdf)
     )
 
     # grey thing
-    print(
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() project",
       ggplot() +
         layer_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have a little grey area around the sides, rotated projection")
+        coord_sf(crs = 3978)
     )
 
     # no grey thing
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_spatial.Raster() project",
       ggplot() +
         annotation_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection")
+        coord_sf(crs = 3978)
     )
 
     # with alpha
-    print(
+    vdiffr::expect_doppelganger(
+      "annotation_spatial.Raster() alpha",
       ggplot() +
         annotation_spatial(longlake_osm, alpha = 0.7) +
         layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
+        coord_sf(crs = 3978)
     )
 
     # with aesthetics
-    print(
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() aes()",
       ggplot() +
         layer_spatial(longlake_osm, aes()) +
         layer_spatial(longlake_depthdf)
     )
 
-    print(
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() aes(band1)",
       ggplot() +
         layer_spatial(longlake_osm, aes(alpha = stat(band1), fill = NULL)) +
         layer_spatial(longlake_depthdf)
     )
-
-    print(
-      ggplot() +
-        layer_spatial(longlake_depth_raster) +
-        layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978)
-    )
-
-    # still a problem with "no non-missing arguments to max()"
-    # expect_silent(
-    #   print(
-    #     ggplot() +
-    #       annotation_spatial(longlake_osm) +
-    #       layer_spatial(longlake_depthdf) +
-    #       coord_sf(crs = 3978)
-    #   )
-    # )
-    #
-    # expect_silent(
-    #   print(
-    #     ggplot() +
-    #       layer_spatial(longlake_osm) +
-    #       layer_spatial(longlake_depthdf)
-    #   )
-    # )
-
-    # graphical tests so...
-    expect_true(TRUE)
   })
 
-
-  test_that("layer-spatial works for raster objects", {
-    load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
-
-    # should have little grey thing around it
-    print(
-      ggplot() +
-        layer_spatial(longlake_osm, lazy = TRUE) +
-        layer_spatial(longlake_depthdf) +
-        ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
-    )
-
-    # try on gr device with no pixel concept
-    withr::with_pdf(file.path(tempdir(), "test.pdf"), {
-      print(
-        ggplot() +
-          layer_spatial(longlake_osm, lazy = TRUE) +
-          layer_spatial(longlake_depthdf) +
-          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
-      )
-    }, height = 10, width = 10)
-
-    withr::with_cairo_pdf(file.path(tempdir(), "test.pdf"), {
-      print(
-        ggplot() +
-          layer_spatial(longlake_osm, lazy = TRUE) +
-          layer_spatial(longlake_depthdf) +
-          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
-      )
-    }, height = 10, width = 10)
-
-    withr::with_png(file.path(tempdir(), "test.png"), {
-      print(
-        ggplot() +
-          layer_spatial(longlake_osm, lazy = TRUE) +
-          layer_spatial(longlake_depthdf) +
-          ggplot2::labs(caption = "Should have a little grey area around the sides, roughly N-S projection")
-      )
-    }, res = 300)
-
-    # should not have little grey thing around it
-    print(
-      ggplot() +
-        annotation_spatial(longlake_osm, lazy = TRUE) +
-        layer_spatial(longlake_depthdf) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, roughly N-S projection")
-    )
-
-    # grey thing
-    print(
-      ggplot() +
-        layer_spatial(longlake_osm, lazy = TRUE) +
-        layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have a little grey area around the sides, rotated projection")
-    )
-
-    # no grey thing
-    print(
-      ggplot() +
-        annotation_spatial(longlake_osm, lazy = TRUE) +
-        layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection")
-    )
-
-    # with alpha
-    print(
-      ggplot() +
-        annotation_spatial(longlake_osm, alpha = 0.7, lazy = TRUE) +
-        layer_spatial(longlake_depthdf) +
-        coord_sf(crs = 3978) +
-        ggplot2::labs(caption = "Should have no grey area around the sides, rotated projection, slight transparency")
-    )
-
-    # with aesthetics (currently not implemented)
-    # print(
-    #   ggplot() +
-    #     layer_spatial(longlake_osm, aes(), lazy = TRUE) +
-    #     layer_spatial(longlake_depthdf)
-    # )
-    #
-    # print(
-    #   ggplot() +
-    #     layer_spatial(longlake_osm, aes(alpha = stat(band1), fill = NULL), lazy = TRUE) +
-    #     layer_spatial(longlake_depthdf)
-    # )
-    #
-    # print(
-    #   ggplot() +
-    #     layer_spatial(longlake_depth_raster, lazy = TRUE) +
-    #     layer_spatial(longlake_depthdf) +
-    #     coord_sf(crs = 3978)
-    # )
-
-    # graphical tests so...
-    expect_true(TRUE)
-  })
 }
