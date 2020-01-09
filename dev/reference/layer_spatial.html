@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Turn a spatial object into a ggplot2 layer — shadow_spatial.bbox • ggspatial</title>
+<title>Turn a spatial object into a ggplot2 layer — layer_spatial • ggspatial</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Turn a spatial object into a ggplot2 layer — shadow_spatial.bbox" />
+<meta property="og:title" content="Turn a spatial object into a ggplot2 layer — layer_spatial" />
 <meta property="og:description" content="Turn a spatial object into a ggplot2 layer" />
 <meta name="twitter:card" content="summary" />
 
@@ -109,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Turn a spatial object into a ggplot2 layer</h1>
-    <small class="dont-index">Source: <a href='https://github.com/paleolimbot/ggspatial/blob/master/R/layer-spatial-bbox.R'><code>R/layer-spatial-bbox.R</code></a>, <a href='https://github.com/paleolimbot/ggspatial/blob/master/R/layer-spatial.R'><code>R/layer-spatial.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/paleolimbot/ggspatial/blob/master/R/layer-spatial.R'><code>R/layer-spatial.R</code></a></small>
     <div class="hidden name"><code>layer_spatial.Rd</code></div>
     </div>
 
@@ -117,10 +117,7 @@
     <p>Turn a spatial object into a ggplot2 layer</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for bbox</span>
-<span class='fu'>shadow_spatial</span>(<span class='no'>data</span>)
-
-<span class='fu'>layer_spatial</span>(<span class='no'>data</span>, <span class='no'>mapping</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>layer_spatial</span>(<span class='no'>data</span>, <span class='no'>mapping</span>, <span class='no'>...</span>)
 
 <span class='fu'>annotation_spatial</span>(<span class='no'>data</span>, <span class='no'>mapping</span>, <span class='no'>...</span>)
 
@@ -142,10 +139,10 @@
   <span class='no'>...</span>
 )
 
-<span class='fu'>shadow_spatial</span>(<span class='no'>data</span>)
+<span class='fu'>shadow_spatial</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>shadow_spatial</span>(<span class='no'>data</span>)</pre>
+<span class='fu'>shadow_spatial</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

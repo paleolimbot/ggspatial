@@ -120,10 +120,13 @@ original object.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bbox</span>
-<span class='fu'><a href='layer_spatial.html'>layer_spatial</a></span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(), <span class='no'>...</span>)
+<span class='fu'><a href='layer_spatial.html'>layer_spatial</a></span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(), <span class='no'>...</span>, <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fl'>30</span>)
 
 <span class='co'># S3 method for bbox</span>
-<span class='fu'><a href='layer_spatial.html'>annotation_spatial</a></span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'><a href='layer_spatial.html'>annotation_spatial</a></span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(), <span class='no'>...</span>, <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+
+<span class='co'># S3 method for bbox</span>
+<span class='fu'><a href='layer_spatial.html'>shadow_spatial</a></span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fl'>30</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,6 +142,12 @@ original object.</p>
     <tr>
       <th>...</th>
       <td><p>Passed to <a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>geom_sf</a></p></td>
+    </tr>
+    <tr>
+      <th>detail</th>
+      <td><p>Passed to [sf::st_segmentize()]: the number of line segments
+per quadrant of the bounding box. Increase this number for a smoother
+projected bounding box.</p></td>
     </tr>
     </table>
 
