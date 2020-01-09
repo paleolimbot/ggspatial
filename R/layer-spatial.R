@@ -70,13 +70,13 @@ annotation_spatial.default <- function(data, mapping = aes(), inherit.aes = FALS
 
 #' @export
 #' @rdname layer_spatial
-shadow_spatial <- function(data) {
+shadow_spatial <- function(data, ...) {
   UseMethod("shadow_spatial")
 }
 
 #' @rdname layer_spatial
 #' @export
-shadow_spatial.default <- function(data) {
+shadow_spatial.default <- function(data, ...) {
   ggplot2::stat_sf(
     mapping = aes(),
     data = sf::st_as_sf(data),

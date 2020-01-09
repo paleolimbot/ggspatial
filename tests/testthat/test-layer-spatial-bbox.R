@@ -7,6 +7,24 @@ test_that("bbox functions work", {
   expect_is(sf_bbox_to_sf(box), "sf")
   expect_is(sf_bbox_to_sf(box)$geometry, "sfc_POLYGON")
   expect_identical(sf::st_crs(sf_bbox_to_sf(box)), sf::st_crs(longlake_waterdf))
+  expect_identical(sf::st_bbox(sf_bbox_to_sf(box)), box)
+})
+
+test_that("bbox functions work with detail arg", {
+  load_longlake_data(which = "longlake_waterdf")
+  box <- sf::st_bbox(longlake_waterdf)
+  expect_is(sf_bbox_to_sf(box, detail = 30), "sf")
+  expect_is(sf_bbox_to_sf(box, detail = 30)$geometry, "sfc_POLYGON")
+  expect_identical(
+    sf::st_crs(sf_bbox_to_sf(box, detail = 30)),
+    sf::st_crs(longlake_waterdf)
+  )
+  expect_identical(sf::st_bbox(sf_bbox_to_sf(box, detail= 30)), box)
+
+  poly_detail <- sf_bbox_to_sf(box, detail = 30)
+  poly_no_detail <- sf_bbox_to_sf(box, detail = NULL)
+  expect_equal(nrow(poly_no_detail$geometry[[1]][[1]]), 5)
+  expect_equal(nrow(poly_detail$geometry[[1]][[1]]), 147)
 })
 
 test_that("bbox plotting works", {
