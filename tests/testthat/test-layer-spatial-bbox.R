@@ -21,10 +21,10 @@ test_that("bbox functions work with detail arg", {
   )
   expect_identical(sf::st_bbox(sf_bbox_to_sf(box, detail= 30)), box)
 
-  poly_detail <- sf_bbox_to_sf(box, detail = 30)
+  poly_detail <- sf_bbox_to_sf(box, detail = 2)
   poly_no_detail <- sf_bbox_to_sf(box, detail = NULL)
   expect_equal(nrow(poly_no_detail$geometry[[1]][[1]]), 5)
-  expect_equal(nrow(poly_detail$geometry[[1]][[1]]), 147)
+  expect_true(nrow(poly_detail$geometry[[1]][[1]]) > 5)
 })
 
 test_that("bbox plotting works", {
