@@ -50,7 +50,7 @@ layer_spatial.default <- function(data, mapping = aes(), inherit.aes = FALSE, sf
   ggplot2::geom_sf(
     mapping = mapping,
     data = do.call(sf::st_as_sf, c(list(data), sf_params)),
-    inherit.aes = FALSE,
+    inherit.aes = inherit.aes,
     ...
   )
 }
@@ -61,10 +61,28 @@ annotation_spatial.default <- function(data, mapping = aes(), inherit.aes = FALS
   ggplot2::geom_sf(
     mapping = mapping,
     data = do.call(sf::st_as_sf, c(list(data), sf_params)),
-    inherit.aes = FALSE,
+    inherit.aes = inherit.aes,
     na.rm = TRUE,
     stat = StatSfAnnotation,
     ...
+  )
+}
+
+#' @export
+#' @rdname layer_spatial
+shadow_spatial <- function(data) {
+  UseMethod("shadow_spatial")
+}
+
+#' @rdname layer_spatial
+#' @export
+shadow_spatial.default <- function(data) {
+  ggplot2::stat_sf(
+    mapping = aes(),
+    data = sf::st_as_sf(data),
+    inherit.aes = FALSE,
+    na.rm = FALSE,
+    geom = GeomBlankSf
   )
 }
 
@@ -81,3 +99,8 @@ StatSfAnnotation <- ggplot2::ggproto(
   }
 )
 
+GeomBlankSf <- ggplot2::ggproto(
+  "GeomBlankSf",
+  ggplot2::GeomBlank,
+  extra_params = c(ggplot2::GeomBlank$extra_params, "legend")
+)
