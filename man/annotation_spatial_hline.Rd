@@ -16,6 +16,7 @@ annotation_spatial_hline(
   intercept = waiver(),
   limits = NULL,
   detail = 100,
+  crs = NULL,
   na.rm = FALSE,
   show.legend = NA
 )
@@ -28,6 +29,7 @@ annotation_spatial_vline(
   intercept = waiver(),
   limits = NULL,
   detail = 100,
+  crs = NULL,
   na.rm = FALSE,
   show.legend = NA
 )
@@ -35,6 +37,17 @@ annotation_spatial_vline(
 GeomSpatialXline
 }
 \arguments{
+\item{mapping}{An aesthetic mapping created with \link[ggplot2]{aes}.}
+
+\item{data}{A data frame or other object, coerced to a data.frame by \link[ggplot2]{fortify}.}
+
+\item{stat}{Statistical transformation to use on this layer. See [ggplot2::layer()].}
+
+\item{...}{Passed to the base ggplot2 functions \link[ggplot2]{geom_point},
+\link[ggplot2]{geom_path}, \link[ggplot2]{geom_polygon},
+\link[ggplot2]{geom_text}, \link[ggplot2]{geom_label},
+\link[ggrepel]{geom_text_repel}, and \link[ggrepel]{geom_label_repel}, respectively.}
+
 \item{intercept}{The x or y value that should be constant in the given
 `crs`. Can also be passed as an aesthetic through `data` and `mapping`.}
 
@@ -44,8 +57,40 @@ manually.}
 
 \item{detail}{The number of points that should be used when converting the
 line into segments.}
+
+\item{crs}{The crs of the x and y aesthetics, or NULL to use default lon/lat
+crs.}
+
+\item{na.rm}{Should missing aesthetic values be removed?}
+
+\item{show.legend}{See \link[ggplot2]{layer}.}
 }
 \description{
 Projected horizontal and vertical lines
+}
+\examples{
+cities <- data.frame(
+  x = c(-63.58595, 116.41214, 0),
+  y = c(44.64862, 40.19063, 89.9),
+  city = c("Halifax", "Beijing", "North Pole")
+)
+
+p <- ggplot(cities, aes(x, y, label = city)) +
+  geom_spatial_point(crs = 4326) +
+  # view of the north pole
+  coord_sf(crs = 3995)
+
+p +
+  # longitude lines
+  annotation_spatial_vline(
+    intercept = seq(-180, 180, by = 10),
+    crs = 4326
+  ) +
+  # latitude lines
+  annotation_spatial_hline(
+    intercept = seq(0, 90, by = 10),
+    crs = 4326
+  )
+
 }
 \keyword{datasets}

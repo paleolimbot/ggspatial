@@ -107,7 +107,7 @@ test_that("stat_spatial_identity function", {
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
         stat_spatial_identity(aes(LON, LAT, col = DEPTH_M), data = df)
     ),
-    "Assuming crs"
+    "Assuming `crs = 4326`"
   )
 
   vdiffr::expect_doppelganger(

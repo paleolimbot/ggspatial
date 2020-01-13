@@ -168,7 +168,7 @@ create_spatial_stat_class <- function(ParentStat, class_name) {
     compute_layer = function(self, data, params, layout) {
 
       if(is.null(params$crs)) {
-        message("Assuming crs = 4326 in ", class_name, "()")
+        message("Assuming `crs = 4326` in ", class_name, "()")
         from_crs <- sf::st_crs(4326)
       } else {
         from_crs <- sf::st_crs(params$crs)

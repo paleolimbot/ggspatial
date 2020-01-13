@@ -467,7 +467,7 @@ panel_params_as_bbox <- function(panel_params) {
     ymax = panel_params$y_range[2]
   )
 
-  structure(data, crs = sf::st_crs(panel_params$crs))
+  structure(data, crs = sf::st_crs(panel_params$crs), class = "bbox")
 }
 
 # need a way to get an extent to an sf::st_polygon
