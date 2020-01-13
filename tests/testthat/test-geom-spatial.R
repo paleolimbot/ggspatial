@@ -92,6 +92,8 @@ test_that("spatial labellers work properly", {
     p +
       geom_spatial_label_repel(crs = 4326, seed = 12)
   )
+
+
 })
 
 test_that("stat_spatial_identity function", {

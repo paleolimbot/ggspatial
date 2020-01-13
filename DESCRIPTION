@@ -29,7 +29,8 @@ Imports:
     scales,
     tidyr,
     rlang,
-    grid
+    grid,
+    glue
 Suggests:
     prettymapr,
     knitr,

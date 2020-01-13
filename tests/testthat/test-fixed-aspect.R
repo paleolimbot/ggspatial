@@ -1,4 +1,4 @@
-context("text-fixed-aspect")
+context("test-fixed-aspect")
 
 test_that("aspect adjuster works", {
 

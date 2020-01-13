@@ -7,6 +7,7 @@
 \alias{aes}
 \alias{coord_sf}
 \alias{geom_sf}
+\alias{waiver}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,6 +15,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{ggplot2}{\code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{coord_sf}}, \code{\link[ggplot2]{geom_sf}}, \code{\link[ggplot2]{ggplot}}}
+  \item{ggplot2}{\code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{coord_sf}}, \code{\link[ggplot2]{geom_sf}}, \code{\link[ggplot2]{ggplot}}, \code{\link[ggplot2]{waiver}}}
 }}
 

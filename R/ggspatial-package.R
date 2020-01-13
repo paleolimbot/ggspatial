@@ -22,3 +22,7 @@ ggplot2::coord_sf
 #' @importFrom ggplot2 geom_sf
 #' @export
 ggplot2::geom_sf
+
+#' @importFrom ggplot2 waiver
+#' @export
+ggplot2::waiver
