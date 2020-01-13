@@ -13,6 +13,19 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
     # view of the north pole
     coord_sf(crs = 3995)
 
+  vdiffr::expect_doppelganger(
+    "spatial_xline/mapped aes",
+    p +
+      annotation_spatial_hline(
+        aes(intercept = y, col = city),
+        crs = 4326
+      ) +
+      annotation_spatial_vline(
+        aes(intercept = x, lty = city),
+        crs = 4326
+      )
+  )
+
   expect_message(
     vdiffr::expect_doppelganger(
       "spatial_hline() NULL crs",

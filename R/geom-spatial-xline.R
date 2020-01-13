@@ -226,13 +226,20 @@ GeomSpatialXline <- ggplot2::ggproto(
         )
       )
 
-      # use GeomSf to draw the panel
-      ggplot2::GeomSf$draw_panel(
-        data, panel_params, coord,
-        lineend = "butt",
-        linejoin = "round",
-        linemitre = 10
-      )
+      # don't include empty items
+      data <- data[!sf::st_is_empty(data$geometry), , drop = FALSE]
+
+      if (nrow(data) == 0) {
+        ggplot2::zeroGrob()
+      } else {
+        # use GeomSf to draw the panel
+        ggplot2::GeomSf$draw_panel(
+          data, panel_params, coord,
+          lineend = "butt",
+          linejoin = "round",
+          linemitre = 10
+        )
+      }
     }
   },
   draw_key = ggplot2::draw_key_path,
