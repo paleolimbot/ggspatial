@@ -37,16 +37,13 @@ annotation_spatial_vline(
 GeomSpatialXline
 }
 \arguments{
-\item{mapping}{An aesthetic mapping created with \link[ggplot2:aes]{aes}.}
+\item{mapping}{An aesthetic mapping created with \code{\link[ggplot2:aes]{ggplot2::aes()}}.}
 
-\item{data}{A data frame or other object, coerced to a data.frame by \link[ggplot2:fortify]{fortify}.}
+\item{data}{A data frame or other object, coerced to a data.frame by \code{\link[ggplot2:fortify]{ggplot2::fortify()}}.}
 
 \item{stat}{Statistical transformation to use on this layer. See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
 
-\item{...}{Passed to the base ggplot2 functions \link[ggplot2:geom_point]{geom_point},
-\link[ggplot2:geom_path]{geom_path}, \link[ggplot2:geom_polygon]{geom_polygon},
-\link[ggplot2:geom_text]{geom_text}, \link[ggplot2:geom_label]{geom_label},
-\link[ggrepel:geom_text_repel]{geom_text_repel}, and \link[ggrepel:geom_label_repel]{geom_label_repel}, respectively.}
+\item{...}{Passed to the combined stat/geom as parameters or fixed aesthetics.}
 
 \item{intercept}{The x or y value that should be constant in the given
 \code{crs}. Can also be passed as an aesthetic through \code{data} and \code{mapping}.}
@@ -59,11 +56,11 @@ manually.}
 line into segments.}
 
 \item{crs}{The crs of the x and y aesthetics, or NULL to use default lon/lat
-crs.}
+crs (with a message).}
 
 \item{na.rm}{Should missing aesthetic values be removed?}
 
-\item{show.legend}{See \link[ggplot2:layer]{layer}.}
+\item{show.legend}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
 }
 \description{
 Projected horizontal and vertical lines

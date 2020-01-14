@@ -30,7 +30,8 @@ Imports:
     tidyr,
     rlang,
     grid,
-    glue
+    glue,
+    lwgeom
 Suggests:
     prettymapr,
     knitr,

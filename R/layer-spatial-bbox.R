@@ -45,10 +45,15 @@ sf_bbox_to_sf <- function(data, detail = NULL) {
   xs <- data[c("xmin", "xmin", "xmax", "xmax", "xmin")]
   ys <- data[c("ymin", "ymax", "ymax", "ymin", "ymin")]
   poly <- sf::st_polygon(list(cbind(xs, ys)))
-  if (!is.null(detail)) {
+
+  height <- data["ymax"] - data["ymin"]
+  width <- data["xmax"] - data["xmin"]
+  if (!is.null(detail) && any(c(height, width) > 0)) {
     dfMaxLength <- min(
-      (data["xmax"] - data["xmin"]) / detail,
-      (data["ymax"] - data["ymin"]) / detail
+      c(
+        height[height > 0] / detail,
+        width[width > 0] / detail
+      )
     )
     poly <- sf::st_segmentize(poly, dfMaxLength = dfMaxLength)
   }
