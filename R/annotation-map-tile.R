@@ -1,16 +1,21 @@
 
 #' Add background OSM tiles
 #'
-#' Uses [osm.image][rosm::osm.image] to add background tiles.
+#' Uses [rosm::osm.image()] to add background tiles. If you are publishing
+#' a map using these tiles, make sure to use the proper attribution
+#' (e.g., "Copyright OpenStreetMap contributors" when using an
+#' OpenStreetMap-based tile set).
 #'
 #' @param type The map type
 #' @param zoom The zoom level (overrides zoomin)
-#' @param zoomin Delta on default zoom
+#' @param zoomin Delta on default zoom. The default value is designed
+#'   to download fewer tiles than you probably want. Use `-1` or `0` to
+#'   increase the resolution.
 #' @param forcedownload Re-download cached tiles?
 #' @param cachedir Specify cache directory
-#' @param progress Use progress = "none" to suppress progress and zoom output
-#' @param quiet Use quiet = FALSE to see which URLs are downloaded
-#' @param interpolate Parameter for raster
+#' @param progress Use `progress = "none"` to suppress progress and zoom output
+#' @param quiet Use `quiet = FALSE` to see which URLs are downloaded
+#' @param interpolate Passed to [grid::rasterGrob()]
 #' @param alpha Use to make this layer semi-transparent
 #' @param data,mapping Specify data and mapping to use this geom with facets
 #'

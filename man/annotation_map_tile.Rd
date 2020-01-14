@@ -28,17 +28,19 @@ GeomMapTile
 
 \item{zoom}{The zoom level (overrides zoomin)}
 
-\item{zoomin}{Delta on default zoom}
+\item{zoomin}{Delta on default zoom. The default value is designed
+to download fewer tiles than you probably want. Use \code{-1} or \code{0} to
+increase the resolution.}
 
 \item{forcedownload}{Re-download cached tiles?}
 
 \item{cachedir}{Specify cache directory}
 
-\item{progress}{Use progress = "none" to suppress progress and zoom output}
+\item{progress}{Use \code{progress = "none"} to suppress progress and zoom output}
 
-\item{quiet}{Use quiet = FALSE to see which URLs are downloaded}
+\item{quiet}{Use \code{quiet = FALSE} to see which URLs are downloaded}
 
-\item{interpolate}{Parameter for raster}
+\item{interpolate}{Passed to \code{\link[grid:rasterGrob]{grid::rasterGrob()}}}
 
 \item{data, mapping}{Specify data and mapping to use this geom with facets}
 
@@ -48,7 +50,10 @@ GeomMapTile
 A ggplot2 layer
 }
 \description{
-Uses \link[rosm:osm.image]{osm.image} to add background tiles.
+Uses \code{\link[rosm:osm.image]{rosm::osm.image()}} to add background tiles. If you are publishing
+a map using these tiles, make sure to use the proper attribution
+(e.g., "Copyright OpenStreetMap contributors" when using an
+OpenStreetMap-based tile set).
 }
 \examples{
 library(ggplot2)
