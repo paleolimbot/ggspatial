@@ -7,6 +7,7 @@
 #' [ggplot2::geom_tile()].
 #'
 #' @inheritParams stat_spatial_identity
+#' @inheritParams layer_spatial.bbox
 #' @inheritParams annotation_spatial_hline
 #' @param linejoin How corners should be joined
 #'
@@ -34,6 +35,7 @@
 geom_spatial_rect <- function(mapping = NULL, data = NULL,
                               ...,
                               crs = NULL,
+                              detail = 30,
                               linejoin = "mitre",
                               na.rm = FALSE,
                               show.legend = NA,
@@ -48,6 +50,7 @@ geom_spatial_rect <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       crs = crs,
+      detail = detail,
       linejoin = linejoin,
       legend = "polygon",
       na.rm = na.rm,
@@ -61,6 +64,7 @@ geom_spatial_rect <- function(mapping = NULL, data = NULL,
 geom_spatial_tile <- function(mapping = NULL, data = NULL,
                               ...,
                               crs = NULL,
+                              detail = 30,
                               linejoin = "mitre",
                               na.rm = FALSE,
                               show.legend = NA,
@@ -75,6 +79,7 @@ geom_spatial_tile <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       crs = crs,
+      detail = detail,
       linejoin = linejoin,
       legend = "polygon",
       na.rm = na.rm,
@@ -96,7 +101,7 @@ StatSpatialRect <- ggplot2::ggproto(
     ggplot2::ggproto_parent(ggplot2::Stat, self)$compute_layer(data, params, layout)
   },
 
-  compute_panel = function(self, data, scales, crs, crs_dest) {
+  compute_panel = function(self, data, scales, crs, crs_dest, detail = 30) {
     # source CRS
     if(is.null(crs)) {
       message("Assuming `crs = 4326` in stat_spatial_rect()")
@@ -117,7 +122,7 @@ StatSpatialRect <- ggplot2::ggproto(
       )
     })
 
-    geometry <- lapply(bboxes, function(x) sf_bbox_to_sf(x, detail = 10)$geometry[[1]])
+    geometry <- lapply(bboxes, function(x) sf_bbox_to_sf(x, detail = detail)$geometry[[1]])
     data$geometry <- do.call(sf::st_sfc, c(geometry, list(crs = crs)))
     data$geometry <- sf::st_transform(data$geometry, crs = crs_dest)
 

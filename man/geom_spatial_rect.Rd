@@ -14,6 +14,7 @@ geom_spatial_rect(
   data = NULL,
   ...,
   crs = NULL,
+  detail = 30,
   linejoin = "mitre",
   na.rm = FALSE,
   show.legend = NA,
@@ -25,6 +26,7 @@ geom_spatial_tile(
   data = NULL,
   ...,
   crs = NULL,
+  detail = 30,
   linejoin = "mitre",
   na.rm = FALSE,
   show.legend = NA,
@@ -47,6 +49,10 @@ StatSpatialTile
 
 \item{crs}{The crs of the x and y aesthetics, or NULL to use default lon/lat
 crs.}
+
+\item{detail}{Passed to \code{\link[sf:st_segmentize]{sf::st_segmentize()}}: the number of line segments
+per quadrant of the bounding box. Increase this number for a smoother
+projected bounding box.}
 
 \item{linejoin}{How corners should be joined}
 

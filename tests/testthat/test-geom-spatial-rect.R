@@ -3,7 +3,6 @@ context("test-geom-spatial-rect")
 
 test_that("geom_spatial_rect() works", {
   # Canada!
-  box <- sf::st_bbox(c(xmin = -140, xmax = -52, ymin = 41, ymax = 83), crs = 4326)
   tile_df <- expand.grid(
     xmin = seq(-140, -52, by = 20),
     ymin = seq(40, 70, by = 10)
