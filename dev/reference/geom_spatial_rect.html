@@ -128,6 +128,7 @@ intended to behave identically to <code><a href='https://ggplot2.tidyverse.org/r
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>,
   <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"mitre"</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
@@ -139,6 +140,7 @@ intended to behave identically to <code><a href='https://ggplot2.tidyverse.org/r
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>,
   <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"mitre"</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
@@ -171,6 +173,12 @@ intended to behave identically to <code><a href='https://ggplot2.tidyverse.org/r
       <th>crs</th>
       <td><p>The crs of the x and y aesthetics, or NULL to use default lon/lat
 crs.</p></td>
+    </tr>
+    <tr>
+      <th>detail</th>
+      <td><p>Passed to <code><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>sf::st_segmentize()</a></code>: the number of line segments
+per quadrant of the bounding box. Increase this number for a smoother
+projected bounding box.</p></td>
     </tr>
     <tr>
       <th>linejoin</th>
