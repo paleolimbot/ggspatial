@@ -13,7 +13,7 @@ fixed_plot_aspect(ratio = 1)
 A \code{\link[ggplot2:layer]{ggplot2::layer()}} that can be added to  a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
 }
 \description{
-When using a fixed-aspect coordinate system, \code{\link[=stat_aspect]{stat_aspect()}} expands
+When using a fixed-aspect coordinate system, \code{\link[=fixed_plot_aspect]{fixed_plot_aspect()}} expands
 either the width or height of the plot to ensure that the output
 has dimensions that make sense. This is a useful workaround for
 getting reasonable-shaped plots when using \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf()}}

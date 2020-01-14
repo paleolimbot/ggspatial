@@ -1,7 +1,7 @@
 
 #' Enforce a plot aspect ratio
 #'
-#' When using a fixed-aspect coordinate system, [stat_aspect()] expands
+#' When using a fixed-aspect coordinate system, [fixed_plot_aspect()] expands
 #' either the width or height of the plot to ensure that the output
 #' has dimensions that make sense. This is a useful workaround for
 #' getting reasonable-shaped plots when using [ggplot2::coord_sf()]
