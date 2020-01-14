@@ -45,11 +45,11 @@ The following can be used as parameters or aesthetics. Using them as
 aesthetics is useful when facets are used to display multiple panels,
 and a different (or missing) scale bar is required in different panels.
 Otherwise, just pass them as arguments to \code{annotation_north_arrow()}.
-  \itemize{
-    \item which_north: "grid" results in a north arrow always pointing up; "true" always points to the
-        north pole from whichever corner of the map the north arrow is in.
-    \item location: Where to put the scale bar ("tl" for top left, etc.)
-  }
+\itemize{
+\item which_north: "grid" results in a north arrow always pointing up; "true" always points to the
+north pole from whichever corner of the map the north arrow is in.
+\item location: Where to put the scale bar ("tl" for top left, etc.)
+}
 }
 
 \examples{

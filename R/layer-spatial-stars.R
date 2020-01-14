@@ -2,7 +2,7 @@
 #' Spatial ggplot2 layer for stars objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-#' bands as if they were columns, use \link{df_spatial} and \link{geom_raster}.
+#' bands as if they were columns, use [df_spatial] and [geom_raster].
 #'
 #' @param data A stars object
 #' @param mapping Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
@@ -11,7 +11,7 @@
 #' @param is_annotation Lets raster exist without modifying scales
 #' @param lazy Delay projection and resample of raster until the plot is being rendered
 #' @param dpi if lazy = TRUE, the dpi to which the raster should be resampled
-#' @param options GDAL options for warping/resampling (see \link[stars]{st_warp})
+#' @param options GDAL options for warping/resampling (see [st_warp][stars::st_warp])
 #' @param ... Passed to other methods
 #'
 #' @return A ggplot2 layer

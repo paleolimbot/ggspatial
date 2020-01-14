@@ -48,7 +48,7 @@ GeomMapTile
 A ggplot2 layer
 }
 \description{
-Uses \link[rosm]{osm.image} to add background tiles.
+Uses \link[rosm:osm.image]{osm.image} to add background tiles.
 }
 \examples{
 library(ggplot2)

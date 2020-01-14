@@ -10,14 +10,14 @@ fixed_plot_aspect(ratio = 1)
 \item{ratio}{The desired aspect ratio (width / height)}
 }
 \value{
-A [ggplot2::layer()] that can be added to  a [ggplot2::ggplot()].
+A \code{\link[ggplot2:layer]{ggplot2::layer()}} that can be added to  a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
 }
 \description{
-When using a fixed-aspect coordinate system, [stat_aspect()] expands
+When using a fixed-aspect coordinate system, \code{\link[=stat_aspect]{stat_aspect()}} expands
 either the width or height of the plot to ensure that the output
 has dimensions that make sense. This is a useful workaround for
-getting reasonable-shaped plots when using [ggplot2::coord_sf()]
-or [ggplot2::coord_fixed()] when the data happen to be
+getting reasonable-shaped plots when using \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf()}}
+or \code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed()}} when the data happen to be
 aligned vertically or horizontally.
 }
 \examples{

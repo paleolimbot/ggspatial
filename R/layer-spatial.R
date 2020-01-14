@@ -1,13 +1,13 @@
 
 #' Turn a spatial object into a ggplot2 layer
 #'
-#' @param data An object that can be coerced to an sf object using \link[sf]{st_as_sf}.
-#' @param mapping A mapping, created using \link[ggplot2]{aes}.
-#' @param sf_params Passed to \link[sf]{st_as_sf}.
+#' @param data An object that can be coerced to an sf object using [st_as_sf][sf::st_as_sf].
+#' @param mapping A mapping, created using [aes][ggplot2::aes].
+#' @param sf_params Passed to [st_as_sf][sf::st_as_sf].
 #' @param inherit.aes Inherit aesthetics from ggplot()?
-#' @param ... Passed to \link[ggplot2]{geom_sf}
+#' @param ... Passed to [geom_sf][ggplot2::geom_sf]
 #'
-#' @return A ggplot2 \link[ggplot2]{layer}.
+#' @return A ggplot2 [layer][ggplot2::layer].
 #' @export
 #' @importFrom ggplot2 aes
 #'

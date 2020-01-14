@@ -5,14 +5,14 @@
 #' @param pad_x,pad_y Padding between north arrow and edge of frame
 #' @param rotation Override the rotation of the north arrow (degrees conterclockwise)
 #' @param style A grob or callable that produces a grob that will be drawn as the north arrow.
-#'   See \link{north_arrow_orienteering} for options.
+#'   See [north_arrow_orienteering] for options.
 #' @param mapping,data,... See Aesthetics
 #'
 #' @section Aesthetics:
 #' The following can be used as parameters or aesthetics. Using them as
 #' aesthetics is useful when facets are used to display multiple panels,
 #' and a different (or missing) scale bar is required in different panels.
-#' Otherwise, just pass them as arguments to \code{annotation_north_arrow()}.
+#' Otherwise, just pass them as arguments to `annotation_north_arrow()`.
 #'   \itemize{
 #'     \item which_north: "grid" results in a north arrow always pointing up; "true" always points to the
 #'         north pole from whichever corner of the map the north arrow is in.

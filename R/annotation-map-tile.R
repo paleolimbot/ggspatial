@@ -1,7 +1,7 @@
 
 #' Add background OSM tiles
 #'
-#' Uses \link[rosm]{osm.image} to add background tiles.
+#' Uses [osm.image][rosm::osm.image] to add background tiles.
 #'
 #' @param type The map type
 #' @param zoom The zoom level (overrides zoomin)

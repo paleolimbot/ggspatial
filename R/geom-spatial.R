@@ -1,23 +1,23 @@
 
 #' Spatial-aware ggplot2 layers
 #'
-#' These layers are much like their counterparts, \link[ggplot2]{stat_identity},
-#' \link[ggplot2]{geom_point}, \link[ggplot2]{geom_path},
-#' and \link[ggplot2]{geom_polygon}, except they have a \code{crs} argument that
-#' ensures they are projected when using \link[ggplot2]{coord_sf}. Stats are applied to the x and y coordinates
+#' These layers are much like their counterparts, [stat_identity][ggplot2::stat_identity],
+#' [geom_point][ggplot2::geom_point], [geom_path][ggplot2::geom_path],
+#' and [geom_polygon][ggplot2::geom_polygon], except they have a `crs` argument that
+#' ensures they are projected when using [coord_sf][ggplot2::coord_sf]. Stats are applied to the x and y coordinates
 #' that have been transformed.
 #'
-#' @param mapping An aesthetic mapping created with \link[ggplot2]{aes}.
-#' @param data A data frame or other object, coerced to a data.frame by \link[ggplot2]{fortify}.
+#' @param mapping An aesthetic mapping created with [aes][ggplot2::aes].
+#' @param data A data frame or other object, coerced to a data.frame by [fortify][ggplot2::fortify].
 #' @param crs The crs of the x and y aesthetics, or NULL to use default lon/lat
 #'   crs.
 #' @param geom The geometry to use.
 #' @param position The position to use.
-#' @param ... Passed to the base ggplot2 functions \link[ggplot2]{geom_point},
-#'   \link[ggplot2]{geom_path}, \link[ggplot2]{geom_polygon},
-#'   \link[ggplot2]{geom_text}, \link[ggplot2]{geom_label},
-#'   \link[ggrepel]{geom_text_repel}, and \link[ggrepel]{geom_label_repel}, respectively.
-#' @param show.legend,inherit.aes See \link[ggplot2]{layer}.
+#' @param ... Passed to the base ggplot2 functions [geom_point][ggplot2::geom_point],
+#'   [geom_path][ggplot2::geom_path], [geom_polygon][ggplot2::geom_polygon],
+#'   [geom_text][ggplot2::geom_text], [geom_label][ggplot2::geom_label],
+#'   [geom_text_repel][ggrepel::geom_text_repel], and [geom_label_repel][ggrepel::geom_label_repel], respectively.
+#' @param show.legend,inherit.aes See [layer][ggplot2::layer].
 #'
 #' @return A ggplot2 layer.
 #' @export

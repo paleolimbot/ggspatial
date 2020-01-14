@@ -8,8 +8,8 @@
 #' @export
 #'
 #' @source The Nova Scotia Topographic Database
-#' (\url{https://geonova.novascotia.ca/}) and
-#' Open Street Map (\url{http://www.openstreetmap.org}).
+#' (<https://geonova.novascotia.ca/>) and
+#' Open Street Map (<http://www.openstreetmap.org>).
 #'
 #' @examples
 #' load_longlake_data()

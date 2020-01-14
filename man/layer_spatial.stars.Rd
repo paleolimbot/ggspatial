@@ -46,7 +46,7 @@ map specific bands to the fill and alpha aesthetics.}
 
 \item{dpi}{if lazy = TRUE, the dpi to which the raster should be resampled}
 
-\item{options}{GDAL options for warping/resampling (see \link[stars]{st_warp})}
+\item{options}{GDAL options for warping/resampling (see \link[stars:st_warp]{st_warp})}
 
 \item{...}{Passed to other methods}
 }

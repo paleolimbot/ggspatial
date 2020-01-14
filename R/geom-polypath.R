@@ -7,12 +7,12 @@
 #' Polygons with holes in ggplot2
 #'
 #' This geometry correctly plots polygons with holes in ggplot2 at the
-#' expense of doing so (slightly) more slowly than \link[ggplot2]{geom_polygon}. This
-#' implementation fixes a bug in the \code{ggpolypath} package, which provides
+#' expense of doing so (slightly) more slowly than [geom_polygon][ggplot2::geom_polygon]. This
+#' implementation fixes a bug in the `ggpolypath` package, which provides
 #' similar functionality.
 #'
-#' @param mapping An aesthetic mapping, created with \link[ggplot2]{aes}. The aesthetic
-#'   will mostly likely need to contain a \code{group} mapping.
+#' @param mapping An aesthetic mapping, created with [aes][ggplot2::aes]. The aesthetic
+#'   will mostly likely need to contain a `group` mapping.
 #' @param data A data.frame containing the coordinates to plot.
 #' @param stat A statistic to apply (most likely "identity")
 #' @param position A position to apply (most likely "identity")

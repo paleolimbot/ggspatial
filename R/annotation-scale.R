@@ -15,7 +15,7 @@
 #' The following can be used as parameters or aesthetics. Using them as
 #' aesthetics is useful when facets are used to display multiple panels,
 #' and a different (or missing) scale bar is required in different panels.
-#' Otherwise, just pass them as arguments to \code{annotation_scale}.
+#' Otherwise, just pass them as arguments to `annotation_scale`.
 #'   \itemize{
 #'     \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
 #'     \item unit_category: Use "metric" or "imperial" units.
