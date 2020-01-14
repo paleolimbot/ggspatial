@@ -36,7 +36,10 @@
 
 
 <meta property="og:title" content="Add background OSM tiles — annotation_map_tile" />
-<meta property="og:description" content="Uses osm.image to add background tiles." />
+<meta property="og:description" content="Uses rosm::osm.image() to add background tiles. If you are publishing
+a map using these tiles, make sure to use the proper attribution
+(e.g., &quot;Copyright OpenStreetMap contributors&quot; when using an
+OpenStreetMap-based tile set)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,7 +117,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Uses <a href='https://rdrr.io/pkg/rosm/man/osm.image.html'>osm.image</a> to add background tiles.</p>
+    <p>Uses <code><a href='https://rdrr.io/pkg/rosm/man/osm.image.html'>rosm::osm.image()</a></code> to add background tiles. If you are publishing
+a map using these tiles, make sure to use the proper attribution
+(e.g., "Copyright OpenStreetMap contributors" when using an
+OpenStreetMap-based tile set).</p>
     </div>
 
     <pre class="usage"><span class='fu'>annotation_map_tile</span>(
@@ -146,7 +152,9 @@
     </tr>
     <tr>
       <th>zoomin</th>
-      <td><p>Delta on default zoom</p></td>
+      <td><p>Delta on default zoom. The default value is designed
+to download fewer tiles than you probably want. Use <code>-1</code> or <code>0</code> to
+increase the resolution.</p></td>
     </tr>
     <tr>
       <th>forcedownload</th>
@@ -158,15 +166,15 @@
     </tr>
     <tr>
       <th>progress</th>
-      <td><p>Use progress = "none" to suppress progress and zoom output</p></td>
+      <td><p>Use <code>progress = "none"</code> to suppress progress and zoom output</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Use quiet = FALSE to see which URLs are downloaded</p></td>
+      <td><p>Use <code>quiet = FALSE</code> to see which URLs are downloaded</p></td>
     </tr>
     <tr>
       <th>interpolate</th>
-      <td><p>Parameter for raster</p></td>
+      <td><p>Passed to <code><a href='https://rdrr.io/r/grid/grid.raster.html'>grid::rasterGrob()</a></code></p></td>
     </tr>
     <tr>
       <th>data, mapping</th>
