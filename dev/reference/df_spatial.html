@@ -134,49 +134,50 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with coordinates as .x and .y, and features as .feature</p>
+    <p>A tibble with coordinates as <code>x</code> and <code>y</code>,
+features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='load_longlake_data.html'>load_longlake_data</a></span>()
 <span class='fu'>df_spatial</span>(<span class='no'>longlake_osm</span>)</div><div class='output co'>#&gt; # A tibble: 260,463 x 6
 #&gt;          x        y band1 band2 band3 feature_id
-#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;     
-#&gt;  1 409891. 5084849.   180   217   163 1         
-#&gt;  2 409895. 5084849.   184   219   164 2         
-#&gt;  3 409898. 5084849.   189   223   167 3         
-#&gt;  4 409901. 5084849.   186   223   166 4         
-#&gt;  5 409905. 5084849.   166   210   157 5         
-#&gt;  6 409908. 5084849.   163   208   156 6         
-#&gt;  7 409911. 5084849.   160   206   155 7         
-#&gt;  8 409915. 5084849.   154   202   151 8         
-#&gt;  9 409918. 5084849.   156   203   152 9         
-#&gt; 10 409921. 5084849.   149   199   150 10        
-#&gt; # … with 260,453 more rows</div><div class='input'><span class='fu'>df_spatial</span>(<span class='no'>longlake_depthdf</span>)</div><div class='output co'>#&gt; # A tibble: 64 x 9
-#&gt;          x        y feature_id WAYPOINT_I   LAT   LON DEPTH NOTES        DEPTH_M
-#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 411659. 5084501. 1                   2  45.9 -64.1   2.5 mouth of in…     0.8
-#&gt;  2 411630. 5084560. 2                   3  45.9 -64.1   3.1 &lt;NA&gt;             0.9
-#&gt;  3 411553. 5084601. 3                   5  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  4 411476. 5084600. 4                   6  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  5 411467. 5084488. 5                   8  45.9 -64.1   4.5 &lt;NA&gt;             1.4
-#&gt;  6 411466. 5084410. 6                  10  45.9 -64.1   2   &lt;NA&gt;             0.6
-#&gt;  7 411379. 5084490. 7                  12  45.9 -64.1   4.7 &lt;NA&gt;             1.4
-#&gt;  8 411321. 5084721. 8                  16  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  9 411293. 5084670. 9                  17  45.9 -64.1   4.7 &lt;NA&gt;             1.4
-#&gt; 10 411291. 5084593. 10                 19  45.9 -64.1   5   &lt;NA&gt;             1.5
-#&gt; # … with 54 more rows</div><div class='input'><span class='fu'>df_spatial</span>(<span class='fu'>as</span>(<span class='no'>longlake_depthdf</span>, <span class='st'>"Spatial"</span>))</div><div class='output co'>#&gt; # A tibble: 64 x 9
-#&gt;          x        y feature_id WAYPOINT_I   LAT   LON DEPTH NOTES        DEPTH_M
-#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 411659. 5084501. 1                   2  45.9 -64.1   2.5 mouth of in…     0.8
-#&gt;  2 411630. 5084560. 2                   3  45.9 -64.1   3.1 &lt;NA&gt;             0.9
-#&gt;  3 411553. 5084601. 3                   5  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  4 411476. 5084600. 4                   6  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  5 411467. 5084488. 5                   8  45.9 -64.1   4.5 &lt;NA&gt;             1.4
-#&gt;  6 411466. 5084410. 6                  10  45.9 -64.1   2   &lt;NA&gt;             0.6
-#&gt;  7 411379. 5084490. 7                  12  45.9 -64.1   4.7 &lt;NA&gt;             1.4
-#&gt;  8 411321. 5084721. 8                  16  45.9 -64.1   2.5 &lt;NA&gt;             0.8
-#&gt;  9 411293. 5084670. 9                  17  45.9 -64.1   4.7 &lt;NA&gt;             1.4
-#&gt; 10 411291. 5084593. 10                 19  45.9 -64.1   5   &lt;NA&gt;             1.5
+#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;      &lt;int&gt;
+#&gt;  1 409891. 5084849.   180   217   163          1
+#&gt;  2 409895. 5084849.   184   219   164          2
+#&gt;  3 409898. 5084849.   189   223   167          3
+#&gt;  4 409901. 5084849.   186   223   166          4
+#&gt;  5 409905. 5084849.   166   210   157          5
+#&gt;  6 409908. 5084849.   163   208   156          6
+#&gt;  7 409911. 5084849.   160   206   155          7
+#&gt;  8 409915. 5084849.   154   202   151          8
+#&gt;  9 409918. 5084849.   156   203   152          9
+#&gt; 10 409921. 5084849.   149   199   150         10
+#&gt; # … with 260,453 more rows</div><div class='input'><span class='fu'>df_spatial</span>(<span class='no'>longlake_depthdf</span>)</div><div class='output co'>#&gt; # A tibble: 64 x 10
+#&gt;          x      y feature_id part_id WAYPOINT_I   LAT   LON DEPTH NOTES  DEPTH_M
+#&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+#&gt;  1 411659. 5.08e6          1       1          2  45.9 -64.1   2.5 mouth…     0.8
+#&gt;  2 411630. 5.08e6          2       1          3  45.9 -64.1   3.1 &lt;NA&gt;       0.9
+#&gt;  3 411553. 5.08e6          3       1          5  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  4 411476. 5.08e6          4       1          6  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  5 411467. 5.08e6          5       1          8  45.9 -64.1   4.5 &lt;NA&gt;       1.4
+#&gt;  6 411466. 5.08e6          6       1         10  45.9 -64.1   2   &lt;NA&gt;       0.6
+#&gt;  7 411379. 5.08e6          7       1         12  45.9 -64.1   4.7 &lt;NA&gt;       1.4
+#&gt;  8 411321. 5.08e6          8       1         16  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  9 411293. 5.08e6          9       1         17  45.9 -64.1   4.7 &lt;NA&gt;       1.4
+#&gt; 10 411291. 5.08e6         10       1         19  45.9 -64.1   5   &lt;NA&gt;       1.5
+#&gt; # … with 54 more rows</div><div class='input'><span class='fu'>df_spatial</span>(<span class='fu'>as</span>(<span class='no'>longlake_depthdf</span>, <span class='st'>"Spatial"</span>))</div><div class='output co'>#&gt; # A tibble: 64 x 10
+#&gt;          x      y feature_id part_id WAYPOINT_I   LAT   LON DEPTH NOTES  DEPTH_M
+#&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+#&gt;  1 411659. 5.08e6          1       1          2  45.9 -64.1   2.5 mouth…     0.8
+#&gt;  2 411630. 5.08e6          2       1          3  45.9 -64.1   3.1 &lt;NA&gt;       0.9
+#&gt;  3 411553. 5.08e6          3       1          5  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  4 411476. 5.08e6          4       1          6  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  5 411467. 5.08e6          5       1          8  45.9 -64.1   4.5 &lt;NA&gt;       1.4
+#&gt;  6 411466. 5.08e6          6       1         10  45.9 -64.1   2   &lt;NA&gt;       0.6
+#&gt;  7 411379. 5.08e6          7       1         12  45.9 -64.1   4.7 &lt;NA&gt;       1.4
+#&gt;  8 411321. 5.08e6          8       1         16  45.9 -64.1   2.5 &lt;NA&gt;       0.8
+#&gt;  9 411293. 5.08e6          9       1         17  45.9 -64.1   4.7 &lt;NA&gt;       1.4
+#&gt; 10 411291. 5.08e6         10       1         19  45.9 -64.1   5   &lt;NA&gt;       1.5
 #&gt; # … with 54 more rows</div><div class='input'>
 </div></pre>
   </div>
