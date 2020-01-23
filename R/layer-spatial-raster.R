@@ -430,7 +430,9 @@ raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   raster
 }
 
-project_extent <- function(xmin, ymin, xmax, ymax, from_crs = 4326, to_crs = 4326, format = c("sf", "sp"), n = 50) {
+project_extent <- function(xmin, ymin, xmax, ymax,
+                           from_crs = 4326, to_crs = 4326, format = c("sf", "sp"),
+                           n = 50) {
   format <- match.arg(format)
 
   proj_corners <- sf::st_sfc(
