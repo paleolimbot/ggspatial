@@ -4,7 +4,8 @@
 #' @param x A spatial object
 #' @param ... Passed to specific methods
 #'
-#' @return A tibble with coordinates as .x and .y, and features as .feature
+#' @return A tibble with coordinates as `x` and `y`,
+#'   features as `feature_id`, and parts as `part_id`.
 #' @export
 #'
 #' @examples
@@ -81,13 +82,15 @@ fix_duplicate_cols <- function(...) {
 
 expect_df_spatial <- function(expr, cols = character(0)) {
   expr_name <- paste("Expression:", deparse(substitute(expr)))
-  force(expr)
+  df <- df_spatial(expr)
 
   testthat::expect_true(
-    all(c("x", "y", "feature_id", cols) %in% colnames(df_spatial(expr))),
+    all(c("x", "y", "feature_id", cols) %in% colnames(df)),
     info = expr_name
   )
-  testthat::expect_is(df_spatial(expr)$feature_id, "factor", info = expr_name)
-  testthat::expect_is(df_spatial(expr), "data.frame", info = expr_name)
-  testthat::expect_is(df_spatial(expr), "tbl_df", info = expr_name)
+  testthat::expect_is(df$feature_id, "factor", info = expr_name)
+  testthat::expect_is(df, "data.frame", info = expr_name)
+  testthat::expect_is(df, "tbl_df", info = expr_name)
+
+  invisible(df)
 }
