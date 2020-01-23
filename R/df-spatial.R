@@ -88,7 +88,7 @@ expect_df_spatial <- function(expr, cols = character(0)) {
     all(c("x", "y", "feature_id", cols) %in% colnames(df)),
     info = expr_name
   )
-  testthat::expect_is(df$feature_id, "factor", info = expr_name)
+  testthat::expect_is(df$feature_id, "integer", info = expr_name)
   testthat::expect_is(df, "data.frame", info = expr_name)
   testthat::expect_is(df, "tbl_df", info = expr_name)
 

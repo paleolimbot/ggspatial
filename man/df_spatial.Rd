@@ -12,7 +12,8 @@ df_spatial(x, ...)
 \item{...}{Passed to specific methods}
 }
 \value{
-A tibble with coordinates as .x and .y, and features as .feature
+A tibble with coordinates as \code{x} and \code{y},
+features as \code{feature_id}, and parts as \code{part_id}.
 }
 \description{
 Create a ggplot-friendly data frame from a spatial object
