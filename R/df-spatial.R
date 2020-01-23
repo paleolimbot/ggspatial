@@ -22,7 +22,7 @@ df_spatial <- function(x, ...) {
 df_spatial.Raster <- function(x, ...) {
   # get values in a data frame
   fused <- cbind(expand.grid(x=1:x@ncols, y=1:x@nrows), raster::values(x))
-  fused$feature_id <- factor(seq_len(nrow(fused)))
+  fused$feature_id <- seq_len(nrow(fused))
 
   # set names to be long, lat, band1, band2, ...
   nbands <- ncol(fused) - 3

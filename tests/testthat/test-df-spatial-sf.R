@@ -2,7 +2,7 @@
 context("test-df-spatial-sf")
 
 
-test_that("sf objects are fortified correctly", {
+test_that("df_spatial() works with sf objects", {
 
   # load the long lake test data
   load_longlake_data()

@@ -1,73 +1,43 @@
 
 context("test-df-spatial-sp")
 
-test_that("Spatial* objects are converted by df_spatial()", {
+
+test_that("df_spatial() works with sp objects", {
   skip_if_not_installed("sp")
 
   # load the long lake test data
-  load_longlake_data()
+  load_longlake_data(vector_format = "sp")
 
-  # SpatialPoints
-  spoints_df <- sf::as_Spatial(longlake_depthdf)
-  spoints <- sp::SpatialPoints(spoints_df, proj4string = spoints_df@proj4string)
-  # expect_df_spatial(spoints)
-  expect_equal(nrow(df_spatial(spoints)), length(spoints))
-  # expect_df_spatial(spoints_df, c("NOTES", "DEPTH_M"))
+  # point / sp
+  df_points <- expect_df_spatial(longlake_depthdf, c("NOTES", "DEPTH_M"))
+  expect_is(df_points$part_id, "integer")
+  expect_equal(nrow(df_points), nrow(longlake_depthdf))
 
-  # SpatialMultiPoints
-  spmultipoints_sf <- dplyr::summarise(dplyr::group_by(longlake_depthdf, NOTES), one = 1)
-  spmultipoints_df <- sf::as_Spatial(spmultipoints_sf)
-  spmultipoints <- as(spmultipoints_df, "SpatialMultiPoints")
+  df_points_sfc <- expect_df_spatial(as(longlake_depthdf, "SpatialPoints"))
+  expect_identical(df_points_sfc, df_points[c("x", "y", "feature_id", "part_id")])
 
-  # expect_df_spatial(spmultipoints)
-  # expect_df_spatial(spmultipoints_df, c("NOTES", "one"))
-  expect_true(setequal(df_spatial(spmultipoints_df)$NOTES, c("mouth of inlet", "reeds", NA)))
+  # linestring
+  df_lines <- expect_df_spatial(longlake_roadsdf, "OBJECTID")
+  expect_is(df_lines$part_id, "integer")
+  expect_setequal(df_lines$feature_id, seq_len(nrow(longlake_roadsdf)))
 
-  # SpatialLines
-  splines_df <- sf::as_Spatial(sf::st_zm(longlake_roadsdf))
-  splines <- sp::SpatialLines(splines_df@lines, proj4string = splines_df@proj4string)
-  line <- splines@lines[[1]]@Lines[[1]]
-  lines <- splines@lines[[1]]
+  df_lines_sfc <- expect_df_spatial(as(longlake_roadsdf, "SpatialLines"))
+  expect_identical(df_lines_sfc, df_lines[c("x", "y", "feature_id", "part_id")])
 
-  # expect_df_spatial(line)
+  # polygon
+  df_polygons <- expect_df_spatial(longlake_waterdf, c("part_id", "piece_id"))
+  expect_is(df_polygons$part_id, "integer")
+  expect_is(df_polygons$piece_id, "integer")
+  expect_length(unique(df_polygons$feature_id), nrow(longlake_waterdf))
+  expect_length(unique(df_polygons$part_id), 1)
+  expect_length(unique(df_polygons$piece_id), 7)
 
-  # expect_df_spatial(lines, c("coordinate_id", "piece_id"))
-  expect_is(df_spatial(lines)$coordinate_id, "integer")
-  expect_is(df_spatial(lines)$piece_id, "factor")
-
-  # expect_df_spatial(splines, c("coordinate_id", "piece_id"))
-  expect_is(df_spatial(splines)$coordinate_id, "integer")
-  expect_is(df_spatial(splines)$piece_id, "factor")
-
-  # expect_df_spatial(splines_df, c("coordinate_id", "piece_id", "FEAT_CODE"))
-  expect_is(df_spatial(splines_df)$coordinate_id, "integer")
-  expect_is(df_spatial(splines_df)$piece_id, "factor")
-
-  # manual check of success
-  # ggplot(df_spatial(splines)) + geom_path(aes(x, y, group = piece_id))
-  # ggplot(df_spatial(splines_df)) + geom_path(aes(x, y, group = piece_id))
-
-  # SpatialPolygons
-  spoly_df <- sf::as_Spatial(sf::st_zm(longlake_waterdf))
-  spoly <- as(spoly_df, "SpatialPolygons")
-  polygon <- spoly@polygons[[1]]@Polygons[[1]]
-  polygons <- spoly@polygons[[1]]
-
-  # expect_df_spatial(polygon, c("is_hole", "ring_direction"))
-
-  # expect_df_spatial(polygons, c("coordinate_id", "piece_id"))
-  expect_is(df_spatial(polygons)$coordinate_id, "integer")
-  expect_is(df_spatial(polygons)$piece_id, "factor")
-
-  # expect_df_spatial(spoly, c("coordinate_id", "piece_id"))
-  expect_is(df_spatial(spoly)$coordinate_id, "integer")
-  expect_is(df_spatial(spoly)$piece_id, "factor")
-
-  # expect_df_spatial(spoly_df, c("coordinate_id", "piece_id"))
-  expect_is(df_spatial(spoly_df)$coordinate_id, "integer")
-  expect_is(df_spatial(spoly_df)$piece_id, "factor")
-
-  # manual check of success
-  # ggplot(df_spatial(spoly)) + geom_polypath(aes(x, y, group = piece_id))
-  # ggplot(df_spatial(spoly_df)) + geom_polypath(aes(x, y, group = piece_id))
+  df_polygons_sfc <- expect_df_spatial(
+    as(longlake_waterdf, "SpatialPolygons"),
+    c("part_id", "piece_id")
+  )
+  expect_identical(
+    df_polygons_sfc,
+    df_polygons[c("x", "y", "feature_id", "part_id", "piece_id")]
+  )
 })
