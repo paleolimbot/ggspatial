@@ -15,6 +15,7 @@ test_that("df_spatial() works with sf objects", {
 
   # point / sf
   df_points <- expect_df_spatial(longlake_depthdf, c("NOTES", "DEPTH_M"))
+  expect_is(df_points$feature_id, "integer")
   expect_is(df_points$part_id, "integer")
   expect_equal(nrow(df_points), nrow(longlake_depthdf))
 
@@ -30,6 +31,7 @@ test_that("df_spatial() works with sf objects", {
   # multipoint / sf
   multipoints_sf <- dplyr::summarise(dplyr::group_by(longlake_depthdf, NOTES), one = 1)
   df_multipoints <- expect_df_spatial(multipoints_sf, c("NOTES", "one"))
+  expect_is(df_multipoints$feature_id, "integer")
   expect_is(df_multipoints$part_id, "integer")
   expect_setequal(df_multipoints$NOTES, c("mouth of inlet", "reeds", NA))
   expect_setequal(df_multipoints$feature_id, 1:3)
@@ -45,6 +47,7 @@ test_that("df_spatial() works with sf objects", {
 
   # linestring
   df_lines <- expect_df_spatial(longlake_roadsdf, c("z", "OBJECTID"))
+  expect_is(df_lines$feature_id, "integer")
   expect_is(df_lines$part_id, "integer")
   expect_setequal(df_lines$feature_id, seq_len(nrow(longlake_roadsdf)))
 
@@ -59,6 +62,7 @@ test_that("df_spatial() works with sf objects", {
   # multilinestring
   multilines_sf <- dplyr::summarise(longlake_roadsdf, one = 1)
   df_multilines <- expect_df_spatial(multilines_sf, c("z", "part_id", "one"))
+  expect_is(df_multilines$feature_id, "integer")
   expect_is(df_multilines$part_id, "integer")
 
   df_multilines_sfc <- expect_df_spatial(multilines_sf$geometry, c("z", "part_id"))
@@ -71,6 +75,7 @@ test_that("df_spatial() works with sf objects", {
 
   # polygon
   df_polygons <- expect_df_spatial(longlake_waterdf, c("part_id", "piece_id"))
+  expect_is(df_polygons$feature_id, "integer")
   expect_is(df_polygons$part_id, "integer")
   expect_is(df_polygons$piece_id, "integer")
   expect_length(unique(df_polygons$feature_id), nrow(longlake_waterdf))
@@ -95,6 +100,7 @@ test_that("df_spatial() works with sf objects", {
   # multipolygon
   multipolygons_sf <- dplyr::summarise(longlake_waterdf, one = 1)
   df_multipolygons <- expect_df_spatial(multipolygons_sf, c("part_id", "piece_id"))
+  expect_is(df_multipolygons$feature_id, "integer")
   expect_is(df_multipolygons$part_id, "integer")
   expect_is(df_multipolygons$piece_id, "integer")
   expect_length(unique(df_multipolygons$feature_id), nrow(multipolygons_sf))
