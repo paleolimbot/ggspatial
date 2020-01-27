@@ -94,9 +94,9 @@ df_spatial.sfc <- function(x, ...) {
 df_spatial.sf <- function(x, ...) {
   df_geom <- df_spatial(sf::st_geometry(x))
   x_without_geom <- sf::st_set_geometry(x, NULL)
-  tibble::tibble(
-    !!!df_geom,
-    !!!x_without_geom[df_geom$feature_id, ]
+  fix_duplicate_cols(
+    df_geom,
+    x_without_geom[df_geom$feature_id, ]
   )
 }
 

@@ -2,6 +2,12 @@
 context("test-df-spatial-sf")
 
 
+test_that("duplicate cols are warned for in sf objects", {
+  load_longlake_data(which = "longlake_depthdf")
+  longlake_depthdf$x <- "x value"
+  expect_message(df_spatial(longlake_depthdf), "Renamed columns")
+})
+
 test_that("df_spatial() works with sf objects", {
 
   # load the long lake test data
