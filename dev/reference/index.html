@@ -120,17 +120,11 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-spatial-annotations" class="hasAnchor"><a href="#section-spatial-annotations" class="anchor"></a>Spatial annotations</h2>
+          <p class="section-desc"><p>Useful annotations that are frequently found on maps</p></p>
         </th>
       </tr>
       <tr>
-        
-        <td>
-          <p><code><a href="annotation_map_tile.html">annotation_map_tile()</a></code> <code><a href="annotation_map_tile.html">GeomMapTile</a></code> </p>
-        </td>
-        <td><p>Add background OSM tiles</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="annotation_north_arrow.html">annotation_north_arrow()</a></code> <code><a href="annotation_north_arrow.html">GeomNorthArrow</a></code> </p>
@@ -139,21 +133,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="annotation_scale.html">annotation_scale()</a></code> <code><a href="annotation_scale.html">GeomScaleBar</a></code> </p>
+          <p><code><a href="north_arrow_orienteering.html">north_arrow_orienteering()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_fancy_orienteering()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_minimal()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_nautical()</a></code> </p>
         </td>
-        <td><p>Spatial-aware scalebar annotation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="annotation_spatial_hline.html">annotation_spatial_hline()</a></code> <code><a href="annotation_spatial_hline.html">annotation_spatial_vline()</a></code> <code><a href="annotation_spatial_hline.html">GeomSpatialXline</a></code> </p>
-        </td>
-        <td><p>Projected horizontal and vertical lines</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="df_spatial.html">df_spatial()</a></code> </p>
-        </td>
-        <td><p>Create a ggplot-friendly data frame from a spatial object</p></td>
+        <td><p>North arrow styles</p></td>
       </tr><tr>
         
         <td>
@@ -163,10 +145,18 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="geom_polypath.html">geom_polypath()</a></code> </p>
+          <p><code><a href="annotation_scale.html">annotation_scale()</a></code> <code><a href="annotation_scale.html">GeomScaleBar</a></code> </p>
         </td>
-        <td><p>Polygons with holes in ggplot2</p></td>
-      </tr><tr>
+        <td><p>Spatial-aware scalebar annotation</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-spatial-enabled-ggplot-geometries" class="hasAnchor"><a href="#section-spatial-enabled-ggplot-geometries" class="anchor"></a>Spatial-enabled ggplot2 geometries</h2>
+          <p class="section-desc"><p>Use coordinate data with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code></p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="geom_spatial_rect.html">geom_spatial_rect()</a></code> <code><a href="geom_spatial_rect.html">geom_spatial_tile()</a></code> <code><a href="geom_spatial_rect.html">StatSpatialRect</a></code> <code><a href="geom_spatial_rect.html">StatSpatialTile</a></code> </p>
@@ -178,6 +168,32 @@
           <p><code><a href="geom_spatial_segment.html">geom_spatial_segment()</a></code> <code><a href="geom_spatial_segment.html">StatSpatialSegment</a></code> </p>
         </td>
         <td><p>Spatial line segments</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="stat_spatial_identity.html">stat_spatial_identity()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_point()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_path()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_polygon()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_text()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_label()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_text_repel()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_label_repel()</a></code> </p>
+        </td>
+        <td><p>Spatial-aware ggplot2 layers</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geom_polypath.html">geom_polypath()</a></code> </p>
+        </td>
+        <td><p>Polygons with holes in ggplot2</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-layer-functions" class="hasAnchor"><a href="#section-layer-functions" class="anchor"></a>Layer functions</h2>
+          <p class="section-desc"><p>Convert spatial objects to ggplo2 layers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="annotation_map_tile.html">annotation_map_tile()</a></code> <code><a href="annotation_map_tile.html">GeomMapTile</a></code> </p>
+        </td>
+        <td><p>Add background OSM tiles</p></td>
       </tr><tr>
         
         <td>
@@ -205,27 +221,43 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="load_longlake_data.html">load_longlake_data()</a></code> </p>
+          <p><code><a href="annotation_spatial_hline.html">annotation_spatial_hline()</a></code> <code><a href="annotation_spatial_hline.html">annotation_spatial_vline()</a></code> <code><a href="annotation_spatial_hline.html">GeomSpatialXline</a></code> </p>
         </td>
-        <td><p>Load longlake test data</p></td>
-      </tr><tr>
+        <td><p>Projected horizontal and vertical lines</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-coordinate-utilities" class="hasAnchor"><a href="#section-coordinate-utilities" class="anchor"></a>Coordinate utilities</h2>
+          <p class="section-desc"><p>Extract and project coordinates from spatial objects</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
-          <p><code><a href="north_arrow_orienteering.html">north_arrow_orienteering()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_fancy_orienteering()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_minimal()</a></code> <code><a href="north_arrow_orienteering.html">north_arrow_nautical()</a></code> </p>
+          <p><code><a href="df_spatial.html">df_spatial()</a></code> </p>
         </td>
-        <td><p>North arrow styles</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stat_spatial_identity.html">stat_spatial_identity()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_point()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_path()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_polygon()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_text()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_label()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_text_repel()</a></code> <code><a href="stat_spatial_identity.html">geom_spatial_label_repel()</a></code> </p>
-        </td>
-        <td><p>Spatial-aware ggplot2 layers</p></td>
+        <td><p>Create a ggplot-friendly data frame from a spatial object</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="xy_transform.html">xy_transform()</a></code> </p>
         </td>
         <td><p>Coordinate transform</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-example-data" class="hasAnchor"><a href="#section-example-data" class="anchor"></a>Example data</h2>
+          <p class="section-desc"><p>Data used to demonstrate and test this package</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="load_longlake_data.html">load_longlake_data()</a></code> </p>
+        </td>
+        <td><p>Load longlake test data</p></td>
       </tr>
     </tbody>
     </table>
@@ -234,7 +266,11 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-spatial-annotations">Spatial annotations</a></li>
+      <li><a href="#section-spatial-enabled-ggplot-geometries">Spatial-enabled ggplot2 geometries</a></li>
+      <li><a href="#section-layer-functions">Layer functions</a></li>
+      <li><a href="#section-coordinate-utilities">Coordinate utilities</a></li>
+      <li><a href="#section-example-data">Example data</a></li>
     </ul>
   </div>
 </div>
