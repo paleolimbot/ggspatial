@@ -1,2 +1,33 @@
 development:
   mode: auto
+
+reference:
+- title: Spatial annotations
+  desc: Useful annotations that are frequently found on maps
+  contents:
+  - annotation_north_arrow
+  - starts_with("north_arrow")
+  - fixed_plot_aspect
+  - annotation_scale
+- title: Spatial-enabled ggplot2 geometries
+  desc: Use coordinate data with `coord_sf()`
+  contents:
+  - starts_with("geom_spatial")
+  - starts_with("stat_spatial")
+  - geom_polypath
+- title: Layer functions
+  desc: Convert spatial objects to ggplo2 layers
+  contents:
+  - annotation_map_tile
+  - starts_with("layer_spatial")
+  - starts_with("annotation_spatial")
+  - starts_with("shadow_spatial")
+- title: Coordinate utilities
+  desc: Extract and project coordinates from spatial objects
+  contents:
+  - starts_with("df_spatial")
+  - xy_transform
+- title: Example data
+  desc: Data used to demonstrate and test this package
+  contents:
+  - contains("longlake")
