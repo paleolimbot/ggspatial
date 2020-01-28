@@ -1,4 +1,6 @@
 
+context("test-df-spatial-raster")
+
 test_that("Raster* objects are converted properly by df_spatial", {
   skip_if_not_installed("raster")
 
