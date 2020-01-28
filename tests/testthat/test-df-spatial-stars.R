@@ -12,8 +12,8 @@ test_that("stars objects are converted properly by df_spatial", {
   stars_rast_df <- df_spatial(stars_rast)
   stars_rgb_df <- df_spatial(stars_rgb)
 
-  expect_equal(colnames(stars_rast_df), c("x", "y", "band1"))
-  expect_equal(colnames(stars_rgb_df), c("x", "y", "band1", "band2", "band3"))
+  expect_equal(colnames(stars_rast_df), c("x", "y", "value_name", "band1"))
+  expect_equal(colnames(stars_rgb_df), c("x", "y", "value_name", "band1", "band2", "band3"))
 
   rast_rast_df <- df_spatial(longlake_depth_raster)
   rast_rgb_df <- df_spatial(longlake_osm)
