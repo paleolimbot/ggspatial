@@ -139,19 +139,19 @@ features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='load_longlake_data.html'>load_longlake_data</a></span>()
-<span class='fu'>df_spatial</span>(<span class='no'>longlake_osm</span>)</div><div class='output co'>#&gt; # A tibble: 260,463 x 6
-#&gt;          x        y band1 band2 band3 feature_id
-#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;      &lt;int&gt;
-#&gt;  1 409891. 5084849.   180   217   163          1
-#&gt;  2 409895. 5084849.   184   219   164          2
-#&gt;  3 409898. 5084849.   189   223   167          3
-#&gt;  4 409901. 5084849.   186   223   166          4
-#&gt;  5 409905. 5084849.   166   210   157          5
-#&gt;  6 409908. 5084849.   163   208   156          6
-#&gt;  7 409911. 5084849.   160   206   155          7
-#&gt;  8 409915. 5084849.   154   202   151          8
-#&gt;  9 409918. 5084849.   156   203   152          9
-#&gt; 10 409921. 5084849.   149   199   150         10
+<span class='fu'>df_spatial</span>(<span class='no'>longlake_osm</span>)</div><div class='output co'>#&gt; # A tibble: 260,463 x 5
+#&gt;          x        y band1 band2 band3
+#&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+#&gt;  1 409891. 5084849.   180   217   163
+#&gt;  2 409895. 5084849.   184   219   164
+#&gt;  3 409898. 5084849.   189   223   167
+#&gt;  4 409901. 5084849.   186   223   166
+#&gt;  5 409905. 5084849.   166   210   157
+#&gt;  6 409908. 5084849.   163   208   156
+#&gt;  7 409911. 5084849.   160   206   155
+#&gt;  8 409915. 5084849.   154   202   151
+#&gt;  9 409918. 5084849.   156   203   152
+#&gt; 10 409921. 5084849.   149   199   150
 #&gt; # … with 260,453 more rows</div><div class='input'><span class='fu'>df_spatial</span>(<span class='no'>longlake_depthdf</span>)</div><div class='output co'>#&gt; # A tibble: 64 x 10
 #&gt;          x      y feature_id part_id WAYPOINT_I   LAT   LON DEPTH NOTES  DEPTH_M
 #&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
