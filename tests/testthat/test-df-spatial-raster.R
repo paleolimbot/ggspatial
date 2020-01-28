@@ -52,10 +52,14 @@ test_that("x and y coordinates are exactly right for raster df", {
 })
 
 test_that("na.rm works on df_spatial.Raster()", {
-  load_longlake_data(which = "longlake_osm")
+  load_longlake_data(which = "longlake_osm", raster_format = "raster")
   df <- df_spatial(longlake_osm)
   expect_true(any(is.na(df$band1)))
+  expect_true(any(is.na(df$band2)))
+  expect_true(any(is.na(df$band3)))
 
   df_finite <- df_spatial(longlake_osm, na.rm = TRUE)
   expect_false(any(is.na(df_finite$band1)))
+  expect_false(any(is.na(df_finite$band2)))
+  expect_false(any(is.na(df_finite$band3)))
 })
