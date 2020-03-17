@@ -74,7 +74,7 @@
       <h1>Spatial objects using ggspatial and ggplot2</h1>
                         <h4 class="author">Dewey Dunnington</h4>
             
-            <h4 class="date">2020-01-28</h4>
+            <h4 class="date">2020-03-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd"><code>vignettes/ggspatial.Rmd</code></a></small>
       <div class="hidden name"><code>ggspatial.Rmd</code></div>
@@ -102,9 +102,9 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">annotation_spatial</a></span>(longlake_waterdf) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depthdf, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">col =</span> DEPTH_M))</a></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-2-1.png" width="750"></p>
-<p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code><a href="https://ggplot2.tidyverse.org/reference/stat.html">stat(band1)</a></code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
+<p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat(band1)</a></code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depth_raster, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">fill =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/stat.html">stat</a></span>(band1))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depth_raster, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">fill =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat</a></span>(band1))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span>(<span class="dt">na.value =</span> <span class="ot">NA</span>)</a></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" width="750"></p>
 </div>
