@@ -108,10 +108,10 @@ GeomNorthArrow <- ggplot2::ggproto(
       if((which_north == "true") && inherits(coordinates, "CoordSf")) {
         # calculate bearing from centre of map to the north pole?
         bounds <- c(
-          l = panel_params$x_range[1],
-          r = panel_params$x_range[2],
-          b = panel_params$y_range[1],
-          t = panel_params$y_range[2]
+          l = unname(panel_params$x_range[1]),
+          r = unname(panel_params$x_range[2]),
+          b = unname(panel_params$y_range[1]),
+          t = unname(panel_params$y_range[2])
         )
 
         rotation <- -1 * true_north(
