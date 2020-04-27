@@ -125,7 +125,7 @@ GeomMapTile <- ggplot2::ggproto(
       # because this involves a call to projectRaster(), it has to be wrapped in
       # suppressWarnings to avaoid the "no non-missing arguments to min; returning Inf" error
       raster <- suppressWarnings(
-          rosm::osm.raster(
+        rosm_raster(
           x = sp_bbox,
           zoomin = data[["zoomin"]][1],
           zoom = data[["zoom"]][1],
@@ -154,7 +154,7 @@ GeomMapTile <- ggplot2::ggproto(
     } else {
 
       # can use osm.image, which is much faster (and this is the most common case)
-      img <- rosm::osm.image(
+      img <- rosm_image(
         x = sp_bbox,
         zoomin = data[["zoomin"]][1],
         zoom = data[["zoom"]][1],
@@ -200,3 +200,12 @@ GeomMapTile <- ggplot2::ggproto(
   }
 )
 
+# the CMD check doesn't detect the call to
+# rosm in the ggproto object and complains
+rosm_image <- function(...) {
+  rosm::osm.image(...)
+}
+
+rosm_raster <- function(...) {
+  rosm::osm.raster(...)
+}
