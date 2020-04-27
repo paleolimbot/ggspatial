@@ -37,7 +37,7 @@ test_that("layer_spatial() works as intended", {
 test_that("3D sp data can be used with layer_spatial()", {
   spoints <- sp::SpatialPoints(
     matrix(c(0, 0, 1, 1, 1, 0), nrow = 2, byrow = TRUE),
-    proj4string = sp::CRS("+init=epsg:4326")
+    proj4string = sp::CRS("+proj=longlat +datum=WGS84 +no_defs +type=crs")
   )
   expect_silent(ggplot() + layer_spatial(spoints))
 })
