@@ -6,20 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spatial objects using ggspatial and ggplot2 • ggspatial</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Spatial objects using ggspatial and ggplot2">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="ggspatial">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,7 +53,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/paleolimbot/ggspatial">
+  <a href="https://github.com/paleolimbot/ggspatial/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -71,10 +71,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Spatial objects using ggspatial and ggplot2</h1>
+      <h1 data-toc-skip>Spatial objects using ggspatial and ggplot2</h1>
                         <h4 class="author">Dewey Dunnington</h4>
             
-            <h4 class="date">2020-03-18</h4>
+            <h4 class="date">2020-04-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd"><code>vignettes/ggspatial.Rmd</code></a></small>
       <div class="hidden name"><code>ggspatial.Rmd</code></div>
@@ -89,43 +89,43 @@
 <h2 class="hasAnchor">
 <a href="#sample-data" class="anchor"></a>Sample data</h2>
 <p>This vignette uses some data that was used in/collected for my honours thesis. The data is included as files within the package, and can be loaded using <code><a href="../reference/load_longlake_data.html">load_longlake_data()</a></code>. If you’re looking to read in some of your own data, you may be interested in <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::read_sf()</a></code> or <code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster::raster()</a></code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggspatial)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../reference/load_longlake_data.html">load_longlake_data</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggspatial</span>)
+<span class="fu"><a href="../reference/load_longlake_data.html">load_longlake_data</a></span>()</pre></body></html></div>
 </div>
 <div id="using-layer_spatial-and-annotation_spatial" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-layer_spatial-and-annotation_spatial" class="anchor"></a>Using <code>layer_spatial()</code> and <code>annotation_spatial()</code>
 </h2>
 <p>Any spatial layer can be added to a <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> using <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> (well, any object from the <strong>sf</strong>, <strong>sp</strong>, or <strong>raster</strong> packages…). These layers will train the scales, meaning they will be visible unless you explicitly set the X or Y scale limits. Unlike <code>geom_</code> or <code>stat_</code> functions, <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> always takes its data first. Aesthetics can be passed for most types of objects, the exception being RGB rasters, which are more like backround images than data that should be mapped to a scale. Unlike <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>, <code><a href="../reference/layer_spatial.html">annotation_spatial()</a></code> layers never train the scales, so they can be used as a backdrop for other layers.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">annotation_spatial</a></span>(longlake_waterdf) <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depthdf, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">col =</span> DEPTH_M))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
+  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span>(<span class="no">longlake_waterdf</span>) +
+  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(<span class="no">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">col</span> <span class="kw">=</span> <span class="no">DEPTH_M</span>))</pre></body></html></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-2-1.png" width="750"></p>
 <p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat(band1)</a></code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depth_raster, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">fill =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat</a></span>(band1))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span>(<span class="dt">na.value =</span> <span class="ot">NA</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
+  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(<span class="no">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat</a></span>(<span class="no">band1</span>))) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span>(<span class="kw">na.value</span> <span class="kw">=</span> <span class="fl">NA</span>)</pre></body></html></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" width="750"></p>
 </div>
 <div id="using-north-arrow-and-scalebar" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-north-arrow-and-scalebar" class="anchor"></a>Using north arrow and scalebar</h2>
 <p>North arrows are added using the <code><a href="../reference/annotation_north_arrow.html">annotation_north_arrow()</a></code> function, and scalebars can be added using <code><a href="../reference/annotation_scale.html">annotation_scale()</a></code>. These functions are “spatial-aware”, meaning they know where north is and what the distance is across the plot. Thus, they don’t need any arguments (unless you think the defaults aren’t pretty). There are two styles for scalebars and four styles for north arrows (see <code><a href="../reference/annotation_scale.html">?annotation_scale</a></code> and <code><a href="../reference/annotation_north_arrow.html">?annotation_north_arrow</a></code> for details).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">annotation_spatial</a></span>(longlake_waterdf) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depthdf, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">col =</span> DEPTH_M)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/annotation_scale.html">annotation_scale</a></span>(<span class="dt">location =</span> <span class="st">"tl"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/annotation_north_arrow.html">annotation_north_arrow</a></span>(<span class="dt">location =</span> <span class="st">"br"</span>, <span class="dt">which_north =</span> <span class="st">"true"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
+  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span>(<span class="no">longlake_waterdf</span>) +
+  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(<span class="no">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">col</span> <span class="kw">=</span> <span class="no">DEPTH_M</span>)) +
+  <span class="fu"><a href="../reference/annotation_scale.html">annotation_scale</a></span>(<span class="kw">location</span> <span class="kw">=</span> <span class="st">"tl"</span>) +
+  <span class="fu"><a href="../reference/annotation_north_arrow.html">annotation_north_arrow</a></span>(<span class="kw">location</span> <span class="kw">=</span> <span class="st">"br"</span>, <span class="kw">which_north</span> <span class="kw">=</span> <span class="st">"true"</span>)</pre></body></html></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-4-1.png" width="750"></p>
 </div>
 <div id="tile-map-layers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tile-map-layers" class="anchor"></a>Tile map layers</h2>
 <p>Using the <strong>rosm</strong> package, <strong>ggspatial</strong> can add tile layers from a few predefined tile sources (see <code><a href="https://rdrr.io/pkg/rosm/man/osm.types.html">rosm::osm.types()</a></code>), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code> (this defaults to the CRS of the first <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> or <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> layer that was added to the plot). It’s usually necessary to adjust the zoom to the right level when you know how the plot will be used…the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast. Use <code>progress = "none"</code> to suppress the messaging (particularly nice for use within RMarkdown).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span>(<span class="dt">type =</span> <span class="st">"osm"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(longlake_depthdf, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">col =</span> DEPTH_M))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
+  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span>(<span class="kw">type</span> <span class="kw">=</span> <span class="st">"osm"</span>) +
+  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span>(<span class="no">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">col</span> <span class="kw">=</span> <span class="no">DEPTH_M</span>))</pre></body></html></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-5-1.png" width="750"></p>
 <p>There are a number of url patterns available for tiles, although how they are formatted varies. The <strong>rosm</strong> package uses <code>${x}</code>, <code>${y}</code>, and <code>${z}</code> for the x, y , and zoom of the tile (or <code>${q}</code> for the quadkey, if you’re using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see <a href="https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/">this blog post</a>, and for a number of other tile sources that are less open you’ll have to dig around yourself. Bing Virtual Earth is a particularly good one (<code>type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"</code>).</p>
 </div>
@@ -133,35 +133,39 @@
 <h2 class="hasAnchor">
 <a href="#data-frames-with-coordinates" class="anchor"></a>Data frames with coordinates</h2>
 <p>Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In <strong>ggspatial</strong> you can use <code><a href="../reference/df_spatial.html">df_spatial()</a></code> to get a spatial object into a data frame with coordinate columms. Conversely, you can use a data frame with coordinate columns in <code>geom_spatial_*</code> functions to use these data with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code>/<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code>/<code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. The <code><a href="../reference/stat_spatial_identity.html">geom_spatial_point()</a></code> (wrapping <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>) and <code><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel()</a></code> (wrapping <code>geom_label_repel()</code> from the <strong>ggrepel</strong> package) functions are the most commonly used in this situation. For example, a polar perspective on two cities across the world from eachother could look like this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cities &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">63.58595</span>, <span class="fl">116.41214</span>), </a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">44.64862</span>, <span class="fl">40.19063</span>), </a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">city =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Halifax"</span>, <span class="st">"Beijing"</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(cities, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x, y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span>(<span class="dt">type =</span> <span class="st">"stamenwatercolor"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="../reference/stat_spatial_identity.html">geom_spatial_point</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">label =</span> city), <span class="dt">box.padding =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span>(<span class="dt">crs =</span> <span class="dv">3995</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">cities</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">63.58595</span>, <span class="fl">116.41214</span>),
+  <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">44.64862</span>, <span class="fl">40.19063</span>),
+  <span class="kw">city</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Halifax"</span>, <span class="st">"Beijing"</span>)
+)
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">cities</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>, <span class="no">y</span>)) +
+  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span>(<span class="kw">type</span> <span class="kw">=</span> <span class="st">"stamenwatercolor"</span>) +
+  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_point</a></span>() +
+  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">label</span> <span class="kw">=</span> <span class="no">city</span>), <span class="kw">box.padding</span> <span class="kw">=</span> <span class="fl">1</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span>(<span class="kw">crs</span> <span class="kw">=</span> <span class="fl">3995</span>)</pre></body></html></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-6-1.png" width="750"></p>
+<pre><code>## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#sample-data">Sample data</a></li>
-      <li><a href="#using-layer_spatial-and-annotation_spatial">Using <code>layer_spatial()</code> and <code>annotation_spatial()</code></a></li>
-      <li><a href="#using-north-arrow-and-scalebar">Using north arrow and scalebar</a></li>
-      <li><a href="#tile-map-layers">Tile map layers</a></li>
-      <li><a href="#data-frames-with-coordinates">Data frames with coordinates</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -172,7 +176,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
