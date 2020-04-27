@@ -13,3 +13,4 @@
 ^vignettes/articles$
 ^\.github$
 ^vignettes$
+^tests/figs$
