@@ -5,7 +5,9 @@
 \alias{annotation_map_tile}
 \alias{GeomMapTile}
 \title{Add background OSM tiles}
-\format{An object of class \code{GeomMapTile} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
+\format{
+An object of class \code{GeomMapTile} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 annotation_map_tile(
   type = "osm",

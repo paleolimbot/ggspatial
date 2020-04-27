@@ -7,7 +7,11 @@
 \alias{StatSpatialRect}
 \alias{StatSpatialTile}
 \title{Projected rectangular regions}
-\format{An object of class \code{StatSpatialRect} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.}
+\format{
+An object of class \code{StatSpatialRect} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
+
+An object of class \code{StatSpatialTile} (inherits from \code{StatSpatialRect}, \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
+}
 \usage{
 geom_spatial_rect(
   mapping = NULL,

@@ -6,7 +6,9 @@
 \alias{annotation_spatial_vline}
 \alias{GeomSpatialXline}
 \title{Projected horizontal and vertical lines}
-\format{An object of class \code{GeomSpatialXline} (inherits from \code{GeomHline}, \code{Geom}, \code{ggproto}, \code{gg}) of length 4.}
+\format{
+An object of class \code{GeomSpatialXline} (inherits from \code{GeomHline}, \code{Geom}, \code{ggproto}, \code{gg}) of length 4.
+}
 \usage{
 annotation_spatial_hline(
   mapping = NULL,

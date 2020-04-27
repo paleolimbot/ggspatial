@@ -46,7 +46,7 @@ Suggests:
 URL: https://paleolimbot.github.io/ggspatial, https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.0
 Encoding: UTF-8
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

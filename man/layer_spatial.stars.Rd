@@ -9,7 +9,15 @@
 \alias{StatSpatialStarsDf}
 \alias{GeomSpatialStars}
 \title{Spatial ggplot2 layer for stars objects}
-\format{An object of class \code{StatSpatialStars} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.}
+\format{
+An object of class \code{StatSpatialStars} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSpatialStars} (inherits from \code{StatSpatialStars}, \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSpatialStarsDf} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 5.
+
+An object of class \code{GeomSpatialStars} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 \method{layer_spatial}{stars}(
   data,

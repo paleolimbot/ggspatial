@@ -5,7 +5,9 @@
 \alias{annotation_scale}
 \alias{GeomScaleBar}
 \title{Spatial-aware scalebar annotation}
-\format{An object of class \code{GeomScaleBar} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
+\format{
+An object of class \code{GeomScaleBar} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 annotation_scale(
   mapping = NULL,

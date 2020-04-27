@@ -9,7 +9,15 @@
 \alias{StatSpatialRasterDf}
 \alias{GeomSpatialRaster}
 \title{Spatial ggplot2 layer for raster objects}
-\format{An object of class \code{StatSpatialRaster} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.}
+\format{
+An object of class \code{StatSpatialRaster} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSpatialRaster} (inherits from \code{StatSpatialRaster}, \code{Stat}, \code{ggproto}, \code{gg}) of length 3.
+
+An object of class \code{StatSpatialRasterDf} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 5.
+
+An object of class \code{GeomSpatialRaster} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 \method{layer_spatial}{Raster}(
   data,

@@ -5,7 +5,9 @@
 \alias{annotation_north_arrow}
 \alias{GeomNorthArrow}
 \title{Spatial-aware north arrow}
-\format{An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.}
+\format{
+An object of class \code{GeomNorthArrow} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 annotation_north_arrow(
   mapping = NULL,
