@@ -2,11 +2,6 @@
 title: "Spatial objects using ggspatial and ggplot2"
 author: "Dewey Dunnington"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{ggspatial}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
