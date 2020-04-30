@@ -41,3 +41,21 @@ test_that("df_spatial() works with sp objects", {
     df_polygons[c("x", "y", "feature_id", "part_id", "piece_id")]
   )
 })
+
+test_that("df_spatial() works with sp objects where column names are duplicated", {
+  skip_if_not_installed("sp")
+
+  spdf <- sp::SpatialPointsDataFrame(
+    expand.grid(x = c(30, 60), y = c(40, 70)), data = data.frame(feat_name = 1:4)
+  )
+
+  expect_identical(
+    df_spatial(spdf),
+    tibble::tibble(
+      !!!expand.grid(x = c(30, 60), y = c(40, 70)),
+      feature_id = 1:4,
+      part_id = 1L,
+      feat_name = 1:4
+    )
+  )
+})
