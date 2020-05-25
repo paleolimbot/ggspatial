@@ -41,9 +41,10 @@ test_that("north arrow math is correct", {
 
   crs_points$north_angle <- mapply(true_north, crs_points$X, crs_points$Y, crs = 26920)
 
-  expect_true(all(crs_points$north_angle[c(1, 2, 3)] == 0))
+  expect_true(all(abs(crs_points$north_angle[c(1, 2, 3)]) < 1e-3))
   expect_true(all(crs_points$north_angle[c(4, 5, 6)] > 0))
-  expect_equal(sum(crs_points$north_angle[c(4, 5, 6)], crs_points$north_angle[c(7, 8, 9)]), 0)
+  expect_true(
+    abs(sum(crs_points$north_angle[c(4, 5, 6)], crs_points$north_angle[c(7, 8, 9)])) < 1e-3)
 })
 
 test_that("true north arrow points in the right direction", {
