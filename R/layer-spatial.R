@@ -1,6 +1,9 @@
 
 #' Turn a spatial object into a ggplot2 layer
 #'
+#' See also [layer_spatial.Raster()], [layer_spatial.stars()], and [layer_spatial.bbox()]
+#' for implementations for other types of spatial objects.
+#'
 #' @param data An object that can be coerced to an sf object using [st_as_sf][sf::st_as_sf].
 #' @param mapping A mapping, created using [aes][ggplot2::aes].
 #' @param sf_params Passed to [st_as_sf][sf::st_as_sf].

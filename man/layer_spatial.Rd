@@ -48,7 +48,8 @@ shadow_spatial(data, ...)
 A ggplot2 \link[ggplot2:layer]{layer}.
 }
 \description{
-Turn a spatial object into a ggplot2 layer
+See also \code{\link[=layer_spatial.Raster]{layer_spatial.Raster()}}, \code{\link[=layer_spatial.stars]{layer_spatial.stars()}}, and \code{\link[=layer_spatial.bbox]{layer_spatial.bbox()}}
+for implementations for other types of spatial objects.
 }
 \examples{
 library(ggplot2)
