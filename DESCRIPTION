@@ -27,8 +27,7 @@ Imports:
     tidyr,
     rlang,
     grid,
-    glue,
-    lwgeom
+    glue
 Suggests:
     prettymapr,
     knitr,
@@ -42,7 +41,8 @@ Suggests:
     ggrepel,
     stars,
     covr,
-    vdiffr
+    vdiffr,
+    lwgeom
 URL: https://paleolimbot.github.io/ggspatial, https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
