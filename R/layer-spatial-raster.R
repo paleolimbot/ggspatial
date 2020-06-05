@@ -187,7 +187,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
       if(!is.null(coord_crs)) {
         data$raster <- lapply(
           data$raster,
-          function(...) suppressWarnings(raster::projectRaster(...)),
+          project_raster_lazy,
           crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
         )
       } else {
@@ -353,11 +353,9 @@ raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
     # raster::projectRaster has very odd behaviour...it outputs the warning
     # "no non-missing arguments to max; returning -Inf"
     # but only when run with a calling handler
-    rst <- suppressWarnings(
-        raster::projectRaster(
-          rst,
-          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
-      )
+    rst <- project_raster_lazy(
+      rst,
+      crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
     )
   } else if(!is.null(template_raster)) {
     # resample (& crop?)
@@ -470,6 +468,14 @@ panel_params_as_bbox <- function(panel_params) {
   )
 
   structure(data, crs = sf::st_crs(panel_params$crs), class = "bbox")
+}
+
+project_raster_lazy <- function(x, crs, ...) {
+  if (sf::st_crs(crs) != sf::st_crs(x)) {
+    suppressWarnings(raster::projectRaster(x, crs = crs, ...))
+  } else {
+    x
+  }
 }
 
 # need a way to get an extent to an sf::st_polygon
