@@ -30,7 +30,7 @@ df_spatial.sfc_LINESTRING <- function(x, ...) {
 #' @export
 df_spatial.sfc_MULTILINESTRING <- function(x, ...) {
   df <- tibble::as_tibble(sf::st_coordinates(x))
-  names(df) <- gsub("^l2$", "part_id", gsub("^l1$", "feature_id", tolower(names(df))))
+  names(df) <- gsub("^l2$", "feature_id", gsub("^l1$", "part_id", tolower(names(df))))
   df$feature_id <- as.integer(df$feature_id)
   df$part_id <- as.integer(df$part_id)
   df

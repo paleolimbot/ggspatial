@@ -35,16 +35,16 @@ test_that("north arrow math is correct", {
 
     crs = 4326
   ) %>%
-    sf::st_transform(26920) %>%
+    sf::st_transform(32620) %>%
     sf::st_coordinates() %>%
     as.data.frame()
 
-  crs_points$north_angle <- mapply(true_north, crs_points$X, crs_points$Y, crs = 26920)
+  crs_points$north_angle <- mapply(true_north, crs_points$X, crs_points$Y, crs = 32620)
 
-  expect_true(all(abs(crs_points$north_angle[c(1, 2, 3)]) < 1e-3))
+  expect_true(all(abs(crs_points$north_angle[c(1, 2, 3)]) < 1e-1))
   expect_true(all(crs_points$north_angle[c(4, 5, 6)] > 0))
   expect_true(
-    abs(sum(crs_points$north_angle[c(4, 5, 6)], crs_points$north_angle[c(7, 8, 9)])) < 1e-3)
+    abs(sum(crs_points$north_angle[c(4, 5, 6)], crs_points$north_angle[c(7, 8, 9)])) < 1e-1)
 })
 
 test_that("true north arrow points in the right direction", {

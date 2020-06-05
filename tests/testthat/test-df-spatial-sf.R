@@ -66,7 +66,7 @@ test_that("df_spatial() works with sf objects", {
   expect_is(df_multilines$part_id, "integer")
 
   df_multilines_sfc <- expect_df_spatial(multilines_sf$geometry, c("z", "part_id"))
-  expect_identical(df_multilines_sfc, df_multilines[c("x", "y", "z", "feature_id", "part_id")])
+  expect_identical(df_multilines_sfc, df_multilines[c("x", "y", "z", "part_id", "feature_id")])
 
   vdiffr::expect_doppelganger(
     "df_spatial(), multilinestring",
