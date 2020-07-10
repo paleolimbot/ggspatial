@@ -37,11 +37,11 @@ StatSpatialSegment
 \item{crs}{The crs of the x and y aesthetics, or NULL to use default lon/lat
 crs (with a message).}
 
-\item{detail}{Passed to \code{\link[sf:st_segmentize]{sf::st_segmentize()}}: the number of line segments
+\item{detail}{Passed to \code{\link[sf:geos_unary]{sf::st_segmentize()}}: the number of line segments
 per quadrant of the bounding box. Increase this number for a smoother
 projected bounding box.}
 
-\item{great_circle}{If \code{TRUE}, use \code{\link[lwgeom:st_geod_segmentize]{lwgeom::st_geod_segmentize()}}
+\item{great_circle}{If \code{TRUE}, use \code{\link[lwgeom:geod]{lwgeom::st_geod_segmentize()}}
 to connect the (x, y) and (xend, yend) with the shortest possible
 great circle along the earth.}
 

@@ -38,7 +38,7 @@ shadow_spatial(data, ...)
 
 \item{mapping}{A mapping, created using \link[ggplot2:aes]{aes}.}
 
-\item{...}{Passed to \link[ggplot2:geom_sf]{geom_sf}}
+\item{...}{Passed to \link[ggplot2:ggsf]{geom_sf}}
 
 \item{inherit.aes}{Inherit aesthetics from ggplot()?}
 

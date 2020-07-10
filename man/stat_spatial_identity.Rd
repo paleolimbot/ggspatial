@@ -59,7 +59,7 @@ A \code{\link[ggplot2:layer]{ggplot2::layer()}}.
 These layers are much like their counterparts, \link[ggplot2:stat_identity]{stat_identity},
 \link[ggplot2:geom_point]{geom_point}, \link[ggplot2:geom_path]{geom_path},
 and \link[ggplot2:geom_polygon]{geom_polygon}, except they have a \code{crs} argument that
-ensures they are projected when using \link[ggplot2:coord_sf]{coord_sf}. Stats are applied to the x and y coordinates
+ensures they are projected when using \link[ggplot2:ggsf]{coord_sf}. Stats are applied to the x and y coordinates
 that have been transformed.
 }
 \examples{

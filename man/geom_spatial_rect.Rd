@@ -51,7 +51,7 @@ StatSpatialTile
 \item{crs}{The crs of the x and y aesthetics, or NULL to use default lon/lat
 crs (with a message).}
 
-\item{detail}{Passed to \code{\link[sf:st_segmentize]{sf::st_segmentize()}}: the number of line segments
+\item{detail}{Passed to \code{\link[sf:geos_unary]{sf::st_segmentize()}}: the number of line segments
 per quadrant of the bounding box. Increase this number for a smoother
 projected bounding box.}
 
@@ -66,7 +66,7 @@ projected bounding box.}
 \description{
 If you need to plot a \code{\link[sf:st_bbox]{sf::st_bbox()}}, use \code{\link[=layer_spatial]{layer_spatial()}} instead.
 While the implementation is slightly differrent, these functions are
-intended to behave identically to \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}} and
+intended to behave identically to \code{\link[ggplot2:geom_tile]{ggplot2::geom_rect()}} and
 \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile()}}.
 }
 \examples{

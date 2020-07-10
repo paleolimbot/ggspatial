@@ -17,9 +17,9 @@
 
 \item{mapping}{A mapping, created using \link[ggplot2:aes]{aes}.}
 
-\item{...}{Passed to \link[ggplot2:geom_sf]{geom_sf}}
+\item{...}{Passed to \link[ggplot2:ggsf]{geom_sf}}
 
-\item{detail}{Passed to \code{\link[sf:st_segmentize]{sf::st_segmentize()}}: the number of line segments
+\item{detail}{Passed to \code{\link[sf:geos_unary]{sf::st_segmentize()}}: the number of line segments
 per quadrant of the bounding box. Increase this number for a smoother
 projected bounding box.}
 }

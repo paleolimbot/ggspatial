@@ -16,7 +16,7 @@ A \code{\link[ggplot2:layer]{ggplot2::layer()}} that can be added to  a \code{\l
 When using a fixed-aspect coordinate system, \code{\link[=fixed_plot_aspect]{fixed_plot_aspect()}} expands
 either the width or height of the plot to ensure that the output
 has dimensions that make sense. This is a useful workaround for
-getting reasonable-shaped plots when using \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf()}}
+getting reasonable-shaped plots when using \code{\link[ggplot2:ggsf]{ggplot2::coord_sf()}}
 or \code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed()}} when the data happen to be
 aligned vertically or horizontally.
 }
