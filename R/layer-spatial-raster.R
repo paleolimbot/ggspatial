@@ -437,7 +437,7 @@ project_extent <- function(xmin, ymin, xmax, ymax,
                            n = 50) {
   format <- match.arg(format)
 
-  proj_grid <- sf_bbox_to_sf(
+  proj_grid_poly <- sf_bbox_to_sf(
     sf::st_bbox(
       stats::setNames(
         c(xmin, ymin, xmax, ymax),
@@ -445,8 +445,9 @@ project_extent <- function(xmin, ymin, xmax, ymax,
       ),
       crs = from_crs
     ),
-    detail = n
+    detail = NULL
   )
+  proj_grid <- sf::st_make_grid(proj_grid_poly, n = n, what = "corners")
   out_grid <- sf::st_transform(proj_grid, crs = to_crs)
   out_bbox <- sf::st_bbox(out_grid)
 
