@@ -22,7 +22,7 @@
 #' ggplot() + layer_spatial(longlake_osm)
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
 #'
-layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE,
+layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
                                  lazy = FALSE, dpi = 150, ...) {
 
 
@@ -59,8 +59,12 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
       stat = stat,
       geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = !is_rgb,
-      params = list(interpolate = interpolate, lazy = lazy, ...)
+      inherit.aes = FALSE, show.legend = if (is_rgb) FALSE else NA,
+      params = list(
+        interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
+        lazy = lazy,
+        ...
+      )
     ),
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
@@ -74,7 +78,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, is_an
 
 #' @rdname layer_spatial.Raster
 #' @export
-annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, ...) {
   layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
 }
 
@@ -216,7 +220,7 @@ GeomSpatialRaster <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE, lazy = FALSE, dpi = 150,
+  draw_panel = function(data, panel_params, coordinates, interpolate = FALSE, lazy = FALSE, dpi = 150,
                         max_pixel_scale = 1) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs

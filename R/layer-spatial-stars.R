@@ -17,7 +17,7 @@
 #' @return A ggplot2 layer
 #' @export
 #'
-layer_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, is_annotation = FALSE,
+layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
                                 lazy = FALSE, dpi = 150, options = character(0), ...) {
 
   dims <- stars::st_dimensions(data)
@@ -54,8 +54,13 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, is_ann
       stat = stat,
       geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = !is_rgb,
-      params = list(interpolate = interpolate, lazy = lazy, options = options, ...)
+      inherit.aes = FALSE, show.legend = if (is_rgb) FALSE else NA,
+      params = list(
+        interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
+        lazy = lazy,
+        options = options,
+        ...
+      )
     ),
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
