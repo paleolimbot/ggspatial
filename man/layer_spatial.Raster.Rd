@@ -22,14 +22,14 @@ An object of class \code{GeomSpatialRaster} (inherits from \code{Geom}, \code{gg
 \method{layer_spatial}{Raster}(
   data,
   mapping = NULL,
-  interpolate = TRUE,
+  interpolate = NULL,
   is_annotation = FALSE,
   lazy = FALSE,
   dpi = 150,
   ...
 )
 
-\method{annotation_spatial}{Raster}(data, mapping = NULL, interpolate = TRUE, ...)
+\method{annotation_spatial}{Raster}(data, mapping = NULL, interpolate = NULL, ...)
 
 StatSpatialRaster
 

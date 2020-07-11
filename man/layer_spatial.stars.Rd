@@ -22,7 +22,7 @@ An object of class \code{GeomSpatialStars} (inherits from \code{Geom}, \code{ggp
 \method{layer_spatial}{stars}(
   data,
   mapping = NULL,
-  interpolate = TRUE,
+  interpolate = NULL,
   is_annotation = FALSE,
   lazy = FALSE,
   dpi = 150,
