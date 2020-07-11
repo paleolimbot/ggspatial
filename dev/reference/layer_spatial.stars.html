@@ -73,7 +73,7 @@ bands as if they were columns, use df_spatial and geom_raster." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.2.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.3.9000</span>
       </span>
     </div>
 
@@ -119,31 +119,31 @@ bands as if they were columns, use df_spatial and geom_raster." />
 
     <div class="ref-description">
     <p>This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-bands as if they were columns, use <a href='df_spatial.html'>df_spatial</a> and geom_raster.</p>
+bands as if they were columns, use <a href='https://rdrr.io/pkg/ggspatial/man/df_spatial.html'>df_spatial</a> and <a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_raster</a>.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for stars</span>
-<span class='fu'><a href='layer_spatial.html'>layer_spatial</a></span>(
-  <span class='no'>data</span>,
-  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>is_annotation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>lazy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>150</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
-  <span class='no'>...</span>
+<span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/layer_spatial.html'>layer_spatial</a></span>(
+  <span class='kw'>data</span>,
+  mapping = <span class='kw'>NULL</span>,
+  interpolate = <span class='fl'>TRUE</span>,
+  is_annotation = <span class='fl'>FALSE</span>,
+  lazy = <span class='fl'>FALSE</span>,
+  dpi = <span class='fl'>150</span>,
+  options = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
+  <span class='kw'>...</span>
 )
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'><a href='layer_spatial.html'>annotation_spatial</a></span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/layer_spatial.html'>annotation_spatial</a></span>(<span class='kw'>data</span>, mapping = <span class='kw'>NULL</span>, interpolate = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
-<span class='no'>StatSpatialStars</span>
+<span class='kw'>StatSpatialStars</span>
 
-<span class='no'>StatSpatialStarsAnnotation</span>
+<span class='kw'>StatSpatialStarsAnnotation</span>
 
-<span class='no'>StatSpatialStarsDf</span>
+<span class='kw'>StatSpatialStarsDf</span>
 
-<span class='no'>GeomSpatialStars</span></pre>
+<span class='kw'>GeomSpatialStars</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
