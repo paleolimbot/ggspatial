@@ -439,7 +439,10 @@ project_extent <- function(xmin, ymin, xmax, ymax,
 
   proj_grid <- sf_bbox_to_sf(
     sf::st_bbox(
-      c(xmin, ymin, xmax, ymax),
+      stats::setNames(
+        c(xmin, ymin, xmax, ymax),
+        c("xmin", "ymin", "xmax", "ymax")
+      ),
       crs = from_crs
     ),
     detail = n
