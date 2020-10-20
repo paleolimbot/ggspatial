@@ -79,12 +79,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/ggspatial.html">Get started</a>
 </li>
 <li>
@@ -120,24 +114,24 @@
     <p>Spatial-aware scalebar annotation</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/annotation_scale.html'>annotation_scale</a></span>(
-  mapping = <span class='kw'>NULL</span>,
-  data = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>,
-  plot_unit = <span class='kw'>NULL</span>,
-  bar_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"white"</span>),
-  line_width = <span class='fl'>1</span>,
-  height = <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span>(<span class='fl'>0.25</span>, <span class='st'>"cm"</span>),
-  pad_x = <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span>(<span class='fl'>0.25</span>, <span class='st'>"cm"</span>),
-  pad_y = <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span>(<span class='fl'>0.25</span>, <span class='st'>"cm"</span>),
-  text_pad = <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span>(<span class='fl'>0.15</span>, <span class='st'>"cm"</span>),
-  text_cex = <span class='fl'>0.7</span>,
-  text_face = <span class='kw'>NULL</span>,
-  text_family = <span class='st'>""</span>,
-  tick_height = <span class='fl'>0.6</span>
-)
+    <pre class="usage"><span class='fu'>annotation_scale</span><span class='op'>(</span>
+  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  plot_unit <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bar_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='st'>"white"</span><span class='op'>)</span>,
+  line_width <span class='op'>=</span> <span class='fl'>1</span>,
+  height <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='st'>"cm"</span><span class='op'>)</span>,
+  pad_x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='st'>"cm"</span><span class='op'>)</span>,
+  pad_y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='st'>"cm"</span><span class='op'>)</span>,
+  text_pad <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>0.15</span>, <span class='st'>"cm"</span><span class='op'>)</span>,
+  text_cex <span class='op'>=</span> <span class='fl'>0.7</span>,
+  text_face <span class='op'>=</span> <span class='cn'>NULL</span>,
+  text_family <span class='op'>=</span> <span class='st'>""</span>,
+  tick_height <span class='op'>=</span> <span class='fl'>0.6</span>
+<span class='op'>)</span>
 
-<span class='kw'>GeomScaleBar</span></pre>
+<span class='va'>GeomScaleBar</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,16 +194,18 @@ Otherwise, just pass them as arguments to <code>annotation_scale</code>.</p><ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>cities</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>63.58595</span>, <span class='fl'>116.41214</span>),
-  y = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.64862</span>, <span class='fl'>40.19063</span>),
-  city = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Halifax"</span>, <span class='st'>"Beijing"</span>)
-)
+    <pre class="examples"><div class='input'><span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>63.58595</span>, <span class='fl'>116.41214</span><span class='op'>)</span>,
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.64862</span>, <span class='fl'>40.19063</span><span class='op'>)</span>,
+  city <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Halifax"</span>, <span class='st'>"Beijing"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>cities</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/stat_spatial_identity.html'>geom_spatial_point</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>), crs = <span class='fl'>4326</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/annotation_scale.html'>annotation_scale</a></span>() <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span>(crs = <span class='fl'>3995</span>)</div><div class='img'><img src='annotation_scale-1.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>cities</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='stat_spatial_identity.html'>geom_spatial_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>annotation_scale</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>3995</span><span class='op'>)</span>
+</div><div class='img'><img src='annotation_scale-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -225,7 +221,7 @@ Otherwise, just pass them as arguments to <code>annotation_scale</code>.</p><ul>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

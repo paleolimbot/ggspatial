@@ -84,12 +84,6 @@ aligned vertically or horizontally." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/ggspatial.html">Get started</a>
 </li>
 <li>
@@ -122,7 +116,7 @@ aligned vertically or horizontally." />
     </div>
 
     <div class="ref-description">
-    <p>When using a fixed-aspect coordinate system, <code><a href='https://rdrr.io/pkg/ggspatial/man/fixed_plot_aspect.html'>fixed_plot_aspect()</a></code> expands
+    <p>When using a fixed-aspect coordinate system, <code>fixed_plot_aspect()</code> expands
 either the width or height of the plot to ensure that the output
 has dimensions that make sense. This is a useful workaround for
 getting reasonable-shaped plots when using <code><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>ggplot2::coord_sf()</a></code>
@@ -130,7 +124,7 @@ or <code><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>ggpl
 aligned vertically or horizontally.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/fixed_plot_aspect.html'>fixed_plot_aspect</a></span>(ratio = <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>fixed_plot_aspect</span><span class='op'>(</span>ratio <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,12 +140,14 @@ aligned vertically or horizontally.</p>
     <p>A <code><a href='https://ggplot2.tidyverse.org/reference/layer.html'>ggplot2::layer()</a></code> that can be added to  a <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x =  <span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, y =  <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>10</span>, length.out = <span class='fl'>6</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggspatial/man/fixed_plot_aspect.html'>fixed_plot_aspect</a></span>(ratio = <span class='fl'>1</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>coord_fixed</a></span>()</div><div class='img'><img src='fixed_plot_aspect-1.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span>  <span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>, y <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, length.out <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>fixed_plot_aspect</span><span class='op'>(</span>ratio <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>coord_fixed</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='img'><img src='fixed_plot_aspect-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -167,7 +163,7 @@ aligned vertically or horizontally.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
