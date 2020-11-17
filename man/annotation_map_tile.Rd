@@ -42,7 +42,7 @@ increase the resolution.}
 
 \item{quiet}{Use \code{quiet = FALSE} to see which URLs are downloaded}
 
-\item{interpolate}{Passed to \code{\link[grid:rasterGrob]{grid::rasterGrob()}}}
+\item{interpolate}{Passed to \code{\link[grid:grid.raster]{grid::rasterGrob()}}}
 
 \item{data, mapping}{Specify data and mapping to use this geom with facets}
 
