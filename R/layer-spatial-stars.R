@@ -74,7 +74,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
 
 #' @rdname layer_spatial.stars
 #' @export
-annotation_spatial.stars <- function(data, mapping = NULL, interpolate = TRUE, ...) {
+annotation_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, ...) {
   layer_spatial.stars(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
 }
 
@@ -293,31 +293,49 @@ raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params, te
     coord_crs <- sf::st_crs(rst)
   }
 
-  # this is required for stars::st_warp
   if(is.null(template_raster)) {
-    new_dim <- dim(rst)
-    new_dim[1] <- width_px
-    new_dim[2] <- height_px
-
-    template_raster <- stars::st_as_stars(
-      dimensions = stars::st_dimensions(
-        x = seq(panel_params$x_range[1], panel_params$x_range[2], length.out = width_px),
-        y = seq(panel_params$y_range[1], panel_params$y_range[2], length.out = height_px),
-        band = seq_len(new_dim[3])
-      )
+    warp_options <- c(
+      "-t_srs",  sf::st_crs(coord_crs)$Wkt,
+      "-te", panel_params$x_range[1], panel_params$y_range[1],
+             panel_params$x_range[2], panel_params$y_range[2],
+      "-tr", diff(panel_params$x_range) / width_px,
+             diff(panel_params$y_range) / height_px
     )
-
-    sf::st_crs(template_raster) <- sf::st_crs(coord_crs)
+  } else {
+    warp_options <- c(
+      "-t_srs",  sf::st_crs(template_raster)$Wkt,
+      "-te", unname(as.numeric(sf::st_bbox(template_raster))),
+      "-tr", diff(stars::st_get_dimension_values(template_raster, "x")[1:2]) / width_px,
+             diff(stars::st_get_dimension_values(template_raster, "y")[1:2]) / height_px
+    )
   }
 
-  rst <- stars::st_warp(rst, dest = template_raster, options = options)
+  if (interpolate) {
+    warp_options <- c(warp_options, "-r", "bilinear")
+  } else {
+    warp_options <- c(warp_options, "-r", "near")
+  }
+
+  in_file <- tempfile(fileext = ".tif")
+  out_file <- tempfile(fileext = ".tif")
+  on.exit(unlink(c(in_file, out_file)))
+  stars::write_stars(rst, in_file)
+
+  sf::gdal_utils(
+    "warp",
+    source = in_file,
+    destination = out_file,
+    options = c(warp_options, options, "-dstnodata", rst[[1]][NA_integer_])
+  )
+
+  rst <- stars::read_stars(out_file)
 
   ext <- sf::st_bbox(rst)
   corners <- data.frame(x = c(ext["xmin"], ext["xmax"]), y = c(ext["ymin"], ext["ymax"]))
   corners_trans <- coordinates$transform(corners, panel_params)
 
   x_rng <- range(corners_trans$x, na.rm = TRUE)
-  y_rng <- range(corners_trans$y, na.rm = TRUE)
+  y_rng <- rev(range(corners_trans$y, na.rm = TRUE))
 
   grid::rasterGrob(
     stars_as_array(rst, alpha = alpha),

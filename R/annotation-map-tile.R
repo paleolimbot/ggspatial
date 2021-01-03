@@ -6,7 +6,7 @@
 #' (e.g., "Copyright OpenStreetMap contributors" when using an
 #' OpenStreetMap-based tile set).
 #'
-#' @param type The map type
+#' @param type The map type (one of that returned by [rosm::osm.types])
 #' @param zoom The zoom level (overrides zoomin)
 #' @param zoomin Delta on default zoom. The default value is designed
 #'   to download fewer tiles than you probably want. Use `-1` or `0` to

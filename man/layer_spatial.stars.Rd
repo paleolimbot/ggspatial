@@ -30,7 +30,7 @@ An object of class \code{GeomSpatialStars} (inherits from \code{Geom}, \code{ggp
   ...
 )
 
-\method{annotation_spatial}{stars}(data, mapping = NULL, interpolate = TRUE, ...)
+\method{annotation_spatial}{stars}(data, mapping = NULL, interpolate = NULL, ...)
 
 StatSpatialStars
 

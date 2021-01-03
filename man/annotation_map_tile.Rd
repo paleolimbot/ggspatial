@@ -26,7 +26,7 @@ annotation_map_tile(
 GeomMapTile
 }
 \arguments{
-\item{type}{The map type}
+\item{type}{The map type (one of that returned by \link[rosm:osm.types]{rosm::osm.types})}
 
 \item{zoom}{The zoom level (overrides zoomin)}
 
