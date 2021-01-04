@@ -14,3 +14,4 @@
 ^\.github$
 ^vignettes$
 ^tests/figs$
+^cran-comments\.md$
