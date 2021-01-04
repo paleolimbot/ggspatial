@@ -75,19 +75,13 @@ that the earth is round." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/ggspatial.html">Get started</a>
 </li>
 <li>
@@ -97,7 +91,7 @@ that the earth is round." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/paleolimbot/ggspatial/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,23 +120,23 @@ intended to behave identically to <code><a href='https://ggplot2.tidyverse.org/r
 that the earth is round.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geom_spatial_segment</span>(
-  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>detail</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/waiver.html'>waiver</a></span>(),
-  <span class='kw'>great_circle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>wrap_dateline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>arrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lineend</span> <span class='kw'>=</span> <span class='st'>"butt"</span>,
-  <span class='kw'>linejoin</span> <span class='kw'>=</span> <span class='st'>"round"</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
+    <pre class="usage"><span class='fu'>geom_spatial_segment</span><span class='op'>(</span>
+  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  crs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  detail <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/waiver.html'>waiver</a></span><span class='op'>(</span><span class='op'>)</span>,
+  great_circle <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  wrap_dateline <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  arrow <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lineend <span class='op'>=</span> <span class='st'>"butt"</span>,
+  linejoin <span class='op'>=</span> <span class='st'>"round"</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>NA</span>,
+  inherit.aes <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
-<span class='no'>StatSpatialSegment</span></pre>
+<span class='va'>StatSpatialSegment</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,7 +160,7 @@ crs (with a message).</p></td>
     </tr>
     <tr>
       <th>detail</th>
-      <td><p>Passed to <code><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>sf::st_segmentize()</a></code>: the number of line segments
+      <td><p>Passed to <code><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>sf::st_segmentize()</a></code>: the number of line segments
 per quadrant of the bounding box. Increase this number for a smoother
 projected bounding box.</p></td>
     </tr>
@@ -214,48 +208,51 @@ that wraps the dateline.</p></td>
     <p>An object of class <code>StatSpatialSegment</code> (inherits from <code>StatSpatialRect</code>, <code>Stat</code>, <code>ggproto</code>, <code>gg</code>) of length 3.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
 <span class='co'># visualize flights from</span>
 <span class='co'># Halifax -&gt; Anchorage -&gt; Berlin -&gt; Halifax</span>
-<span class='no'>cities</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>lon</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>63.58595</span>, <span class='fl'>116.41214</span>, <span class='fl'>13.50</span>, -<span class='fl'>149.75</span>),
-  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>44.64862</span>, <span class='fl'>40.19063</span>, <span class='fl'>52.51</span>, <span class='fl'>61.20</span>),
-  <span class='kw'>city</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Halifax"</span>, <span class='st'>"Beijing"</span>, <span class='st'>"Berlin"</span>, <span class='st'>"Anchorage"</span>),
-  <span class='kw'>city_to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Anchorage"</span>, <span class='st'>"Beijing"</span>, <span class='st'>"Berlin"</span>, <span class='st'>"Halifax"</span>)
-)
+<span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  lon <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>63.58595</span>, <span class='fl'>116.41214</span>, <span class='fl'>13.50</span>, <span class='op'>-</span><span class='fl'>149.75</span><span class='op'>)</span>,
+  lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44.64862</span>, <span class='fl'>40.19063</span>, <span class='fl'>52.51</span>, <span class='fl'>61.20</span><span class='op'>)</span>,
+  city <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Halifax"</span>, <span class='st'>"Beijing"</span>, <span class='st'>"Berlin"</span>, <span class='st'>"Anchorage"</span><span class='op'>)</span>,
+  city_to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anchorage"</span>, <span class='st'>"Beijing"</span>, <span class='st'>"Berlin"</span>, <span class='st'>"Halifax"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>cities</span>$<span class='no'>lon_end</span> <span class='kw'>&lt;-</span> <span class='no'>cities</span>$<span class='no'>lon</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]
-<span class='no'>cities</span>$<span class='no'>lat_end</span> <span class='kw'>&lt;-</span> <span class='no'>cities</span>$<span class='no'>lat</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]
+<span class='va'>cities</span><span class='op'>$</span><span class='va'>lon_end</span> <span class='op'>&lt;-</span> <span class='va'>cities</span><span class='op'>$</span><span class='va'>lon</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>cities</span><span class='op'>$</span><span class='va'>lat_end</span> <span class='op'>&lt;-</span> <span class='va'>cities</span><span class='op'>$</span><span class='va'>lat</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span>
 
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>cities</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='kw'>xend</span> <span class='kw'>=</span> <span class='no'>lon_end</span>, <span class='kw'>yend</span> <span class='kw'>=</span> <span class='no'>lat_end</span>)) +
-  <span class='fu'><a href='stat_spatial_identity.html'>geom_spatial_point</a></span>(<span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>)
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>cities</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span>, xend <span class='op'>=</span> <span class='va'>lon_end</span>, yend <span class='op'>=</span> <span class='va'>lat_end</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='stat_spatial_identity.html'>geom_spatial_point</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span>
 
 <span class='co'># by default, geom_spatial_segment() connects points</span>
 <span class='co'># using the shortest distance along the face of the earth</span>
 <span class='co'># wrapping at the date line</span>
-<span class='no'>p</span> +
-  <span class='fu'>geom_spatial_segment</span>(<span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span>(<span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3857</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></div><div class='img'><img src='geom_spatial_segment-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>p</span> <span class='op'>+</span>
+  <span class='fu'>geom_spatial_segment</span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>3857</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1</span></div><div class='img'><img src='geom_spatial_segment-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to let the projection handle the dateline,</span>
 <span class='co'># use `wrap_dateline = FALSE` (most useful for</span>
 <span class='co'># when using `arrow`)</span>
-<span class='no'>p</span> +
-  <span class='fu'>geom_spatial_segment</span>(
-    <span class='kw'>wrap_dateline</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>arrow</span> <span class='kw'>=</span> <span class='kw pkg'>grid</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/arrow.html'>arrow</a></span>(),
-    <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>
-  ) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span>(<span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3995</span>)</div><div class='img'><img src='geom_spatial_segment-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>p</span> <span class='op'>+</span>
+  <span class='fu'>geom_spatial_segment</span><span class='op'>(</span>
+    wrap_dateline <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    arrow <span class='op'>=</span> <span class='fu'>grid</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/arrow.html'>arrow</a></span><span class='op'>(</span><span class='op'>)</span>,
+    crs <span class='op'>=</span> <span class='fl'>4326</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>3995</span><span class='op'>)</span>
+</div><div class='img'><img src='geom_spatial_segment-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to ignore the roundness of the earth, use</span>
 <span class='co'># `great_circle = FALSE`</span>
-<span class='no'>p</span> +
-  <span class='fu'>geom_spatial_segment</span>(
-    <span class='kw'>great_circle</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>arrow</span> <span class='kw'>=</span> <span class='kw pkg'>grid</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/arrow.html'>arrow</a></span>(),
-    <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>
-  ) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span>(<span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3995</span>)</div><div class='img'><img src='geom_spatial_segment-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>p</span> <span class='op'>+</span>
+  <span class='fu'>geom_spatial_segment</span><span class='op'>(</span>
+    great_circle <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    arrow <span class='op'>=</span> <span class='fu'>grid</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/arrow.html'>arrow</a></span><span class='op'>(</span><span class='op'>)</span>,
+    crs <span class='op'>=</span> <span class='fl'>4326</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>3995</span><span class='op'>)</span>
+</div><div class='img'><img src='geom_spatial_segment-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -272,7 +269,7 @@ that wraps the dateline.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
