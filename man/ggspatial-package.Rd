@@ -12,7 +12,7 @@ Spatial data plus the power of the ggplot2 framework means easier mapping when i
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://paleolimbot.github.io/ggspatial}
+  \item \url{https://paleolimbot.github.io/ggspatial/}
   \item \url{https://github.com/paleolimbot/ggspatial}
   \item Report bugs at \url{https://github.com/paleolimbot/ggspatial/issues}
 }

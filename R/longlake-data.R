@@ -9,7 +9,7 @@
 #'
 #' @source The Nova Scotia Topographic Database
 #' (<https://geonova.novascotia.ca/>) and
-#' Open Street Map (<http://www.openstreetmap.org>).
+#' Open Street Map (<http://www.openstreetmap.org/>).
 #'
 #' @examples
 #' load_longlake_data()
