@@ -6,7 +6,7 @@
 \source{
 The Nova Scotia Topographic Database
 (\url{https://geonova.novascotia.ca/}) and
-Open Street Map (\url{http://www.openstreetmap.org/}).
+Open Street Map (\url{https://www.openstreetmap.org/}).
 }
 \usage{
 load_longlake_data(
