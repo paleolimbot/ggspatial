@@ -124,18 +124,6 @@
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj
-## = prefer_proj): Discarded ellps WGS 84 in CRS definition: +proj=merc +a=6378137
-## +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null
-## +wktext +no_defs</code></pre>
-<pre><code>## Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj =
-## prefer_proj): Discarded datum WGS_1984 in CRS definition</code></pre>
-<pre><code>## Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj
-## = prefer_proj): Discarded ellps WGS 84 in CRS definition: +proj=merc +a=6378137
-## +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null
-## +wktext +no_defs</code></pre>
-<pre><code>## Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj =
-## prefer_proj): Discarded datum WGS_1984 in CRS definition</code></pre>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-5-1.png" width="750"></p>
 <p>There are a number of url patterns available for tiles, although how they are formatted varies. The <strong>rosm</strong> package uses <code>${x}</code>, <code>${y}</code>, and <code>${z}</code> for the x, y , and zoom of the tile (or <code>${q}</code> for the quadkey, if you’re using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see <a href="https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/">this blog post</a>, and for a number of other tile sources that are less open you’ll have to dig around yourself. Bing Virtual Earth is a particularly good one (<code>type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"</code>).</p>
 </div>
@@ -143,7 +131,7 @@
 <h2 class="hasAnchor">
 <a href="#data-frames-with-coordinates" class="anchor"></a>Data frames with coordinates</h2>
 <p>Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In <strong>ggspatial</strong> you can use <code><a href="../reference/df_spatial.html">df_spatial()</a></code> to get a spatial object into a data frame with coordinate columms. Conversely, you can use a data frame with coordinate columns in <code>geom_spatial_*</code> functions to use these data with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code>/<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code>/<code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. The <code><a href="../reference/stat_spatial_identity.html">geom_spatial_point()</a></code> (wrapping <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>) and <code><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel()</a></code> (wrapping <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel()</a></code> from the <strong>ggrepel</strong> package) functions are the most commonly used in this situation. For example, a polar perspective on two cities across the world from eachother could look like this:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">63.58595</span>, <span class="fl">116.41214</span><span class="op">)</span>, 
   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">44.64862</span>, <span class="fl">40.19063</span><span class="op">)</span>, 
