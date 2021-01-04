@@ -123,4 +123,12 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
   })
 
+  test_that("annotation_map_tile() does not fail when handed a single point", {
+    p <- sf::st_sf(sf::st_sfc(sf::st_point(c(219200, 629650)), crs = 2039)) %>%
+      ggplot() +
+      annotation_map_tile() +
+      geom_sf()
+
+    expect_warning(ggplotGrob(p), "bounding box is too small")
+  })
 }

@@ -115,6 +115,14 @@ GeomMapTile <- ggplot2::ggproto(
         format = "sp"
       )
 
+      # check for a bounding box that is too small (<5 m)
+      # (may cause rosm_raster() to crash RStudio)
+      if (.geodist(sp_bbox[, 1], sp_bbox[, 2]) < 5) {
+        warning("annotation_map_tile(): bounding box is too small", call. = FALSE)
+        return(ggplot2::zeroGrob())
+      }
+
+
     } else {
       stop("geom_map_tile() requires coord_sf().", call. = FALSE)
     }
