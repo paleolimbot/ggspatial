@@ -131,7 +131,9 @@ GeomMapTile <- ggplot2::ggproto(
 
       # have to use raster to reproject...
       # because this involves a call to projectRaster(), it has to be wrapped in
-      # suppressWarnings to avaoid the "no non-missing arguments to min; returning Inf" error
+      # suppressWarnings to avoid the "no non-missing arguments to min; returning Inf" error
+      # Suppress "Discarded datum ... in CRS definition" warning (not important at the scale
+      # of an OSM map)
       raster <- suppressWarnings(
         rosm_raster(
           x = sp_bbox,
@@ -161,16 +163,20 @@ GeomMapTile <- ggplot2::ggproto(
 
     } else {
 
-      # can use osm.image, which is much faster (and this is the most common case)
-      img <- rosm_image(
-        x = sp_bbox,
-        zoomin = data[["zoomin"]][1],
-        zoom = data[["zoom"]][1],
-        type = as.character(data[["type"]][1]),
-        forcedownload = forcedownload,
-        cachedir = cachedir,
-        progress = progress,
-        quiet = quiet
+      # Can use osm.image, which is much faster (and this is the most common case)
+      # Suppress "Discarded datum ... in CRS definition" warning (not important at the scale
+      # of an OSM map)
+      img <- suppressWarnings(
+        rosm_image(
+          x = sp_bbox,
+          zoomin = data[["zoomin"]][1],
+          zoom = data[["zoom"]][1],
+          type = as.character(data[["type"]][1]),
+          forcedownload = forcedownload,
+          cachedir = cachedir,
+          progress = progress,
+          quiet = quiet
+        )
       )
 
       bbox_img <- attr(img, "bbox")

@@ -32,7 +32,7 @@ test_that("layer_spatial() works as intended", {
   )
 
   # sp objects converted to sf
-  expect_is(layer_spatial(as(longlake_depthdf, "Spatial"), aes(col = DEPTH_M)), "list")
+  expect_is(layer_spatial(suppressWarnings(as(longlake_depthdf, "Spatial")), aes(col = DEPTH_M)), "list")
   expect_is(layer_spatial(longlake_depthdf, aes(col = DEPTH_M)), "list")
 })
 

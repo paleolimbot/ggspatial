@@ -48,9 +48,11 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
   } else if(vector_format == "sp") {
     loadNamespace("sp")
     for(i in seq_along(vector_layers)) {
-      env[[vector_layers[i]]] <- methods::as(
-        sf::st_zm(sf::read_sf(file.path(longlake_folder, names(vector_layers)[i]))),
-        "Spatial"
+      env[[vector_layers[i]]] <- suppressWarnings(
+        methods::as(
+          sf::st_zm(sf::read_sf(file.path(longlake_folder, names(vector_layers)[i]))),
+          "Spatial"
+        )
       )
     }
   }
