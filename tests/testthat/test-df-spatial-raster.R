@@ -16,6 +16,8 @@ test_that("Raster* objects are converted properly by df_spatial", {
     longlake_osm@nrows * longlake_osm@ncols
   )
 
+  skip_if_not_installed("vdiffr")
+
   vdiffr::expect_doppelganger(
     "df_spatial(), raster",
     ggplot(df_spatial(longlake_depth_raster)) + ggplot2::geom_raster(aes(x, y, fill = band1))

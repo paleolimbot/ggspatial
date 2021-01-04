@@ -1,6 +1,8 @@
 context("test-layer-spatial.R")
 
 test_that("layer_spatial() works as intended", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = c("longlake_roadsdf", "longlake_waterdf", "longlake_depthdf"))
 
   vdiffr::expect_doppelganger(

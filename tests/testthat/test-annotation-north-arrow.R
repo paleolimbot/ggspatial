@@ -1,6 +1,8 @@
 context("test-annotation-north-arrow.R")
 
 test_that("north arrow drawing works", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = "longlake_waterdf")
 
   vdiffr::expect_doppelganger(
@@ -48,6 +50,8 @@ test_that("north arrow math is correct", {
 })
 
 test_that("true north arrow points in the right direction", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = "longlake_waterdf")
 
   vdiffr::expect_doppelganger(
@@ -89,6 +93,7 @@ test_that("true north arrow points in the right direction", {
 })
 
 test_that("all built-in styles of north arrow rotate properly", {
+  skip_if_not_installed("vdiffr")
 
   p <- ggplot() +
     geom_spatial_point(
@@ -127,6 +132,8 @@ test_that("all built-in styles of north arrow rotate properly", {
 })
 
 test_that("colour on north arrows is propogated through for all north arrow styles", {
+  skip_if_not_installed("vdiffr")
+
   p <- ggplot() +
     geom_spatial_point(
       mapping = aes(x, y),
@@ -146,6 +153,8 @@ test_that("colour on north arrows is propogated through for all north arrow styl
 })
 
 test_that("certain parameters can be passed as aesthetics to show up on different panels", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = "longlake_waterdf")
 
   # note that passing NA in the label column makes this not work

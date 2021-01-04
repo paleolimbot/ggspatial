@@ -24,6 +24,8 @@ test_that("geom_spatial_segment() works", {
     ggplot2::ggplot_build(p + geom_spatial_segment(crs = 4326))
   )
 
+  skip_if_not_installed("vdiffr")
+
   vdiffr::expect_doppelganger(
     "geom_spatial_segment(), great circle wrap",
     p + geom_spatial_segment(

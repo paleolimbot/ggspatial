@@ -41,6 +41,8 @@ test_that("scale bar parameters are generated correctly", {
 })
 
 test_that("annotation scale works as intended", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = "longlake_depthdf")
   nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
@@ -128,6 +130,8 @@ test_that("annotation scale works as intended", {
 })
 
 test_that("font items are passed on to annotation_scale()", {
+  skip_if_not_installed("vdiffr")
+
   vdiffr::expect_doppelganger(
     "scale bar (fonts)",
     ggplot() +
@@ -141,6 +145,7 @@ test_that("font items are passed on to annotation_scale()", {
 
 
 test_that("certain parameters can be passed as aesthetics to show up on different panels", {
+  skip_if_not_installed("vdiffr")
 
   df <- tibble::tibble(
     facet_var = c("one", "two", "three", "four"),

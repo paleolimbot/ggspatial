@@ -2,6 +2,8 @@
 context("test-geom-spatial-xline")
 
 test_that("annotation_spatial_(h|v)line work with coord_sf()", {
+  skip_if_not_installed("vdiffr")
+
   cities <- data.frame(
     x = c(-63.58595, 116.41214, 0),
     y = c(44.64862, 40.19063, 89.9),
@@ -85,6 +87,8 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
 
 
 test_that("annotation_spatial_xline() works with a warning in cartesian coords", {
+  skip_if_not_installed("vdiffr")
+
   cities <- data.frame(
     x = c(-63.58595, 116.41214, 0),
     y = c(44.64862, 40.19063, 89.9),

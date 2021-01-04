@@ -31,6 +31,8 @@ test_that("geom_spatial_rect() works", {
     ggplot2::ggplot_build(p + geom_spatial_rect(crs = 4326))
   )
 
+  skip_if_not_installed("vdiffr")
+
   vdiffr::expect_doppelganger(
     "geom_spatial_rect()",
     p + geom_spatial_rect(crs = 4326)

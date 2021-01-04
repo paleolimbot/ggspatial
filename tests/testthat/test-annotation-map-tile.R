@@ -4,6 +4,8 @@ context("test-annotation-map-tile.R")
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
   test_that("annotation_map_tile() works as intended", {
+    skip_if_not_installed("vdiffr")
+
     load_longlake_data(which = "longlake_waterdf")
 
     expect_message(

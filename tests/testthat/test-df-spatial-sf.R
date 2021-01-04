@@ -9,6 +9,7 @@ test_that("duplicate cols are warned for in sf objects", {
 })
 
 test_that("df_spatial() works with sf objects", {
+  skip_if_not_installed("vdiffr")
 
   # load the long lake test data
   load_longlake_data()

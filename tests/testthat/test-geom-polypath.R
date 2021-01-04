@@ -1,6 +1,8 @@
 context("test-geom-polypath.R")
 
 test_that("polypath works as intended", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = "longlake_waterdf")
   df <- df_spatial(longlake_waterdf[3,])
   vdiffr::expect_doppelganger(

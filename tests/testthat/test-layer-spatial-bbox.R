@@ -28,6 +28,8 @@ test_that("bbox functions work with detail arg", {
 })
 
 test_that("bbox plotting works", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = c("longlake_waterdf", "longlake_depthdf"))
 
   vdiffr::expect_doppelganger(

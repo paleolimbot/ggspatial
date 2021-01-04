@@ -24,6 +24,8 @@ test_that("xy_transform works as intended", {
 })
 
 test_that("geom_spatial_* geoms work properly", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = c("longlake_depthdf", "longlake_waterdf"))
 
   point_df <- df_spatial(longlake_depthdf)
@@ -59,6 +61,8 @@ test_that("geom_spatial_* geoms work properly", {
 })
 
 test_that("spatial labellers work properly", {
+  skip_if_not_installed("vdiffr")
+
   cities <- data.frame(
     x = c(-63.58595, 116.41214, 0),
     y = c(44.64862, 40.19063, 89.9),
@@ -97,6 +101,8 @@ test_that("spatial labellers work properly", {
 })
 
 test_that("stat_spatial_identity function", {
+  skip_if_not_installed("vdiffr")
+
   load_longlake_data(which = c("longlake_depthdf", "longlake_waterdf"))
   df <- df_spatial(longlake_depthdf)
 
