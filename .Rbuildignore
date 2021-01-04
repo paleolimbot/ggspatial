@@ -15,3 +15,4 @@
 ^vignettes$
 ^tests/figs$
 ^cran-comments\.md$
+^CRAN-RELEASE$
