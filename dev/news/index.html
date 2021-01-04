@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spatial ggplot2 layer for stars objects — layer_spatial.stars • ggspatial</title>
+<title>Changelog • ggspatial</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,7 @@
 
 
 
-<meta property="og:title" content="Spatial ggplot2 layer for stars objects — layer_spatial.stars" />
-<meta property="og:description" content="This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-bands as if they were columns, use df_spatial and geom_raster." />
+<meta property="og:title" content="Changelog" />
 
 
 <meta name="robots" content="noindex">
@@ -60,7 +58,7 @@ bands as if they were columns, use df_spatial and geom_raster." />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -109,93 +107,35 @@ bands as if they were columns, use df_spatial and geom_raster." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spatial ggplot2 layer for stars objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/paleolimbot/ggspatial/blob/master/R/layer-spatial-stars.R'><code>R/layer-spatial-stars.R</code></a></small>
-    <div class="hidden name"><code>layer_spatial.stars.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/paleolimbot/ggspatial/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    <p>This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-bands as if they were columns, use <a href='df_spatial.html'>df_spatial</a> and <a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_raster</a>.</p>
-    </div>
-
-    <pre class="usage"><span class='co'># S3 method for stars</span>
-<span class='fu'><a href='layer_spatial.html'>layer_spatial</a></span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
-  interpolate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  is_annotation <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  lazy <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  dpi <span class='op'>=</span> <span class='fl'>150</span>,
-  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'><a href='layer_spatial.html'>annotation_spatial</a></span><span class='op'>(</span><span class='va'>data</span>, mapping <span class='op'>=</span> <span class='cn'>NULL</span>, interpolate <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='va'>StatSpatialStars</span>
-
-<span class='va'>StatSpatialStarsAnnotation</span>
-
-<span class='va'>StatSpatialStarsDf</span>
-
-<span class='va'>GeomSpatialStars</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>A stars object</p></td>
-    </tr>
-    <tr>
-      <th>mapping</th>
-      <td><p>Currently, only RGB or RGBA rasters are supported. In the future, one may be able to
-map specific bands to the fill and alpha aesthetics.</p></td>
-    </tr>
-    <tr>
-      <th>interpolate</th>
-      <td><p>Interpolate resampling for rendered raster image</p></td>
-    </tr>
-    <tr>
-      <th>is_annotation</th>
-      <td><p>Lets raster exist without modifying scales</p></td>
-    </tr>
-    <tr>
-      <th>lazy</th>
-      <td><p>Delay projection and resample of raster until the plot is being rendered</p></td>
-    </tr>
-    <tr>
-      <th>dpi</th>
-      <td><p>if lazy = TRUE, the dpi to which the raster should be resampled</p></td>
-    </tr>
-    <tr>
-      <th>options</th>
-      <td><p>GDAL options for warping/resampling (see <a href='https://r-spatial.github.io/stars/reference/st_warp.html'>st_warp</a>)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Passed to other methods</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>StatSpatialStars</code> (inherits from <code>Stat</code>, <code>ggproto</code>, <code>gg</code>) of length 3.</p>
-<p>An object of class <code>StatSpatialStars</code> (inherits from <code>StatSpatialStars</code>, <code>Stat</code>, <code>ggproto</code>, <code>gg</code>) of length 3.</p>
-<p>An object of class <code>StatSpatialStarsDf</code> (inherits from <code>Stat</code>, <code>ggproto</code>, <code>gg</code>) of length 5.</p>
-<p>An object of class <code>GeomSpatialStars</code> (inherits from <code>Geom</code>, <code>ggproto</code>, <code>gg</code>) of length 5.</p>
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A ggplot2 layer</p>
-
+    <div id="ggspatial-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#ggspatial-development-version" class="anchor"></a>ggspatial (development version)<small> Unreleased </small>
+</h1>
+</div>
+    <div id="ggspatial-115" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.5">
+<a href="#ggspatial-115" class="anchor"></a>ggspatial 1.1.5<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+<li>Suppressed discarded datum warnings that resulted from loading of test data.</li>
+<li>Suppressed discarded datum warnings that resulted from ‘rosm’ package operations.</li>
+<li>Fixed an error that caused RStudio to crash from excessive memory allocation resulting when trying to plot a single point with <code><a href="../reference/annotation_map_tile.html">annotation_map_tile()</a></code> (<a href='https://github.com/paleolimbot/ggspatial/issues/74'>#74</a>).</li>
+<li>Ensured that packages in ‘Suggests’ are used conditionally in tests and examples.</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

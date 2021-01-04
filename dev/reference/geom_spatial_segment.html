@@ -75,7 +75,7 @@ that the earth is round." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.3.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.5.9000</span>
       </span>
     </div>
 
@@ -87,11 +87,14 @@ that the earth is round." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/paleolimbot/ggspatial/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -208,7 +211,7 @@ that wraps the dateline.</p></td>
     <p>An object of class <code>StatSpatialSegment</code> (inherits from <code>StatSpatialRect</code>, <code>Stat</code>, <code>ggproto</code>, <code>gg</code>) of length 3.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
 <span class='co'># visualize flights from</span>
 <span class='co'># Halifax -&gt; Anchorage -&gt; Berlin -&gt; Halifax</span>
@@ -231,7 +234,7 @@ that wraps the dateline.</p></td>
 <span class='va'>p</span> <span class='op'>+</span>
   <span class='fu'>geom_spatial_segment</span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>crs <span class='op'>=</span> <span class='fl'>3857</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span></div><div class='img'><img src='geom_spatial_segment-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1</span></div><div class='img'><img src='geom_spatial_segment-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to let the projection handle the dateline,</span>
 <span class='co'># use `wrap_dateline = FALSE` (most useful for</span>
 <span class='co'># when using `arrow`)</span>
