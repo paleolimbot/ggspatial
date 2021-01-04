@@ -129,6 +129,6 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       annotation_map_tile() +
       geom_sf()
 
-    expect_warning(ggplotGrob(p), "bounding box is too small")
+    expect_warning(ggplot2::ggplotGrob(p), "bounding box is too small")
   })
 }
