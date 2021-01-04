@@ -2,13 +2,16 @@ context("test-layer-spatial-stars")
 
 # only a few of these work, so skipping
 test_that("stars tests", {
-  skip("stars aren't implemented fully")
+  skip("stars aren't implemented")
   expect_true(FALSE)
 })
 
 if (FALSE) {
 
   test_that("layer-spatial works for raster objects", {
+    skip_if_not_installed("vdiffr")
+    skip_if_not_installed("stars")
+
     load_longlake_data(which = c("longlake_depthdf", "longlake_osm", "longlake_depth_raster"), raster_format = "stars")
 
     # should have little grey thing around it

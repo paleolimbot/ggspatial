@@ -4,6 +4,10 @@ context("test-layer-spatial-raster.R")
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
   test_that("layer-spatial works for raster objects", {
+    skip_if_not_installed("vdiffr")
+    skip_if_not_installed("raster")
+    skip_if_not_installed("rgdal")
+
     load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
 
     # should have little grey thing around it
