@@ -11,6 +11,19 @@ df_spatial.Raster <- function(x, ..., hjust = 0.5, vjust = 0.5, na.rm = FALSE) {
     raster::values(x)
   )
 
+  ## Ensure that a factor raster's values stay factors in `fused`
+  ## data.frame, taking levels from second column of RAT
+  if (any(raster::is.factor(x))) {
+    for (i in seq_len(nlayers(x))) {
+      if (raster::is.factor(x[[i]])) {
+        rat <- raster::levels(x)[[i]]
+        fused[, i + 2] <- factor(fused[, i + 2],
+                                 levels = rat[, 1],
+                                 labels = rat[, 2])
+      }
+    }
+  }
+
   # set names to be x, y, band1, band2, ...
   nbands <- ncol(fused) - 2
   names(fused) <- c("x", "y", paste0("band", seq_len(nbands)))
