@@ -65,3 +65,27 @@ test_that("na.rm works on df_spatial.Raster()", {
   expect_false(any(is.na(df_finite$band2)))
   expect_false(any(is.na(df_finite$band3)))
 })
+
+test_that("Factor Raster* objects are properly converted", {
+  # Test factor RasterLayer
+  r_num <- raster(nrows = 3, ncols = 3, crs = 4326, xmn = 0, xmx = 3,
+                  ymn = 0, ymx = 3, vals = c(1,2,3,3,1,2,2,3,1))
+  r_fac <- as.factor(r_num)
+  levels(r_fac) <-
+      data.frame(ID = 1:3, landcover = c("grassland", "savannah", "forest"))
+  expect_is(df_spatial(r_num)[["band1"]], "numeric")
+  expect_is(df_spatial(r_fac)[["band1"]], "factor")
+  expect_identical(levels(df_spatial(r_fac)[["band1"]]),
+                   c("grassland", "savannah", "forest"))
+
+  # Test RasterStack with mixed factor and numeric layers
+  s <- stack(r_fac, r_num, r_fac)
+  expect_identical(unname(sapply(df_spatial(s)[-1:-2], class)),
+                   c("factor", "numeric", "factor"))
+
+  # Test factor RasterBrick
+  b <- brick(r_fac, r_fac, r_fac)
+  expect_identical(unname(sapply(df_spatial(b)[-1:-2], class)),
+                   c("factor", "factor", "factor"))
+})
+
