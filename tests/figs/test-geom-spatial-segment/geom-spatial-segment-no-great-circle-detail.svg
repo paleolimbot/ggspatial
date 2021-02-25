@@ -56,8 +56,8 @@
 <polyline points='44.88,495.89 47.62,495.89 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <polyline points='44.88,359.38 47.62,359.38 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <polyline points='348.38,547.70 348.38,544.96 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='344.28' y='556.03' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>0</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='349.17' y='556.03' style='font-size: 8.80px; fill: #4D4D4D; font-family: Symbola;' textLength='3.31px' lengthAdjust='spacingAndGlyphs'>°</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='341.84' y='556.03' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='9.77px' lengthAdjust='spacingAndGlyphs'>  0</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='351.61' y='556.03' style='font-size: 8.80px; fill: #4D4D4D; font-family: Symbola;' textLength='3.31px' lengthAdjust='spacingAndGlyphs'>°</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='375.73' y='568.24' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='5.50px' lengthAdjust='spacingAndGlyphs'>x</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(18.22,286.62) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='5.50px' lengthAdjust='spacingAndGlyphs'>y</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='47.62' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='281.69px' lengthAdjust='spacingAndGlyphs'>geom_spatial_segment(), no great circle + detail</text></g>
