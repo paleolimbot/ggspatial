@@ -64,6 +64,7 @@ annotation_north_arrow <- function(mapping = NULL, data = NULL, ...,
       width = width,
       pad_x = pad_x,
       pad_y = pad_y,
+      rotation = rotation,
       style = style
     )
   )
