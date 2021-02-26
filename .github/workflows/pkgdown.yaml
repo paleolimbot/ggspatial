@@ -31,7 +31,11 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
+      - name: Install
+        run: |
+          brew install pkg-config
+          brew install gdal
+          brew install udunits
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
