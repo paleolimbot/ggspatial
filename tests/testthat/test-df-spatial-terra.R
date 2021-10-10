@@ -38,7 +38,7 @@ test_that("SpatRaster objects are converted properly by df_spatial", {
   )
 
   vdiffr::expect_doppelganger(
-    "df_spatial(), nband raster",
+    "df_spatial(), nband terra",
     ggplot(df_spatial(longlake_osm_terra)) +
       ggplot2::geom_raster(aes(x, y, fill = band1))
   )
