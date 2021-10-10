@@ -35,6 +35,7 @@ Suggests:
     sp,
     rgdal,
     raster,
+    terra,
     testthat (>= 2.1.0),
     dplyr,
     withr,
@@ -46,6 +47,6 @@ Suggests:
 URL: https://paleolimbot.github.io/ggspatial/, https://github.com/paleolimbot/ggspatial
 BugReports: https://github.com/paleolimbot/ggspatial/issues
 LazyData: TRUE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

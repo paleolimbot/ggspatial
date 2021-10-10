@@ -12,7 +12,7 @@ Open Street Map (\url{https://www.openstreetmap.org/}).
 load_longlake_data(
   env = parent.frame(),
   vector_format = c("sf", "sp"),
-  raster_format = c("raster", "stars", "stars_proxy"),
+  raster_format = c("raster", "stars", "stars_proxy", "terra"),
   which = NULL
 )
 }
