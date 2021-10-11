@@ -4,7 +4,13 @@ context("test-df-spatial-terra")
 test_that("SpatRaster objects are converted properly by df_spatial", {
   skip_if_not_installed("terra")
 
-  load_longlake_data(which = c("longlake_depth_terra", "longlake_osm_terra"), raster_format = "terra")
+  load_longlake_data(
+    which = c(
+      "longlake_depth_terra",
+      "longlake_osm_terra"
+    ),
+    raster_format = "terra"
+  )
 
   expect_s4_class(longlake_depth_terra, "SpatRaster")
   expect_s4_class(longlake_osm_terra, "SpatRaster")
