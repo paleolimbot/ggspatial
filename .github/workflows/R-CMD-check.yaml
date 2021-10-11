@@ -29,9 +29,8 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           
-          # Install binary terra
-          install.packages("terra", type = "binary")
-          remotes::install_deps(dependencies = TRUE)
+          # As binary to properly install terra/raster
+          remotes::install_deps(dependencies = TRUE, type = "binary")
         shell: Rscript {0}
       - name: Check
         env:
