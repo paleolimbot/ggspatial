@@ -33,9 +33,7 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
 
   raster_layers <- c(
     "longlake_depth.tif" = "longlake_depth_raster",
-    "longlake.tif" = "longlake_osm",
-    "longlake_depth.tif" = "longlake_depth_terra",
-    "longlake.tif" = "longlake_osm_terra"
+    "longlake.tif" = "longlake_osm"
   )
 
   if(!is.null(which)) {
@@ -67,14 +65,6 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
     if("longlake_depth_raster" %in% raster_layers) {
       env$longlake_depth_raster <- raster::raster(file.path(longlake_folder, "longlake_depth.tif"))
     }
-  } else if(raster_format == "terra") {
-    if("longlake_osm_terra" %in% raster_layers) {
-      env$longlake_osm_terra <- terra::rast(file.path(longlake_folder, "longlake.tif"))
-    }
-
-    if("longlake_depth_terra" %in% raster_layers) {
-      env$longlake_depth_terra <- terra::rast(file.path(longlake_folder, "longlake_depth.tif"))
-    }
   } else if(raster_format == "stars") {
     for(i in seq_along(raster_layers)) {
       env[[raster_layers[i]]] <- stars::read_stars(file.path(longlake_folder, names(raster_layers)[i]))
@@ -83,6 +73,11 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
     for(i in seq_along(raster_layers)) {
       env[[raster_layers[i]]] <- stars::read_stars(file.path(longlake_folder, names(raster_layers)[i]), proxy = TRUE)
     }
+  } else if (raster_format == "terra"){
+    for(i in seq_along(raster_layers)) {
+      env[[raster_layers[i]]] <- terra::rast(file.path(longlake_folder, names(raster_layers)[i]))
+    }
+
   }
 }
 

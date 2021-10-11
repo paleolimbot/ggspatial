@@ -8,17 +8,21 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     load_longlake_data(
       which = c(
-        "longlake_osm_terra", "longlake_depthdf",
-        "longlake_depth_terra"
+        "longlake_osm", "longlake_depthdf",
+        "longlake_depth_raster"
       ),
       raster_format = "terra"
     )
+
+    expect_s4_class(longlake_osm, "SpatRaster")
+    expect_s4_class(longlake_depth_raster, "SpatRaster")
+
 
     # should have little grey thing around it
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster()",
       ggplot() +
-        layer_spatial(longlake_osm_terra) +
+        layer_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf)
     )
 
@@ -26,7 +30,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "annotation_spatial.SpatRaster()",
       ggplot() +
-        annotation_spatial(longlake_osm_terra) +
+        annotation_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf)
     )
 
@@ -34,7 +38,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() project",
       ggplot() +
-        layer_spatial(longlake_osm_terra) +
+        layer_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978)
     )
@@ -43,7 +47,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "annotation_spatial.SpatRaster() project",
       ggplot() +
-        annotation_spatial(longlake_osm_terra) +
+        annotation_spatial(longlake_osm) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978)
     )
@@ -52,7 +56,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "annotation_spatial.SpatRaster() alpha 0.3",
       ggplot() +
-        annotation_spatial(longlake_osm_terra, alpha = 0.3) +
+        annotation_spatial(longlake_osm, alpha = 0.3) +
         layer_spatial(longlake_depthdf) +
         coord_sf(crs = 3978)
     )
@@ -61,7 +65,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() aes()",
       ggplot() +
-        layer_spatial(longlake_osm_terra, aes()) +
+        layer_spatial(longlake_osm, aes()) +
         layer_spatial(longlake_depthdf)
     )
 
@@ -69,7 +73,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       "layer_spatial.SpatRaster() aes(band1)",
       ggplot() +
         layer_spatial(
-          longlake_osm_terra,
+          longlake_osm,
           aes(alpha = stat(band1), fill = NULL)
         ) +
         layer_spatial(longlake_depthdf)
@@ -79,20 +83,20 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() dpi",
       ggplot() +
-        layer_spatial(longlake_osm_terra, lazy = TRUE, dpi = 2)
+        layer_spatial(longlake_osm, lazy = TRUE, dpi = 2)
     )
 
     # Test examples
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() example 1",
       ggplot() +
-        layer_spatial(longlake_osm_terra)
+        layer_spatial(longlake_osm)
     )
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() example 2",
       # Not removing NAs to avoid warning
       ggplot() +
-        layer_spatial(longlake_depth_terra) +
+        layer_spatial(longlake_depth_raster) +
         ggplot2::scale_fill_continuous(type = "viridis")
     )
   })

@@ -26,11 +26,11 @@ test_that("longlake data loader works as expected", {
   test_env4 <- new.env(parent = emptyenv())
   load_longlake_data(
     env = test_env4, raster_format = "terra",
-    which = c("longlake_depth_terra", "longlake_osm_terra")
+    which = c("longlake_depth_raster", "longlake_osm")
   )
 
   expect_length(test_env4, 2)
-  expect_s4_class(test_env4$longlake_depth_terra, "SpatRaster")
-  expect_s4_class(test_env4$longlake_osm_terra, "SpatRaster")
+  expect_s4_class(test_env4$longlake_depth_raster, "SpatRaster")
+  expect_s4_class(test_env4$longlake_osm, "SpatRaster")
 
 })

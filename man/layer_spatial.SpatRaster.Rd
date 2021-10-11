@@ -66,19 +66,24 @@ should be resampled (default is \code{dpi = 150})
 }
 \examples{
 \donttest{
+
 library(ggplot2)
 load_longlake_data(
   which = c(
-    "longlake_osm_terra",
-    "longlake_depth_terra"
+    "longlake_osm",
+    "longlake_depth_raster"
   ),
   raster_format = "terra"
 )
 ggplot() +
-  layer_spatial(longlake_osm_terra)
+  layer_spatial(longlake_osm)
+
 ggplot() +
-  layer_spatial(longlake_depth_terra) +
-  scale_fill_continuous(na.value = NA, type = "viridis")
+  layer_spatial(longlake_depth_raster) +
+  scale_fill_continuous(
+    na.value = NA,
+    type = "viridis"
+  )
 }
 }
 \keyword{datasets}
