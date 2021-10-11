@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
+          
+          # Install binary terra
+          install.packages("terra", type = "binary")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
