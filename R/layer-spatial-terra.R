@@ -187,8 +187,7 @@ StatSpatRasterDf <- ggplot2::ggproto(
         data$raster <- lapply(
           data$raster,
           project_terra_lazy,
-          # At some point move to sf::st_crs(coord_crs)$wkt
-          crs = sf::st_crs(coord_crs)$proj4string
+          crs = sf::st_crs(coord_crs)$wkt
         )
       } else {
         warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
@@ -308,7 +307,7 @@ makeContent.geom_spatial_terra_lazy <- function(x) {
       ymax = x$target_bbox["ymax"],
       ncols = width_px,
       nrows = height_px,
-      crs = sf::st_crs(x$coord_crs)$proj4string
+      crs = sf::st_crs(x$coord_crs)$wkt
     )
   } else {
     template_raster <- NULL
@@ -350,7 +349,7 @@ raster_grob_from_terra <- function(rst, coord_crs, coordinates, panel_params,
     # but only when run with a calling handler
     rst <- project_terra_lazy(
       rst,
-      crs = sf::st_crs(coord_crs)$proj4string
+      crs = sf::st_crs(coord_crs)$wkt
     )
   } else if (!is.null(template_raster)) {
     # resample (& crop?)
@@ -426,9 +425,10 @@ terra_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
 
 project_terra_lazy <- function(x, crs, ...) {
 
+  # We compare both crs using sf::st_crs()$wkt
+  x_crs <- terra::crs(x)
 
-  # This comparison needs to be fixed
-  if (sf::st_crs(crs) != terra::crs(x)) {
+  if (sf::st_crs(crs)$wkt != sf::st_crs(x_crs)$wkt) {
     terra::project(x, y = crs, ...)
   } else {
     x
