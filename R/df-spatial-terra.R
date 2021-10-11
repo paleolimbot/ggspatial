@@ -3,7 +3,7 @@
 df_spatial.SpatRaster <- function(x, ..., na.rm = FALSE) {
   # get values in a data frame
   ext <- terra::ext(x)
-  df <- terra::extract(x, ext, xy = TRUE, cells = TRUE, factors = TRUE)
+  df <- tibble::as_tibble(terra::extract(x, ext, xy = TRUE, cells = TRUE, factors = TRUE))
 
   levels(df$cell)
 
