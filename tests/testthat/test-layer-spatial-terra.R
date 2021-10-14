@@ -119,4 +119,6 @@ test_that("Full lifecycle", {
   tmp <- tempfile(fileext = ".png")
 
   expect_silent(ggplot2::ggsave(tmp, plot, width = 4, height = 4))
+
+  unlink(tmp)
 })
