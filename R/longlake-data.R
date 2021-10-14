@@ -15,7 +15,7 @@
 #' load_longlake_data()
 #'
 load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp"),
-                               raster_format = c("raster", "stars", "stars_proxy"),
+                               raster_format = c("raster", "stars", "stars_proxy", "terra"),
                                which = NULL) {
   raster_format <- match.arg(raster_format)
   vector_format <- match.arg(vector_format)
@@ -73,6 +73,11 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
     for(i in seq_along(raster_layers)) {
       env[[raster_layers[i]]] <- stars::read_stars(file.path(longlake_folder, names(raster_layers)[i]), proxy = TRUE)
     }
+  } else if (raster_format == "terra"){
+    for(i in seq_along(raster_layers)) {
+      env[[raster_layers[i]]] <- terra::rast(file.path(longlake_folder, names(raster_layers)[i]))
+    }
+
   }
 }
 
