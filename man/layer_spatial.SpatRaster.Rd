@@ -61,8 +61,8 @@ or photos). To work with bands as if they were columns, use \link{df_spatial}
 and \link{geom_raster}.
 }
 \details{
-if \code{lazy = TRUE}, use a \code{dpi} parameter to setthe dpi to which the raster
-should be resampled (default is \code{dpi = 150})
+if \code{lazy = TRUE}, use a \code{dpi} parameter to set the dpi to which the raster
+should be resampled (default is \code{dpi = 150}).
 }
 \examples{
 \donttest{

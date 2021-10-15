@@ -10,8 +10,8 @@
 #'
 #' @details
 #'
-#' if `lazy = TRUE`, use a `dpi` parameter to setthe dpi to which the raster
-#' should be resampled (default is `dpi = 150`)
+#' if `lazy = TRUE`, use a `dpi` parameter to set the dpi to which the raster
+#' should be resampled (default is `dpi = 150`).
 #'
 #' @return A ggplot2 layer
 #' @export
