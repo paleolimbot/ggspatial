@@ -8,7 +8,8 @@ Authors@R: c(
            role = c("aut", "cre"), 
            comment = c(ORCID = "0000-0002-9415-4582")
     ),
-    person("Brent", "Thorne", role = "ctb", comment = c(ORCID = "0000-0002-1099-3857"))
+    person("Brent", "Thorne", role = "ctb", comment = c(ORCID = "0000-0002-1099-3857")),
+    person("Diego", "Hernangómez", role = "ctb", comment = c(ORCID = "0000-0001-8457-4658"))
   )
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
 Description: Spatial data plus the power of the ggplot2 framework means easier mapping when input 
