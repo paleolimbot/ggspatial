@@ -50,7 +50,10 @@ map specific bands to the fill and alpha aesthetics.}
 
 \item{lazy}{Delay projection and resample of raster until the plot is being rendered}
 
-\item{...}{Passed to other methods}
+\item{...}{Passed to other methods:
+\itemize{
+\item \code{dpi} if lazy = TRUE, the dpi to which the raster should be resampled
+}}
 }
 \value{
 A ggplot2 layer
@@ -59,10 +62,6 @@ A ggplot2 layer
 This is intended for use with RGB(A) rasters (e.g., georeferenced imagery
 or photos). To work with bands as if they were columns, use \link{df_spatial}
 and \link{geom_raster}.
-}
-\details{
-if \code{lazy = TRUE}, use a \code{dpi} parameter to set the dpi to which the raster
-should be resampled (default is \code{dpi = 150}).
 }
 \examples{
 \donttest{

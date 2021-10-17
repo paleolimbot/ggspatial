@@ -6,12 +6,11 @@
 #' and [geom_raster].
 #'
 #' @param data A SpatRaster object created with [terra::rast()].
+#' @param ... Passed to other methods:
+#'   * `dpi` if lazy = TRUE, the dpi to which the raster should be resampled
+#'
 #' @inheritParams layer_spatial.Raster
 #'
-#' @details
-#'
-#' if `lazy = TRUE`, use a `dpi` parameter to set the dpi to which the raster
-#' should be resampled (default is `dpi = 150`).
 #'
 #' @return A ggplot2 layer
 #' @export
