@@ -67,6 +67,31 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         layer_spatial(longlake_osm, aes(alpha = stat(band1), fill = NULL)) +
         layer_spatial(longlake_depthdf)
     )
+
+    # dpi works
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() dpi",
+      ggplot() +
+        layer_spatial(longlake_osm, lazy = TRUE, dpi = 2)
+    )
+
+    # lazy works
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() lazy",
+      ggplot() +
+        layer_spatial(longlake_osm, lazy = TRUE)
+    )
+
+    # interpolation works
+    vdiffr::expect_doppelganger(
+      "layer_spatial.Raster() no interpolation",
+      ggplot() +
+        layer_spatial(longlake_osm,
+                      lazy = TRUE,
+                      interpolate = FALSE,
+                      dpi = 5
+        )
+    )
   })
 
 }
