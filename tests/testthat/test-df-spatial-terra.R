@@ -24,6 +24,8 @@ test_that("SpatRaster objects are converted properly by df_spatial", {
 
   expect_s4_class(longlake_osm, "SpatRaster")
   df_terra <- df_spatial(longlake_osm)
+
+  skip_if_not_installed("raster")
   # Get the same result than I would get with raster
   test_env <- new.env(parent = emptyenv())
   load_longlake_data(
@@ -58,6 +60,9 @@ test_that("SpatRaster objects are converted properly by df_spatial", {
 })
 
 test_that("x and y coordinates are exactly right for terra df", {
+
+  skip_if_not_installed("terra")
+
   rst <- terra::rast(
     matrix(
       rep_len(c(0, 1), 9),
@@ -74,6 +79,9 @@ test_that("x and y coordinates are exactly right for terra df", {
 })
 
 test_that("na.rm works on df_spatial.SpatRaster()", {
+
+  skip_if_not_installed("terra")
+
   load_longlake_data(which = "longlake_osm", raster_format = "terra")
   expect_s4_class(longlake_osm, "SpatRaster")
   df <- df_spatial(longlake_osm)
@@ -88,6 +96,9 @@ test_that("na.rm works on df_spatial.SpatRaster()", {
 })
 
 test_that("Factor SpatRast objects are properly converted", {
+
+  skip_if_not_installed("terra")
+
   # Test factor SpatRast
   r_num <- terra::rast(
     nrows = 3, ncols = 3,
@@ -109,5 +120,26 @@ test_that("Factor SpatRast objects are properly converted", {
   expect_identical(
     levels(df_spatial(r_fac)[["band1"]]),
     c("grassland", "savannah", "forest")
+  )
+})
+
+test_that("Handle multi-layer objects", {
+  skip_if_not_installed("terra")
+
+  r_six_layers <- terra::rast(
+    nrows = 3, ncols = 3,
+    nlyrs = 6,
+    crs = sf::st_crs(4326)$wkt,
+    vals = c(1, 2, 3, 3, 1, 2, 2, 3, 1)
+  )
+
+
+  expect_equal(terra::nlyr(r_six_layers), 6)
+  expect_df_spatial(
+    r_six_layers,
+    paste0(
+      "band",
+      seq_len(terra::nlyr(r_six_layers))
+    )
   )
 })

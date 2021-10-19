@@ -8,7 +8,7 @@ df_spatial.SpatRaster <- function(x, ..., na.rm = FALSE) {
       na.rm = na.rm
     )
   )
-  nbands <- ncol(df) - 2
+  nbands <- terra::nlyr(x)
   names(df) <- c("x", "y", paste0("band", seq_len(nbands)))
 
   tibble::as_tibble(df)
