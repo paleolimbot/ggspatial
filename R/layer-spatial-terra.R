@@ -6,9 +6,6 @@
 #' and [geom_raster].
 #'
 #' @param data A SpatRaster object created with [terra::rast()].
-#' @param ... Passed to other methods:
-#'   * `dpi` if lazy = TRUE, the dpi to which the raster should be resampled
-#'
 #' @inheritParams layer_spatial.Raster
 #'
 #'
@@ -41,6 +38,7 @@ layer_spatial.SpatRaster <- function(data,
                                      interpolate = NULL,
                                      is_annotation = FALSE,
                                      lazy = FALSE,
+                                     dpi = 150,
                                      ...) {
   is_rgb <- is.null(mapping) && (terra::nlyr(data) %in% c(3, 4))
   if (is_rgb) {
@@ -79,6 +77,7 @@ layer_spatial.SpatRaster <- function(data,
       params = list(
         interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
         lazy = lazy,
+        dpi = dpi,
         ...
       )
     ),
@@ -176,7 +175,7 @@ StatSpatRasterDf <- ggplot2::ggproto(
   "StatSpatRasterDf",
   ggplot2::Stat,
   required_aes = "raster",
-  extra_params = "lazy",
+  extra_params = c("lazy", "dpi"),
   default_aes = ggplot2::aes(fill = stat(band1)),
   compute_layer = function(self, data, params, layout) {
     if (params$lazy) stop("Lazy rendering not implemented for mapped rasters")
