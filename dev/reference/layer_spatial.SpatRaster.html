@@ -134,6 +134,7 @@ and <a href='https://ggplot2.tidyverse.org/reference/geom_tile.html'>geom_raster
   interpolate <span class='op'>=</span> <span class='cn'>NULL</span>,
   is_annotation <span class='op'>=</span> <span class='cn'>FALSE</span>,
   lazy <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dpi <span class='op'>=</span> <span class='fl'>150</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
@@ -173,6 +174,10 @@ map specific bands to the fill and alpha aesthetics.</p></td>
       <td><p>Delay projection and resample of raster until the plot is being rendered</p></td>
     </tr>
     <tr>
+      <th>dpi</th>
+      <td><p>if lazy = TRUE, the dpi to which the raster should be resampled</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Passed to other methods</p></td>
     </tr>
@@ -187,10 +192,6 @@ map specific bands to the fill and alpha aesthetics.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A ggplot2 layer</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>if <code>lazy = TRUE</code>, use a <code>dpi</code> parameter to setthe dpi to which the raster
-should be resampled (default is <code>dpi = 150</code>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
