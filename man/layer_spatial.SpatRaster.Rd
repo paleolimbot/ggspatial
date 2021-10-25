@@ -25,6 +25,7 @@ An object of class \code{GeomSpatRaster} (inherits from \code{Geom}, \code{ggpro
   interpolate = NULL,
   is_annotation = FALSE,
   lazy = FALSE,
+  dpi = 150,
   ...
 )
 
@@ -50,6 +51,8 @@ map specific bands to the fill and alpha aesthetics.}
 
 \item{lazy}{Delay projection and resample of raster until the plot is being rendered}
 
+\item{dpi}{if lazy = TRUE, the dpi to which the raster should be resampled}
+
 \item{...}{Passed to other methods}
 }
 \value{
@@ -59,10 +62,6 @@ A ggplot2 layer
 This is intended for use with RGB(A) rasters (e.g., georeferenced imagery
 or photos). To work with bands as if they were columns, use \link{df_spatial}
 and \link{geom_raster}.
-}
-\details{
-if \code{lazy = TRUE}, use a \code{dpi} parameter to setthe dpi to which the raster
-should be resampled (default is \code{dpi = 150})
 }
 \examples{
 \donttest{

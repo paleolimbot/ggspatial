@@ -86,6 +86,24 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
         layer_spatial(longlake_osm, lazy = TRUE, dpi = 2)
     )
 
+    # lazy works
+    vdiffr::expect_doppelganger(
+      "layer_spatial.SpatRaster() lazy",
+      ggplot() +
+        layer_spatial(longlake_osm, lazy = TRUE)
+    )
+
+    # interpolation works
+    vdiffr::expect_doppelganger(
+      "layer_spatial.SpatRaster() no interpolation",
+      ggplot() +
+        layer_spatial(longlake_osm,
+          lazy = TRUE,
+          interpolate = FALSE,
+          dpi = 5
+        )
+    )
+
     # Test examples
     vdiffr::expect_doppelganger(
       "layer_spatial.SpatRaster() example 1",
