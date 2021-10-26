@@ -1,4 +1,3 @@
-context("test-geom-polypath.R")
 
 test_that("polypath works as intended", {
   skip_if_not_installed("vdiffr")

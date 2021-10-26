@@ -1,6 +1,4 @@
 
-context("test-geom-spatial-rect")
-
 test_that("geom_spatial_rect() works", {
   # Canada!
   tile_df <- expand.grid(

@@ -1,4 +1,3 @@
-context("test-layer-spatial-terra.R")
 
 # max test length was exceeded on CRAN, so these tests are skipped
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {

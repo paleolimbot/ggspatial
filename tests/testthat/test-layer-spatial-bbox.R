@@ -1,11 +1,9 @@
 
-context("layer-spatial-bbox")
-
 test_that("bbox functions work", {
   load_longlake_data(which = "longlake_waterdf")
   box <- sf::st_bbox(longlake_waterdf)
-  expect_is(sf_bbox_to_sf(box), "sf")
-  expect_is(sf_bbox_to_sf(box)$geometry, "sfc_POLYGON")
+  expect_s3_class(sf_bbox_to_sf(box), "sf")
+  expect_s3_class(sf_bbox_to_sf(box)$geometry, "sfc_POLYGON")
   expect_identical(sf::st_crs(sf_bbox_to_sf(box)), sf::st_crs(longlake_waterdf))
   expect_identical(sf::st_bbox(sf_bbox_to_sf(box)), box)
 })
@@ -13,8 +11,8 @@ test_that("bbox functions work", {
 test_that("bbox functions work with detail arg", {
   load_longlake_data(which = "longlake_waterdf")
   box <- sf::st_bbox(longlake_waterdf)
-  expect_is(sf_bbox_to_sf(box, detail = 30), "sf")
-  expect_is(sf_bbox_to_sf(box, detail = 30)$geometry, "sfc_POLYGON")
+  expect_s3_class(sf_bbox_to_sf(box, detail = 30), "sf")
+  expect_s3_class(sf_bbox_to_sf(box, detail = 30)$geometry, "sfc_POLYGON")
   expect_identical(
     sf::st_crs(sf_bbox_to_sf(box, detail = 30)),
     sf::st_crs(longlake_waterdf)

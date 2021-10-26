@@ -1,4 +1,3 @@
-context("test-annotation-scale.R")
 
 test_that("scale bar parameters are generated correctly", {
   load_longlake_data(which = "longlake_depthdf")

@@ -1,8 +1,7 @@
-context("test-geom_spatial.R")
 
 test_that("xy_transform works as intended", {
   # regular case
-  expect_is(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857), "data.frame")
+  expect_s3_class(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857), "data.frame")
   expect_equal(nrow(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857)), 3)
   expect_equal(colnames(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857)), c("x", "y"))
 
@@ -125,7 +124,7 @@ test_that("stat_spatial_identity function", {
 })
 
 test_that("create spatial stat class gets tested", {
-  expect_is(
+  expect_s3_class(
     create_spatial_stat_class(ggplot2::StatIdentity, "stat_spatial_identity"),
     "StatIdentity"
   )

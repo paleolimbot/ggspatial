@@ -1,6 +1,4 @@
 
-context("test-df-spatial-raster")
-
 test_that("Raster* objects are converted properly by df_spatial", {
   skip_if_not_installed("raster")
 
@@ -73,8 +71,8 @@ test_that("Factor Raster* objects are properly converted", {
   r_fac <- raster::as.factor(r_num)
   levels(r_fac) <-
       data.frame(ID = 1:3, landcover = c("grassland", "savannah", "forest"))
-  expect_is(df_spatial(r_num)[["band1"]], "numeric")
-  expect_is(df_spatial(r_fac)[["band1"]], "factor")
+  expect_true(inherits(df_spatial(r_num)[["band1"]], "numeric"))
+  expect_true(inherits(df_spatial(r_fac)[["band1"]], "factor"))
   expect_identical(levels(df_spatial(r_fac)[["band1"]]),
                    c("grassland", "savannah", "forest"))
 

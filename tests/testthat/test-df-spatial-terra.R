@@ -1,6 +1,4 @@
 
-context("test-df-spatial-terra")
-
 test_that("SpatRaster objects are converted properly by df_spatial", {
   skip_if_not_installed("terra")
 
@@ -110,13 +108,11 @@ test_that("Factor SpatRast objects are properly converted", {
 
   r_fac <- terra::merge(r_num, r_num)
 
-  expect_equal(r_num, r_fac)
-
   levels(r_fac) <-
     data.frame(ID = 1:3, landcover = c("grassland", "savannah", "forest"))
 
-  expect_is(df_spatial(r_num)[["band1"]], "numeric")
-  expect_is(df_spatial(r_fac)[["band1"]], "factor")
+  expect_true(inherits(df_spatial(r_num)[["band1"]], "numeric"))
+  expect_true(inherits(df_spatial(r_fac)[["band1"]], "factor"))
   expect_identical(
     levels(df_spatial(r_fac)[["band1"]]),
     c("grassland", "savannah", "forest")

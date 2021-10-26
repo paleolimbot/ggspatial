@@ -1,4 +1,3 @@
-context("test-geom-spatial-segment")
 
 test_that("geom_spatial_segment() works", {
   skip_if_not_installed("vdiffr")

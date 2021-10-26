@@ -1,4 +1,3 @@
-context("test-annotation-north-arrow.R")
 
 test_that("north arrow drawing works", {
   skip_if_not_installed("vdiffr")

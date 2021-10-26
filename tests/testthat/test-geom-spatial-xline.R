@@ -1,6 +1,4 @@
 
-context("test-geom-spatial-xline")
-
 test_that("annotation_spatial_(h|v)line work with coord_sf()", {
   skip_if_not_installed("vdiffr")
 
