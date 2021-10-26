@@ -6,8 +6,7 @@
 \alias{ggspatial-package}
 \title{ggspatial: Spatial Data Framework for ggplot2}
 \description{
-Spatial data plus the power of the ggplot2 framework means easier mapping when input 
-  data are already in the form of spatial objects.
+Spatial data plus the power of the ggplot2 framework means easier mapping when input data are already in the form of spatial objects.
 }
 \seealso{
 Useful links:
@@ -24,6 +23,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Brent Thorne (\href{https://orcid.org/0000-0002-1099-3857}{ORCID}) [contributor]
+  \item Diego Hernangómez (\href{https://orcid.org/0000-0001-8457-4658}{ORCID}) [contributor]
 }
 
 }

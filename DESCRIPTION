@@ -37,7 +37,7 @@ Suggests:
     rgdal,
     raster,
     terra,
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     dplyr,
     withr,
     ggrepel,
@@ -51,3 +51,4 @@ LazyData: TRUE
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

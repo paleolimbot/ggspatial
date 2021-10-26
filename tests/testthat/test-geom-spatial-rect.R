@@ -1,6 +1,4 @@
 
-context("test-geom-spatial-rect")
-
 test_that("geom_spatial_rect() works", {
   # Canada!
   tile_df <- expand.grid(
@@ -20,7 +18,11 @@ test_that("geom_spatial_rect() works", {
     tile_df,
     aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, x = x, y = y)
   ) +
-    coord_sf(crs = 3979)
+    # use something with WGS84 ellipsoid so there's no datum transform
+    # this is EPSG:3979 with WGS84 ellipsoid
+    coord_sf(
+      crs = "+proj=lcc +lat_1=49 +lat_2=77 +lat_0=49 +lon_0=-95 +x_0=0 +y_0=0 +type=crs"
+    )
 
   expect_message(
     ggplot2::ggplot_build(p + geom_spatial_rect()),
@@ -33,22 +35,22 @@ test_that("geom_spatial_rect() works", {
 
   skip_if_not_installed("vdiffr")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_rect()",
     p + geom_spatial_rect(crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_rect(), mapped aes",
     p + geom_spatial_rect(aes(fill = factor(xmin)), crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_tile(), mapped dims",
     p + geom_spatial_tile(aes(height = 7.5, width = 5), crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_tile(), auto dims",
     p + geom_spatial_tile(crs = 4326)
   )

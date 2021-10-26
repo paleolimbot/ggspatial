@@ -1,4 +1,3 @@
-context("test-layer-spatial-stars")
 
 # only a few of these work, so skipping
 test_that("stars tests", {

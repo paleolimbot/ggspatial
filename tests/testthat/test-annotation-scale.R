@@ -1,4 +1,3 @@
-context("test-annotation-scale.R")
 
 test_that("scale bar parameters are generated correctly", {
   load_longlake_data(which = "longlake_depthdf")
@@ -44,18 +43,17 @@ test_that("annotation scale works as intended", {
   skip_if_not_installed("vdiffr")
 
   load_longlake_data(which = "longlake_depthdf")
-  nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
   # defaults are ok
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (defaults, coord_sf)",
     ggplot() +
-      geom_sf(data = nc) +
+      geom_sf(data = longlake_depthdf) +
       annotation_scale()
   )
 
   expect_message(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "scale bar (defaults, cartesian)",
       ggplot() +
         ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
@@ -66,7 +64,7 @@ test_that("annotation scale works as intended", {
   )
 
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (metric plotunit, cartesian)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4/10, y = -(0:4)/10)) +
@@ -74,7 +72,7 @@ test_that("annotation scale works as intended", {
       ggplot2::coord_fixed(expand = FALSE)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (imperial plotunit)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
@@ -82,7 +80,7 @@ test_that("annotation scale works as intended", {
       ggplot2::coord_fixed(expand = FALSE)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (imperial unit)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:15, y = -(0:15))) +
@@ -91,28 +89,28 @@ test_that("annotation scale works as intended", {
   )
 
   # position
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (defaults, bottom left)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "bl")
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (defaults, bottom right)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "br")
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (defaults, top left)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
       annotation_scale(location = "tl")
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (defaults, top right)",
     ggplot() +
       geom_sf(data = longlake_depthdf) +
@@ -120,7 +118,7 @@ test_that("annotation scale works as intended", {
   )
 
   # styles
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (ticks)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
@@ -132,7 +130,7 @@ test_that("annotation scale works as intended", {
 test_that("font items are passed on to annotation_scale()", {
   skip_if_not_installed("vdiffr")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (fonts)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
@@ -163,7 +161,7 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     line_col = c("black", "red", "blue")
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "scale bar (parameters as aesthetics)",
     ggplot(df) +
       ggplot2::geom_point(aes(x, y)) +

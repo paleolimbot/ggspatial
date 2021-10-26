@@ -1,4 +1,3 @@
-context("test-fixed-aspect")
 
 test_that("aspect adjuster works", {
 
@@ -26,7 +25,7 @@ test_that("fixed aspect works", {
     fixed_plot_aspect(ratio = 1) +
     ggplot2::coord_fixed()
 
-  expect_is(p, "gg_fixed_plot_aspect")
+  expect_s3_class(p, "gg_fixed_plot_aspect")
 
   built <- ggplot2::ggplot_build(p)
   xlim <- built$layout$panel_scales_x[[1]]$get_limits()
@@ -36,13 +35,13 @@ test_that("fixed aspect works", {
   expect_equal(ylim, c(0, 10))
 
   skip_if_not_installed("vdiffr")
-  vdiffr::expect_doppelganger("stat_aspect() square", p)
+  expect_doppelganger("stat_aspect() square", p)
 })
 
 test_that("fixed aspect does not fail with  zero layers", {
   p <- ggplot() + fixed_plot_aspect()
-  expect_is(p, "gg_fixed_plot_aspect")
-  expect_is(ggplot2::ggplot_build(p), "ggplot_built")
+  expect_s3_class(p, "gg_fixed_plot_aspect")
+  expect_s3_class(ggplot2::ggplot_build(p), "ggplot_built")
 })
 
 test_that("fixed aspect works with spatial data", {
@@ -59,7 +58,7 @@ test_that("fixed aspect works with spatial data", {
     coord_sf(crs = 3857) +
     fixed_plot_aspect(0.5)
 
-  expect_is(p, "gg_fixed_plot_aspect")
+  expect_s3_class(p, "gg_fixed_plot_aspect")
   built <- ggplot2::ggplot_build(p)
   xlim <- built$layout$panel_scales_x[[1]]$get_limits()
   ylim <- built$layout$panel_scales_y[[1]]$get_limits()

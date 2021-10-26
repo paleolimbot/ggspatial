@@ -1,8 +1,7 @@
-context("test-geom_spatial.R")
 
 test_that("xy_transform works as intended", {
   # regular case
-  expect_is(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857), "data.frame")
+  expect_s3_class(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857), "data.frame")
   expect_equal(nrow(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857)), 3)
   expect_equal(colnames(xy_transform(c(1, 2, 3), c(1, 2, 3), to = 3857)), c("x", "y"))
 
@@ -34,7 +33,7 @@ test_that("geom_spatial_* geoms work properly", {
     geom_spatial_point(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_point()",
     point
   )
@@ -43,7 +42,7 @@ test_that("geom_spatial_* geoms work properly", {
     geom_spatial_path(aes(col = DEPTH_M), crs = 26920) +
     coord_sf(crs = 3857)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_path()",
     path
   )
@@ -53,7 +52,7 @@ test_that("geom_spatial_* geoms work properly", {
     geom_spatial_polygon(crs = 26920) +
     coord_sf(crs = 3857)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_polygon()",
     poly
   )
@@ -73,25 +72,25 @@ test_that("spatial labellers work properly", {
     geom_spatial_point(crs = 4326) +
     coord_sf(crs = 3857)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_text()",
     p +
       geom_spatial_text(crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_label()",
     p +
       geom_spatial_label(crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_text_repel()",
     p +
       geom_spatial_text_repel(crs = 4326, seed = 12)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_label_repel()",
     p +
       geom_spatial_label_repel(crs = 4326, seed = 12)
@@ -107,7 +106,7 @@ test_that("stat_spatial_identity function", {
   df <- df_spatial(longlake_depthdf)
 
   expect_message(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "stat_spatial_identity(crs = NULL)",
       ggplot() +
         annotation_spatial(longlake_waterdf, fill = "lightblue") +
@@ -116,7 +115,7 @@ test_that("stat_spatial_identity function", {
     "Assuming `crs = 4326`"
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "stat_spatial_identity(crs = 4326)",
     ggplot() +
       annotation_spatial(longlake_waterdf, fill = "lightblue") +
@@ -125,7 +124,7 @@ test_that("stat_spatial_identity function", {
 })
 
 test_that("create spatial stat class gets tested", {
-  expect_is(
+  expect_s3_class(
     create_spatial_stat_class(ggplot2::StatIdentity, "stat_spatial_identity"),
     "StatIdentity"
   )

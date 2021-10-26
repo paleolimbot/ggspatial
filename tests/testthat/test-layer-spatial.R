@@ -1,11 +1,10 @@
-context("test-layer-spatial.R")
 
 test_that("layer_spatial() works as intended", {
   skip_if_not_installed("vdiffr")
 
   load_longlake_data(which = c("longlake_roadsdf", "longlake_waterdf", "longlake_depthdf"))
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "layer_spatial()",
     ggplot() +
       layer_spatial(longlake_roadsdf, size = 1, col = "black") +
@@ -14,7 +13,7 @@ test_that("layer_spatial() works as intended", {
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "shadow_spatial()",
     ggplot() +
       shadow_spatial(longlake_roadsdf) +
@@ -22,7 +21,7 @@ test_that("layer_spatial() works as intended", {
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "annotation_spatial()",
     ggplot() +
       annotation_spatial(longlake_roadsdf, size = 1, col = "black") +
@@ -32,8 +31,8 @@ test_that("layer_spatial() works as intended", {
   )
 
   # sp objects converted to sf
-  expect_is(layer_spatial(suppressWarnings(as(longlake_depthdf, "Spatial")), aes(col = DEPTH_M)), "list")
-  expect_is(layer_spatial(longlake_depthdf, aes(col = DEPTH_M)), "list")
+  expect_true(inherits(layer_spatial(suppressWarnings(as(longlake_depthdf, "Spatial")), aes(col = DEPTH_M)), "list"))
+  expect_true(inherits(layer_spatial(longlake_depthdf, aes(col = DEPTH_M)), "list"))
 })
 
 test_that("3D sp data can be used with layer_spatial()", {

@@ -1,6 +1,4 @@
 
-context("test-df-spatial-stars")
-
 test_that("stars objects are converted properly by df_spatial", {
   skip_if_not_installed("raster")
   skip_if_not_installed("stars")

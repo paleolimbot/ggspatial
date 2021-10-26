@@ -1,4 +1,3 @@
-context("test-geom-spatial-segment")
 
 test_that("geom_spatial_segment() works", {
   skip_if_not_installed("vdiffr")
@@ -27,7 +26,7 @@ test_that("geom_spatial_segment() works", {
     ggplot2::ggplot_build(p + geom_spatial_segment(crs = 4326))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), great circle wrap",
     p + geom_spatial_segment(
       crs = 4326,
@@ -37,7 +36,7 @@ test_that("geom_spatial_segment() works", {
     )
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), great circle no wrap",
     p + geom_spatial_segment(
       crs = 4326,
@@ -47,17 +46,17 @@ test_that("geom_spatial_segment() works", {
     )
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), no great circle",
     p + geom_spatial_segment(crs = 4326, great_circle = FALSE)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), no great circle + detail",
     p + geom_spatial_segment(detail = 100, great_circle = FALSE, crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), great circle merc",
     # don't use halifax -> beijing for this one
     ggplot(
@@ -69,7 +68,7 @@ test_that("geom_spatial_segment() works", {
       geom_spatial_segment(crs = 4326, great_circle = TRUE)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_segment(), no great circle merc",
     ggplot(cities, aes(x, y, xend = xend, yend = yend)) +
       geom_spatial_point(crs = 4326) +

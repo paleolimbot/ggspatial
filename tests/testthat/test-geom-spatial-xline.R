@@ -1,6 +1,4 @@
 
-context("test-geom-spatial-xline")
-
 test_that("annotation_spatial_(h|v)line work with coord_sf()", {
   skip_if_not_installed("vdiffr")
 
@@ -15,7 +13,7 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
     # view of the north pole
     coord_sf(crs = 3995)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "spatial_xline/mapped aes",
     p +
       annotation_spatial_hline(
@@ -29,7 +27,7 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
   )
 
   expect_message(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "spatial_hline() NULL crs",
       p +
         annotation_spatial_hline(intercept = seq(0, 80, by = 10), limits = c(-180, 180))
@@ -38,7 +36,7 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
   )
 
   expect_message(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "spatial_vline() NULL crs",
       p +
         annotation_spatial_vline(intercept = seq(-180, 180, by = 10), limits = c(0, 90))
@@ -71,7 +69,7 @@ test_that("annotation_spatial_(h|v)line work with coord_sf()", {
     )
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "hline/vline + guessed limits",
     p +
       annotation_spatial_hline(
@@ -99,7 +97,7 @@ test_that("annotation_spatial_xline() works with a warning in cartesian coords",
     ggplot2::geom_point()
 
   expect_warning(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "annotation_spatial_hline()",
       p + annotation_spatial_hline(intercept = 60, crs = 4326)
     ),
@@ -107,7 +105,7 @@ test_that("annotation_spatial_xline() works with a warning in cartesian coords",
   )
 
   expect_warning(
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "annotation_spatial_vline()",
       p + annotation_spatial_vline(intercept = 15, crs = 4326)
     ),
@@ -118,12 +116,12 @@ test_that("annotation_spatial_xline() works with a warning in cartesian coords",
     geom_spatial_point(crs = 4326) +
     coord_sf(crs = 4326)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "spatial_hline, coord_sf/4326",
     p2 + annotation_spatial_hline(intercept = 60)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "spatial_vline, coord_sf/4326",
     p2 + annotation_spatial_vline(intercept = 15, crs = 4326)
   )

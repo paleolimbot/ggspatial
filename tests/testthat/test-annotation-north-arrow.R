@@ -1,18 +1,17 @@
-context("test-annotation-north-arrow.R")
 
 test_that("north arrow drawing works", {
   skip_if_not_installed("vdiffr")
 
   load_longlake_data(which = "longlake_waterdf")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrow default (cartesian)",
     ggplot() +
       ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
       annotation_north_arrow()
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrow default (sf)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
@@ -54,7 +53,7 @@ test_that("true north arrow points in the right direction", {
 
   load_longlake_data(which = "longlake_waterdf")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (grid north)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
@@ -65,7 +64,7 @@ test_that("true north arrow points in the right direction", {
       coord_sf(crs = 26922) # utm zone 22...has some angle to it
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (true north)",
     ggplot() +
       geom_sf(data = longlake_waterdf) +
@@ -76,7 +75,7 @@ test_that("true north arrow points in the right direction", {
       coord_sf(crs = 26922) # utm zone 22...has some angle to it
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (true north, global)",
     ggplot() +
       geom_spatial_point(
@@ -103,7 +102,7 @@ test_that("all built-in styles of north arrow rotate properly", {
     ) +
     coord_sf(crs = 3995)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (styles as functions)",
     p +
       annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering) +
@@ -112,7 +111,7 @@ test_that("all built-in styles of north arrow rotate properly", {
       annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (styles as calls)",
     p +
       annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_orienteering()) +
@@ -121,7 +120,7 @@ test_that("all built-in styles of north arrow rotate properly", {
       annotation_north_arrow(location = "br", which_north = "true", style = north_arrow_nautical())
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (styles, grid north)",
     p +
       annotation_north_arrow(location = "tl", which_north = "grid", style = north_arrow_orienteering) +
@@ -142,7 +141,7 @@ test_that("colour on north arrows is propogated through for all north arrow styl
     ) +
     coord_sf(crs = 3995)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (text colours)",
     p +
       annotation_north_arrow(location = "tl", style = north_arrow_orienteering(text_col = "purple")) +
@@ -164,7 +163,7 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
     location = c("bl", "tr")
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "north arrows (use of aesthetics)",
     ggplot() +
       layer_spatial(longlake_waterdf) +

@@ -1,7 +1,4 @@
 
-context("test-df-spatial-sp")
-
-
 test_that("df_spatial() works with sp objects", {
   skip_if_not_installed("sp")
 
@@ -10,7 +7,7 @@ test_that("df_spatial() works with sp objects", {
 
   # point / sp
   df_points <- expect_df_spatial(longlake_depthdf, c("NOTES", "DEPTH_M"))
-  expect_is(df_points$part_id, "integer")
+  expect_true(inherits(df_points$part_id, "integer"))
   expect_equal(nrow(df_points), nrow(longlake_depthdf))
 
   df_points_sfc <- expect_df_spatial(as(longlake_depthdf, "SpatialPoints"))
@@ -18,7 +15,7 @@ test_that("df_spatial() works with sp objects", {
 
   # linestring
   df_lines <- expect_df_spatial(longlake_roadsdf, "OBJECTID")
-  expect_is(df_lines$part_id, "integer")
+  expect_true(inherits(df_lines$part_id, "integer"))
   expect_setequal(df_lines$feature_id, seq_len(nrow(longlake_roadsdf)))
 
   df_lines_sfc <- expect_df_spatial(as(longlake_roadsdf, "SpatialLines"))
@@ -26,8 +23,8 @@ test_that("df_spatial() works with sp objects", {
 
   # polygon
   df_polygons <- expect_df_spatial(longlake_waterdf, c("part_id", "piece_id"))
-  expect_is(df_polygons$part_id, "integer")
-  expect_is(df_polygons$piece_id, "integer")
+  expect_true(inherits(df_polygons$part_id, "integer"))
+  expect_true(inherits(df_polygons$piece_id, "integer"))
   expect_length(unique(df_polygons$feature_id), nrow(longlake_waterdf))
   expect_length(unique(df_polygons$part_id), 1)
   expect_length(unique(df_polygons$piece_id), 7)

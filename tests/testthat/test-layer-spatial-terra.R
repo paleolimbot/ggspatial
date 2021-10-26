@@ -1,4 +1,3 @@
-context("test-layer-spatial-terra.R")
 
 # max test length was exceeded on CRAN, so these tests are skipped
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
@@ -19,7 +18,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
 
     # should have little grey thing around it
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster()",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -27,7 +26,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # should not have little grey thing around it
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster()",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -35,7 +34,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # grey thing
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() project",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -44,7 +43,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # no grey thing
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster() project",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -53,7 +52,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with alpha
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster() alpha 0.3",
       ggplot() +
         annotation_spatial(longlake_osm, alpha = 0.3) +
@@ -62,14 +61,14 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with aesthetics
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() aes()",
       ggplot() +
         layer_spatial(longlake_osm, aes()) +
         layer_spatial(longlake_depthdf)
     )
 
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() aes(band1)",
       ggplot() +
         layer_spatial(
@@ -80,21 +79,21 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # dpi works
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() dpi",
       ggplot() +
         layer_spatial(longlake_osm, lazy = TRUE, dpi = 2)
     )
 
     # lazy works
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() lazy",
       ggplot() +
         layer_spatial(longlake_osm, lazy = TRUE)
     )
 
     # interpolation works
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() no interpolation",
       ggplot() +
         layer_spatial(longlake_osm,
@@ -105,12 +104,12 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # Test examples
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() example 1",
       ggplot() +
         layer_spatial(longlake_osm)
     )
-    vdiffr::expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() example 2",
       # Not removing NAs to avoid warning
       ggplot() +
