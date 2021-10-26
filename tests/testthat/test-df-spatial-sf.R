@@ -112,7 +112,7 @@ test_that("df_spatial() works with sf objects", {
     df_multipolygons[c("x", "y", "z", "feature_id", "part_id", "piece_id")]
   )
 
-  expect_doppelganger(
+  expect_doppelganger_extra(
     "df_spatial(), multipolygon",
     ggplot(
       df_multipolygons,
