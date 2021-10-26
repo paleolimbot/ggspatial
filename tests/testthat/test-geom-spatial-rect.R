@@ -31,22 +31,22 @@ test_that("geom_spatial_rect() works", {
 
   skip_if_not_installed("vdiffr")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_rect()",
     p + geom_spatial_rect(crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_rect(), mapped aes",
     p + geom_spatial_rect(aes(fill = factor(xmin)), crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_tile(), mapped dims",
     p + geom_spatial_tile(aes(height = 7.5, width = 5), crs = 4326)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "geom_spatial_tile(), auto dims",
     p + geom_spatial_tile(crs = 4326)
   )

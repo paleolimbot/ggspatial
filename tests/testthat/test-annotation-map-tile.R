@@ -8,7 +8,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     load_longlake_data(which = "longlake_waterdf")
 
     expect_message(
-      vdiffr::expect_doppelganger(
+      expect_doppelganger(
         "default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
@@ -18,7 +18,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     expect_message(
-      vdiffr::expect_doppelganger(
+      expect_doppelganger(
         "non-default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
@@ -29,7 +29,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     expect_message(
-      vdiffr::expect_doppelganger(
+      expect_doppelganger(
         "specified default EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
@@ -40,7 +40,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     expect_message(
-      vdiffr::expect_doppelganger(
+      expect_doppelganger(
         "extreme rotated EPSG",
         ggplot() +
           annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
@@ -51,7 +51,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     expect_message(
-      vdiffr::expect_doppelganger(
+      expect_doppelganger(
         "faceted type",
         ggplot() +
           annotation_map_tile(
@@ -71,24 +71,24 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     df_alta <- data.frame(lon = c(-122.974, -123.0042), lat = c(50.1232, 50.1035))
     p <- ggplot(df_alta, aes(lon, lat)) + geom_spatial_point(crs = 4326)
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "hillshade",
       p +
         annotation_map_tile(type = "hillshade", alpha = 1)
     )
 
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "hillshade with alpha",
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5)
     )
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "projected hillshade",
       p +
         annotation_map_tile(type = "hillshade", alpha = 1) +
         coord_sf(crs = 26910)
     )
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "projected hillshade w/alpha",
       p +
         annotation_map_tile(type = "hillshade", alpha = 0.5) +
@@ -96,24 +96,24 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
 
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "rgb tile",
       p +
         annotation_map_tile(alpha = 1)
     )
 
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "rgb tile with alpha",
       p +
         annotation_map_tile(alpha = 0.5)
     )
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "rgb tile projected",
       p +
         annotation_map_tile(alpha = 1) +
         coord_sf(crs = 26910)
     )
-    vdiffr::expect_doppelganger(
+    expect_doppelganger(
       "rgb tile projected with alpha",
       p +
         annotation_map_tile(alpha = 0.5) +

@@ -44,13 +44,13 @@ test_that("SpatRaster objects are converted properly by df_spatial", {
   expect_s4_class(longlake_depth_raster, "SpatRaster")
   expect_s4_class(longlake_osm, "SpatRaster")
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), terra",
     ggplot(df_spatial(longlake_depth_raster)) +
       ggplot2::geom_raster(aes(x, y, fill = band1))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), nband terra",
     ggplot(df_spatial(longlake_osm)) +
       ggplot2::geom_raster(aes(x, y, fill = band1))

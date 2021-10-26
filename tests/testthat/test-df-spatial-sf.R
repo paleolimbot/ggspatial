@@ -20,7 +20,7 @@ test_that("df_spatial() works with sf objects", {
   df_points_sfc <- expect_df_spatial(longlake_depthdf$geometry)
   expect_identical(df_points_sfc, df_points[c("x", "y", "feature_id", "part_id")])
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), point",
     ggplot(df_points, aes(x, y, colour = DEPTH_M)) + ggplot2::geom_point()
   )
@@ -38,7 +38,7 @@ test_that("df_spatial() works with sf objects", {
   df_multipoints_sfc <- expect_df_spatial(multipoints_sf$geometry)
   expect_identical(df_multipoints_sfc, df_multipoints[c("x", "y", "feature_id", "part_id")])
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), multipoint",
     ggplot(df_multipoints, aes(x, y, colour = one)) + ggplot2::geom_point()
   )
@@ -52,7 +52,7 @@ test_that("df_spatial() works with sf objects", {
   df_lines_sfc <- expect_df_spatial(longlake_roadsdf$geometry)
   expect_identical(df_lines_sfc, df_lines[c("x", "y", "z", "feature_id", "part_id")])
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), linestring",
     ggplot(df_lines, aes(x, y, group = interaction(feature_id, part_id))) + ggplot2::geom_path()
   )
@@ -66,7 +66,7 @@ test_that("df_spatial() works with sf objects", {
   df_multilines_sfc <- expect_df_spatial(multilines_sf$geometry, c("z", "part_id"))
   expect_identical(df_multilines_sfc, df_multilines[c("x", "y", "z", "part_id", "feature_id")])
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), multilinestring",
     ggplot(df_multilines, aes(x, y, group = interaction(feature_id, part_id))) + ggplot2::geom_path()
   )
@@ -86,7 +86,7 @@ test_that("df_spatial() works with sf objects", {
     df_polygons[c("x", "y", "z", "feature_id", "part_id", "piece_id")]
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), polygon",
     ggplot(
       df_polygons,
@@ -112,7 +112,7 @@ test_that("df_spatial() works with sf objects", {
     df_multipolygons[c("x", "y", "z", "feature_id", "part_id", "piece_id")]
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "df_spatial(), multipolygon",
     ggplot(
       df_multipolygons,

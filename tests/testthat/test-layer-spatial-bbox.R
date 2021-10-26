@@ -30,14 +30,14 @@ test_that("bbox plotting works", {
 
   load_longlake_data(which = c("longlake_waterdf", "longlake_depthdf"))
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "layer_spatial.bbox()",
     ggplot() +
       layer_spatial(sf::st_bbox(longlake_waterdf)) +
       layer_spatial(longlake_depthdf)
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "annotation_spatial.bbox()",
     ggplot() +
       annotation_spatial(sf::st_bbox(longlake_waterdf)) +

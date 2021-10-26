@@ -35,7 +35,7 @@ test_that("fixed aspect works", {
   expect_equal(ylim, c(0, 10))
 
   skip_if_not_installed("vdiffr")
-  vdiffr::expect_doppelganger("stat_aspect() square", p)
+  expect_doppelganger("stat_aspect() square", p)
 })
 
 test_that("fixed aspect does not fail with  zero layers", {

@@ -4,7 +4,7 @@ test_that("layer_spatial() works as intended", {
 
   load_longlake_data(which = c("longlake_roadsdf", "longlake_waterdf", "longlake_depthdf"))
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "layer_spatial()",
     ggplot() +
       layer_spatial(longlake_roadsdf, size = 1, col = "black") +
@@ -13,7 +13,7 @@ test_that("layer_spatial() works as intended", {
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "shadow_spatial()",
     ggplot() +
       shadow_spatial(longlake_roadsdf) +
@@ -21,7 +21,7 @@ test_that("layer_spatial() works as intended", {
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "annotation_spatial()",
     ggplot() +
       annotation_spatial(longlake_roadsdf, size = 1, col = "black") +
