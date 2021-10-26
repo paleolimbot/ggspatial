@@ -131,15 +131,15 @@ test_that("Handle multi-layer objects stars", {
   skip_if_not_installed("stars")
 
 
-  df <-   df <- data.frame(
+  df <- data.frame(
     x = rep(seq(0.5, 2.5, 1), 6),
     y = rep(seq(5, 1, -2), 6),
     band = rep(seq(1,6,1), 6),
     value = c(0,1)
   )
 
-  r_six_layers <- stars::st_as_stars(df, dims =c("x", "y", "band"))
-  dim(r_six_layers)[3]
+  r_six_layers <- stars::st_as_stars(df, dims = c("x", "y", "band"))
+  
   expect_equal(as.integer(dim(r_six_layers))[3], 6)
   expect_df_spatial(
     r_six_layers,
