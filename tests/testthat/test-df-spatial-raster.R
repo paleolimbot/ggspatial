@@ -16,12 +16,12 @@ test_that("Raster* objects are converted properly by df_spatial", {
 
   skip_if_not_installed("vdiffr")
 
-  expect_doppelganger(
+  expect_doppelganger_extra(
     "df_spatial(), raster",
     ggplot(df_spatial(longlake_depth_raster)) + ggplot2::geom_raster(aes(x, y, fill = band1))
   )
 
-  expect_doppelganger(
+  expect_doppelganger_extra(
     "df_spatial(), nband raster",
     ggplot(df_spatial(longlake_osm)) + ggplot2::geom_raster(aes(x, y, fill = band1))
   )

@@ -10,7 +10,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     load_longlake_data(which = c("longlake_osm", "longlake_depthdf", "longlake_depth_raster"), raster_format = "raster")
 
     # should have little grey thing around it
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.Raster()",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -18,7 +18,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # should not have little grey thing around it
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.Raster()",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -26,7 +26,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # grey thing
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.Raster() project",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -35,7 +35,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # no grey thing
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.Raster() project",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -44,7 +44,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with alpha
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.Raster() alpha",
       ggplot() +
         annotation_spatial(longlake_osm, alpha = 0.7) +
@@ -53,14 +53,14 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with aesthetics
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.Raster() aes()",
       ggplot() +
         layer_spatial(longlake_osm, aes()) +
         layer_spatial(longlake_depthdf)
     )
 
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.Raster() aes(band1)",
       ggplot() +
         layer_spatial(longlake_osm, aes(alpha = stat(band1), fill = NULL)) +

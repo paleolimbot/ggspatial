@@ -18,7 +18,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
 
     # should have little grey thing around it
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster()",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -26,7 +26,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # should not have little grey thing around it
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster()",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -34,7 +34,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # grey thing
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() project",
       ggplot() +
         layer_spatial(longlake_osm) +
@@ -43,7 +43,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # no grey thing
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster() project",
       ggplot() +
         annotation_spatial(longlake_osm) +
@@ -52,7 +52,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with alpha
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "annotation_spatial.SpatRaster() alpha 0.3",
       ggplot() +
         annotation_spatial(longlake_osm, alpha = 0.3) +
@@ -61,14 +61,14 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # with aesthetics
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() aes()",
       ggplot() +
         layer_spatial(longlake_osm, aes()) +
         layer_spatial(longlake_depthdf)
     )
 
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() aes(band1)",
       ggplot() +
         layer_spatial(
@@ -79,21 +79,21 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # dpi works
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() dpi",
       ggplot() +
         layer_spatial(longlake_osm, lazy = TRUE, dpi = 2)
     )
 
     # lazy works
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() lazy",
       ggplot() +
         layer_spatial(longlake_osm, lazy = TRUE)
     )
 
     # interpolation works
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() no interpolation",
       ggplot() +
         layer_spatial(longlake_osm,
@@ -104,12 +104,12 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     )
 
     # Test examples
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() example 1",
       ggplot() +
         layer_spatial(longlake_osm)
     )
-    expect_doppelganger(
+    expect_doppelganger_extra(
       "layer_spatial.SpatRaster() example 2",
       # Not removing NAs to avoid warning
       ggplot() +
