@@ -43,13 +43,12 @@ test_that("annotation scale works as intended", {
   skip_if_not_installed("vdiffr")
 
   load_longlake_data(which = "longlake_depthdf")
-  nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
 
   # defaults are ok
   expect_doppelganger(
     "scale bar (defaults, coord_sf)",
     ggplot() +
-      geom_sf(data = nc) +
+      geom_sf(data = longlake_depthdf) +
       annotation_scale()
   )
 
