@@ -16,15 +16,34 @@
 #'
 #' @return A ggplot2 layer
 #' @export
+#' @examples
+#' \donttest{
 #'
+#' library(ggplot2)
+#' load_longlake_data(
+#'   which = c(
+#'     "longlake_osm",
+#'     "longlake_depth_raster"
+#'   ),
+#'   raster_format = "stars"
+#' )
+#' ggplot() +
+#'   layer_spatial(longlake_osm)
+#'
+#' ggplot() +
+#'   layer_spatial(longlake_depth_raster) +
+#'   scale_fill_continuous(
+#'     na.value = NA,
+#'     type = "viridis"
+#'   )
+#' }
 layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
                                 lazy = FALSE, dpi = 150, options = character(0), ...) {
 
-  dims <- stars::st_dimensions(data)
-  is_rgb <- ("band" %in% names(dims)) && (dims$band$to %in% c(3, 4))
-  if(is_rgb) {
+  is_rgb <- is.null(mapping) && (dim(data)["band"] %in% c(3, 4))
+  if (is_rgb) {
     # RGB(A)
-    if(is_annotation) {
+    if (is_annotation) {
       stat <- StatSpatialStarsAnnotation
     } else {
       stat <- StatSpatialStars
@@ -34,7 +53,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
     mapping <- ggplot2::aes_string(raster = "raster")
   } else {
     # mapped aesthetics mode
-    if(is_annotation) {
+    if (is_annotation) {
       stop("Non-RGBA rasters with is_annotation = TRUE is not implemented.")
     } else {
       stat <- StatSpatialStarsDf
@@ -58,6 +77,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
       params = list(
         interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
         lazy = lazy,
+        dpi = dpi,
         options = options,
         ...
       )
@@ -65,7 +85,9 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data)),
+      data = sf::st_sfc(sf::st_point(),
+                        crs = sf::st_crs(data)
+      ),
       inherit.aes = FALSE,
       show.legend = FALSE
     )
@@ -80,22 +102,23 @@ annotation_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, .
 
 #' @rdname layer_spatial.stars
 #' @export
-StatSpatialStars <-  ggplot2::ggproto(
+# nocov start
+StatSpatialStars <- ggplot2::ggproto(
   "StatSpatialStars",
   ggplot2::Stat,
   required_aes = "raster",
-
   compute_layer = function(self, data, params, layout) {
+
 
     # raster extents
     extents <- lapply(data$raster, sf::st_bbox)
 
     # project to target coordinate system, if one exists
     coord_crs <- layout$coord_params$crs
-    if(!is.null(coord_crs)) {
-
-      projected_bboxes <- lapply(seq_along(extents), function(i) {
+    if (!is.null(coord_crs)) {
+      data$extent <- lapply(seq_along(extents), function(i) {
         x <- extents[[i]]
+
         project_extent(
           xmin = x["xmin"],
           xmax = x["xmax"],
@@ -106,33 +129,32 @@ StatSpatialStars <-  ggplot2::ggproto(
         )
       })
 
-      data$xmin <- vapply(projected_bboxes, function(x) x["xmin"], numeric(1))
-      data$xmax <- vapply(projected_bboxes, function(x) x["xmax"], numeric(1))
-      data$ymin <- vapply(projected_bboxes, function(x) x["ymin"], numeric(1))
-      data$ymax <- vapply(projected_bboxes, function(x) x["ymax"], numeric(1))
-
+      # this needs to be directly in the data so that the position scales get trained
+      data$xmin <- vapply(data$extent, function(x) x["xmin"], numeric(1))
+      data$xmax <- vapply(data$extent, function(x) x["xmax"], numeric(1))
+      data$ymin <- vapply(data$extent, function(x) x["ymin"], numeric(1))
+      data$ymax <- vapply(data$extent, function(x) x["ymax"], numeric(1))
     } else {
-      warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
-
-      data$xmin <- vapply(extents, function(x) x["xmin"], numeric(1))
-      data$xmax <- vapply(extents, function(x) x["xmax"], numeric(1))
-      data$ymin <- vapply(extents, function(x) x["ymin"], numeric(1))
-      data$ymax <- vapply(extents, function(x) x["ymax"], numeric(1))
+      stop("Spatial rasters require coord_sf().", call. = FALSE)
     }
 
     data
   }
 )
+# nocov end
 
 #' @rdname layer_spatial.stars
 #' @export
+# nocov start
 StatSpatialStarsAnnotation <- ggplot2::ggproto(
   "StatSpatialStars",
   StatSpatialStars,
   required_aes = "raster",
-
   compute_layer = function(self, data, params, layout) {
-    data <- ggplot2::ggproto_parent(self, StatSpatialStars)$compute_layer(data, params, layout)
+    data <- ggplot2::ggproto_parent(
+      self,
+      StatSpatialStars
+    )$compute_layer(data, params, layout)
     data$xmin <- NULL
     data$xmax <- NULL
     data$ymin <- NULL
@@ -141,45 +163,30 @@ StatSpatialStarsAnnotation <- ggplot2::ggproto(
     data
   }
 )
-
+# nocov end
 #' @rdname layer_spatial.stars
 #' @export
+# nocov start
 StatSpatialStarsDf <- ggplot2::ggproto(
   "StatSpatialStarsDf",
   ggplot2::Stat,
   required_aes = "raster",
-  extra_params = "lazy",
-
+  extra_params = c("lazy", "dpi", "options"),
   default_aes = ggplot2::aes(fill = stat(band1)),
-
   compute_layer = function(self, data, params, layout) {
-
-    if(params$lazy) stop("Lazy rendering not implemented for mapped rasters")
+    if (params$lazy) stop("Lazy rendering not implemented for mapped rasters")
 
     # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
     # (because this method gets called multiple times)
 
-    if("raster" %in% colnames(data)) {
-
+    if ("raster" %in% colnames(data)) {
       coord_crs <- layout$coord_params$crs
-      # FIXME this is a temporary fix until I can figure out how to do some of this using stars
-      # basically, we need to return a representative subsample of the df version, which may
-      # include some kind of mutate operation?
-      # the temp fix bungles the NODATA values?
-
-      # something like this would help
-      # withr::with_output_sink("message.txt", {
-      #   sf::gdal_utils("info", "longlake.tif", options = c("-approx_stats", "-json"))
-      # })
-      #
-      data$raster <- lapply(data$raster, methods::as, "Raster")
-
-      if(!is.null(coord_crs)) {
+      if (!is.null(coord_crs)) {
         data$raster <- lapply(
           data$raster,
-          function(...) suppressWarnings(raster::projectRaster(...)),
-          crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
+          project_stars_lazy,
+          crs = sf::st_crs(coord_crs)
         )
       } else {
         warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
@@ -192,40 +199,72 @@ StatSpatialStarsDf <- ggplot2::ggproto(
     }
   }
 )
+# nocov end
 
 #' @rdname layer_spatial.stars
 #' @export
+# nocov start
 GeomSpatialStars <- ggplot2::ggproto(
   "GeomSpatialStars",
   ggplot2::Geom,
-
   required_aesthetics = c("raster", "extent"),
-
   default_aes = ggplot2::aes(alpha = 1),
-
   handle_na = function(data, params) {
     data
   },
-
-  draw_panel = function(data, panel_params, coordinates, interpolate = TRUE,
-                        options = character(0), lazy = FALSE, dpi = 150) {
+  draw_panel = function(data, panel_params,
+                        coordinates,
+                        interpolate = FALSE,
+                        lazy = FALSE,
+                        dpi = 150,
+                        max_pixel_scale = 1,
+                        options = character(0)) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
+    if (lazy) {
+      # this code makes sure that the resampled raster doesn't contain any more area than it needs to
+      coord_bbox <- panel_params_as_bbox(panel_params)
+      rst_bbox <- data$extent[[1]]
+      if (bboxes_equal(coord_bbox, rst_bbox)) {
+        target_bbox <- coord_bbox
+      } else {
+        target_bbox <- sf::st_bbox(
+          sf::st_intersection(
+            bbox_as_polygon(rst_bbox),
+            bbox_as_polygon(coord_bbox)
+          )
+        )
+      }
+      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
+      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
 
-    if(lazy) {
+      # this code makes sure we aren't making more pixels in the resampled image than there was in the
+      # original image (a bit hard because of reprojection but we can estimate)
+      original_pixels_y <- dim(rst)[1]
+      original_pixels_x <- dim(rst)[2]
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
+
       # return a gTree with the right params so that the raster can be rendered later
       grid::gTree(
         raster_obj = rst,
         coord_crs = coord_crs,
         coordinates = coordinates,
+        target_bbox = target_bbox,
+        bbox_scale = c(bbox_scale_x, bbox_scale_y),
+        max_pixels = c(max_pixels_x, max_pixels_y),
         panel_params = panel_params,
         alpha = alpha,
         interpolate = interpolate,
         dpi = dpi,
-        cl = "geom_spatial_raster_lazy"
+        options = options,
+        cache = new.env(parent = emptyenv()),
+        cl = "geom_spatial_stars_lazy"
       )
-
     } else {
       raster_grob_from_stars(
         rst,
@@ -233,149 +272,142 @@ GeomSpatialStars <- ggplot2::ggproto(
         coordinates,
         panel_params,
         alpha = alpha,
-        options = options,
         interpolate = interpolate
       )
     }
   }
 )
+# nocov end
 
 #' @importFrom grid makeContent
 #' @export
 makeContent.geom_spatial_stars_lazy <- function(x) {
-  # FIXME this isn't implemented yet
+  width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
+  height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
 
-  width_px <- grid::convertWidth(grid::unit(1, "npc"), "pt", valueOnly = TRUE)
-  height_px <- grid::convertHeight(grid::unit(1, "npc"), "pt", valueOnly = TRUE)
-  # no idea how to get DPI here...grDevices::dev.size() returns
-  # incorrect pixel dimensions I think...
-  message(sprintf("(%s x %s px) dpi: ??", width_px, height_px))
 
-  if(identical(width_px, x$width_px) && identical(height_px, x$height_px) && !is.null(x$grob)) {
-    grob <- x$grob
-  } else {
-    if(!is.null(x$coord_crs)) {
+  # until I figure out how to get DPI from the graphics device at load time,
+  # use the user-specified value
+  dpi_x <- x$dpi
+  dpi_y <- x$dpi
+  width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
+  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
 
-      template_stars <- stars::st_as_stars(
-        dimensions = stars::st_dimensions(
-          x = x$panel_params$x_range,
-          y = x$panel_params$y_range
-        )
-      )
-
-      sf::st_crs(template_stars) <- sf::st_crs(x$coord_crs)
-
-    } else {
-      template_raster <- NULL
-    }
-
-    grob <- grid::gList(
-      raster_grob_from_raster(
-        x$raster_obj,
-        x$coord_crs,
-        x$coordinates,
-        x$panel_params,
-        alpha = x$alpha,
-        interpolate = x$interpolate,
-        template_raster = template_raster
-      )
-    )
+  # check to see if the x$cache environment has a raster already
+  raster_var <- paste0("raster_", width_px, "x", height_px)
+  if (raster_var %in% names(x$cache)) {
+    return(grid::setChildren(x, grid::gList(x$cache[[raster_var]])))
   }
 
-  # add content to the gTree
-  grid::setChildren(x, grob)
-}
+  if (!is.null(x$coord_crs)) {
 
-raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params, template_raster = NULL, alpha = 1,
-                                   options = character(0), interpolate = TRUE, height_px = 500, width_px = 500) {
-
-  if(is.null(coord_crs)) {
-    coord_crs <- sf::st_crs(rst)
-  }
-
-  if(is.null(template_raster)) {
-    warp_options <- c(
-      "-t_srs",  sf::st_crs(coord_crs)$Wkt,
-      "-te", panel_params$x_range[1], panel_params$y_range[1],
-             panel_params$x_range[2], panel_params$y_range[2],
-      "-tr", diff(panel_params$x_range) / width_px,
-             diff(panel_params$y_range) / height_px
+    # Create template from x$target_bbox
+    bbox <- x$target_bbox
+    sf::st_crs(bbox) <- sf::st_crs(x$coord_crs)
+    template_raster <- stars::st_as_stars(
+      bbox,
+      # Adjust ncells to dpi
+      # Needs to be integer
+      nx = round(width_px, 0),
+      ny = round(height_px, 0)
     )
   } else {
-    warp_options <- c(
-      "-t_srs",  sf::st_crs(template_raster)$Wkt,
-      "-te", unname(as.numeric(sf::st_bbox(template_raster))),
-      "-tr", diff(stars::st_get_dimension_values(template_raster, "x")[1:2]) / width_px,
-             diff(stars::st_get_dimension_values(template_raster, "y")[1:2]) / height_px
-    )
+    template_raster <- NULL
   }
 
-  if (interpolate) {
-    warp_options <- c(warp_options, "-r", "bilinear")
-  } else {
-    warp_options <- c(warp_options, "-r", "near")
-  }
-
-  in_file <- tempfile(fileext = ".tif")
-  out_file <- tempfile(fileext = ".tif")
-  on.exit(unlink(c(in_file, out_file)))
-  stars::write_stars(rst, in_file)
-
-  sf::gdal_utils(
-    "warp",
-    source = in_file,
-    destination = out_file,
-    options = c(warp_options, options, "-dstnodata", rst[[1]][NA_integer_])
+  # add content to the gTree, cache the rasterGrob
+  x$cache[[raster_var]] <- raster_grob_from_stars(
+    x$raster_obj,
+    x$coord_crs,
+    x$coordinates,
+    x$panel_params,
+    alpha = x$alpha,
+    interpolate = x$interpolate,
+    template_raster = template_raster,
+    options = x$options
   )
 
-  rst <- stars::read_stars(out_file)
+  grid::setChildren(x, grid::gList(x$cache[[raster_var]]))
+}
+
+raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params,
+                                   template_raster = NULL, alpha = 1,
+                                   interpolate = TRUE,
+                                   options = character(0)) {
+  if (interpolate) {
+    raster_method <- "bilinear"
+  } else {
+    raster_method <- "near"
+  }
+  if (!is.null(template_raster) && !is.null(coord_crs)) {
+    rst <- stars::st_warp(
+      rst,
+      template_raster,
+      use_gdal = TRUE,
+      method = raster_method,
+      options = options
+    )
+  } else if (!is.null(coord_crs)) {
+    # project
+    rst <- project_stars_lazy(
+      rst,
+      crs = sf::st_crs(coord_crs)
+    )
+  } else if (!is.null(template_raster)) {
+    # resample (& crop?)
+    rst <- stars::st_warp(rst,
+                          template_raster,
+                          use_gdal = TRUE,
+                          method = raster_method,
+                          options = options
+    )
+  }
 
   ext <- sf::st_bbox(rst)
   corners <- data.frame(x = c(ext["xmin"], ext["xmax"]), y = c(ext["ymin"], ext["ymax"]))
   corners_trans <- coordinates$transform(corners, panel_params)
 
   x_rng <- range(corners_trans$x, na.rm = TRUE)
-  y_rng <- rev(range(corners_trans$y, na.rm = TRUE))
+  y_rng <- range(corners_trans$y, na.rm = TRUE)
 
   grid::rasterGrob(
     stars_as_array(rst, alpha = alpha),
     x_rng[1], y_rng[1],
-    diff(x_rng), diff(y_rng), default.units = "native",
-    just = c("left","bottom"), interpolate = interpolate
+    diff(x_rng), diff(y_rng),
+    default.units = "native",
+    just = c("left", "bottom"), interpolate = interpolate
   )
 }
 
 stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
-  if(!inherits(raster_obj, "stars")) stop("Cannot use stars_as_array with non-stars object")
+  if (!methods::is(raster_obj, "stars")) stop("Cannot use stars_as_array with non stars object")
 
   raster <- stars::st_as_stars(raster_obj)[[1]]
 
   # check dims
   dims <- dim(raster)
-  if(length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
-  if(!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use stars_as_array")
-
-  # Inf values should trigger an error says @edzer
+  if (length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  if (!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use stars_as_array")
 
   # make values between 0 and 1, if they are not already
   vrange <- range(raster, finite = TRUE)
-  if(!all(vrange >= 0 & vrange <= 1)) {
-    if(all(vrange >= 0 & vrange <= 256)) {
+  if (!all(vrange >= 0 & vrange <= 1)) {
+    if (all(vrange >= 0 & vrange <= 256)) {
       raster <- scales::rescale(raster, from = c(0, 256))
-    } else{
+    } else {
       raster <- scales::rescale(raster)
     }
   }
 
   # eliminate NAs
-  if((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
+  if ((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
     # find NA cells
     na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) | is.na(raster[, , 3])
 
     # grid doesn't do non-finite values, so we need to set the transparency band
     # for missing cells
-    if(dim(raster)[3] == 4) {
-      tband <- raster[ , , 4, drop = FALSE]
+    if (dim(raster)[3] == 4) {
+      tband <- raster[, , 4, drop = FALSE]
     } else {
       tband <- array(1, dim(raster)[1:2])
     }
@@ -394,8 +426,17 @@ stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   } else {
     raster[is.na(raster)] <- na.value
   }
-
   # stars flips the X and Y dimensions from what grid expects
-  # and Y values are in the reverse order?
-  aperm(raster, c(2, 1, 3))[(dim(raster)[2]):1, , , drop = FALSE]
+  aperm(raster, c(2, 1, 3))
+}
+
+project_stars_lazy <- function(x, crs, ...) {
+  if (!sf::st_crs(crs) == sf::st_crs(x)) {
+    stars::st_warp(x,
+                   crs = sf::st_crs(crs),
+                   ...
+    )
+  } else {
+    x
+  }
 }

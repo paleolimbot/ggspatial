@@ -65,4 +65,26 @@ A ggplot2 layer
 This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
 bands as if they were columns, use \link{df_spatial} and \link{geom_raster}.
 }
+\examples{
+\donttest{
+
+library(ggplot2)
+load_longlake_data(
+  which = c(
+    "longlake_osm",
+    "longlake_depth_raster"
+  ),
+  raster_format = "stars"
+)
+ggplot() +
+  layer_spatial(longlake_osm)
+
+ggplot() +
+  layer_spatial(longlake_depth_raster) +
+  scale_fill_continuous(
+    na.value = NA,
+    type = "viridis"
+  )
+}
+}
 \keyword{datasets}
