@@ -26,7 +26,7 @@ load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp
     "LongLakeDepthSurvey.shp" = "longlake_depthdf",
     "LongLakeMarshWaterPoly.shp" = "longlake_waterdf",
     "LongLakeMarshRoads.shp" = "longlake_roadsdf",
-    "LongLakeMarshWetlands.shp" = " longlake_marshdf",
+    "LongLakeMarshWetlands.gpkg" = " longlake_marshdf",
     "LongLakeMarshStreams.shp" = "longlake_streamsdf",
     "LongLakeMarshBuildings.shp" = "longlake_buildingsdf"
   )
