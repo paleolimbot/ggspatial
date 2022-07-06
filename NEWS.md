@@ -4,6 +4,7 @@
 * Fix north arrow rotation (@potash, #82)
 * Add support for factor/categorical rasters (@JoshOBrien, #78)
 * Better raster support for stars (@dieghernan, #95)
+* Fix example data for updated sf/GDAL (@rsbivand, #101)
 
 # ggspatial 1.1.5
 
