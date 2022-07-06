@@ -61,6 +61,8 @@ line into segments.}
 crs (with a message).}
 
 \item{na.rm}{Should missing aesthetic values be removed?}
+
+\item{show.legend}{Should the legend be shown?}
 }
 \description{
 Projected horizontal and vertical lines

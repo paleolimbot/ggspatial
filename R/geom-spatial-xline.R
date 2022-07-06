@@ -10,6 +10,7 @@
 #' @param detail The number of points that should be used when converting the
 #'   line into segments.
 #' @param stat Statistical transformation to use on this layer. See [ggplot2::layer()].
+#' @param show.legend Should the legend be shown?
 #' @param na.rm Should missing aesthetic values be removed?
 #'
 #' @export
