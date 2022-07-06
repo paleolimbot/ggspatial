@@ -59,9 +59,7 @@ projected bounding box.}
 
 \item{na.rm}{Should missing aesthetic values be removed?}
 
-\item{show.legend}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
-
-\item{inherit.aes}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
+\item{show.legend, inherit.aes}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
 }
 \description{
 If you need to plot a \code{\link[sf:st_bbox]{sf::st_bbox()}}, use \code{\link[=layer_spatial]{layer_spatial()}} instead.

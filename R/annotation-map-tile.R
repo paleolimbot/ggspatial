@@ -23,12 +23,15 @@
 #' @export
 #'
 #' @examples
+#' # May take >5s to run, skipping for CRAN
+#' \donttest{
 #' library(ggplot2)
 #' load_longlake_data()
 #'
 #' ggplot() +
 #'   annotation_map_tile(zoom = 13, cachedir = system.file("rosm.cache", package = "ggspatial")) +
 #'   geom_sf(data = longlake_waterdf, fill = NA, col = "grey50")
+#' }
 #'
 annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
                                 forcedownload = FALSE, cachedir = NULL,

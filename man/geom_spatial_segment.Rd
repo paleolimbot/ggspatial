@@ -58,9 +58,7 @@ that wraps the dateline.}
 
 \item{na.rm}{Should missing aesthetic values be removed?}
 
-\item{show.legend}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
-
-\item{inherit.aes}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
+\item{show.legend, inherit.aes}{See \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
 }
 \description{
 While the implementation is slightly differrent, this function is
