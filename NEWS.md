@@ -1,5 +1,10 @@
 # ggspatial (development version)
 
+* Added terra package support (@dieghernan, #92, #94)
+* Fix north arrow rotation (@potash, #82)
+* Add support for factor/categorical rasters (@JoshOBrien, #78)
+* Better raster support for stars (@dieghernan, #95)
+
 # ggspatial 1.1.5
 
 * Added a `NEWS.md` file to track changes to the package.
