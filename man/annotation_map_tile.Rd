@@ -58,7 +58,6 @@ a map using these tiles, make sure to use the proper attribution
 OpenStreetMap-based tile set).
 }
 \examples{
-# May take >5s to run, skipping for CRAN
 \donttest{
 library(ggplot2)
 load_longlake_data()

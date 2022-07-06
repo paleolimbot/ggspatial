@@ -23,7 +23,6 @@
 #' @export
 #'
 #' @examples
-#' # May take >5s to run, skipping for CRAN
 #' \donttest{
 #' library(ggplot2)
 #' load_longlake_data()
