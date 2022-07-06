@@ -56,26 +56,31 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">df_spatial</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">df_spatial</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A spatial object</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Passed to specific methods</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble with coordinates as <code>x</code> and <code>y</code>,
+    
+
+<p>A tibble with coordinates as <code>x</code> and <code>y</code>,
 features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">df_spatial</span><span class="op">(</span><span class="va">longlake_osm</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">df_spatial</span><span class="op">(</span><span class="va">longlake_osm</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 260,463 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x        y band1 band2 band3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -90,7 +95,7 @@ features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">409</span>920. 5<span style="text-decoration: underline;">084</span>851.   156   203   152</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">409</span>923. 5<span style="text-decoration: underline;">084</span>851.   149   199   150</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 260,453 more rows</span></span>
-<span class="r-in"><span class="fu">df_spatial</span><span class="op">(</span><span class="va">longlake_depthdf</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">df_spatial</span><span class="op">(</span><span class="va">longlake_depthdf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 64 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x       y feature_id part_id WAYPOINT_I   LAT   LON DEPTH NOTES DEPTH_M</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -105,7 +110,7 @@ features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">411</span>293.  5.08<span style="color: #949494;">e</span>6          9       1         17  45.9 -<span style="color: #BB0000;">64.1</span>   4.7 <span style="color: #BB0000;">NA</span>        1.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">411</span>291.  5.08<span style="color: #949494;">e</span>6         10       1         19  45.9 -<span style="color: #BB0000;">64.1</span>   5   <span style="color: #BB0000;">NA</span>        1.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 54 more rows</span></span>
-<span class="r-in"><span class="fu">df_spatial</span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">df_spatial</span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 64 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x       y feature_id part_id WAYPOINT_I   LAT   LON DEPTH NOTES DEPTH_M</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -120,7 +125,7 @@ features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">411</span>293.  5.08<span style="color: #949494;">e</span>6          9       1         17  45.9 -<span style="color: #BB0000;">64.1</span>   4.7 <span style="color: #BB0000;">NA</span>        1.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">411</span>291.  5.08<span style="color: #949494;">e</span>6         10       1         19  45.9 -<span style="color: #BB0000;">64.1</span>   5   <span style="color: #BB0000;">NA</span>        1.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 54 more rows</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -135,7 +140,7 @@ features as <code>feature_id</code>, and parts as <code>part_id</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

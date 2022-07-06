@@ -56,53 +56,64 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">xy_transform</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, from <span class="op">=</span> <span class="fl">4326</span>, to <span class="op">=</span> <span class="fl">4326</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xy_transform</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, from <span class="op">=</span> <span class="fl">4326</span>, to <span class="op">=</span> <span class="fl">4326</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The x coordinate</p></dd>
+
+
 <dt>y</dt>
 <dd><p>The y coordinate</p></dd>
+
+
 <dt>from</dt>
 <dd><p>From CRS</p></dd>
+
+
 <dt>to</dt>
 <dd><p>To CRS</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Warn for non-finite cases?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with x and y components.</p>
+    
+
+<p>A data.frame with x and y components.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x        y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 111319.5 111325.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 222639.0 222684.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 333958.5 334111.2</span>
-<span class="r-in"><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>3 non-finite points removed by xy_transform()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    x  y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 NA NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 NA NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 NA NA</span>
-<span class="r-in"><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1 non-finite points removed by xy_transform()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x        y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA       NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 222639.0 222684.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 333958.5 334111.2</span>
-<span class="r-in"><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xy_transform</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span>, to <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1 non-finite points removed by xy_transform()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x        y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 111319.5 111325.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 222639.0 222684.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3       NA       NA</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -117,7 +128,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

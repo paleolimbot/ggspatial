@@ -56,81 +56,86 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">north_arrow_orienteering</span><span class="op">(</span>
-  line_width <span class="op">=</span> <span class="fl">1</span>,
-  line_col <span class="op">=</span> <span class="st">"black"</span>,
-  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span>,
-  text_col <span class="op">=</span> <span class="st">"black"</span>,
-  text_family <span class="op">=</span> <span class="st">""</span>,
-  text_face <span class="op">=</span> <span class="cn">NULL</span>,
-  text_size <span class="op">=</span> <span class="fl">10</span>,
-  text_angle <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span>
-
-<span class="fu">north_arrow_fancy_orienteering</span><span class="op">(</span>
-  line_width <span class="op">=</span> <span class="fl">1</span>,
-  line_col <span class="op">=</span> <span class="st">"black"</span>,
-  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span>,
-  text_col <span class="op">=</span> <span class="st">"black"</span>,
-  text_family <span class="op">=</span> <span class="st">""</span>,
-  text_face <span class="op">=</span> <span class="cn">NULL</span>,
-  text_size <span class="op">=</span> <span class="fl">10</span>,
-  text_angle <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span>
-
-<span class="fu">north_arrow_minimal</span><span class="op">(</span>
-  line_width <span class="op">=</span> <span class="fl">1</span>,
-  line_col <span class="op">=</span> <span class="st">"black"</span>,
-  fill <span class="op">=</span> <span class="st">"black"</span>,
-  text_col <span class="op">=</span> <span class="st">"black"</span>,
-  text_family <span class="op">=</span> <span class="st">""</span>,
-  text_face <span class="op">=</span> <span class="cn">NULL</span>,
-  text_size <span class="op">=</span> <span class="fl">10</span>
-<span class="op">)</span>
-
-<span class="fu">north_arrow_nautical</span><span class="op">(</span>
-  line_width <span class="op">=</span> <span class="fl">1</span>,
-  line_col <span class="op">=</span> <span class="st">"black"</span>,
-  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"white"</span><span class="op">)</span>,
-  text_size <span class="op">=</span> <span class="fl">10</span>,
-  text_face <span class="op">=</span> <span class="cn">NULL</span>,
-  text_family <span class="op">=</span> <span class="st">""</span>,
-  text_col <span class="op">=</span> <span class="st">"black"</span>,
-  text_angle <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">north_arrow_orienteering</span><span class="op">(</span></span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  line_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>  text_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  text_family <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  text_face <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text_size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  text_angle <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">north_arrow_fancy_orienteering</span><span class="op">(</span></span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  line_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>  text_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  text_family <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  text_face <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text_size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  text_angle <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">north_arrow_minimal</span><span class="op">(</span></span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  line_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  fill <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  text_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  text_family <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  text_face <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text_size <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">north_arrow_nautical</span><span class="op">(</span></span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  line_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"white"</span><span class="op">)</span>,</span>
+<span>  text_size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  text_face <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text_family <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  text_col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  text_angle <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>line_width, line_col, fill</dt>
 <dd><p>Parameters customizing the appearance of the north arrow</p></dd>
+
+
 <dt>text_col, text_family, text_face, text_size, text_angle</dt>
 <dd><p>Parameters customizing the
 text of the north arrow</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A Grob with npc coordinates (more or less) 0 to 1</p>
+    
+
+<p>A Grob with npc coordinates (more or less) 0 to 1</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_orienteering</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_orienteering</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="north_arrow_orienteering-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_fancy_orienteering</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_fancy_orienteering</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="north_arrow_orienteering-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_minimal</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_minimal</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="north_arrow_orienteering-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_nautical</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.draw.html" class="external-link">grid.draw</a></span><span class="op">(</span><span class="fu">north_arrow_nautical</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="north_arrow_orienteering-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -145,7 +150,7 @@ text of the north arrow</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

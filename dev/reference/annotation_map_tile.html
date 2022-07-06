@@ -62,21 +62,21 @@ OpenStreetMap-based tile set).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">annotation_map_tile</span><span class="op">(</span>
-  type <span class="op">=</span> <span class="st">"osm"</span>,
-  zoom <span class="op">=</span> <span class="cn">NULL</span>,
-  zoomin <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>,
-  forcedownload <span class="op">=</span> <span class="cn">FALSE</span>,
-  cachedir <span class="op">=</span> <span class="cn">NULL</span>,
-  progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"none"</span><span class="op">)</span>,
-  quiet <span class="op">=</span> <span class="cn">TRUE</span>,
-  interpolate <span class="op">=</span> <span class="cn">TRUE</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  mapping <span class="op">=</span> <span class="cn">NULL</span>,
-  alpha <span class="op">=</span> <span class="fl">1</span>
-<span class="op">)</span>
-
-<span class="va">GeomMapTile</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">annotation_map_tile</span><span class="op">(</span></span>
+<span>  type <span class="op">=</span> <span class="st">"osm"</span>,</span>
+<span>  zoom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  zoomin <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>,</span>
+<span>  forcedownload <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cachedir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  interpolate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GeomMapTile</span></span></code></pre></div>
     </div>
 
     <div id="format">
@@ -87,43 +87,64 @@ OpenStreetMap-based tile set).</p>
     <h2>Arguments</h2>
     <dl><dt>type</dt>
 <dd><p>The map type (one of that returned by <a href="https://rdrr.io/pkg/rosm/man/osm.types.html" class="external-link">rosm::osm.types</a>)</p></dd>
+
+
 <dt>zoom</dt>
 <dd><p>The zoom level (overrides zoomin)</p></dd>
+
+
 <dt>zoomin</dt>
 <dd><p>Delta on default zoom. The default value is designed
 to download fewer tiles than you probably want. Use <code>-1</code> or <code>0</code> to
 increase the resolution.</p></dd>
+
+
 <dt>forcedownload</dt>
 <dd><p>Re-download cached tiles?</p></dd>
+
+
 <dt>cachedir</dt>
 <dd><p>Specify cache directory</p></dd>
+
+
 <dt>progress</dt>
 <dd><p>Use <code>progress = "none"</code> to suppress progress and zoom output</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Use <code>quiet = FALSE</code> to see which URLs are downloaded</p></dd>
+
+
 <dt>interpolate</dt>
 <dd><p>Passed to <code><a href="https://rdrr.io/r/grid/grid.raster.html" class="external-link">grid::rasterGrob()</a></code></p></dd>
+
+
 <dt>data, mapping</dt>
 <dd><p>Specify data and mapping to use this geom with facets</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Use to make this layer semi-transparent</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 layer</p>
+    
+
+<p>A ggplot2 layer</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu">annotation_map_tile</span><span class="op">(</span>zoom <span class="op">=</span> <span class="fl">13</span>, cachedir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"rosm.cache"</span>, package <span class="op">=</span> <span class="st">"ggspatial"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">longlake_waterdf</span>, fill <span class="op">=</span> <span class="cn">NA</span>, col <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">annotation_map_tile</span><span class="op">(</span>zoom <span class="op">=</span> <span class="fl">13</span>, cachedir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"rosm.cache"</span>, package <span class="op">=</span> <span class="st">"ggspatial"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">longlake_waterdf</span>, fill <span class="op">=</span> <span class="cn">NA</span>, col <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Zoom: 13</span>
 <span class="r-plt img"><img src="annotation_map_tile-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -138,7 +159,7 @@ increase the resolution.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
