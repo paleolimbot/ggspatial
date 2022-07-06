@@ -10,7 +10,7 @@ CRAN](https://cranlogs.r-pkg.org/badges/ggspatial)](https://cran.r-project.org/p
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg)](https://codecov.io/github/paleolimbot/ggspatial?branch=master)
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/paleolimbot/ggspatial/workflows/R-CMD-check/badge.svg)](https://github.com/paleolimbot/ggspatial/actions)
 <!-- badges: end -->
 
