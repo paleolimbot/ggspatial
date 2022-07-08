@@ -9,10 +9,12 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' load_longlake_data(which = c("longlake_osm", "longlake_depthdf"))
 #' df_spatial(longlake_osm)
 #' df_spatial(longlake_depthdf)
 #' df_spatial(as(longlake_depthdf, "Spatial"))
+#' }
 #'
 df_spatial <- function(x, ...) {
   UseMethod("df_spatial")
