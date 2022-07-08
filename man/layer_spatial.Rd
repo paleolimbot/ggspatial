@@ -53,6 +53,7 @@ See also \code{\link[=layer_spatial.Raster]{layer_spatial.Raster()}}, \code{\lin
 for other types of spatial objects.
 }
 \examples{
+\donttest{
 library(ggplot2)
 load_longlake_data(
   which = c(
@@ -80,5 +81,6 @@ ggplot() +
 
   # spatial-aware automagic north arrow
   annotation_north_arrow(location = "br", which_north = "true")
+}
 
 }

@@ -17,10 +17,12 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' library(ggplot2)
 #' load_longlake_data(which = c("longlake_osm", "longlake_depth_raster"))
 #' ggplot() + layer_spatial(longlake_osm)
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
+#' }
 #'
 layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
                                  lazy = FALSE, dpi = 150, ...) {

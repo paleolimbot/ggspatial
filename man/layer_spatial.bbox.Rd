@@ -28,6 +28,7 @@ To include a bounding box without drawing it, use \code{\link[=shadow_spatial]{s
 original object.
 }
 \examples{
+\donttest{
 library(ggplot2)
 load_longlake_data(which = c("longlake_waterdf", "longlake_depthdf"))
 ggplot() +
@@ -39,5 +40,6 @@ ggplot() +
 ggplot() +
   shadow_spatial(longlake_waterdf) +
   layer_spatial(longlake_depthdf)
+}
 
 }

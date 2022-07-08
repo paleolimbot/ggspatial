@@ -16,6 +16,7 @@
 #' @importFrom ggplot2 aes
 #'
 #' @examples
+#' \donttest{
 #' library(ggplot2)
 #' load_longlake_data(
 #'   which = c(
@@ -43,6 +44,7 @@
 #'
 #'   # spatial-aware automagic north arrow
 #'   annotation_north_arrow(location = "br", which_north = "true")
+#' }
 #'
 layer_spatial <- function(data, mapping, ...) {
   UseMethod("layer_spatial")

@@ -46,9 +46,11 @@ implementation fixes a bug in the \code{ggpolypath} package, which provides
 similar functionality.
 }
 \examples{
+\donttest{
 library(ggplot2)
 load_longlake_data(which = "longlake_waterdf")
 ggplot(df_spatial(longlake_waterdf), aes(x, y, group = piece_id)) +
   geom_polypath()
+}
 
 }
