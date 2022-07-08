@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggspatial</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
       </span>
     </div>
 
@@ -50,7 +52,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/paleolimbot/ggspatial/">
+  <a href="https://github.com/paleolimbot/ggspatial/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -67,53 +69,52 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="ggspatial" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ggspatial" class="anchor"></a>ggspatial</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="ggspatial">ggspatial<a class="anchor" aria-label="anchor" href="#ggspatial"></a>
+</h1></div>
 <!-- badges: start -->
-
 <p>Spatial data plus the power of the <code>ggplot2</code> framework means easier mapping.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>The package is available on CRAN, and can be installed using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("ggspatial")</a></code>. The development version can be installed via <strong>remotes</strong>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The package is available on CRAN, and can be installed using <code>install.packages("ggspatial")</code>. The development version can be installed via <strong>remotes</strong>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ggspatial"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggspatial"</span><span class="op">)</span></span></code></pre></div>
 <p>Or for the development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="co"># if remotes isn't installed</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"paleolimbot/ggspatial"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="co"># if remotes isn't installed</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"paleolimbot/ggspatial"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This package is a framework for interacting with spatial data using <strong>ggplot2</strong> as a plotting backend. The package supports <strong>sf</strong> package objects, <strong>sp</strong> package objects, and <strong>raster</strong> package objects, and uses <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code> to do most of the heavy lifting with respect to coordinate transformation.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This package is a framework for interacting with spatial data using <strong>ggplot2</strong> as a plotting backend. The package supports <strong>sf</strong> package objects, <strong>sp</strong> package objects, and <strong>raster</strong> package objects, and uses <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf()</a></code> to do most of the heavy lifting with respect to coordinate transformation.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/">ggspatial</a></span><span class="op">)</span>
-<span class="fu"><a href="reference/load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co"># loads background map tiles from a tile source</span>
-  <span class="fu"><a href="reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>zoomin <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
-  
-  <span class="co"># annotation_spatial() layers don't train the scales, so data stays central</span>
-  <span class="fu"><a href="reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_roadsdf</span>, size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_roadsdf</span>, size <span class="op">=</span> <span class="fl">1.6</span>, col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span>
-
-  <span class="co"># raster layers train scales and get projected automatically</span>
-  <span class="fu"><a href="reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co"># make no data values transparent</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  
-  <span class="co"># layer_spatial trains the scales</span>
-  <span class="fu"><a href="reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  
-  <span class="co"># spatial-aware automagic scale bar</span>
-  <span class="fu"><a href="reference/annotation_scale.html">annotation_scale</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"tl"</span><span class="op">)</span> <span class="op">+</span>
-
-  <span class="co"># spatial-aware automagic north arrow</span>
-  <span class="fu"><a href="reference/annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/" class="external-link">ggspatial</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># loads background map tiles from a tile source</span></span>
+<span>  <span class="fu"><a href="reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>zoomin <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># annotation_spatial() layers don't train the scales, so data stays central</span></span>
+<span>  <span class="fu"><a href="reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_roadsdf</span>, size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_roadsdf</span>, size <span class="op">=</span> <span class="fl">1.6</span>, col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
+<span></span>
+<span>  <span class="co"># raster layers train scales and get projected automatically</span></span>
+<span>  <span class="fu"><a href="reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># make no data values transparent</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># layer_spatial trains the scales</span></span>
+<span>  <span class="fu"><a href="reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># spatial-aware automagic scale bar</span></span>
+<span>  <span class="fu"><a href="reference/annotation_scale.html">annotation_scale</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"tl"</span><span class="op">)</span> <span class="op">+</span></span>
+<span></span>
+<span>  <span class="co"># spatial-aware automagic north arrow</span></span>
+<span>  <span class="fu"><a href="reference/annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-fig-layer-spatial-sf-1.png" width="100%"></p>
 </div>
 </div>
@@ -121,49 +122,51 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=ggspatial">https://​cloud.r-project.org/​package=ggspatial</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/paleolimbot/ggspatial/">https://​github.com/​paleolimbot/​ggspatial/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/paleolimbot/ggspatial/issues">https://​github.com/​paleolimbot/​ggspatial/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Dewey Dunnington <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9415-4582" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=ggspatial" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/paleolimbot/ggspatial/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/paleolimbot/ggspatial/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=ggspatial"><img src="https://cranlogs.r-pkg.org/badges/ggspatial" alt="ggspatial on CRAN"></a></li>
-<li><a href="https://codecov.io/github/paleolimbot/ggspatial?branch=master"><img src="https://img.shields.io/codecov/c/github/paleolimbot/ggspatial/master.svg" alt="Coverage Status"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/paleolimbot/ggspatial/actions"><img src="https://github.com/paleolimbot/ggspatial/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ggspatial</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Dewey Dunnington <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9415-4582" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Dewey Dunnington.</p>
+  <p></p>
+<p>Developed by Dewey Dunnington.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -171,6 +174,8 @@
 
   
 
+
+  
 
   </body>
 </html>

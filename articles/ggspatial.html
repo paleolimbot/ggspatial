@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
       </span>
     </div>
 
@@ -49,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/paleolimbot/ggspatial/">
+  <a href="https://github.com/paleolimbot/ggspatial/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -68,84 +70,83 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Spatial objects using ggspatial and ggplot2</h1>
-                        <h4 class="author">Dewey Dunnington</h4>
+                        <h4 data-toc-skip class="author">Dewey Dunnington</h4>
             
-            <h4 class="date">2021-01-04</h4>
+            <h4 data-toc-skip class="date">2022-07-08</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd"><code>vignettes/ggspatial.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/HEAD/vignettes/ggspatial.Rmd" class="external-link"><code>vignettes/ggspatial.Rmd</code></a></small>
       <div class="hidden name"><code>ggspatial.Rmd</code></div>
 
     </div>
 
     
     
-<p>On first use, a GIS user who stumbles across <a href="https://cran.r-project.org/package=ggplot2">ggplot2</a> will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With <strong>ggplot</strong> version 3.0, <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code> let users pass simple features (GIS layers from the <strong>sf</strong> package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in <strong>ggplot2</strong>, which is the gap filled by this package.</p>
-<p>This vignette assumes that readers are familar with the usage of <code>ggplot2</code>. There are many excellent resources for learning to use <code>ggplot2</code>, one of which is the <a href="http://r4ds.had.co.nz/data-visualisation.html">data visualization chapter</a> in Hadley Wickham’s excellent book, <a href="http://r4ds.had.co.nz">R for Data Science</a>.</p>
-<div id="sample-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sample-data" class="anchor"></a>Sample data</h2>
-<p>This vignette uses some data that was used in/collected for my honours thesis. The data is included as files within the package, and can be loaded using <code><a href="../reference/load_longlake_data.html">load_longlake_data()</a></code>. If you’re looking to read in some of your own data, you may be interested in <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::read_sf()</a></code> or <code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster::raster()</a></code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/">ggspatial</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="using-layer_spatial-and-annotation_spatial" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-layer_spatial-and-annotation_spatial" class="anchor"></a>Using <code>layer_spatial()</code> and <code>annotation_spatial()</code>
+<p>On first use, a GIS user who stumbles across <a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot2</a> will recognize much of the syntax of how plots are built from GIS language: there are layers, geometries, coordinate systems, and the ability to map attributes to the appearance of the layer (aesthetics). With <strong>ggplot</strong> version 3.0, <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf()</a></code> let users pass simple features (GIS layers from the <strong>sf</strong> package) objects as layers. Non-spatial data (data frames with XY or lon/lat coluns) and raster data are not well-supported in <strong>ggplot2</strong>, which is the gap filled by this package.</p>
+<p>This vignette assumes that readers are familar with the usage of <code>ggplot2</code>. There are many excellent resources for learning to use <code>ggplot2</code>, one of which is the <a href="http://r4ds.had.co.nz/data-visualisation.html" class="external-link">data visualization chapter</a> in Hadley Wickham’s excellent book, <a href="http://r4ds.had.co.nz" class="external-link">R for Data Science</a>.</p>
+<div class="section level2">
+<h2 id="sample-data">Sample data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
 </h2>
-<p>Any spatial layer can be added to a <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> using <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> (well, any object from the <strong>sf</strong>, <strong>sp</strong>, or <strong>raster</strong> packages…). These layers will train the scales, meaning they will be visible unless you explicitly set the X or Y scale limits. Unlike <code>geom_</code> or <code>stat_</code> functions, <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> always takes its data first. Aesthetics can be passed for most types of objects, the exception being RGB rasters, which are more like backround images than data that should be mapped to a scale. Unlike <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>, <code><a href="../reference/layer_spatial.html">annotation_spatial()</a></code> layers never train the scales, so they can be used as a backdrop for other layers.</p>
+<p>This vignette uses some data that was used in/collected for my honours thesis. The data is included as files within the package, and can be loaded using <code><a href="../reference/load_longlake_data.html">load_longlake_data()</a></code>. If you’re looking to read in some of your own data, you may be interested in <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::read_sf()</a></code> or <code><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster::raster()</a></code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/" class="external-link">ggspatial</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="using-layer_spatial-and-annotation_spatial">Using <code>layer_spatial()</code> and <code>annotation_spatial()</code><a class="anchor" aria-label="anchor" href="#using-layer_spatial-and-annotation_spatial"></a>
+</h2>
+<p>Any spatial layer can be added to a <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code> using <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> (well, any object from the <strong>sf</strong>, <strong>sp</strong>, or <strong>raster</strong> packages…). These layers will train the scales, meaning they will be visible unless you explicitly set the X or Y scale limits. Unlike <code>geom_</code> or <code>stat_</code> functions, <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> always takes its data first. Aesthetics can be passed for most types of objects, the exception being RGB rasters, which are more like backround images than data that should be mapped to a scale. Unlike <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>, <code><a href="../reference/layer_spatial.html">annotation_spatial()</a></code> layers never train the scales, so they can be used as a backdrop for other layers.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-2-1.png" width="750"></p>
-<p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat(band1)</a></code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
+<p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code>stat(band1)</code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" width="750"></p>
 </div>
-<div id="using-north-arrow-and-scalebar" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-north-arrow-and-scalebar" class="anchor"></a>Using north arrow and scalebar</h2>
+<div class="section level2">
+<h2 id="using-north-arrow-and-scalebar">Using north arrow and scalebar<a class="anchor" aria-label="anchor" href="#using-north-arrow-and-scalebar"></a>
+</h2>
 <p>North arrows are added using the <code><a href="../reference/annotation_north_arrow.html">annotation_north_arrow()</a></code> function, and scalebars can be added using <code><a href="../reference/annotation_scale.html">annotation_scale()</a></code>. These functions are “spatial-aware”, meaning they know where north is and what the distance is across the plot. Thus, they don’t need any arguments (unless you think the defaults aren’t pretty). There are two styles for scalebars and four styles for north arrows (see <code><a href="../reference/annotation_scale.html">?annotation_scale</a></code> and <code><a href="../reference/annotation_north_arrow.html">?annotation_north_arrow</a></code> for details).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/annotation_scale.html">annotation_scale</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"tl"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/annotation_scale.html">annotation_scale</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"tl"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-4-1.png" width="750"></p>
 </div>
-<div id="tile-map-layers" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tile-map-layers" class="anchor"></a>Tile map layers</h2>
-<p>Using the <strong>rosm</strong> package, <strong>ggspatial</strong> can add tile layers from a few predefined tile sources (see <code><a href="https://rdrr.io/pkg/rosm/man/osm.types.html">rosm::osm.types()</a></code>), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code> (this defaults to the CRS of the first <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> or <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> layer that was added to the plot). It’s usually necessary to adjust the zoom to the right level when you know how the plot will be used…the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast. Use <code>progress = "none"</code> to suppress the messaging (particularly nice for use within RMarkdown).</p>
+<div class="section level2">
+<h2 id="tile-map-layers">Tile map layers<a class="anchor" aria-label="anchor" href="#tile-map-layers"></a>
+</h2>
+<p>Using the <strong>rosm</strong> package, <strong>ggspatial</strong> can add tile layers from a few predefined tile sources (see <code><a href="https://rdrr.io/pkg/rosm/man/osm.types.html" class="external-link">rosm::osm.types()</a></code>), or from a custom URL pattern. The tiles will get projected into whatever projection is defined by <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf()</a></code> (this defaults to the CRS of the first <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code> or <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code> layer that was added to the plot). It’s usually necessary to adjust the zoom to the right level when you know how the plot will be used…the default is to be a little more zoomed out than usual, so that the plot loads quickly. Higher zoom levels will make the plot render slowly quite fast. Use <code>progress = "none"</code> to suppress the messaging (particularly nice for use within RMarkdown).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-5-1.png" width="750"></p>
-<p>There are a number of url patterns available for tiles, although how they are formatted varies. The <strong>rosm</strong> package uses <code>${x}</code>, <code>${y}</code>, and <code>${z}</code> for the x, y , and zoom of the tile (or <code>${q}</code> for the quadkey, if you’re using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see <a href="https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/">this blog post</a>, and for a number of other tile sources that are less open you’ll have to dig around yourself. Bing Virtual Earth is a particularly good one (<code>type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"</code>).</p>
+<p>There are a number of url patterns available for tiles, although how they are formatted varies. The <strong>rosm</strong> package uses <code>${x}</code>, <code>${y}</code>, and <code>${z}</code> for the x, y , and zoom of the tile (or <code>${q}</code> for the quadkey, if you’re using Microsoft Bing maps), which is for the most part the same as for QGIS3. For some freely available tile sources, see <a href="https://www.xyht.com/spatial-itgis/using-openstreetmap-basemaps-qgis-3-0/" class="external-link">this blog post</a>, and for a number of other tile sources that are less open you’ll have to dig around yourself. Bing Virtual Earth is a particularly good one (<code>type = "http://ecn.t3.tiles.virtualearth.net/tiles/a${q}.jpeg?g=1"</code>).</p>
 </div>
-<div id="data-frames-with-coordinates" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-frames-with-coordinates" class="anchor"></a>Data frames with coordinates</h2>
-<p>Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In <strong>ggspatial</strong> you can use <code><a href="../reference/df_spatial.html">df_spatial()</a></code> to get a spatial object into a data frame with coordinate columms. Conversely, you can use a data frame with coordinate columns in <code>geom_spatial_*</code> functions to use these data with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code>/<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf()</a></code>/<code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. The <code><a href="../reference/stat_spatial_identity.html">geom_spatial_point()</a></code> (wrapping <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>) and <code><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel()</a></code> (wrapping <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel()</a></code> from the <strong>ggrepel</strong> package) functions are the most commonly used in this situation. For example, a polar perspective on two cities across the world from eachother could look like this:</p>
+<div class="section level2">
+<h2 id="data-frames-with-coordinates">Data frames with coordinates<a class="anchor" aria-label="anchor" href="#data-frames-with-coordinates"></a>
+</h2>
+<p>Lots of good spatial data comes in tables with a longitude and latitude column (or sometimes UTM easting/northing columns). In <strong>ggspatial</strong> you can use <code><a href="../reference/df_spatial.html">df_spatial()</a></code> to get a spatial object into a data frame with coordinate columms. Conversely, you can use a data frame with coordinate columns in <code>geom_spatial_*</code> functions to use these data with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>/<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf()</a></code>/<code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. The <code><a href="../reference/stat_spatial_identity.html">geom_spatial_point()</a></code> (wrapping <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point()</a></code>) and <code><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel()</a></code> (wrapping <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">geom_label_repel()</a></code> from the <strong>ggrepel</strong> package) functions are the most commonly used in this situation. For example, a polar perspective on two cities across the world from eachother could look like this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">63.58595</span>, <span class="fl">116.41214</span><span class="op">)</span>, 
-  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">44.64862</span>, <span class="fl">40.19063</span><span class="op">)</span>, 
-  city <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Halifax"</span>, <span class="st">"Beijing"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cities</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"stamenwatercolor"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">city</span><span class="op">)</span>, box.padding <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">3995</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">63.58595</span>, <span class="fl">116.41214</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">44.64862</span>, <span class="fl">40.19063</span><span class="op">)</span>, </span>
+<span>  city <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Halifax"</span>, <span class="st">"Beijing"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cities</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"stamenwatercolor"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">city</span><span class="op">)</span>, box.padding <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">3995</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-6-1.png" width="750"></p>
 </div>
   </div>
@@ -161,11 +162,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Dewey Dunnington.</p>
+  <p></p>
+<p>Developed by Dewey Dunnington.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -173,6 +176,8 @@
 
   
 
+
+  
 
   </body>
 </html>

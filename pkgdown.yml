@@ -1,7 +1,7 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: 6094ac3dd80a1f3f1d4e2f47d0ed4716d51362b0
+pkgdown: 2.0.5
+pkgdown_sha: ~
 articles:
   ggspatial: ggspatial.html
-last_built: 2021-01-04T12:29Z
+last_built: 2022-07-08T00:24Z
 
