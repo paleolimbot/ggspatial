@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' library(ggplot2)
-#' load_longlake_data()
+#' load_longlake_data(which = c("longlake_waterdf", "longlake_depthdf"))
 #' ggplot() +
 #'   layer_spatial(sf::st_bbox(longlake_waterdf)) +
 #'   layer_spatial(longlake_depthdf)

@@ -54,7 +54,13 @@ for other types of spatial objects.
 }
 \examples{
 library(ggplot2)
-load_longlake_data()
+load_longlake_data(
+  which = c(
+    "longlake_roadsdf",
+    "longlake_depthdf",
+    "longlake_depth_raster"
+  )
+)
 
 ggplot() +
 

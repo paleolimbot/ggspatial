@@ -12,7 +12,7 @@
 #' Open Street Map (<https://www.openstreetmap.org/>).
 #'
 #' @examples
-#' load_longlake_data()
+#' load_longlake_data(which = "longlake_waterdf")
 #'
 load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp"),
                                raster_format = c("raster", "stars", "stars_proxy", "terra"),

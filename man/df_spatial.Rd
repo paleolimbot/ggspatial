@@ -19,11 +19,9 @@ features as \code{feature_id}, and parts as \code{part_id}.
 Create a ggplot-friendly data frame from a spatial object
 }
 \examples{
-\donttest{
-load_longlake_data()
+load_longlake_data(which = c("longlake_osm", "longlake_depthdf"))
 df_spatial(longlake_osm)
 df_spatial(longlake_depthdf)
 df_spatial(as(longlake_depthdf, "Spatial"))
-}
 
 }

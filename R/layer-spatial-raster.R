@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' library(ggplot2)
-#' load_longlake_data()
+#' load_longlake_data(which = c("longlake_osm", "longlake_depth_raster"))
 #' ggplot() + layer_spatial(longlake_osm)
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
 #'

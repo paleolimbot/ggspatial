@@ -27,6 +27,6 @@ load_longlake_data(
 Load longlake test data
 }
 \examples{
-load_longlake_data()
+load_longlake_data(which = "longlake_waterdf")
 
 }

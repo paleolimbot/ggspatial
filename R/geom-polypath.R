@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' library(ggplot2)
-#' load_longlake_data()
+#' load_longlake_data(which = "longlake_waterdf")
 #' ggplot(df_spatial(longlake_waterdf), aes(x, y, group = piece_id)) +
 #'   geom_polypath()
 #'
