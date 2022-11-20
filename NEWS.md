@@ -1,3 +1,5 @@
+# ggspatial (development version)
+
 # ggspatial 1.1.6
 
 * Added terra package support (@dieghernan, #92, #94)
