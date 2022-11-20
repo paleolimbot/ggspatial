@@ -19,7 +19,7 @@ for other types of spatial objects."><meta name="robots" content="noindex"><!-- 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.6.9000</span>
       </span>
     </div>
 
@@ -119,8 +119,15 @@ for other types of spatial objects.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"longlake_roadsdf"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"longlake_depthdf"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"longlake_depth_raster"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span></span></span>
@@ -140,7 +147,10 @@ for other types of spatial objects.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># spatial-aware automagic north arrow</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`stat(band1)` was deprecated in ggplot2 3.4.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(band1)` instead.</span>
 <span class="r-plt img"><img src="layer_spatial-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -156,7 +166,7 @@ for other types of spatial objects.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
