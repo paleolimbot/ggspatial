@@ -16,3 +16,4 @@
 ^tests/figs$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
