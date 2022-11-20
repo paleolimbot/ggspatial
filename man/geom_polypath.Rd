@@ -40,10 +40,9 @@ will mostly likely need to contain a \code{group} mapping.}
 A ggplot2 layer
 }
 \description{
-This geometry correctly plots polygons with holes in ggplot2 at the
-expense of doing so (slightly) more slowly than \link[ggplot2:geom_polygon]{geom_polygon}. This
-implementation fixes a bug in the \code{ggpolypath} package, which provides
-similar functionality.
+This geometry used to plot polygons with holes in ggplot2 at the
+more correctly than \link[ggplot2:geom_polygon]{geom_polygon}; however,
+in recent R and ggplot2 versions this is no longer needed.
 }
 \examples{
 \donttest{
