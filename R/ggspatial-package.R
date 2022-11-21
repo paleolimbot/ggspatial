@@ -4,6 +4,7 @@
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
+#' @importFrom ggplot2 after_stat
 ## usethis namespace: end
 NULL
 
