@@ -59,7 +59,7 @@ ggplot() +
   annotation_spatial(longlake_roadsdf, size = 1.6, col = "white") +
 
   # raster layers train scales and get projected automatically
-  layer_spatial(longlake_depth_raster, aes(colour = stat(band1))) +
+  layer_spatial(longlake_depth_raster, aes(colour = after_stat(band1))) +
   # make no data values transparent
   scale_fill_viridis_c(na.value = NA) +
   

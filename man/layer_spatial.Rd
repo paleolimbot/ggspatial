@@ -70,7 +70,7 @@ ggplot() +
   annotation_spatial(longlake_roadsdf, size = 1.6, col = "white") +
 
   # raster layers train scales and get projected automatically
-  layer_spatial(longlake_depth_raster, aes(alpha = stat(band1)), fill = "darkblue") +
+  layer_spatial(longlake_depth_raster, aes(alpha = after_stat(band1)), fill = "darkblue") +
   scale_alpha_continuous(na.value = 0) +
 
   # layer_spatial() layers train the scales

@@ -39,7 +39,7 @@ With raster layers, you can also use `layer_spatial()`. **ggspatial** takes care
 
 ```{r, warning=FALSE}
 ggplot() + 
-  layer_spatial(longlake_depth_raster, aes(fill = stat(band1))) +
+  layer_spatial(longlake_depth_raster, aes(fill = after_stat(band1))) +
   scale_fill_viridis_c(na.value = NA)
 ```
 

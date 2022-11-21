@@ -6,10 +6,9 @@
 
 #' Polygons with holes in ggplot2
 #'
-#' This geometry correctly plots polygons with holes in ggplot2 at the
-#' expense of doing so (slightly) more slowly than [geom_polygon][ggplot2::geom_polygon]. This
-#' implementation fixes a bug in the `ggpolypath` package, which provides
-#' similar functionality.
+#' This geometry used to plot polygons with holes in ggplot2 at the
+#' more correctly than [geom_polygon][ggplot2::geom_polygon]; however,
+#' in recent R and ggplot2 versions this is no longer needed.
 #'
 #' @param mapping An aesthetic mapping, created with [aes][ggplot2::aes]. The aesthetic
 #'   will mostly likely need to contain a `group` mapping.
@@ -40,6 +39,9 @@ geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", posit
     stop("geom_polypath: 'rule' must be 'evenodd', or 'winding'")
   }
 
+  # No longer needed in recent R + ggplot2
+  message("`geom_polypath()` is deprecated: use `ggplot2::geom_polygon()` with the `subgroup` aesthetic")
+
   ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomPolypath,
                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
                  params = list(na.rm = na.rm , rule = rule, ...))
@@ -50,29 +52,19 @@ GeomPolypath <- ggplot2::ggproto(
   "GeomPolypath",
   ggplot2::GeomPolygon,
   extra_params = c("na.rm", "rule"),
-  draw_panel = function(data, scales, coordinates, rule = "winding") {
+  draw_panel = function(self, data, scales, coordinates, rule = "winding") {
     n <- nrow(data)
     if (n == 1) return(ggplot2::zeroGrob())
 
-    munched <- ggplot2::coord_munch(coordinates, data, scales)
-    munched <- munched[order(munched$group), ]
-    ## function to be applied to get a pathGrob for each "region"
-    object_munch <- function(xmunch) {
-      first_idx <- !duplicated(xmunch$group)
-      first_rows <- xmunch[first_idx, ]
-      grid::pathGrob(xmunch$x, xmunch$y, default.units = "native",
-                     id = xmunch$group, rule = rule,
-                     gp = grid::gpar(col = first_rows$colour,
-                                     fill = scales::alpha(first_rows$fill, first_rows$alpha),
-                                     lwd = first_rows$size * ggplot2::.pt,
-                                     lty = first_rows$linetype))
+    data$subgroup <- data$group
+
+    # "size" became "linewidth" in ggplot 3.4.0
+    if (packageVersion("ggplot2") >= "3.4.0") {
+      data$group <- unclass(factor(with(data, paste(fill, colour, alpha, linewidth, linetype))))
+    } else {
+      data$group <- unclass(factor(with(data, paste(fill, colour, alpha, size, linetype))))
     }
 
-    groups <- with(munched, paste(fill, colour, alpha, size, linetype))
-
-    ggplot2:::ggname(
-      "geom_polypath",
-      do.call(grid::grobTree, lapply(split(munched, groups), object_munch))
-    )
+    ggplot2::ggproto_parent(ggplot2::GeomPolygon, self)$draw_panel(data, scales, coordinates, rule = rule)
   }
 )

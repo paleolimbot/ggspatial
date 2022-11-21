@@ -38,7 +38,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
     }
 
     geom <- GeomSpatialRaster
-    mapping <- ggplot2::aes_string(raster = "raster")
+    mapping <- ggplot2::aes(raster = .data$raster)
   } else {
     # mapped aesthetics mode
     if(is_annotation) {
@@ -50,7 +50,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
     geom <- ggplot2::GeomRaster
     mapping <- override_aesthetics(
       mapping,
-      ggplot2::aes_string(raster = "raster")
+      ggplot2::aes(raster = .data$raster)
     )
   }
 
@@ -120,7 +120,7 @@ StatSpatialRaster <-  ggplot2::ggproto(
       data$ymax <- vapply(data$extent, function(x) x["ymax"], numeric(1))
 
       # this stat also generates band1....band[n] columns with the limits of each band
-      # this allows aesthetics in the form fill = stat(band1), alpha = stat(band3)
+      # this allows aesthetics in the form fill = after_stat(band1), alpha = after_stat(band3)
 
       # in many cases this is cached or at the very least doesn't lead to the whole
       # raster being read into memory
@@ -178,7 +178,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
   required_aes = "raster",
   extra_params = c("lazy", "dpi"),
 
-  default_aes = ggplot2::aes(fill = stat(band1)),
+  default_aes = ggplot2::aes(fill = after_stat(band1)),
 
   compute_layer = function(self, data, params, layout) {
 
@@ -202,7 +202,7 @@ StatSpatialRasterDf <- ggplot2::ggproto(
       }
 
       data$raster <- lapply(data$raster, df_spatial)
-      tidyr::unnest(data, .data$raster)
+      tidyr::unnest(data, "raster")
     } else {
       data
     }

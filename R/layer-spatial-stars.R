@@ -50,7 +50,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
     }
 
     geom <- GeomSpatialStars
-    mapping <- ggplot2::aes_string(raster = "raster")
+    mapping <- ggplot2::aes(raster = .data$raster)
   } else {
     # mapped aesthetics mode
     if (is_annotation) {
@@ -62,7 +62,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
     geom <- ggplot2::GeomRaster
     mapping <- override_aesthetics(
       mapping,
-      ggplot2::aes_string(raster = "raster")
+      ggplot2::aes(raster = .data$raster)
     )
   }
 
@@ -172,7 +172,7 @@ StatSpatialStarsDf <- ggplot2::ggproto(
   ggplot2::Stat,
   required_aes = "raster",
   extra_params = c("lazy", "dpi", "options"),
-  default_aes = ggplot2::aes(fill = stat(band1)),
+  default_aes = ggplot2::aes(fill = after_stat(band1)),
   compute_layer = function(self, data, params, layout) {
     if (params$lazy) stop("Lazy rendering not implemented for mapped rasters")
 
@@ -193,7 +193,7 @@ StatSpatialStarsDf <- ggplot2::ggproto(
       }
 
       data$raster <- lapply(data$raster, df_spatial)
-      tidyr::unnest(data, .data$raster)
+      tidyr::unnest(data, "raster")
     } else {
       data
     }

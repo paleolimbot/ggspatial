@@ -14,7 +14,6 @@ reference:
   contents:
   - starts_with("geom_spatial")
   - starts_with("stat_spatial")
-  - geom_polypath
 - title: Layer functions
   desc: Convert spatial objects to ggplo2 layers
   contents:
