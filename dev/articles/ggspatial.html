@@ -73,7 +73,7 @@
       <h1 data-toc-skip>Spatial objects using ggspatial and ggplot2</h1>
                         <h4 data-toc-skip class="author">Dewey Dunnington</h4>
             
-            <h4 data-toc-skip class="date">2022-11-20</h4>
+            <h4 data-toc-skip class="date">2022-11-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/HEAD/vignettes/ggspatial.Rmd" class="external-link"><code>vignettes/ggspatial.Rmd</code></a></small>
       <div class="hidden name"><code>ggspatial.Rmd</code></div>
@@ -105,7 +105,7 @@
 <p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>. <strong>ggspatial</strong> takes care of reprojecting the raster such that it aligns with other datasets, and, if it is an RGB(A) raster (like many airphotos), will display it as such. You can refer to bands to map aesthetics as <code>stat(band1)</code> (or another band, if there is more than one in the raster). To get no data values to display as “no data”, you’ll have to set the <code>na.value</code> of the scale to <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" width="750"></p>
 </div>
