@@ -73,7 +73,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
       ggplot() +
         layer_spatial(
           longlake_osm,
-          aes(alpha = stat(band1), fill = NULL)
+          aes(alpha = after_stat(band1), fill = NULL)
         ) +
         layer_spatial(longlake_depthdf)
     )
