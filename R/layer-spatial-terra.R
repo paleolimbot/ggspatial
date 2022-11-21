@@ -197,7 +197,7 @@ StatSpatRasterDf <- ggplot2::ggproto(
       }
 
       data$raster <- lapply(data$raster, df_spatial)
-      tidyr::unnest(data, .data$raster)
+      tidyr::unnest(data, "raster")
     } else {
       data
     }
