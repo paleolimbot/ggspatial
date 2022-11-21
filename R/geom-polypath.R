@@ -40,7 +40,7 @@ geom_polypath <- function (mapping = NULL, data = NULL, stat = "identity", posit
   }
 
   # No longer needed in recent R + ggplot2
-  .Deprecated("ggplot2::geom_polygon() with the `subgroup` aesthetic")
+  message("`geom_polypath()` is deprecated: use `ggplot2::geom_polygon()` with the `subgroup` aesthetic")
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomPolypath,
                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
