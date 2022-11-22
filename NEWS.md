@@ -1,4 +1,4 @@
-# ggspatial (development version)
+# ggspatial 1.1.7
 
 * Fixed deprecated behaviour advanced in the latest ggplot2
   release (#106).
