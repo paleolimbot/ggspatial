@@ -101,7 +101,7 @@ shadow_spatial.default <- function(data, ...) {
 StatSfAnnotation <- ggplot2::ggproto(
   "StatSfAnnotation",
   ggplot2::StatSf,
-  compute_group = function(data, scales) {
+  compute_panel = function(data, scales, coord) {
     data$xmin <- NA_real_
     data$xmax <- NA_real_
     data$ymin <- NA_real_
