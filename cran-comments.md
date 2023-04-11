@@ -1,5 +1,5 @@
 
-Fixes latest warnings shown on the package check page!
+Fixes an issue related to the latest ggplot2 release.
 
 ## Test environments
 
