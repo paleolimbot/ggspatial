@@ -1,3 +1,5 @@
+# ggspatial (development version)
+
 # ggspatial 1.1.8
 
 * Fix `annotation_spatial()` for the latest ggplot2 release (#114, #115).
