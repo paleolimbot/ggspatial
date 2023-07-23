@@ -34,7 +34,6 @@ Suggests:
     knitr,
     rmarkdown,
     sp,
-    rgdal,
     raster,
     terra,
     testthat (>= 3.0.0),
