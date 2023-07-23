@@ -72,7 +72,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data@crs@projargs)),
+      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(raster::crs(data))),
       inherit.aes = FALSE,
       show.legend = FALSE
     )
