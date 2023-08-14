@@ -23,7 +23,8 @@
 #'     "longlake_roadsdf",
 #'     "longlake_depthdf",
 #'     "longlake_depth_raster"
-#'   )
+#'   ),
+#'   raster_format = "terra"
 #' )
 #'
 #' ggplot() +
