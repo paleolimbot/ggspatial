@@ -1,9 +1,9 @@
 
-Fixes an issue related to the latest ggplot2 release.
+Fixes an issue related to updated terra/raster.
 
 ## Test environments
 
-* local R installation, R 4.0.3
+* local R installation
 * MacOS (on Github Actions), R-release
 * win-builder (devel)
 
