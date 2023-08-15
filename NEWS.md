@@ -1,4 +1,4 @@
-# ggspatial (development version)
+# ggspatial 1.1.9
 
 * Fix donttest examples for updated raster/terra stack.
 
