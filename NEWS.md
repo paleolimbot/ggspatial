@@ -3,6 +3,10 @@
 * Updated `load_longlake_data()` to use terra package by default instead of the deprecated raster package
 * Updated example for `layer_spatial()` to avoid error when plotting raster layer
 
+# ggspatial 1.1.9
+
+* Fix donttest examples for updated raster/terra stack.
+
 # ggspatial 1.1.8
 
 * Fix `annotation_spatial()` for the latest ggplot2 release (#114, #115).
