@@ -109,14 +109,6 @@ to read in some of your own data, you may be interested in
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paleolimbot.github.io/ggspatial/" class="external-link">ggspatial</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/load_longlake_data.html">load_longlake_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,</span></span>
-<span><span class="co">## which was just loaded, will retire in October 2023.</span></span>
-<span><span class="co">## Please refer to R-spatial evolution reports for details, especially</span></span>
-<span><span class="co">## https://r-spatial.org/r/2023/05/15/evolution4.html.</span></span>
-<span><span class="co">## It may be desirable to make the sf package available;</span></span>
-<span><span class="co">## package maintainers should consider adding sf to Suggests:.</span></span>
-<span><span class="co">## The sp package is now running under evolution status 2</span></span>
-<span><span class="co">##      (status 2 uses the sf package in place of rgdal)</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="using-layer_spatial-and-annotation_spatial">Using <code>layer_spatial()</code> and
@@ -134,7 +126,7 @@ which are more like backround images than data that should be mapped to
 a scale. Unlike <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>,
 <code><a href="../reference/layer_spatial.html">annotation_spatial()</a></code> layers never train the scales, so they
 can be used as a backdrop for other layers.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -147,7 +139,7 @@ aesthetics as <code>stat(band1)</code> (or another band, if there is
 more than one in the raster). To get no data values to display as “no
 data”, you’ll have to set the <code>na.value</code> of the scale to
 <code>NA</code> (or <code>0</code> if it is an alpha scale).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
@@ -164,7 +156,7 @@ is across the plot. Thus, they don’t need any arguments (unless you
 think the defaults aren’t pretty). There are two styles for scalebars
 and four styles for north arrows (see <code><a href="../reference/annotation_scale.html">?annotation_scale</a></code> and
 <code><a href="../reference/annotation_north_arrow.html">?annotation_north_arrow</a></code> for details).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -187,7 +179,7 @@ a little more zoomed out than usual, so that the plot loads quickly.
 Higher zoom levels will make the plot render slowly quite fast. Use
 <code>progress = "none"</code> to suppress the messaging (particularly
 nice for use within RMarkdown).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -219,7 +211,7 @@ The <code><a href="../reference/stat_spatial_identity.html">geom_spatial_point()
 <strong>ggrepel</strong> package) functions are the most commonly used
 in this situation. For example, a polar perspective on two cities across
 the world from eachother could look like this:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">63.58595</span>, <span class="fl">116.41214</span><span class="op">)</span>, </span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">44.64862</span>, <span class="fl">40.19063</span><span class="op">)</span>, </span>
