@@ -15,7 +15,7 @@
 #' load_longlake_data(which = "longlake_waterdf")
 #'
 load_longlake_data <- function(env = parent.frame(), vector_format = c("sf", "sp"),
-                               raster_format = c("raster", "stars", "stars_proxy", "terra"),
+                               raster_format = c("terra", "stars", "stars_proxy", "raster"),
                                which = NULL) {
   raster_format <- match.arg(raster_format)
   vector_format <- match.arg(vector_format)
