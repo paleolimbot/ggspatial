@@ -2,6 +2,9 @@
 
 * Updated `load_longlake_data()` to use terra package by default instead of the deprecated raster package
 * Updated example for `layer_spatial()` to avoid error when plotting raster layer
+* Added `"line"` style and `text_pos` argument to `annotatation_scale()`.  
+`annotation_scale(style = "line", width_hint = 0.2)` yields a scale bar line
+with the bar length text above it. 
 
 # ggspatial 1.1.9
 

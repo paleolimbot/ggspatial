@@ -8,6 +8,8 @@
 #' @param height Height of scale bar
 #' @param pad_x,pad_y Distance between scale bar and edge of panel
 #' @param text_pad,text_cex,text_face,text_family Parameters for label
+#' @param text_pos Text position relative to bar, either "`above`" or `"inside"`
+#' (towards plot center).
 #' @param tick_height Height of ticks relative to height of scale bar
 #' @param mapping,data,... See Aesthetics
 #'
@@ -17,9 +19,9 @@
 #' and a different (or missing) scale bar is required in different panels.
 #' Otherwise, just pass them as arguments to `annotation_scale`.
 #'   \itemize{
-#'     \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
+#'     \item width_hint: The (suggested) proportion of the plot width which the scalebar should occupy.
 #'     \item unit_category: Use "metric" or "imperial" units.
-#'     \item style: One of "bar" or "ticks"
+#'     \item style: One of "bar", "ticks", or "line"
 #'     \item location: Where to put the scale bar ("tl" for top left, etc.)
 #'     \item line_col and text_col: Line and text colour, respectively
 #'   }
@@ -36,10 +38,19 @@
 #'   city = c("Halifax", "Beijing")
 #' )
 #'
-#' ggplot(cities) +
+#' p <-  ggplot(cities) +
 #'   geom_spatial_point(aes(x, y), crs = 4326) +
-#'   annotation_scale() +
 #'   coord_sf(crs = 3995)
+#'
+#'  # Box
+#'  p + annotation_scale()
+#'
+#'  # Ticks
+#'  p + annotation_scale(style = "ticks")
+#'
+#'  # Line
+#'  p + annotation_scale(style = "line", width_hint = 0.2)
+#'
 #'
 annotation_scale <- function(mapping = NULL, data = NULL,
                              ...,
@@ -53,7 +64,8 @@ annotation_scale <- function(mapping = NULL, data = NULL,
                              text_cex = 0.7,
                              text_face = NULL,
                              text_family = "",
-                             tick_height = 0.6) {
+                             tick_height = 0.6,
+                             text_pos = NULL) {
 
   if(is.null(data)) {
     data <- data.frame(x = NA)
@@ -79,7 +91,8 @@ annotation_scale <- function(mapping = NULL, data = NULL,
       text_cex = text_cex,
       text_face = text_face,
       text_family = text_family,
-      tick_height = tick_height
+      tick_height = tick_height,
+      text_pos = text_pos
     )
   )
 }
@@ -115,11 +128,12 @@ GeomScaleBar <- ggplot2::ggproto(
                         text_cex = 0.7,
                         text_face = NULL,
                         text_family = "",
-                        tick_height = 0.6) {
+                        tick_height = 0.6,
+                        text_pos = NULL) {
 
     width_hint <- data$width_hint[1]
     style <- data$style[1]
-    location = data$location[1]
+    location <- data$location[1]
     unit_category <- data$unit_category[1]
     text_col <- data$text_col[1]
     line_col <- data$line_col[1]
@@ -136,7 +150,8 @@ GeomScaleBar <- ggplot2::ggproto(
       grid::is.unit(pad_y), length(pad_y) == 1,
       grid::is.unit(text_pad), length(text_pad) == 1,
       length(text_col) == 1,
-      is.numeric(tick_height), length(tick_height) == 1
+      is.numeric(tick_height), length(tick_height) == 1,
+      is.null(text_pos) || text_pos %in% c("above", "inside")
     )
 
     # ranges have to be unnamed because when given
@@ -183,14 +198,15 @@ GeomScaleBar <- ggplot2::ggproto(
       text_col = text_col,
       text_face = text_face,
       text_family = text_family,
-      tick_height = tick_height
+      tick_height = tick_height,
+      text_pos = text_pos
     )
   }
 )
 
 scalebar_grobs <- function(
   params,
-  style = c("ticks", "bar"),
+  style = c("ticks", "bar", "line"),
   location = c("bl", "br", "tr", "tl"),
   bar_cols = c("black", "white"),
   line_width = 1,
@@ -203,20 +219,44 @@ scalebar_grobs <- function(
   text_col = "black",
   text_face = NULL,
   text_family = "",
-  tick_height = 0.6
+  tick_height = 0.6,
+  text_pos = NULL
 ) {
   style <- match.arg(style)
 
   location <- match.arg(location)
 
+  if (is.null(text_pos))
+    text_pos <- ifelse(style == "line", "above", "inside")
+
+  if (style == "line"){
+    tick_height <- unit(0, "cm")
+    height <- unit(0, "cm")
+  }
+
   adj_x <- as.numeric(grepl("r", location))
   adj_y <- as.numeric(grepl("t", location))
   width <- unit(params$widthnpc, "npc")
 
+  # origins are the left and bottom edge of the bar bounding box
   origin_x <- unit(adj_x, "npc") - adj_x * width + (0.5 - adj_x) * 2 * pad_x
   origin_y <- unit(adj_y, "npc") - adj_y * height + (0.5 - adj_y) * 2 * pad_y
-  text_origin_x <- unit(adj_x, "npc") + (0.5 - adj_x) * 2 * (pad_x + text_pad + width)
-  text_origin_y <- unit(adj_y, "npc") + (0.5 - adj_y) * 2 * (pad_y + 0.5 * height)
+
+  if(text_pos == "inside") {
+    text_hjust <- adj_x
+    text_vjust <- 0.5
+    text_origin_x <- unit(adj_x, "npc") + (0.5 - adj_x) * 2 * (pad_x + text_pad + width)
+    text_origin_y <- unit(adj_y, "npc") + (0.5 - adj_y) * 2 * (pad_y + 0.5 * height)
+  }
+
+  if(text_pos == "above") {
+    text_height <- grid::unit(1, "char") * text_cex
+    text_hjust <- 0.5
+    text_vjust <- 0
+    origin_y <- origin_y - adj_y * (text_height + text_pad)
+    text_origin_x <- origin_x + width / 2 # horizontal center of box
+    text_origin_y <- origin_y  +  height + text_pad
+  }
 
   if(style == "bar") {
     bar_grob <- grid::rectGrob(
@@ -255,6 +295,19 @@ scalebar_grobs <- function(
         )
       )
     )
+  } else if (style == "line") {
+    bar_grob <- grid::gList(
+      grid::segmentsGrob(
+        x0 = origin_x,
+        y0 = origin_y,
+        x1 = origin_x + width,
+        y1 = origin_y,
+        gp = grid::gpar(
+          lwd = line_width,
+          col = line_col
+        )
+      )
+    )
   } else {
     stop("not implemented")
   }
@@ -265,8 +318,8 @@ scalebar_grobs <- function(
       label = params$labeltext,
       x = text_origin_x,
       y = text_origin_y,
-      hjust = adj_x,
-      vjust = 0.5,
+      hjust = text_hjust,
+      vjust = text_vjust,
       gp = grid::gpar(
         cex = text_cex,
         col = text_col,
