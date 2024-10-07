@@ -23,7 +23,8 @@ annotation_scale(
   text_cex = 0.7,
   text_face = NULL,
   text_family = "",
-  tick_height = 0.6
+  tick_height = 0.6,
+  text_pos = NULL
 )
 
 GeomScaleBar
@@ -45,6 +46,9 @@ Must be one of km, m, cm, mi, ft, or in.}
 \item{text_pad, text_cex, text_face, text_family}{Parameters for label}
 
 \item{tick_height}{Height of ticks relative to height of scale bar}
+
+\item{text_pos}{Text position relative to bar, either "\code{above}" or \code{"inside"}
+(towards plot center).}
 }
 \value{
 A ggplot2 layer.
@@ -59,9 +63,9 @@ aesthetics is useful when facets are used to display multiple panels,
 and a different (or missing) scale bar is required in different panels.
 Otherwise, just pass them as arguments to \code{annotation_scale}.
 \itemize{
-\item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
+\item width_hint: The (suggested) proportion of the plot width which the scalebar should occupy.
 \item unit_category: Use "metric" or "imperial" units.
-\item style: One of "bar" or "ticks"
+\item style: One of "bar", "ticks", or "line"
 \item location: Where to put the scale bar ("tl" for top left, etc.)
 \item line_col and text_col: Line and text colour, respectively
 }
@@ -74,10 +78,19 @@ cities <- data.frame(
   city = c("Halifax", "Beijing")
 )
 
-ggplot(cities) +
+p <-  ggplot(cities) +
   geom_spatial_point(aes(x, y), crs = 4326) +
-  annotation_scale() +
   coord_sf(crs = 3995)
+
+ # Box
+ p + annotation_scale()
+
+ # Ticks
+ p + annotation_scale(style = "ticks")
+
+ # Line
+ p + annotation_scale(style = "line", width_hint = 0.2)
+
 
 }
 \keyword{datasets}

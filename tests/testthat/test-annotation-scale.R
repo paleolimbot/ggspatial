@@ -125,6 +125,15 @@ test_that("annotation scale works as intended", {
       annotation_scale(plot_unit = "m", style = "ticks") +
       ggplot2::coord_fixed()
   )
+
+  expect_doppelganger(
+    "scale bar (line)",
+    ggplot() +
+      ggplot2::geom_point(aes(x, y), data = data.frame(x = 0:4, y = -(0:4))) +
+      annotation_scale(plot_unit = "m", style = "line") +
+      ggplot2::coord_fixed()
+  )
+
 })
 
 test_that("font items are passed on to annotation_scale()", {
@@ -175,3 +184,5 @@ test_that("certain parameters can be passed as aesthetics to show up on differen
       ggplot2::coord_fixed()
   )
 })
+
+
