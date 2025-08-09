@@ -21,11 +21,11 @@
 </g>
 <defs>
   <clipPath id='cpMC4wMHw3MjAuMDB8MTMuMjZ8NTYyLjc0'>
-    <rect x='0.00' y='13.26' width='720.00' height='549.48' />
+    <rect x='0.000000000000050' y='13.26' width='720.00' height='549.48' />
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MTMuMjZ8NTYyLjc0)'>
-<rect x='0.00' y='13.26' width='720.00' height='549.48' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+<rect x='0.000000000000064' y='13.26' width='720.00' height='549.48' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
@@ -247,20 +247,20 @@
 <text x='600.55' y='555.35' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='3.31px' lengthAdjust='spacingAndGlyphs'>°</text>
 <text x='603.86' y='555.35' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='8.31px' lengthAdjust='spacingAndGlyphs'>W</text>
 <rect x='661.94' y='239.29' width='52.58' height='101.73' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='661.94' y='248.00' style='font-size: 11.00px; font-family: sans;' textLength='52.58px' lengthAdjust='spacingAndGlyphs'>DEPTH_M</text>
 <image width='17.28' height='86.40' x='661.94' y='254.62' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAYAAAACUNnVAAAAmElEQVQ4ja2UQRLDMAgDd3hk/tnX5agcknFaCoa0vnkMCEnGsL12GQhDYDpPwoDrpBFlRDWi/9Wu6AHC9FkLYLrzlhD3oJ3mDvRHRYy7IC8A7bCK8gpWKYDzeQVArDcDyD2YAnSofZvzaOA6Q7Oahp/dmRuVTQ0xU5TGP2o8Waool1obVuv1q8qP9xPvg633XlGLDtfIhNUBcBeA5ss0BXMAAAAASUVORK5CYII='/>
+<polyline points='675.77,340.88 679.22,340.88 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='675.77,319.35 679.22,319.35 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='675.77,297.82 679.22,297.82 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='675.77,276.30 679.22,276.30 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='665.40,340.88 661.94,340.88 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='665.40,319.35 661.94,319.35 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='665.40,297.82 661.94,297.82 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='665.40,276.30 661.94,276.30 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='684.70' y='343.91' style='font-size: 8.80px; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>0.6</text>
 <text x='684.70' y='322.38' style='font-size: 8.80px; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>0.9</text>
 <text x='684.70' y='300.85' style='font-size: 8.80px; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>1.2</text>
 <text x='684.70' y='279.32' style='font-size: 8.80px; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>1.5</text>
-<text x='661.94' y='248.00' style='font-size: 11.00px; font-family: sans;' textLength='52.58px' lengthAdjust='spacingAndGlyphs'>DEPTH_M</text>
-<line x1='661.94' y1='340.88' x2='665.40' y2='340.88' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='661.94' y1='319.35' x2='665.40' y2='319.35' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='661.94' y1='297.82' x2='665.40' y2='297.82' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='661.94' y1='276.30' x2='665.40' y2='276.30' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='675.77' y1='340.88' x2='679.22' y2='340.88' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='675.77' y1='319.35' x2='679.22' y2='319.35' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='675.77' y1='297.82' x2='679.22' y2='297.82' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='675.77' y1='276.30' x2='679.22' y2='276.30' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='47.00' y='27.82' style='font-size: 13.20px; font-family: sans;' textLength='115.95px' lengthAdjust='spacingAndGlyphs'>annotation_spatial()</text>
 </g>
 </svg>
