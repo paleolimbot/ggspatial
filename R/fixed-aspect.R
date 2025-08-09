@@ -30,7 +30,7 @@ fixed_plot_aspect <- function(ratio = 1) {
 
 #' @export
 #' @importFrom ggplot2 ggplot_add
-ggplot_add.fixed_plot_aspect <- function(object, plot, object_name) {
+ggplot_add.fixed_plot_aspect <- function(object, plot, ...) {
   plot$fixed_aspect_ratio <- object$ratio
   class(plot) <- unique(c("gg_fixed_plot_aspect", class(plot)))
   plot
@@ -38,7 +38,7 @@ ggplot_add.fixed_plot_aspect <- function(object, plot, object_name) {
 
 #' @export
 #' @importFrom ggplot2 ggplot_build
-ggplot_build.gg_fixed_plot_aspect <- function(plot) {
+ggplot_build.gg_fixed_plot_aspect <- function(plot, ...) {
   # dynamically subclass the coordinate system to modify the scales prior to panel
   # params (the last possible moment)
   # you'd think this was possible some other way, but until layers have access to
