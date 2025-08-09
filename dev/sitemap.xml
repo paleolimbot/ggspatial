@@ -1,81 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/articles/ggspatial.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/annotation_map_tile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/annotation_north_arrow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/annotation_scale.html</loc>
-  </url>
-  <url>
-    <loc>/reference/annotation_spatial_hline.html</loc>
-  </url>
-  <url>
-    <loc>/reference/df_spatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fixed_plot_aspect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_polypath.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_spatial_rect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geom_spatial_segment.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ggspatial-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/layer_spatial.Raster.html</loc>
-  </url>
-  <url>
-    <loc>/reference/layer_spatial.SpatRaster.html</loc>
-  </url>
-  <url>
-    <loc>/reference/layer_spatial.bbox.html</loc>
-  </url>
-  <url>
-    <loc>/reference/layer_spatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/layer_spatial.stars.html</loc>
-  </url>
-  <url>
-    <loc>/reference/load_longlake_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/north_arrow_orienteering.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stat_spatial_identity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/xy_transform.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/articles/ggspatial.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/annotation_map_tile.html</loc></url>
+<url><loc>/reference/annotation_north_arrow.html</loc></url>
+<url><loc>/reference/annotation_scale.html</loc></url>
+<url><loc>/reference/annotation_spatial_hline.html</loc></url>
+<url><loc>/reference/df_spatial.html</loc></url>
+<url><loc>/reference/fixed_plot_aspect.html</loc></url>
+<url><loc>/reference/geom_polypath.html</loc></url>
+<url><loc>/reference/geom_spatial_rect.html</loc></url>
+<url><loc>/reference/geom_spatial_segment.html</loc></url>
+<url><loc>/reference/ggspatial-package.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/layer_spatial.Raster.html</loc></url>
+<url><loc>/reference/layer_spatial.SpatRaster.html</loc></url>
+<url><loc>/reference/layer_spatial.bbox.html</loc></url>
+<url><loc>/reference/layer_spatial.html</loc></url>
+<url><loc>/reference/layer_spatial.stars.html</loc></url>
+<url><loc>/reference/load_longlake_data.html</loc></url>
+<url><loc>/reference/north_arrow_orienteering.html</loc></url>
+<url><loc>/reference/reexports.html</loc></url>
+<url><loc>/reference/stat_spatial_identity.html</loc></url>
+<url><loc>/reference/xy_transform.html</loc></url>
 </urlset>
+
