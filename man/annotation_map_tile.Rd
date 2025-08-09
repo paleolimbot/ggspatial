@@ -26,7 +26,7 @@ annotation_map_tile(
 GeomMapTile
 }
 \arguments{
-\item{type}{The map type (one of that returned by \link[rosm:osm.types]{rosm::osm.types})}
+\item{type}{The map type (one of that returned by \link[rosm:deprecated]{rosm::osm.types})}
 
 \item{zoom}{The zoom level (overrides zoomin)}
 
@@ -52,7 +52,7 @@ increase the resolution.}
 A ggplot2 layer
 }
 \description{
-Uses \code{\link[rosm:osm.image]{rosm::osm.image()}} to add background tiles. If you are publishing
+Uses \code{\link[rosm:deprecated]{rosm::osm.image()}} to add background tiles. If you are publishing
 a map using these tiles, make sure to use the proper attribution
 (e.g., "Copyright OpenStreetMap contributors" when using an
 OpenStreetMap-based tile set).
