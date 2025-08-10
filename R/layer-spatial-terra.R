@@ -2,8 +2,8 @@
 #' Spatial ggplot2 layer for SpatRaster objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery
-#' or photos). To work with bands as if they were columns, use [df_spatial]
-#' and [geom_raster].
+#' or photos). To work with bands as if they were columns, use [df_spatial()]
+#' and [ggplot2::geom_raster()].
 #'
 #' @param data A SpatRaster object created with [terra::rast()].
 #' @inheritParams layer_spatial.Raster

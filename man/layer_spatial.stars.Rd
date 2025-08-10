@@ -63,7 +63,7 @@ A ggplot2 layer
 }
 \description{
 This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
-bands as if they were columns, use \link{df_spatial} and \link{geom_raster}.
+bands as if they were columns, use \code{\link[=df_spatial]{df_spatial()}} and \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}.
 }
 \examples{
 \donttest{
