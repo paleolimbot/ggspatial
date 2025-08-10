@@ -1,7 +1,11 @@
-# ggspatial (development version)
+# ggspatial 1.1.10
 
-* Updated `load_longlake_data()` to use terra package by default instead of the deprecated raster package
-* Updated example for `layer_spatial()` to avoid error when plotting raster layer
+* Updated `load_longlake_data()` to use terra package by default instead of the
+  deprecated raster package
+* Updated example for `layer_spatial()` to avoid error when plotting raster
+  layer
+* Fix broken documentation links to `ggplot2::geom_raster()`
+* Prepare ggplot2 S3 methods for forthconing ggplot2
 
 # ggspatial 1.1.9
 
