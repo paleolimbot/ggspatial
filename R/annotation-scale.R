@@ -333,19 +333,22 @@ scalebar_params <- function(
   geowidthm <- unname(widthm * widthhint)
 
   if(geowidthm < 1) {
-    scaleunits <- c("cm", "in")
+    scaleunits <- c("cm", "in", "cm")
   } else if(geowidthm < 1600) {
-    scaleunits <- c("m", "ft")
+    scaleunits <- c("m", "ft", "m")
   } else {
-    scaleunits <- c("km", "mi")
+    scaleunits <- c("km", "mi", "nmi")
   }
 
   #   String unit = units[unitCategory] ;
   if(unitcategory == "metric") {
     unit <- scaleunits[1]
-  } else {
+  } else if(unitcategory == "imperial") {
     unit <- scaleunits[2]
+  } else {
+    unit <- scaleunits[3]
   }
+
   #   double widthHintU = Units.fromSI(geoWidthM, unit) ;
   widthhintu <- .fromsi(geowidthm, unit)
   #   double tenFactor = Math.floor(Math.log10(widthHintU)) ;
