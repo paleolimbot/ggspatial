@@ -125,7 +125,7 @@ GeomScaleBar <- ggplot2::ggproto(
     line_col <- data$line_col[1]
 
     stopifnot(
-      is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm"),
+      is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm", "nmi"),
       length(unit_category) == 1, unit_category %in% c("metric", "imperial", "nautical"),
       is.numeric(width_hint), length(width_hint) == 1,
       is.atomic(bar_cols),
@@ -323,7 +323,7 @@ scalebar_params <- function(
       plotunit <- "m"
     }
 
-    plotunit <- match.arg(plotunit, choices = c("km", "m", "cm", "mi", "ft", "in"))
+    plotunit <- match.arg(plotunit, choices = c("km", "m", "cm", "mi", "ft", "in", "nmi"))
 
     heightm <- .tosi(sf_bbox["ymax"] - sf_bbox["ymin"], plotunit)
     widthm <- unname(.tosi(sf_bbox["xmax"] - sf_bbox["xmin"], plotunit))
