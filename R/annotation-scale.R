@@ -430,6 +430,8 @@ scalebar_params <- function(
     sivalue * 39.370079999999809672
   } else if(unit == "cm") {
     sivalue * 100.0
+  } else if(unit == "nmi") {
+    sivalue / 1852
   } else {
     stop("Unrecognized unit: ", unit)
   }
@@ -448,6 +450,8 @@ scalebar_params <- function(
     unitvalue / 39.370079999999809672
   } else if(unit == "cm") {
     unitvalue / 100.0
+  } else if(unit == "nmi") {
+    unitvalue * 1852
   } else {
     stop("Unrecognized unit: ", unit)
   }
