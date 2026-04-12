@@ -18,7 +18,7 @@
 #' Otherwise, just pass them as arguments to `annotation_scale`.
 #'   \itemize{
 #'     \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
-#'     \item unit_category: Use "metric" or "imperial" units.
+#'     \item unit_category: Use "metric", "imperial" or "nautical" units. The latter behaves like "metric" but use nautical miles ("nmi" units) instead of kilometers.
 #'     \item style: One of "bar" or "ticks"
 #'     \item location: Where to put the scale bar ("tl" for top left, etc.)
 #'     \item line_col and text_col: Line and text colour, respectively
@@ -126,7 +126,7 @@ GeomScaleBar <- ggplot2::ggproto(
 
     stopifnot(
       is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm"),
-      length(unit_category) == 1, unit_category %in% c("metric", "imperial"),
+      length(unit_category) == 1, unit_category %in% c("metric", "imperial", "nautical"),
       is.numeric(width_hint), length(width_hint) == 1,
       is.atomic(bar_cols),
       is.numeric(line_width), length(line_width) == 1,
@@ -286,7 +286,7 @@ scalebar_params <- function(
   plotunit = NULL,
   sf_crs = NULL,
   widthhint = 0.25,
-  unitcategory = c("metric", "imperial")
+  unitcategory = c("metric", "imperial", "nautical")
 ) {
   # params check
   unitcategory <- match.arg(unitcategory)
