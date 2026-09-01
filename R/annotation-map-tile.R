@@ -15,6 +15,8 @@
 #' @param cachedir Specify cache directory
 #' @param progress Use `progress = "none"` to suppress progress and zoom output
 #' @param quiet Use `quiet = FALSE` to see which URLs are downloaded
+#' @param api_key API key used for CARTO map types. If `NULL`, rosm uses the
+#'   `CARTO_API_KEY` environment variable.
 #' @param interpolate Passed to [grid::rasterGrob()]
 #' @param alpha Use to make this layer semi-transparent
 #' @param data,mapping Specify data and mapping to use this geom with facets
@@ -35,7 +37,8 @@
 annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
                                 forcedownload = FALSE, cachedir = NULL,
                                 progress = c("text", "none"), quiet = TRUE,
-                                interpolate = TRUE, data = NULL, mapping = NULL, alpha = 1) {
+                                interpolate = TRUE, data = NULL, mapping = NULL, alpha = 1,
+                                api_key = NULL) {
 
   progress <- match.arg(progress)
   if(!is.null(zoom)) {
@@ -65,7 +68,8 @@ annotation_map_tile <- function(type = "osm", zoom = NULL, zoomin = -2,
         progress = progress,
         quiet = quiet,
         interpolate = interpolate,
-        alpha = alpha
+        alpha = alpha,
+        api_key = api_key
       ),
       inherit.aes = FALSE,
       show.legend = FALSE
@@ -101,7 +105,8 @@ GeomMapTile <- ggplot2::ggproto(
   draw_panel = function(
     data, panel_params, coordinates,
     forcedownload = FALSE, cachedir = NULL,
-    progress = c("none", "text"), quiet = TRUE, interpolate = TRUE, alpha = 1
+    progress = c("none", "text"), quiet = TRUE, interpolate = TRUE, alpha = 1,
+    api_key = NULL
   ) {
     progress <- match.arg(progress)
 
@@ -145,7 +150,8 @@ GeomMapTile <- ggplot2::ggproto(
           forcedownload = forcedownload,
           cachedir = cachedir,
           progress = progress,
-          quiet = quiet
+          quiet = quiet,
+          api_key = api_key
         )
       )
 
@@ -177,7 +183,8 @@ GeomMapTile <- ggplot2::ggproto(
           forcedownload = forcedownload,
           cachedir = cachedir,
           progress = progress,
-          quiet = quiet
+          quiet = quiet,
+          api_key = api_key
         )
       )
 

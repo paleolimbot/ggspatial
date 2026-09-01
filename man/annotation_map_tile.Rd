@@ -20,7 +20,8 @@ annotation_map_tile(
   interpolate = TRUE,
   data = NULL,
   mapping = NULL,
-  alpha = 1
+  alpha = 1,
+  api_key = NULL
 )
 
 GeomMapTile
@@ -41,6 +42,9 @@ increase the resolution.}
 \item{progress}{Use \code{progress = "none"} to suppress progress and zoom output}
 
 \item{quiet}{Use \code{quiet = FALSE} to see which URLs are downloaded}
+
+\item{api_key}{API key used for CARTO map types. If \code{NULL}, rosm uses the
+\code{CARTO_API_KEY} environment variable.}
 
 \item{interpolate}{Passed to \code{\link[grid:grid.raster]{grid::rasterGrob()}}}
 

@@ -1,3 +1,8 @@
+# ggspatial 1.1.10.9000
+
+* `annotation_map_tile()` gains an `api_key` argument for CARTO map types and
+  otherwise uses the `CARTO_API_KEY` environment variable via rosm (#138).
+
 # ggspatial 1.1.10
 
 * Updated `load_longlake_data()` to use terra package by default instead of the
