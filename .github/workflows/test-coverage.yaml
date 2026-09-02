@@ -26,5 +26,7 @@ jobs:
           extra-packages: covr
 
       - name: Test coverage
+        env:
+          CARTO_API_KEY: ${{ secrets.CARTO_API_KEY }}
         run: covr::codecov()
         shell: Rscript {0}
