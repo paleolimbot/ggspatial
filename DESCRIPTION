@@ -20,7 +20,7 @@ Depends:
 Imports:
     sf,
     ggplot2 (>= 3.0.0),
-    rosm (>= 0.2),
+    rosm (>= 0.3.2),
     abind,
     methods,
     tibble,
