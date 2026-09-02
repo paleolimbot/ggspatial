@@ -20,6 +20,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Dewey Dunnington \email{dewey@fishandwhistle.net} (\href{https://orcid.org/0000-0002-9415-4582}{ORCID})
 
+Authors:
+\itemize{
+  \item Dewey Dunnington \email{dewey@fishandwhistle.net} (\href{https://orcid.org/0000-0002-9415-4582}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Brent Thorne (\href{https://orcid.org/0000-0002-1099-3857}{ORCID}) [contributor]
