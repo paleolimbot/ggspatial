@@ -7,8 +7,8 @@ test_that("layer_spatial() works as intended", {
   expect_doppelganger(
     "layer_spatial()",
     ggplot() +
-      layer_spatial(longlake_roadsdf, size = 1, col = "black") +
-      layer_spatial(longlake_roadsdf, size = 0.8, col = "white") +
+      layer_spatial(longlake_roadsdf, linewidth = 0.5, col = "black") +
+      layer_spatial(longlake_roadsdf, linewidth = 0.4, col = "white") +
       layer_spatial(longlake_waterdf, fill = "lightblue", col = NA) +
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
@@ -24,8 +24,8 @@ test_that("layer_spatial() works as intended", {
   expect_doppelganger(
     "annotation_spatial()",
     ggplot() +
-      annotation_spatial(longlake_roadsdf, size = 1, col = "black") +
-      annotation_spatial(longlake_roadsdf, size = 0.8, col = "white") +
+      annotation_spatial(longlake_roadsdf, linewidth = 0.5, col = "black") +
+      annotation_spatial(longlake_roadsdf, linewidth = 0.4, col = "white") +
       annotation_spatial(longlake_waterdf, fill = "lightblue", col = NA) +
       layer_spatial(longlake_depthdf, aes(col = DEPTH_M))
   )
