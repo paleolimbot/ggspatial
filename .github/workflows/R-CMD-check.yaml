@@ -28,6 +28,7 @@ jobs:
       - name: Check
         env:
           VDIFFR_RUN_TESTS: false
+          CARTO_API_KEY: ${{ secrets.CARTO_API_KEY }}
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")

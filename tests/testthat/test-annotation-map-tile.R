@@ -107,3 +107,8 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     expect_warning(ggplot2::ggplotGrob(p), "bounding box is too small")
   })
 }
+
+test_that("annotation_map_tile() forwards a CARTO API key", {
+  layer <- annotation_map_tile(type = "cartolight", api_key = "user-supplied")[[1]]
+  expect_identical(layer$geom_params$api_key, "user-supplied")
+})
