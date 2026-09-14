@@ -1,4 +1,4 @@
-# ggspatial (development version)
+# ggspatial 1.1.11
 
 * Add support for passing an API key to rosm sources that require it (#138,
   #139).
