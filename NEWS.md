@@ -1,7 +1,7 @@
-# ggspatial 1.1.10.9000
+# ggspatial 1.1.11
 
-* `annotation_map_tile()` gains an `api_key` argument for CARTO map types and
-  otherwise uses the `CARTO_API_KEY` environment variable via rosm (#138).
+* Add support for passing an API key to rosm sources that require it (#138,
+  #139).
 
 # ggspatial 1.1.10
 
