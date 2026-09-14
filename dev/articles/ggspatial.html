@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggspatial</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.9.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.1.10.9000</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
                         <h4 data-toc-skip class="author">Dewey
 Dunnington</h4>
             
-            <h4 data-toc-skip class="date">2025-08-09</h4>
+            <h4 data-toc-skip class="date">2026-09-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd" class="external-link"><code>vignettes/ggspatial.Rmd</code></a></small>
       <div class="hidden name"><code>ggspatial.Rmd</code></div>
@@ -129,7 +129,7 @@ can be used as a backdrop for other layers.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">annotation_spatial</a></span><span class="op">(</span><span class="va">longlake_waterdf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggspatial_files/figure-html/unnamed-chunk-2-1.png" width="750"></p>
+<p><img src="ggspatial_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="750"></p>
 <p>With raster layers, you can also use <code><a href="../reference/layer_spatial.html">layer_spatial()</a></code>.
 <strong>ggspatial</strong> takes care of reprojecting the raster such
 that it aligns with other datasets, and, if it is an RGB(A) raster (like
@@ -142,7 +142,7 @@ data”, you’ll have to set the <code>na.value</code> of the scale to
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depth_raster</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">band1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" width="750"></p>
+<p><img src="ggspatial_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level2">
 <h2 id="using-north-arrow-and-scalebar">Using north arrow and scalebar<a class="anchor" aria-label="anchor" href="#using-north-arrow-and-scalebar"></a>
@@ -161,7 +161,7 @@ and four styles for north arrows (see <code><a href="../reference/annotation_sca
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/annotation_scale.html">annotation_scale</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"tl"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/annotation_north_arrow.html">annotation_north_arrow</a></span><span class="op">(</span>location <span class="op">=</span> <span class="st">"br"</span>, which_north <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggspatial_files/figure-html/unnamed-chunk-4-1.png" width="750"></p>
+<p><img src="ggspatial_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level2">
 <h2 id="tile-map-layers">Tile map layers<a class="anchor" aria-label="anchor" href="#tile-map-layers"></a>
@@ -182,7 +182,7 @@ nice for use within RMarkdown).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/annotation_map_tile.html">annotation_map_tile</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/layer_spatial.html">layer_spatial</a></span><span class="op">(</span><span class="va">longlake_depthdf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">DEPTH_M</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggspatial_files/figure-html/unnamed-chunk-5-1.png" width="750"></p>
+<p><img src="ggspatial_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="750"></p>
 <p>There are a number of url patterns available for tiles, although how
 they are formatted varies. The <strong>rosm</strong> package uses
 <code>${x}</code>, <code>${y}</code>, and <code>${z}</code> for the x, y
@@ -222,7 +222,7 @@ the world from eachother could look like this:</p>
 <span>  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_spatial_identity.html">geom_spatial_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">city</span><span class="op">)</span>, box.padding <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">3995</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggspatial_files/figure-html/unnamed-chunk-6-1.png" width="750"></p>
+<p><img src="ggspatial_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="750"></p>
 </div>
   </div>
 
@@ -241,7 +241,7 @@ the world from eachother could look like this:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
