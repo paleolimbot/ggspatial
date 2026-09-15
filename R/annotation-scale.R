@@ -18,7 +18,7 @@
 #' Otherwise, just pass them as arguments to `annotation_scale`.
 #'   \itemize{
 #'     \item width_hint: The (suggested) proportion of the plot area which the scalebar should occupy.
-#'     \item unit_category: Use "metric" or "imperial" units.
+#'     \item unit_category: Use "metric", "imperial" or "nautical" units. The latter behaves like "metric" but use nautical miles ("nmi" units) instead of kilometers.
 #'     \item style: One of "bar" or "ticks"
 #'     \item location: Where to put the scale bar ("tl" for top left, etc.)
 #'     \item line_col and text_col: Line and text colour, respectively
@@ -125,8 +125,8 @@ GeomScaleBar <- ggplot2::ggproto(
     line_col <- data$line_col[1]
 
     stopifnot(
-      is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm"),
-      length(unit_category) == 1, unit_category %in% c("metric", "imperial"),
+      is.null(plot_unit) || plot_unit %in% c("mi", "ft", "in", "km", "m", "cm", "nmi"),
+      length(unit_category) == 1, unit_category %in% c("metric", "imperial", "nautical"),
       is.numeric(width_hint), length(width_hint) == 1,
       is.atomic(bar_cols),
       is.numeric(line_width), length(line_width) == 1,
@@ -286,7 +286,7 @@ scalebar_params <- function(
   plotunit = NULL,
   sf_crs = NULL,
   widthhint = 0.25,
-  unitcategory = c("metric", "imperial")
+  unitcategory = c("metric", "imperial", "nautical")
 ) {
   # params check
   unitcategory <- match.arg(unitcategory)
@@ -323,7 +323,7 @@ scalebar_params <- function(
       plotunit <- "m"
     }
 
-    plotunit <- match.arg(plotunit, choices = c("km", "m", "cm", "mi", "ft", "in"))
+    plotunit <- match.arg(plotunit, choices = c("km", "m", "cm", "mi", "ft", "in", "nmi"))
 
     heightm <- .tosi(sf_bbox["ymax"] - sf_bbox["ymin"], plotunit)
     widthm <- unname(.tosi(sf_bbox["xmax"] - sf_bbox["xmin"], plotunit))
@@ -333,19 +333,22 @@ scalebar_params <- function(
   geowidthm <- unname(widthm * widthhint)
 
   if(geowidthm < 1) {
-    scaleunits <- c("cm", "in")
+    scaleunits <- c("cm", "in", "cm")
   } else if(geowidthm < 1600) {
-    scaleunits <- c("m", "ft")
+    scaleunits <- c("m", "ft", "m")
   } else {
-    scaleunits <- c("km", "mi")
+    scaleunits <- c("km", "mi", "nmi")
   }
 
   #   String unit = units[unitCategory] ;
   if(unitcategory == "metric") {
     unit <- scaleunits[1]
-  } else {
+  } else if(unitcategory == "imperial") {
     unit <- scaleunits[2]
+  } else {
+    unit <- scaleunits[3]
   }
+
   #   double widthHintU = Units.fromSI(geoWidthM, unit) ;
   widthhintu <- .fromsi(geowidthm, unit)
   #   double tenFactor = Math.floor(Math.log10(widthHintU)) ;
@@ -427,6 +430,8 @@ scalebar_params <- function(
     sivalue * 39.370079999999809672
   } else if(unit == "cm") {
     sivalue * 100.0
+  } else if(unit == "nmi") {
+    sivalue / 1852
   } else {
     stop("Unrecognized unit: ", unit)
   }
@@ -445,6 +450,8 @@ scalebar_params <- function(
     unitvalue / 39.370079999999809672
   } else if(unit == "cm") {
     unitvalue / 100.0
+  } else if(unit == "nmi") {
+    unitvalue * 1852
   } else {
     stop("Unrecognized unit: ", unit)
   }
