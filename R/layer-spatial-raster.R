@@ -1,4 +1,3 @@
-
 #' Spatial ggplot2 layer for raster objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
@@ -24,14 +23,19 @@
 #' ggplot() + layer_spatial(longlake_depth_raster) + scale_fill_continuous(na.value = NA)
 #' }
 #'
-layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
-                                 lazy = FALSE, dpi = 150, ...) {
-
-
+layer_spatial.Raster <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  is_annotation = FALSE,
+  lazy = FALSE,
+  dpi = 150,
+  ...
+) {
   is_rgb <- is.null(mapping) && (raster::nlayers(data) %in% c(3, 4))
-  if(is_rgb) {
+  if (is_rgb) {
     # RGB(A)
-    if(is_annotation) {
+    if (is_annotation) {
       stat <- StatSpatialRasterAnnotation
     } else {
       stat <- StatSpatialRaster
@@ -41,7 +45,7 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
     mapping <- ggplot2::aes(raster = .data$raster)
   } else {
     # mapped aesthetics mode
-    if(is_annotation) {
+    if (is_annotation) {
       stop("Non-RGBA rasters with is_annotation = TRUE is not implemented.")
     } else {
       stat <- StatSpatialRasterDf
@@ -61,7 +65,8 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
       stat = stat,
       geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = if (is_rgb) FALSE else NA,
+      inherit.aes = FALSE,
+      show.legend = if (is_rgb) FALSE else NA,
       params = list(
         interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
         lazy = lazy,
@@ -81,26 +86,35 @@ layer_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, is_an
 
 #' @rdname layer_spatial.Raster
 #' @export
-annotation_spatial.Raster <- function(data, mapping = NULL, interpolate = NULL, ...) {
-  layer_spatial.Raster(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
+annotation_spatial.Raster <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  ...
+) {
+  layer_spatial.Raster(
+    data,
+    mapping = mapping,
+    interpolate = interpolate,
+    is_annotation = TRUE,
+    ...
+  )
 }
 
 #' @rdname layer_spatial.Raster
 #' @export
-StatSpatialRaster <-  ggplot2::ggproto(
+StatSpatialRaster <- ggplot2::ggproto(
   "StatSpatialRaster",
   ggplot2::Stat,
   required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
-
     # raster extents
     extents <- lapply(data$raster, raster::extent)
 
     # project to target coordinate system, if one exists
     coord_crs <- layout$coord_params$crs
-    if(!is.null(coord_crs)) {
-
+    if (!is.null(coord_crs)) {
       data$extent <- lapply(seq_along(extents), function(i) {
         x <- extents[[i]]
         project_extent(
@@ -143,13 +157,12 @@ StatSpatialRaster <-  ggplot2::ggproto(
       # })
       #
       # data <- tidyr::unnest(data, .data$band_limits, .drop = FALSE)
-
     } else {
       stop("Spatial rasters require coord_sf().", call. = FALSE)
     }
 
     data
- }
+  }
 )
 
 #' @rdname layer_spatial.Raster
@@ -160,7 +173,11 @@ StatSpatialRasterAnnotation <- ggplot2::ggproto(
   required_aes = "raster",
 
   compute_layer = function(self, data, params, layout) {
-    data <- ggplot2::ggproto_parent(self, StatSpatialRaster)$compute_layer(data, params, layout)
+    data <- ggplot2::ggproto_parent(self, StatSpatialRaster)$compute_layer(
+      data,
+      params,
+      layout
+    )
     data$xmin <- NULL
     data$xmax <- NULL
     data$ymin <- NULL
@@ -181,24 +198,27 @@ StatSpatialRasterDf <- ggplot2::ggproto(
   default_aes = ggplot2::aes(fill = after_stat(band1)),
 
   compute_layer = function(self, data, params, layout) {
-
-    if(params$lazy) stop("Lazy rendering not implemented for mapped rasters")
+    if (params$lazy) {
+      stop("Lazy rendering not implemented for mapped rasters")
+    }
 
     # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
     # (because this method gets called multiple times)
 
-    if("raster" %in% colnames(data)) {
-
+    if ("raster" %in% colnames(data)) {
       coord_crs <- layout$coord_params$crs
-      if(!is.null(coord_crs)) {
+      if (!is.null(coord_crs)) {
         data$raster <- lapply(
           data$raster,
           project_raster_lazy,
           crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
         )
       } else {
-        warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
+        warning(
+          "Spatial rasters may not be displayed correctly. Use coord_sf().",
+          call. = FALSE
+        )
       }
 
       data$raster <- lapply(data$raster, df_spatial)
@@ -223,18 +243,24 @@ GeomSpatialRaster <- ggplot2::ggproto(
     data
   },
 
-  draw_panel = function(data, panel_params, coordinates, interpolate = FALSE, lazy = FALSE, dpi = 150,
-                        max_pixel_scale = 1) {
+  draw_panel = function(
+    data,
+    panel_params,
+    coordinates,
+    interpolate = FALSE,
+    lazy = FALSE,
+    dpi = 150,
+    max_pixel_scale = 1
+  ) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
 
-    if(lazy) {
-
+    if (lazy) {
       # this code makes sure that the resampled raster doesn't contain any more area than it needs to
       coord_bbox <- panel_params_as_bbox(panel_params)
       rst_bbox <- data$extent[[1]]
-      if(bboxes_equal(coord_bbox, rst_bbox)) {
+      if (bboxes_equal(coord_bbox, rst_bbox)) {
         target_bbox <- coord_bbox
       } else {
         target_bbox <- sf::st_bbox(
@@ -244,17 +270,25 @@ GeomSpatialRaster <- ggplot2::ggproto(
           )
         )
       }
-      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
-      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
+      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (coord_bbox["xmax"] - coord_bbox["xmin"])
+      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (coord_bbox["ymax"] - coord_bbox["ymin"])
 
       # this code makes sure we aren't making more pixels in the resampled image than there was in the
       # original image (a bit hard because of reprojection but we can estimate)
       original_pixels_y <- dim(rst)[1]
       original_pixels_x <- dim(rst)[2]
-      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
-      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(
+        original_pixels_x * original_pixels_y / projected_aspect
+      ) *
+        max_pixel_scale
       max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
 
       # return a gTree with the right params so that the raster can be rendered later
@@ -272,7 +306,6 @@ GeomSpatialRaster <- ggplot2::ggproto(
         cache = new.env(parent = emptyenv()),
         cl = "geom_spatial_raster_lazy"
       )
-
     } else {
       raster_grob_from_raster(
         rst,
@@ -289,7 +322,6 @@ GeomSpatialRaster <- ggplot2::ggproto(
 #' @importFrom grid makeContent
 #' @export
 makeContent.geom_spatial_raster_lazy <- function(x) {
-
   width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
   height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
 
@@ -298,15 +330,18 @@ makeContent.geom_spatial_raster_lazy <- function(x) {
   dpi_x <- x$dpi
   dpi_y <- x$dpi
   width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
-  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
+  height_px <- min(
+    ceiling(height_in * dpi_y * x$bbox_scale[2]),
+    x$max_pixels[2]
+  )
 
   # check to see if the x$cache environment has a raster already
   raster_var <- paste0("raster_", width_px, "x", height_px)
-  if(raster_var %in% names(x$cache)) {
+  if (raster_var %in% names(x$cache)) {
     return(grid::setChildren(x, grid::gList(x$cache[[raster_var]])))
   }
 
-  if(!is.null(x$coord_crs)) {
+  if (!is.null(x$coord_crs)) {
     template_raster <- raster::raster(
       xmn = x$target_bbox["xmin"],
       ymn = x$target_bbox["ymin"],
@@ -316,7 +351,6 @@ makeContent.geom_spatial_raster_lazy <- function(x) {
       nrows = height_px,
       crs = raster::crs(sf::st_crs(x$coord_crs)$proj4string)
     )
-
   } else {
     template_raster <- NULL
   }
@@ -335,27 +369,34 @@ makeContent.geom_spatial_raster_lazy <- function(x) {
   grid::setChildren(x, grid::gList(x$cache[[raster_var]]))
 }
 
-raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
-                                    template_raster = NULL, alpha = 1, interpolate = TRUE) {
-  if(interpolate) {
+raster_grob_from_raster <- function(
+  rst,
+  coord_crs,
+  coordinates,
+  panel_params,
+  template_raster = NULL,
+  alpha = 1,
+  interpolate = TRUE
+) {
+  if (interpolate) {
     raster_method <- "bilinear"
   } else {
     raster_method <- "ngb"
   }
 
-  if(!is.null(template_raster) && !is.null(coord_crs)) {
+  if (!is.null(template_raster) && !is.null(coord_crs)) {
     # project + resample
     # raster::projectRaster has very odd behaviour...it outputs the warning
     # "no non-missing arguments to max; returning -Inf"
     # but only when run with a calling handler
     rst <- suppressWarnings(
-        raster::projectRaster(
-          rst,
-          to = template_raster,
-          method = raster_method
+      raster::projectRaster(
+        rst,
+        to = template_raster,
+        method = raster_method
       )
     )
-  } else if(!is.null(coord_crs)) {
+  } else if (!is.null(coord_crs)) {
     # project
     # raster::projectRaster has very odd behaviour...it outputs the warning
     # "no non-missing arguments to max; returning -Inf"
@@ -364,13 +405,18 @@ raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
       rst,
       crs = raster::crs(sf::st_crs(coord_crs)$proj4string)
     )
-  } else if(!is.null(template_raster)) {
+  } else if (!is.null(template_raster)) {
     # resample (& crop?)
     rst <- raster::resample(rst, template_raster, method = raster_method)
   }
 
   ext <- raster::extent(rst)
   corners <- data.frame(x = c(ext@xmin, ext@xmax), y = c(ext@ymin, ext@ymax))
+
+  # The raster extent is already in the panel CRS.
+  if (!is.null(coord_crs)) {
+    panel_params$default_crs <- NULL
+  }
   corners_trans <- coordinates$transform(corners, panel_params)
 
   x_rng <- range(corners_trans$x, na.rm = TRUE)
@@ -378,41 +424,51 @@ raster_grob_from_raster <- function(rst, coord_crs, coordinates, panel_params,
 
   grid::rasterGrob(
     raster_as_array(rst, alpha = alpha),
-    x_rng[1], y_rng[1],
-    diff(x_rng), diff(y_rng), default.units = "native",
-    just = c("left","bottom"), interpolate = interpolate
+    x_rng[1],
+    y_rng[1],
+    diff(x_rng),
+    diff(y_rng),
+    default.units = "native",
+    just = c("left", "bottom"),
+    interpolate = interpolate
   )
 }
 
 raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
-  if(!methods::is(raster_obj, "Raster")) stop("Cannot use raster_as_array with non Raster* object")
+  if (!methods::is(raster_obj, "Raster")) {
+    stop("Cannot use raster_as_array with non Raster* object")
+  }
 
   raster <- raster::as.array(raster_obj)
 
   # check dims
   dims <- dim(raster)
-  if(length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
-  if(!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use raster_as_array")
+  if (length(dims) != 3) {
+    stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  }
+  if (!(dims[3] %in% c(3, 4))) {
+    stop("Need a 3 or 4-band array to use raster_as_array")
+  }
 
   # make values between 0 and 1, if they are not already
   vrange <- range(raster, finite = TRUE)
-  if(!all(vrange >= 0 & vrange <= 1)) {
-    if(all(vrange >= 0 & vrange <= 256)) {
+  if (!all(vrange >= 0 & vrange <= 1)) {
+    if (all(vrange >= 0 & vrange <= 256)) {
       raster <- scales::rescale(raster, from = c(0, 256))
-    } else{
+    } else {
       raster <- scales::rescale(raster)
     }
   }
 
   # eliminate NAs
-  if((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
+  if ((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
     # find NA cells
-    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) | is.na(raster[, , 3])
+    na_cells <- is.na(raster[,, 1]) | is.na(raster[,, 2]) | is.na(raster[,, 3])
 
     # grid doesn't do non-finite values, so we need to set the transparency band
     # for missing cells
-    if(dim(raster)[3] == 4) {
-      tband <- raster[ , , 4, drop = FALSE]
+    if (dim(raster)[3] == 4) {
+      tband <- raster[,, 4, drop = FALSE]
     } else {
       tband <- array(1, dim(raster)[1:2])
     }
@@ -424,7 +480,7 @@ raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
     tband <- tband * max(0, min(1, alpha))
 
     # bind it to the original raster
-    raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
+    raster <- abind::abind(raster[,, 1:3, drop = FALSE], tband)
 
     # set NA values to 0
     raster[is.na(raster)] <- 0
@@ -435,9 +491,16 @@ raster_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   raster
 }
 
-project_extent <- function(xmin, ymin, xmax, ymax,
-                           from_crs = 4326, to_crs = 4326, format = c("sf", "sp"),
-                           n = 50) {
+project_extent <- function(
+  xmin,
+  ymin,
+  xmax,
+  ymax,
+  from_crs = 4326,
+  to_crs = 4326,
+  format = c("sf", "sp"),
+  n = 50
+) {
   format <- match.arg(format)
 
   proj_grid_poly <- sf_bbox_to_sf(
@@ -454,7 +517,7 @@ project_extent <- function(xmin, ymin, xmax, ymax,
   out_grid <- sf::st_transform(proj_grid, crs = to_crs)
   out_bbox <- sf::st_bbox(out_grid)
 
-  if(format == "sp") {
+  if (format == "sp") {
     prettymapr::makebbox(
       n = out_bbox["ymax"],
       e = out_bbox["xmax"],
@@ -491,24 +554,34 @@ project_raster_lazy <- function(x, crs, ...) {
 
 # need a way to get an extent to an sf::st_polygon
 bbox_as_polygon <- function(bbox) {
-  sf::st_polygon(list(matrix(
-    c(bbox["xmin"], bbox["ymin"],
-      bbox["xmax"], bbox["ymin"],
-      bbox["xmax"], bbox["ymax"],
-      bbox["xmin"], bbox["ymax"],
-      bbox["xmin"], bbox["ymin"]),
-    ncol = 2,
-    byrow = TRUE
-  )), dim = "XY")
+  sf::st_polygon(
+    list(matrix(
+      c(
+        bbox["xmin"],
+        bbox["ymin"],
+        bbox["xmax"],
+        bbox["ymin"],
+        bbox["xmax"],
+        bbox["ymax"],
+        bbox["xmin"],
+        bbox["ymax"],
+        bbox["xmin"],
+        bbox["ymin"]
+      ),
+      ncol = 2,
+      byrow = TRUE
+    )),
+    dim = "XY"
+  )
 }
 
 # also need a method to combine aesthetics with overriding values
 override_aesthetics <- function(user_mapping = NULL, default_mapping = NULL) {
-  if(is.null(user_mapping) && is.null(default_mapping)) {
+  if (is.null(user_mapping) && is.null(default_mapping)) {
     ggplot2::aes()
-  } else if(is.null(default_mapping)) {
+  } else if (is.null(default_mapping)) {
     user_mapping
-  } else if(is.null(user_mapping)) {
+  } else if (is.null(user_mapping)) {
     default_mapping
   } else {
     all_aes_names <- unique(c(names(user_mapping), names(default_mapping)))

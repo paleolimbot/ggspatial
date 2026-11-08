@@ -1,4 +1,3 @@
-
 #' Spatial ggplot2 layer for stars objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery or photos). To work with
@@ -37,9 +36,16 @@
 #'     type = "viridis"
 #'   )
 #' }
-layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_annotation = FALSE,
-                                lazy = FALSE, dpi = 150, options = character(0), ...) {
-
+layer_spatial.stars <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  is_annotation = FALSE,
+  lazy = FALSE,
+  dpi = 150,
+  options = character(0),
+  ...
+) {
   is_rgb <- is.null(mapping) && (dim(data)["band"] %in% c(3, 4))
   if (is_rgb) {
     # RGB(A)
@@ -73,7 +79,8 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
       stat = stat,
       geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = if (is_rgb) FALSE else NA,
+      inherit.aes = FALSE,
+      show.legend = if (is_rgb) FALSE else NA,
       params = list(
         interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
         lazy = lazy,
@@ -85,9 +92,7 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(sf::st_point(),
-                        crs = sf::st_crs(data)
-      ),
+      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(data)),
       inherit.aes = FALSE,
       show.legend = FALSE
     )
@@ -96,8 +101,19 @@ layer_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, is_ann
 
 #' @rdname layer_spatial.stars
 #' @export
-annotation_spatial.stars <- function(data, mapping = NULL, interpolate = NULL, ...) {
-  layer_spatial.stars(data, mapping = mapping, interpolate = interpolate, is_annotation = TRUE, ...)
+annotation_spatial.stars <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  ...
+) {
+  layer_spatial.stars(
+    data,
+    mapping = mapping,
+    interpolate = interpolate,
+    is_annotation = TRUE,
+    ...
+  )
 }
 
 #' @rdname layer_spatial.stars
@@ -108,8 +124,6 @@ StatSpatialStars <- ggplot2::ggproto(
   ggplot2::Stat,
   required_aes = "raster",
   compute_layer = function(self, data, params, layout) {
-
-
     # raster extents
     extents <- lapply(data$raster, sf::st_bbox)
 
@@ -174,7 +188,9 @@ StatSpatialStarsDf <- ggplot2::ggproto(
   extra_params = c("lazy", "dpi", "options"),
   default_aes = ggplot2::aes(fill = after_stat(band1)),
   compute_layer = function(self, data, params, layout) {
-    if (params$lazy) stop("Lazy rendering not implemented for mapped rasters")
+    if (params$lazy) {
+      stop("Lazy rendering not implemented for mapped rasters")
+    }
 
     # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
@@ -189,7 +205,10 @@ StatSpatialStarsDf <- ggplot2::ggproto(
           crs = sf::st_crs(coord_crs)
         )
       } else {
-        warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
+        warning(
+          "Spatial rasters may not be displayed correctly. Use coord_sf().",
+          call. = FALSE
+        )
       }
 
       data$raster <- lapply(data$raster, df_spatial)
@@ -212,13 +231,16 @@ GeomSpatialStars <- ggplot2::ggproto(
   handle_na = function(data, params) {
     data
   },
-  draw_panel = function(data, panel_params,
-                        coordinates,
-                        interpolate = FALSE,
-                        lazy = FALSE,
-                        dpi = 150,
-                        max_pixel_scale = 1,
-                        options = character(0)) {
+  draw_panel = function(
+    data,
+    panel_params,
+    coordinates,
+    interpolate = FALSE,
+    lazy = FALSE,
+    dpi = 150,
+    max_pixel_scale = 1,
+    options = character(0)
+  ) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
@@ -236,17 +258,25 @@ GeomSpatialStars <- ggplot2::ggproto(
           )
         )
       }
-      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
-      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
+      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (coord_bbox["xmax"] - coord_bbox["xmin"])
+      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (coord_bbox["ymax"] - coord_bbox["ymin"])
 
       # this code makes sure we aren't making more pixels in the resampled image than there was in the
       # original image (a bit hard because of reprojection but we can estimate)
       original_pixels_y <- dim(rst)[1]
       original_pixels_x <- dim(rst)[2]
-      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
-      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(
+        original_pixels_x * original_pixels_y / projected_aspect
+      ) *
+        max_pixel_scale
       max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
 
       # return a gTree with the right params so that the raster can be rendered later
@@ -285,13 +315,15 @@ makeContent.geom_spatial_stars_lazy <- function(x) {
   width_in <- grid::convertWidth(grid::unit(1, "npc"), "in", valueOnly = TRUE)
   height_in <- grid::convertHeight(grid::unit(1, "npc"), "in", valueOnly = TRUE)
 
-
   # until I figure out how to get DPI from the graphics device at load time,
   # use the user-specified value
   dpi_x <- x$dpi
   dpi_y <- x$dpi
   width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
-  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
+  height_px <- min(
+    ceiling(height_in * dpi_y * x$bbox_scale[2]),
+    x$max_pixels[2]
+  )
 
   # check to see if the x$cache environment has a raster already
   raster_var <- paste0("raster_", width_px, "x", height_px)
@@ -300,7 +332,6 @@ makeContent.geom_spatial_stars_lazy <- function(x) {
   }
 
   if (!is.null(x$coord_crs)) {
-
     # Create template from x$target_bbox
     bbox <- x$target_bbox
     sf::st_crs(bbox) <- sf::st_crs(x$coord_crs)
@@ -330,10 +361,16 @@ makeContent.geom_spatial_stars_lazy <- function(x) {
   grid::setChildren(x, grid::gList(x$cache[[raster_var]]))
 }
 
-raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params,
-                                   template_raster = NULL, alpha = 1,
-                                   interpolate = TRUE,
-                                   options = character(0)) {
+raster_grob_from_stars <- function(
+  rst,
+  coord_crs,
+  coordinates,
+  panel_params,
+  template_raster = NULL,
+  alpha = 1,
+  interpolate = TRUE,
+  options = character(0)
+) {
   if (interpolate) {
     raster_method <- "bilinear"
   } else {
@@ -355,16 +392,26 @@ raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params,
     )
   } else if (!is.null(template_raster)) {
     # resample (& crop?)
-    rst <- stars::st_warp(rst,
-                          template_raster,
-                          use_gdal = TRUE,
-                          method = raster_method,
-                          options = options
+    rst <- stars::st_warp(
+      rst,
+      template_raster,
+      use_gdal = TRUE,
+      method = raster_method,
+      options = options
     )
   }
 
   ext <- sf::st_bbox(rst)
-  corners <- data.frame(x = c(ext["xmin"], ext["xmax"]), y = c(ext["ymin"], ext["ymax"]))
+  corners <- data.frame(
+    x = c(ext["xmin"], ext["xmax"]),
+    y = c(ext["ymin"], ext["ymax"])
+  )
+
+  # The raster extent is already in the panel CRS.
+  if (!is.null(coord_crs)) {
+    panel_params$default_crs <- NULL
+  }
+
   corners_trans <- coordinates$transform(corners, panel_params)
 
   x_rng <- range(corners_trans$x, na.rm = TRUE)
@@ -372,22 +419,31 @@ raster_grob_from_stars <- function(rst, coord_crs, coordinates, panel_params,
 
   grid::rasterGrob(
     stars_as_array(rst, alpha = alpha),
-    x_rng[1], y_rng[1],
-    diff(x_rng), diff(y_rng),
+    x_rng[1],
+    y_rng[1],
+    diff(x_rng),
+    diff(y_rng),
     default.units = "native",
-    just = c("left", "bottom"), interpolate = interpolate
+    just = c("left", "bottom"),
+    interpolate = interpolate
   )
 }
 
 stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
-  if (!methods::is(raster_obj, "stars")) stop("Cannot use stars_as_array with non stars object")
+  if (!methods::is(raster_obj, "stars")) {
+    stop("Cannot use stars_as_array with non stars object")
+  }
 
   raster <- stars::st_as_stars(raster_obj)[[1]]
 
   # check dims
   dims <- dim(raster)
-  if (length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
-  if (!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use stars_as_array")
+  if (length(dims) != 3) {
+    stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  }
+  if (!(dims[3] %in% c(3, 4))) {
+    stop("Need a 3 or 4-band array to use stars_as_array")
+  }
 
   # make values between 0 and 1, if they are not already
   vrange <- range(raster, finite = TRUE)
@@ -402,12 +458,12 @@ stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   # eliminate NAs
   if ((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
     # find NA cells
-    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) | is.na(raster[, , 3])
+    na_cells <- is.na(raster[,, 1]) | is.na(raster[,, 2]) | is.na(raster[,, 3])
 
     # grid doesn't do non-finite values, so we need to set the transparency band
     # for missing cells
     if (dim(raster)[3] == 4) {
-      tband <- raster[, , 4, drop = FALSE]
+      tband <- raster[,, 4, drop = FALSE]
     } else {
       tband <- array(1, dim(raster)[1:2])
     }
@@ -419,7 +475,7 @@ stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
     tband <- tband * max(0, min(1, alpha))
 
     # bind it to the original raster
-    raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
+    raster <- abind::abind(raster[,, 1:3, drop = FALSE], tband)
 
     # set NA values to 0
     raster[is.na(raster)] <- 0
@@ -432,10 +488,7 @@ stars_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
 
 project_stars_lazy <- function(x, crs, ...) {
   if (!sf::st_crs(crs) == sf::st_crs(x)) {
-    stars::st_warp(x,
-                   crs = sf::st_crs(crs),
-                   ...
-    )
+    stars::st_warp(x, crs = sf::st_crs(crs), ...)
   } else {
     x
   }

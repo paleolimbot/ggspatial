@@ -1,4 +1,3 @@
-
 # max test length was exceeded on CRAN, so these tests are skipped
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
   test_that("layer-spatial works for stars objects", {
@@ -7,7 +6,8 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     load_longlake_data(
       which = c(
-        "longlake_osm", "longlake_depthdf",
+        "longlake_osm",
+        "longlake_depthdf",
         "longlake_depth_raster"
       ),
       raster_format = "stars"
@@ -15,7 +15,6 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
 
     expect_s3_class(longlake_osm, "stars")
     expect_s3_class(longlake_depth_raster, "stars")
-
 
     # should have little grey thing around it
     expect_doppelganger_extra(
@@ -96,11 +95,7 @@ if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     expect_doppelganger_extra(
       "layer_spatial.stars() no interpolation",
       ggplot() +
-        layer_spatial(longlake_osm,
-                      lazy = TRUE,
-                      interpolate = FALSE,
-                      dpi = 5
-        )
+        layer_spatial(longlake_osm, lazy = TRUE, interpolate = FALSE, dpi = 5)
     )
 
     # Test examples
@@ -145,10 +140,8 @@ test_that("Test that stars array (unprojected) is identical to terra and raster"
   skip_if_not_installed("raster")
   skip_on_cran()
 
-
   test_raster <- new.env(parent = emptyenv())
   load_longlake_data(test_raster, raster_format = "raster")
-
 
   test_stars <- new.env(parent = emptyenv())
   load_longlake_data(test_stars, raster_format = "stars")
@@ -158,20 +151,17 @@ test_that("Test that stars array (unprojected) is identical to terra and raster"
   expect_s4_class(test_raster$longlake_osm, "Raster")
   expect_error(stars_as_array(test_raster$longlake_osm))
 
-
   # arrays are identical
   expect_identical(
     raster_as_array(test_raster$longlake_osm),
     stars_as_array(test_stars$longlake_osm)
   )
 
-
   # With alpha
   expect_identical(
     raster_as_array(test_raster$longlake_osm, alpha = 0.4),
     stars_as_array(test_stars$longlake_osm, alpha = 0.4)
   )
-
 
   # Compare now stars vs terra
   skip_if_not_installed("terra")
@@ -185,10 +175,50 @@ test_that("Test that stars array (unprojected) is identical to terra and raster"
     stars_as_array(test_stars$longlake_osm)
   )
 
-
   # With alpha
   expect_identical(
     terra_as_array(test_terra$longlake_osm, alpha = 0.4),
     stars_as_array(test_stars$longlake_osm, alpha = 0.4)
   )
+})
+
+test_that("RGB stars raster renders with a geographic default CRS", {
+  skip_if_not_installed("stars")
+  withr::local_pdf(NULL)
+
+  bbox <- sf::st_bbox(
+    c(xmin = 60, ymin = 10, xmax = 145, ymax = 57),
+    crs = 4326
+  )
+  rgb <- stars::st_as_stars(
+    bbox,
+    nx = 20,
+    ny = 12,
+    nz = 3,
+    values = rep(c(180, 120, 230), each = 20 * 12)
+  )
+  rgb <- stars::st_set_dimensions(rgb, 3, names = "band")
+
+  plot <- ggplot() +
+    layer_spatial(rgb) +
+    coord_sf(
+      crs = "+proj=aeqd +lat_0=36 +lon_0=104 +datum=WGS84 +units=m",
+      default_crs = sf::st_crs(4326),
+      xlim = c(76, 132),
+      ylim = c(18, 54)
+    )
+
+  expect_warning(grob <- ggplot2::ggplotGrob(plot), NA)
+  panel <- grob$grobs[[which(grob$layout$name == "panel")]]
+  rasters <- Filter(function(x) inherits(x, "rastergrob"), panel$children)
+  expect_length(rasters, 1)
+  raster <- rasters[[1]]
+  expect_true(all(is.finite(as.numeric(c(
+    raster$x,
+    raster$y,
+    raster$width,
+    raster$height
+  )))))
+  expect_gt(as.numeric(raster$width), 0)
+  expect_gt(as.numeric(raster$height), 0)
 })

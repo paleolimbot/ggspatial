@@ -1,3 +1,8 @@
+# ggspatial （Development Version）
+
+* Fix raster placement with a geographic default_crs.
+
+
 # ggspatial 1.1.11
 
 * Add support for passing an API key to rosm sources that require it (#138,
