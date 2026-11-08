@@ -1,4 +1,3 @@
-
 #' Spatial ggplot2 layer for SpatRaster objects
 #'
 #' This is intended for use with RGB(A) rasters (e.g., georeferenced imagery
@@ -33,13 +32,15 @@
 #'     type = "viridis"
 #'   )
 #' }
-layer_spatial.SpatRaster <- function(data,
-                                     mapping = NULL,
-                                     interpolate = NULL,
-                                     is_annotation = FALSE,
-                                     lazy = FALSE,
-                                     dpi = 150,
-                                     ...) {
+layer_spatial.SpatRaster <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  is_annotation = FALSE,
+  lazy = FALSE,
+  dpi = 150,
+  ...
+) {
   is_rgb <- is.null(mapping) && (terra::nlyr(data) %in% c(3, 4))
   if (is_rgb) {
     # RGB(A)
@@ -73,7 +74,8 @@ layer_spatial.SpatRaster <- function(data,
       stat = stat,
       geom = geom,
       position = "identity",
-      inherit.aes = FALSE, show.legend = if (is_rgb) FALSE else NA,
+      inherit.aes = FALSE,
+      show.legend = if (is_rgb) FALSE else NA,
       params = list(
         interpolate = if (!is.null(interpolate)) interpolate else is_rgb,
         lazy = lazy,
@@ -84,9 +86,7 @@ layer_spatial.SpatRaster <- function(data,
     # use an emtpy geom_sf() with same CRS as the raster to mimic behaviour of
     # using the first layer's CRS as the base CRS for coord_sf().
     ggplot2::geom_sf(
-      data = sf::st_sfc(sf::st_point(),
-        crs = sf::st_crs(terra::crs(data))
-      ),
+      data = sf::st_sfc(sf::st_point(), crs = sf::st_crs(terra::crs(data))),
       inherit.aes = FALSE,
       show.legend = FALSE
     )
@@ -95,12 +95,18 @@ layer_spatial.SpatRaster <- function(data,
 
 #' @rdname layer_spatial.SpatRaster
 #' @export
-annotation_spatial.SpatRaster <- function(data, mapping = NULL,
-                                          interpolate = NULL, ...) {
-  layer_spatial.SpatRaster(data,
+annotation_spatial.SpatRaster <- function(
+  data,
+  mapping = NULL,
+  interpolate = NULL,
+  ...
+) {
+  layer_spatial.SpatRaster(
+    data,
     mapping = mapping,
     interpolate = interpolate,
-    is_annotation = TRUE, ...
+    is_annotation = TRUE,
+    ...
   )
 }
 
@@ -112,8 +118,6 @@ StatSpatRaster <- ggplot2::ggproto(
   ggplot2::Stat,
   required_aes = "raster",
   compute_layer = function(self, data, params, layout) {
-
-
     # raster extents
     extents <- lapply(data$raster, terra::ext)
 
@@ -178,7 +182,9 @@ StatSpatRasterDf <- ggplot2::ggproto(
   extra_params = c("lazy", "dpi"),
   default_aes = ggplot2::aes(fill = after_stat(band1)),
   compute_layer = function(self, data, params, layout) {
-    if (params$lazy) stop("Lazy rendering not implemented for mapped rasters")
+    if (params$lazy) {
+      stop("Lazy rendering not implemented for mapped rasters")
+    }
 
     # project to target coordinate system
     # make all rasters data frames using df_spatial, if column still exists
@@ -193,7 +199,10 @@ StatSpatRasterDf <- ggplot2::ggproto(
           crs = sf::st_crs(coord_crs)$wkt
         )
       } else {
-        warning("Spatial rasters may not be displayed correctly. Use coord_sf().", call. = FALSE)
+        warning(
+          "Spatial rasters may not be displayed correctly. Use coord_sf().",
+          call. = FALSE
+        )
       }
 
       data$raster <- lapply(data$raster, df_spatial)
@@ -216,18 +225,20 @@ GeomSpatRaster <- ggplot2::ggproto(
   handle_na = function(data, params) {
     data
   },
-  draw_panel = function(data, panel_params,
-                        coordinates,
-                        interpolate = FALSE,
-                        lazy = FALSE,
-                        dpi = 150,
-                        max_pixel_scale = 1) {
+  draw_panel = function(
+    data,
+    panel_params,
+    coordinates,
+    interpolate = FALSE,
+    lazy = FALSE,
+    dpi = 150,
+    max_pixel_scale = 1
+  ) {
     rst <- data$raster[[1]]
     coord_crs <- panel_params$crs
     alpha <- data$alpha[1]
 
     if (lazy) {
-
       # this code makes sure that the resampled raster doesn't contain any more area than it needs to
       coord_bbox <- panel_params_as_bbox(panel_params)
       rst_bbox <- data$extent[[1]]
@@ -241,17 +252,25 @@ GeomSpatRaster <- ggplot2::ggproto(
           )
         )
       }
-      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (coord_bbox["xmax"] - coord_bbox["xmin"])
-      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (coord_bbox["ymax"] - coord_bbox["ymin"])
+      bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (coord_bbox["xmax"] - coord_bbox["xmin"])
+      bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (coord_bbox["ymax"] - coord_bbox["ymin"])
 
       # this code makes sure we aren't making more pixels in the resampled image than there was in the
       # original image (a bit hard because of reprojection but we can estimate)
       original_pixels_y <- dim(rst)[1]
       original_pixels_x <- dim(rst)[2]
-      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) / (rst_bbox["xmax"] - rst_bbox["xmin"])
-      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) / (rst_bbox["ymax"] - rst_bbox["ymin"])
-      max_pixels_x <- sqrt(original_pixels_x * original_pixels_y / projected_aspect) * max_pixel_scale
+      projected_aspect <- (rst_bbox["ymax"] - rst_bbox["ymin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_x <- (target_bbox["xmax"] - target_bbox["xmin"]) /
+        (rst_bbox["xmax"] - rst_bbox["xmin"])
+      rst_bbox_scale_y <- (target_bbox["ymax"] - target_bbox["ymin"]) /
+        (rst_bbox["ymax"] - rst_bbox["ymin"])
+      max_pixels_x <- sqrt(
+        original_pixels_x * original_pixels_y / projected_aspect
+      ) *
+        max_pixel_scale
       max_pixels_y <- projected_aspect * max_pixels_x * max_pixel_scale
 
       # return a gTree with the right params so that the raster can be rendered later
@@ -294,7 +313,10 @@ makeContent.geom_spatial_terra_lazy <- function(x) {
   dpi_x <- x$dpi
   dpi_y <- x$dpi
   width_px <- min(ceiling(width_in * dpi_x * x$bbox_scale[1]), x$max_pixels[1])
-  height_px <- min(ceiling(height_in * dpi_y * x$bbox_scale[2]), x$max_pixels[2])
+  height_px <- min(
+    ceiling(height_in * dpi_y * x$bbox_scale[2]),
+    x$max_pixels[2]
+  )
 
   # check to see if the x$cache environment has a raster already
   raster_var <- paste0("raster_", width_px, "x", height_px)
@@ -330,9 +352,15 @@ makeContent.geom_spatial_terra_lazy <- function(x) {
   grid::setChildren(x, grid::gList(x$cache[[raster_var]]))
 }
 
-raster_grob_from_terra <- function(rst, coord_crs, coordinates, panel_params,
-                                   template_raster = NULL, alpha = 1,
-                                   interpolate = TRUE) {
+raster_grob_from_terra <- function(
+  rst,
+  coord_crs,
+  coordinates,
+  panel_params,
+  template_raster = NULL,
+  alpha = 1,
+  interpolate = TRUE
+) {
   if (interpolate) {
     raster_method <- "bilinear"
   } else {
@@ -360,7 +388,16 @@ raster_grob_from_terra <- function(rst, coord_crs, coordinates, panel_params,
   }
 
   ext <- as.vector(terra::ext(rst))
-  corners <- data.frame(x = c(ext["xmin"], ext["xmax"]), y = c(ext["ymin"], ext["ymax"]))
+  corners <- data.frame(
+    x = c(ext["xmin"], ext["xmax"]),
+    y = c(ext["ymin"], ext["ymax"])
+  )
+
+  # The raster extent is already in the panel CRS.
+  if (!is.null(coord_crs)) {
+    panel_params$default_crs <- NULL
+  }
+
   corners_trans <- coordinates$transform(corners, panel_params)
 
   x_rng <- range(corners_trans$x, na.rm = TRUE)
@@ -368,22 +405,31 @@ raster_grob_from_terra <- function(rst, coord_crs, coordinates, panel_params,
 
   grid::rasterGrob(
     terra_as_array(rst, alpha = alpha),
-    x_rng[1], y_rng[1],
-    diff(x_rng), diff(y_rng),
+    x_rng[1],
+    y_rng[1],
+    diff(x_rng),
+    diff(y_rng),
     default.units = "native",
-    just = c("left", "bottom"), interpolate = interpolate
+    just = c("left", "bottom"),
+    interpolate = interpolate
   )
 }
 
 terra_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
-  if (!methods::is(raster_obj, "SpatRaster")) stop("Cannot use terra_as_array with non SpatRaster object")
+  if (!methods::is(raster_obj, "SpatRaster")) {
+    stop("Cannot use terra_as_array with non SpatRaster object")
+  }
 
   raster <- terra::as.array(raster_obj)
 
   # check dims
   dims <- dim(raster)
-  if (length(dims) != 3) stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
-  if (!(dims[3] %in% c(3, 4))) stop("Need a 3 or 4-band array to use terra_as_array")
+  if (length(dims) != 3) {
+    stop("Raster has incorrect dimensions: ", paste(dims, collapse = ", "))
+  }
+  if (!(dims[3] %in% c(3, 4))) {
+    stop("Need a 3 or 4-band array to use terra_as_array")
+  }
 
   # make values between 0 and 1, if they are not already
   vrange <- range(raster, finite = TRUE)
@@ -398,12 +444,12 @@ terra_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
   # eliminate NAs
   if ((alpha != 1) || (is.na(na.value) && any(is.na(raster)))) {
     # find NA cells
-    na_cells <- is.na(raster[, , 1]) | is.na(raster[, , 2]) | is.na(raster[, , 3])
+    na_cells <- is.na(raster[,, 1]) | is.na(raster[,, 2]) | is.na(raster[,, 3])
 
     # grid doesn't do non-finite values, so we need to set the transparency band
     # for missing cells
     if (dim(raster)[3] == 4) {
-      tband <- raster[, , 4, drop = FALSE]
+      tband <- raster[,, 4, drop = FALSE]
     } else {
       tband <- array(1, dim(raster)[1:2])
     }
@@ -415,7 +461,7 @@ terra_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
     tband <- tband * max(0, min(1, alpha))
 
     # bind it to the original raster
-    raster <- abind::abind(raster[, , 1:3, drop = FALSE], tband)
+    raster <- abind::abind(raster[,, 1:3, drop = FALSE], tband)
 
     # set NA values to 0
     raster[is.na(raster)] <- 0
@@ -427,7 +473,6 @@ terra_as_array <- function(raster_obj, na.value = NA, alpha = 1) {
 }
 
 project_terra_lazy <- function(x, crs, ...) {
-
   # We compare both crs using sf::st_crs()$wkt
   x_crs <- terra::crs(x)
 
