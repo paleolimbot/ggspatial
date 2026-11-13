@@ -332,9 +332,12 @@ scalebar_params <- function(
 
   geowidthm <- unname(widthm * widthhint)
 
+  # nautical switches to nmi only at >= 1 nmi (1852 m)
+  large_cutoff <- if(unitcategory == "nautical") 1852 else 1600
+
   if(geowidthm < 1) {
     scaleunits <- c("cm", "in", "cm")
-  } else if(geowidthm < 1600) {
+  } else if(geowidthm < large_cutoff) {
     scaleunits <- c("m", "ft", "m")
   } else {
     scaleunits <- c("km", "mi", "nmi")
